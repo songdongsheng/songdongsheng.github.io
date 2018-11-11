@@ -1,0 +1,12 @@
+[submodule "themes/next"]
+	path = themes/next
+	url = https://github.com/theme-next/hexo-theme-next
+[submodule "themes/aath"]
+	path = themes/aath
+	url = https://github.com/lewis-geek/hexo-theme-Aath
+[submodule "themes/vexo"]
+	path = themes/vexo
+	url = https://github.com/yanm1ng/hexo-theme-vexo
+[submodule "themes/BlueLake"]
+	path = themes/BlueLake
+	url = https://github.com/chaooo/hexo-theme-BlueLake
