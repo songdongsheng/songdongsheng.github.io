@@ -3,7 +3,9 @@ title: Hadoop Native
 description: Hadoop Native for Linux and Windows
 date: 2018-11-11 14:48:33
 tags:
-categories:
+  - Hadoop
+  - Hbase
+categories: [大数据, Hadoop]
 ---
 # Linux kernel 3.10 or later
 ## setup
