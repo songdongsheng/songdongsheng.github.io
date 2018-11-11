@@ -37,6 +37,9 @@
     git rm -f themes/apollo
     rm -fr .git/modules/themes/apollo
 
+    搜索插件 algolia https://www.algolia.com/
+    评论插件 来必力  https://www.livere.com/
+
 ## 配置主题
     修改 hexo 项目的根目录的 _config.yml，配置 theme 为新主题的名称。
 
@@ -51,4 +54,6 @@
     hexo generate
 
 ## 部署静态文件
+    # dig www.songdongsheng.info +nostats +nocomments +nocmd
+
     hexo deploy
