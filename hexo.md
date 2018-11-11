@@ -3,7 +3,7 @@ hexo 有两个配置文件，一个在 hexo 项目的根目录，另一个在主
 
 # 安装插件
     npm install -g hexo-cli
-    npm install --save hexo-renderer-jade hexo-generator-feed hexo-generator-sitemap hexo-browsersync hexo-generator-archive
+    npm install --save hexo-renderer-jade hexo-generator-feed hexo-generator-sitemap hexo-generator-i18n hexo-browsersync hexo-generator-archive
     npm install --save
 
     git submodule update --init --recursive

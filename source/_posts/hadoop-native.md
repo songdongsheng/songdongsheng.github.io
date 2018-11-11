@@ -39,6 +39,7 @@ done
 ```
 
 ### Binaries
++ [Linux-x64/hadoop-2.7.7-native-c7.tar.gz](2.7.7/Linux-x64/hadoop-2.7.7-native-c7.tar.gz)
 ```
 -rw-r--r-- 1 root root 1235702 Nov  3 20:53 libhadoop.a
 lrwxrwxrwx 1 root root      18 Nov  3 20:53 libhadoop.so -> libhadoop.so.1.0.0
@@ -62,7 +63,16 @@ done
 ```
 
 ### Binaries
-TBD.
++ [Linux-x64/hadoop-2.8.5-native-c7.tar.gz](2.8.5/Linux-x64/hadoop-2.8.5-native-c7.tar.gz)
+
+## Hadoop 3.0.3
+### CMake
+    cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
+
+### Binaries
++ [Linux-x64/hadoop-3.0.3-native-c7.tar.gz](3.0.3/Linux-x64/hadoop-3.0.3-native-c7.tar.gz)
++ [3.0.3/Windows-x64/hadoop.dll](3.0.3/Windows-x64/hadoop.dll)
++ [3.0.3/Windows-x64/winutils.exe](3.0.3/Windows-x64/winutils.exe)
 
 ## Hadoop 3.1.1
 ### CMake
@@ -87,7 +97,9 @@ done
 ```
 
 ### Binaries
-TBD.
++ [Linux-x64/hadoop-3.1.1-native-c7.tar.gz](3.1.1/Linux-x64/hadoop-3.1.1-native-c7.tar.gz)
++ [3.1.1/Windows-x64/hadoop.dll](3.1.1/Windows-x64/hadoop.dll)
++ [3.1.1/Windows-x64/winutils.exe](3.1.1/Windows-x64/winutils.exe)
 
 # Windows 10 1709 or later
 ## setup
