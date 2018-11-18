@@ -1,20 +1,20 @@
 ---
-title: ²¢·¢±à³Ì¸ÅÊö
-description: ²¢·¢±à³ÌÁìÓò¿ÉÒÔ³éÏó³ÉÈı¸öºËĞÄÎÊÌâ£º·Ö¹¤¡¢Í¬²½ºÍ»¥³â
+title: å¹¶å‘ç¼–ç¨‹æ¦‚è¿°
+description: å¹¶å‘ç¼–ç¨‹é¢†åŸŸå¯ä»¥æŠ½è±¡æˆä¸‰ä¸ªæ ¸å¿ƒé—®é¢˜ï¼šåˆ†å·¥ã€åŒæ­¥å’Œäº’æ–¥
 date: 2018-11-17 18:46:49
 tags:
-  - concurrent
   - programming
-categories: [±à³Ì, ²¢·¢]
+  - concurrent
+categories: [ç¼–ç¨‹, å¹¶å‘]
 permalink: concurrent-programming
 ---
 
-# ²¢·¢±à³Ì
-²¢·¢±à³ÌÁìÓò¿ÉÒÔ³éÏó³ÉÈı¸öºËĞÄÎÊÌâ£º·Ö¹¤¡¢Ğ­×÷ºÍ»¥³â¡£
+# å¹¶å‘ç¼–ç¨‹
+å¹¶å‘ç¼–ç¨‹é¢†åŸŸå¯ä»¥æŠ½è±¡æˆä¸‰ä¸ªæ ¸å¿ƒé—®é¢˜ï¼šåˆ†å·¥ã€åä½œå’Œäº’æ–¥ã€‚
 
-![²¢·¢±à³ÌÈ«¾°Í¼](concurrent-programming/concurrent-programming.png)
+![å¹¶å‘ç¼–ç¨‹å…¨æ™¯å›¾](concurrent-programming/concurrent-programming.png)
 
-## ·Ö¹¤
+## åˆ†å·¥
 + ThreadPool/Executor
 + ForkJoinPool/ForkJoinTask 
 + ScheduledThreadPoolExecutor
@@ -22,7 +22,7 @@ permalink: concurrent-programming
 + Balking pattern (reject)
 + Messaging design pattern
 
-## Ğ­×÷
+## åä½œ
 
 + Semaphore
 + monitor
@@ -35,8 +35,8 @@ permalink: concurrent-programming
 + Phaser
 + Exchanger
 
-## »¥³â
-### ÎŞËø
+## äº’æ–¥
+### æ— é”
 + local variables
 + immutable data structures
 + TLS
@@ -44,7 +44,7 @@ permalink: concurrent-programming
 + CAS
 + atomic package
 
-### »¥³âËø
+### äº’æ–¥é”
 + synchronized
 + Lock
 + ReadWriteLock

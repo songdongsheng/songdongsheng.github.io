@@ -1,4 +1,3 @@
-
 # 安装配置
 ## 初始化版本库
     npm install -g hexo-cli
@@ -7,9 +6,10 @@
     cd songdongsheng.github.io
 
     npm install --save
-    npm install --save hexo-renderer-jade hexo-generator-feed hexo-generator-sitemap hexo-generator-i18n hexo-browsersync hexo-generator-archive
+    npm install --save hexo hexo-beautify hexo-browsersync hexo-deployer-git hexo-generator-archive hexo-generator-feed hexo-generator-search hexo-generator-sitemap hexo-renderer-jade hexo-renderer-sass
 
 ## 使用旧版本库
+
     npm install -g hexo-cli
 
     git clone -b hexo git@github.com:songdongsheng/songdongsheng.github.io.git
@@ -17,7 +17,110 @@
 
     git submodule update --init --recursive
 
+## 安装与更新 npm 包
+
     npm install --save
+    npm outdated
+    npm update
+    npm audit fix
+
+## 目录与标签
+
++ programming
+    - concurrent
+    - language
+        - Java
+            - Hibernate JPA
+            - MyBATIS
+            - JDBC
+            - Spring MVC
+            - Spring Cloud
+            - Jersey
+            - Apache CXF
+            - Ehcache
+            - Java EE
+                - Weblogic
+                - WebSphere
+                - TomEE
+        - C
+        - C#
+        - Python
+        - Go
+        - shell
+        - Tex
+    - database
+        - SQL
+            - Oracle
+            - SQL Server
+            - PostgreSQL
+            - MySQL
+        - NoSQL
+            - Cassandra
+            - HBase
+            - MongoDB
+            - ElasticSearch
+            - Redis
+        - NewSQL
+            - Trafodion
+            - Cloud Spanner - ANSI 2011 SQL
+            - OceanBase - Oracle & MySQL
+            - Amazon Aurora - MySQL, PostgreSQL
+            - YugaByteDB - PostgreSQL (BETA)
+            - CockroachDB - PostgreSQL
+            - TiDB - MySQL
+        - MQ
+            - RabbitMQ
+            - RocketMQ
+            - Kafka
+            - Pulsar
++ processor
+    - x86
+    - arm
+    - RISC-V
++ operating system
+    - Linux
+        - Debian
+        - Ubuntu
+        - RHEL
+        - CentOS
+        - SLES
+    - windows
+    - macOS
++ System architecture
+    - SOA
+    - RESTful
+    - MSA - Microservices Architecture - 微服务
++ bigdata
+    - Hadoop
+    - Hbase
++ Operation and monitoring
+    - DevOps
+        - GitHub
+        - GitLab
+        - Jenkins
+        - SonarQube
+        - Jira
+        - Puppet
+        - InfluxDB
+        - Grafana
+        - Nagios
+        - Prometheus
+    - Container
+        - LXC
+        - Docker
+    - Virtualization - Virtual machines
+        - VMware
+        - KVM
+        - Xen
+    - cluster
+        - Linux IPVS (LVS)
+        - Keepalived
+        - HAProxy
+        - Nginx
++ misc
+    - trends
+
+## 目录
 
 ## 配置文件简介
     hexo 有两个配置文件，一个在 hexo 项目的根目录，另一个在主题文件夹的根目录，文件名都是均为 _config.yml 。
