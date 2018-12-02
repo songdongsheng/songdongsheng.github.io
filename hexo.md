@@ -61,13 +61,16 @@
             - ElasticSearch
             - Redis
         - NewSQL
-            - Trafodion
             - Cloud Spanner - ANSI 2011 SQL
             - OceanBase - Oracle & MySQL
             - Amazon Aurora - MySQL, PostgreSQL
+            - ClustrixDB - MySQL
             - YugaByteDB - PostgreSQL (BETA)
             - CockroachDB - PostgreSQL
+            - SequoiaSQL - PostgreSQL/MySQL - 巨杉数据库
+            - CrateDB - IoT
             - TiDB - MySQL
+            - Trafodion
         - MQ
             - RabbitMQ
             - RocketMQ
