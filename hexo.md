@@ -1,5 +1,24 @@
 # 安装配置
+
 ## 初始化版本库
+
+    npm config set registry https://mirrors.huaweicloud.com/repository/npm/
+    npm config set disturl https://mirrors.huaweicloud.com/nodejs
+    npm config set sass_binary_site https://mirrors.huaweicloud.com/node-sass
+    npm config set phantomjs_cdnurl https://mirrors.huaweicloud.com/phantomjs
+    npm config set chromedriver_cdnurl https://mirrors.huaweicloud.com/chromedriver
+    npm config set operadriver_cdnurl https://mirrors.huaweicloud.com/operadriver
+    npm config set electron_mirror https://mirrors.huaweicloud.com/electron/
+    npm config set python_mirror https://mirrors.huaweicloud.com/python
+
+    npm cache clean -f
+
+    SET NODE_HOME=C:\opt\node-v14
+    %NODE_HOME%\node.exe %NODE_HOME%\node_modules\npm\bin\npm-cli.js install -g npm
+
+    npm install -g npm
+
+    npm install -g gitbook-cli
     npm install -g hexo-cli
 
     hexo init songdongsheng.github.io
@@ -20,15 +39,16 @@
 ## 安装与更新 npm 包
 
     npm install --save
-    npm outdated
     npm update
+    npm outdated
+    npm audit
     npm audit fix
 
 ## 目录与标签
 
-+ programming
-    - concurrent
-    - language
++ Programming
+    - Concurrent
+    - Language
         - Java
             - Hibernate JPA
             - MyBATIS
@@ -48,7 +68,7 @@
         - Go
         - shell
         - Tex
-    - database
+    - Database
         - SQL
             - Oracle
             - SQL Server
@@ -76,24 +96,24 @@
             - RocketMQ
             - Kafka
             - Pulsar
-+ processor
++ Processor
     - x86
     - arm
     - RISC-V
-+ operating system
++ Operating system
     - Linux
         - Debian
         - Ubuntu
         - RHEL
         - CentOS
         - SLES
-    - windows
+    - Windows
     - macOS
 + System architecture
     - SOA
     - RESTful
     - MSA - Microservices Architecture - 微服务
-+ bigdata
++ Bigdata
     - Hadoop
     - Hbase
 + Operation and monitoring
@@ -115,21 +135,26 @@
         - VMware
         - KVM
         - Xen
-    - cluster
+    - Cluster
         - Linux IPVS (LVS)
         - Keepalived
         - HAProxy
         - Nginx
-+ misc
-    - trends
+    - Distributed storage
+        - GlusterFS
+        - Ceph Storage Cluster
++ Misc
+    - Trends
 
-## 目录
 
 ## 配置文件简介
+
     hexo 有两个配置文件，一个在 hexo 项目的根目录，另一个在主题文件夹的根目录，文件名都是均为 _config.yml 。
 
-# 使用主题
-## 下载主题
+## 使用主题
+
+### 下载主题
+
     git submodule add --force https://github.com/lewis-geek/hexo-theme-Aath themes/aath
     git submodule add --force https://github.com/chaooo/hexo-theme-BlueLake themes/BlueLake
     git submodule add --force https://github.com/theme-next/hexo-theme-next themes/next
@@ -146,20 +171,26 @@
     搜索插件 algolia https://www.algolia.com/
     评论插件 来必力  https://www.livere.com/
 
-## 配置主题
+### 配置主题
+
     修改 hexo 项目的根目录的 _config.yml，配置 theme 为新主题的名称。
 
-# 常用命令
-## 列出站点信息
+## 常用命令
+
+### 列出站点信息
+
     hexo list page|post|route|tag|category
 
-## 站点本地预览
+### 站点本地预览
+
     hexo server
 
-## 生成静态文件
+### 生成静态文件
+
     hexo generate
 
-## 部署静态文件
+### 部署静态文件
+
     # dig www.songdongsheng.info +nostats +nocomments +nocmd
 
     hexo deploy
