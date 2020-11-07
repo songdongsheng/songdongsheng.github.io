@@ -3,8 +3,8 @@ title: WireGuard on Raspberry Pi
 description: WireGuard on Raspberry Pi
 date: 2020-11-08 22:41:09
 tags:
-  - Operating system
-  - Linux
+    - Operating system
+    - Linux
 categories: [Operating system, Linux]
 permalink: wire-guard-on-raspberry-pi
 ---
@@ -15,10 +15,10 @@ permalink: wire-guard-on-raspberry-pi
 
 WireGuard requires Linux kernel version ≥3.10, with the following configuration options, which are likely already configured in your kernel, especially if you're installing via distribution packages.
 
-* **CONFIG_NET** for basic networking support
-* **CONFIG_INET** for basic IP support
-* **CONFIG_NET_UDP_TUNNEL** for sending and receiving UDP packets
-* **CONFIG_CRYPTO_ALGAPI** for crypto_xor
+-   **CONFIG_NET** for basic networking support
+-   **CONFIG_INET** for basic IP support
+-   **CONFIG_NET_UDP_TUNNEL** for sending and receiving UDP packets
+-   **CONFIG_CRYPTO_ALGAPI** for crypto_xor
 
 Raspberry Pi use Linux kernel version 5.4:
 
@@ -86,30 +86,90 @@ $ sudo make -C wireguard-tools/src install
 $ wg genkey | tee wg-privatekey | wg pubkey > wg-publickey
 ```
 
-## Step 6: Connect to peers
+## Step 6: Local configuration
 
 ```shell
-$ sudo sysctl -w net.ipv4.ip_forward=1
-$ sudo sysctl -w net.ipv6.conf.all.forwarding=1
-$ sudo ip rule list
-$ sudo ip route show table 0
-$ sudo ip route show table all 
-
 $ sudo vi /etc/wireguard/wg0.conf
 
 [Interface]
-PrivateKey = ODVUd5h4Gq1lpaedzrR/iRiBgORgP0dPzL7AU78qhGA=
+PrivateKey = 4PlDEwG+60kuuEfDguXS/r7k+wUP4gQzeVCgJXLUOlI=
 Address = 192.168.20.5/24
 ListenPort = 64741
 DNS = 8.8.8.8,8.8.4.4
 
 [Peer]
-PublicKey = kGBbJgfCEUoCv9gq3kIeWHjpyAHt3zp+1NLW4EzH9T8=
+PublicKey = r0SXjeVxqcTy7p1Ikau5XGd5eGPHciUejrTGtUL4Vh0=
 AllowedIPs = 0.0.0.0/0
 Endpoint = 1.2.3.4:64741
 PersistentKeepalive = 25
+```
 
+## Step 7: Peer configuration
+
+```shell
+$ sudo vi /etc/wireguard/wg0.conf
+
+[Interface]
+PrivateKey = uC40eSTd0GgKN9KWN4FEMlIDqx08hvf3m4HkPm7yNU0=
+ListenPort = 64741
+Address = 192.168.20.1/24
+
+# Raspberry Pi Zero
+[Peer]
+PublicKey = RC/jDAB2ZkOon76ItDgYYBcFEhWByvjENk71cg8LoiM=
+AllowedIPs = 192.168.20.5/32
+PersistentKeepalive = 25
+```
+
+## Step 8: Set up the peer interface
+
+```shell
+# wg-quick up wg0
+
+sysctl net.ipv4.tcp_fin_timeout=15
+sysctl net.ipv4.tcp_keepalive_intvl=75
+sysctl net.ipv4.ip_forward=1
+sysctl net.ipv6.conf.all.forwarding=1
+sysctl net.ipv4.conf.ens3.forwarding=1
+sysctl net.ipv6.conf.ens3.forwarding=1
+
+iptables -t filter -P INPUT ACCEPT
+iptables -t filter -P FORWARD ACCEPT
+iptables -t filter -P OUTPUT ACCEPT
+iptables -t filter -F
+iptables -t filter -X
+iptables -t nat -F
+iptables -t nat -X
+
+$ cat << EOF | sudo iptables-restore
+*filter
+:INPUT ACCEPT
+:FORWARD ACCEPT
+:OUTPUT ACCEPT
+COMMIT
+*nat
+:PREROUTING ACCEPT
+:INPUT ACCEPT
+:OUTPUT ACCEPT
+:POSTROUTING ACCEPT
+-A POSTROUTING -p esp -j RETURN
+-A POSTROUTING -s 10.20.30.0/24  -o ens3 -j MASQUERADE
+-A POSTROUTING -s 10.20.40.0/24  -o ens3 -j MASQUERADE
+-A POSTROUTING -s 192.168.0.0/16 -o ens3 -j MASQUERADE
+COMMIT
+EOF
+
+```
+
+## Step 9: Connect to peers
+
+```shell
 $ sudo wg-quick up wg0
 $ sudo wg
 
+$ sudo sysctl -w net.ipv4.ip_forward=1
+$ sudo sysctl -w net.ipv6.conf.all.forwarding=1
+$ sudo ip rule list
+$ sudo ip route show table 0
+$ sudo ip route show table all
 ```
