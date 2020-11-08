@@ -39,7 +39,7 @@ ubuntu:18.04               | 2.27                  | 4.15
 RHEL/CentOS 8              | 2.28                  | 4.18
 Debian 10                  | 2.28                  | 4.19
 ubuntu:20.04               | 2.30                  | 5.4
-fedora:32                  | 2.31                  | 5.6
+fedora:33                  | 2.32                  | 5.8
 
 ## docker images
 

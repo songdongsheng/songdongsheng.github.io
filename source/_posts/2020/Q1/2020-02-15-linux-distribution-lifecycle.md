@@ -25,9 +25,9 @@ permalink: linux-distribution-lifecycle
 
 ## Red Hat Enterprise Linux Lifecycle
 - https://access.redhat.com/support/policy/updates/errata/
-- RHEL 6, [2010-11-10, 2020-11-30, 2024-06-30]
-- RHEL 7, [2014-06-10, 2024-06-30, TBD]
-- RHEL 8, [2019-05-07, 2029-05-31, TBD]
+- RHEL 6, [2010-11-10, 2017-05-10, 2020-11-30]
+- RHEL 7, [2014-06-10, 2020-08-06, 2024-06-30]
+- RHEL 8, [2019-05-07, TBD,        2029-05-31]
 
 ## CentOS Linux Lifecycle
 - https://wiki.centos.org/Download
@@ -39,9 +39,9 @@ permalink: linux-distribution-lifecycle
 ## Debian Linux Lifecycle
 - https://wiki.debian.org/DebianReleases
 - https://wiki.debian.org/LTS
-- Debian 8.0, Jessie,  [2015-04-25, 2018-06-06, 2020-06-30]
-- Debian 9.0, Stretch, [2017-06-07, 2020-01-31, 2022-06-30]
-- Debian 10.0, Buster, [2019-07-06, 2022-01-31, 2024-06-30]
+- Debian 8.0, Jessie,  [2015-04-25, 2018-06-17, 2020-06-30]
+- Debian 9.0, Stretch, [2017-06-07, 2020-07-06, 2022-06-30]
+- Debian 10.0, Buster, [2019-07-06, 2022-07-01, 2024-06-30]
 
 ## The Ubuntu Linux lifecycle and release cadence
 - https://ubuntu.com/about/release-cycle
