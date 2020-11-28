@@ -6,7 +6,7 @@ tags:
     - Operating system
     - NetBSD
 categories: [Operating system, NetBSD]
-permalink: netbsd-9-earmv6hf-on-raspberrypi-3bp
+permalink: netbsd-9-earmv6hf-on-raspberrypi-3b-plus
 ---
 
 # NetBSD 9.1 earmv6hf on Raspberry Pi 3 Model B Plus Rev 1.3
