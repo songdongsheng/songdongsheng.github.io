@@ -5,8 +5,8 @@ date: 2020-11-21 23:19:03
 tags:
     - Operating system
     - FreeBSD
-categories: [Operating system]
-permalink: freebsd-12-on-raspberrypi
+categories: [Operating system, FreeBSD]
+permalink: freebsd-12-on-raspberrypi-zero
 ---
 
 # FreeBSD 12 on Raspberry Pi Zero

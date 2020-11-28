@@ -5,7 +5,7 @@ date: 2020-11-22 10:01:22
 tags:
     - Operating system
     - NetBSD
-categories: [Operating system]
+categories: [Operating system, NetBSD]
 permalink: netbsd-9-on-raspberrypi-zero
 ---
 
