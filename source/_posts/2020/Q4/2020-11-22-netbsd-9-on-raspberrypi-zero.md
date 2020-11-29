@@ -9,7 +9,7 @@ categories: [Operating system, NetBSD]
 permalink: netbsd-9-on-raspberrypi-zero
 ---
 
-# NetBSD 9.1 on Raspberry Pi Zero
+# NetBSD 9 on Raspberry Pi Zero
 
 ## Download NetBSD image
 
@@ -166,6 +166,13 @@ $ cat rpi.img.gz | gzip -cd | sudo dd of=/dev/sdb bs=4M oflag=sync status=progre
 The default account for the images are **root** without password.
 
 You must set the password and configure **ssh** to allow root login before you can log in remotely.
+
+```shell
+# vi /etc/ssh/sshd_config
+
+# /etc/rc.d/sshd reload
+Reloading sshd config files.
+```
 
 ## System characteristics
 

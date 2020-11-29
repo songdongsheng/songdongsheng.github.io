@@ -1,6 +1,6 @@
 ---
-title: NetBSD 9 aarch64 on Raspberry Pi 3 Model B Plus Rev 1.3
-description: NetBSD 9 aarch64 on Raspberry Pi 3 Model B Plus Rev 1.3
+title: NetBSD 9 aarch64 on Raspberry Pi 3B+
+description: NetBSD 9 aarch64 on Raspberry Pi 3B+
 date: 2020-11-28 23:08:17
 tags:
     - Operating system
@@ -9,7 +9,7 @@ categories: [Operating system, NetBSD]
 permalink: netbsd-9-aarch64-on-raspberrypi-3b-plus
 ---
 
-# NetBSD 9.1 aarch64 on Raspberry Pi 3 Model B Plus Rev 1.3
+# NetBSD 9 aarch64 on Raspberry Pi 3B+
 
 ## Download NetBSD image
 
@@ -60,7 +60,7 @@ If you use USB TTL, don't forgot connect **GND**, and cross-connect **TXD** and 
 2. Connect TXD pin of converter to RXD0 of Raspberry Pi.
 3. Connect RXD pin of converter to TXD0 of Raspberry Pi.
 
-~[Raspberry Pi 3 B+ Pins](raspberry_pi_pins.jpg)
+![Raspberry Pi 3 B+ Pins](raspberry_pi_pins.jpg)
 
 You also need to setup the serial terminal to following specs:
 
@@ -451,8 +451,6 @@ wsconscfg: screen 3 is already configured
 Starting syslogd.
 Mounting all file systems...
 Clearing temporary files.
-Updating fontconfig cache:Oct 19 02:21:07 arm64 dhcpcd[252]: mue0: failed to request information
-Oct 19 02:21:30 arm64 syslogd[306]: last message repeated 2 times
  done.
 Checking quotas: done.
 Setting securelevel: kern.securelevel: 0 -> 1
@@ -475,7 +473,6 @@ Mon Oct 19 02:21:43 UTC 2020
 NetBSD/evbarm (arm64) (constty)
 
 login: root
-Nov 29 14:57:30 arm64 syslogd[306]: last message repeated 2 times
 Nov 29 14:57:30 arm64 login: ROOT LOGIN (root) on tty constty
 Copyright (c) 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005,
     2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017,
