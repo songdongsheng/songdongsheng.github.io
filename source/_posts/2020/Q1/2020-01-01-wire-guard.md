@@ -3,27 +3,27 @@ title: WireGuard - Next Generation Network Tunnel
 description: WireGuard - Next Generation Network Tunnel
 date: 2020-01-01 23:16:22
 tags:
-  - IP
+    - IP
 categories: [Programming, IP]
 permalink: wire-guard
 ---
 
 # WireGuard
 
-- https://www.wireguard.com/
-- https://www.wireguard.com/install/
-- https://www.wireguard.com/quickstart/
-- https://www.wireguard.com/protocol/
-- https://www.wireguard.com/repositories/
-- https://www.wireguard.com/papers/wireguard.pdf
+-   https://www.wireguard.com/
+-   https://www.wireguard.com/install/
+-   https://www.wireguard.com/quickstart/
+-   https://www.wireguard.com/protocol/
+-   https://www.wireguard.com/repositories/
+-   https://www.wireguard.com/papers/wireguard.pdf
 
 WireGuard® is an extremely simple yet fast and modern VPN that utilizes state-of-the-art cryptography. It aims to be faster, simpler, leaner, and more useful than IPsec, while avoiding the massive headache. It intends to be considerably more performant than OpenVPN. WireGuard is designed as a general purpose VPN for running on embedded interfaces and super computers alike, fit for many different circumstances. Initially released for the Linux kernel, it is now cross-platform (Windows, macOS, BSD, iOS, Android) and widely deployable. It is currently under heavy development, but already it might be regarded as the most secure, easiest to use, and simplest VPN solution in the industry.
 
-- Simple & Easy-to-use
-- Cryptographically Sound
-- Minimal Attack Surface
-- High Performance
-- Well Defined & Thoroughly Considered
+-   Simple & Easy-to-use
+-   Cryptographically Sound
+-   Minimal Attack Surface
+-   High Performance
+-   Well Defined & Thoroughly Considered
 
 ## Conceptual Overview
 
@@ -59,11 +59,11 @@ By default, WireGuard tries to be as silent as possible when not being used; it 
 
 ## Installation
 
-- https://www.wireguard.com/install/
+-   https://www.wireguard.com/install/
 
 ### WireGuard for Windows
 
-- https://download.wireguard.com/windows-client/
+-   https://download.wireguard.com/windows-client/
 
 ### Ubuntu ≥ 19.10
 
@@ -127,6 +127,7 @@ wg genkey | tee privatekey | wg pubkey > publickey
     # sudo sysctl net.ipv6.conf.all.forwarding=1
     # sudo vi /etc/wireguard/wg0.conf
     # sudo wg setconf wg0 /etc/wireguard/wg0.conf
+    # qrencode -t png -o ipv4-tunnel-by-ipv4.png < ipv4-tunnel-by-ipv4.conf
     [Interface]
     PrivateKey = YMKtNQbqzIL37gFZPue1rxITRWfwb828bvFqpbiMZ00=
     ListenPort = 6474

@@ -13,24 +13,24 @@ permalink: netbsd-9-on-raspberrypi-zero
 
 ## Download NetBSD image
 
-- http://netbsd.org/
-- http://wiki.netbsd.org/ports/
-- http://wiki.netbsd.org/ports/evbarm/
-- http://wiki.netbsd.org/ports/aarch64/
-- http://wiki.netbsd.org/ports/evbmips/
-- https://www.netbsd.org/docs/guide/en/chap-boot.html
-- http://netbsd.org/releases/formal-9/NetBSD-9.1.html
-- https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/evbarm-earm/INSTALL.html
-- https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/evbarm-aarch64/binary/gzimg/arm64.img.gz
-- https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/evbarm-earmv6hf/binary/gzimg/rpi.img.gz
-- https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/evbarm-earmv7hf/binary/gzimg/armv7.img.gz
-- https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-amd64-install.img.gz
-- https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-amd64.iso
-- https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-evbarm-aarch64.iso
-- https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-evbarm-earmv6hf.iso
-- https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-evbarm-earmv7hf.iso
-- https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-evbmips-mips64el.iso
-- https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-evbmips-mipsel.iso
+-   http://netbsd.org/
+-   http://wiki.netbsd.org/ports/
+-   http://wiki.netbsd.org/ports/evbarm/
+-   http://wiki.netbsd.org/ports/aarch64/
+-   http://wiki.netbsd.org/ports/evbmips/
+-   https://www.netbsd.org/docs/guide/en/chap-boot.html
+-   http://netbsd.org/releases/formal-9/NetBSD-9.1.html
+-   https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/evbarm-earm/INSTALL.html
+-   https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/evbarm-aarch64/binary/gzimg/arm64.img.gz
+-   https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/evbarm-earmv6hf/binary/gzimg/rpi.img.gz
+-   https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/evbarm-earmv7hf/binary/gzimg/armv7.img.gz
+-   https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-amd64-install.img.gz
+-   https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-amd64.iso
+-   https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-evbarm-aarch64.iso
+-   https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-evbarm-earmv6hf.iso
+-   https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-evbarm-earmv7hf.iso
+-   https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-evbmips-mips64el.iso
+-   https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-evbmips-mipsel.iso
 
 ```shell
 $ aria2c https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/evbarm-earmv6hf/binary/gzimg/rpi.img.gz
@@ -45,6 +45,10 @@ $ cat rpi.img.gz | gzip -cd | sudo dd of=/dev/sdb bs=4M oflag=sync status=progre
 ```
 
 ## Booting Raspberry Pi
+
+```shell
+$ sudo minicom -b 115200 -8 -D /dev/ttyUSB0
+```
 
 ```shell
 [     1.000000] Copyright (c) 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005,
@@ -169,6 +173,8 @@ You must set the password and configure **ssh** to allow root login before you c
 
 ```shell
 # vi /etc/ssh/sshd_config
+    PermitRootLogin yes
+    #PermitRootLogin prohibit-password
 
 # /etc/rc.d/sshd reload
 Reloading sshd config files.
@@ -440,25 +446,25 @@ gcc version 7.5.0 (nb4 20200810)
 
 ## NetBSD Packages Collection
 
-- https://www.pkgsrc.org/
-- https://www.netbsd.org/docs/pkgsrc/using.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/README-all.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/emulators/qemu/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/inputmethod/fcitx/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/inputmethod/ibus/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/clang/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/gcc10/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/ghc88/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/go/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/lua54/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/LuaJIT2/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/nodejs/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/openjdk11/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/openjdk8/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/python38/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/rust/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/zig/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/net/avahi/README.html
+-   https://www.pkgsrc.org/
+-   https://www.netbsd.org/docs/pkgsrc/using.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/README-all.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/emulators/qemu/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/inputmethod/fcitx/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/inputmethod/ibus/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/clang/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/gcc10/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/ghc88/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/go/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/lua54/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/LuaJIT2/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/nodejs/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/openjdk11/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/openjdk8/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/python38/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/rust/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/zig/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/net/avahi/README.html
 
 ```shell
 export PKG_PATH="http://cdn.NetBSD.org/pub/pkgsrc/packages/$(uname -s)/$(uname -m)/$(uname -r | cut -f '1 2' -d.)/All/"

@@ -102,6 +102,8 @@ PublicKey = r0SXjeVxqcTy7p1Ikau5XGd5eGPHciUejrTGtUL4Vh0=
 AllowedIPs = 0.0.0.0/0
 Endpoint = 1.2.3.4:64741
 PersistentKeepalive = 25
+
+$ qrencode -t png -o ipv4-tunnel-by-ipv4.png < ipv4-tunnel-by-ipv4.conf
 ```
 
 ## Step 7: Peer configuration

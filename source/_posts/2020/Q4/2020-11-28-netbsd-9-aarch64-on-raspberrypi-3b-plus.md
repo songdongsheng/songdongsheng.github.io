@@ -13,24 +13,24 @@ permalink: netbsd-9-aarch64-on-raspberrypi-3b-plus
 
 ## Download NetBSD image
 
-- http://netbsd.org/
-- http://wiki.netbsd.org/ports/
-- http://wiki.netbsd.org/ports/evbarm/
-- http://wiki.netbsd.org/ports/aarch64/
-- http://wiki.netbsd.org/ports/evbmips/
-- https://www.netbsd.org/docs/guide/en/chap-boot.html
-- http://netbsd.org/releases/formal-9/NetBSD-9.1.html
-- https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/evbarm-earm/INSTALL.html
-- https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/evbarm-aarch64/binary/gzimg/arm64.img.gz
-- https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/evbarm-earmv6hf/binary/gzimg/rpi.img.gz
-- https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/evbarm-earmv7hf/binary/gzimg/armv7.img.gz
-- https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-amd64-install.img.gz
-- https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-amd64.iso
-- https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-evbarm-aarch64.iso
-- https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-evbarm-earmv6hf.iso
-- https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-evbarm-earmv7hf.iso
-- https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-evbmips-mips64el.iso
-- https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-evbmips-mipsel.iso
+-   http://netbsd.org/
+-   http://wiki.netbsd.org/ports/
+-   http://wiki.netbsd.org/ports/evbarm/
+-   http://wiki.netbsd.org/ports/aarch64/
+-   http://wiki.netbsd.org/ports/evbmips/
+-   https://www.netbsd.org/docs/guide/en/chap-boot.html
+-   http://netbsd.org/releases/formal-9/NetBSD-9.1.html
+-   https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/evbarm-earm/INSTALL.html
+-   https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/evbarm-aarch64/binary/gzimg/arm64.img.gz
+-   https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/evbarm-earmv6hf/binary/gzimg/rpi.img.gz
+-   https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/evbarm-earmv7hf/binary/gzimg/armv7.img.gz
+-   https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-amd64-install.img.gz
+-   https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-amd64.iso
+-   https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-evbarm-aarch64.iso
+-   https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-evbarm-earmv6hf.iso
+-   https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-evbarm-earmv7hf.iso
+-   https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-evbmips-mips64el.iso
+-   https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-evbmips-mipsel.iso
 
 ```shell
 $ aria2c https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/evbarm-aarch64/binary/gzimg/arm64.img.gz
@@ -60,7 +60,7 @@ If you use USB TTL, don't forgot connect **GND**, and cross-connect **TXD** and 
 2. Connect TXD pin of converter to RXD0 of Raspberry Pi.
 3. Connect RXD pin of converter to TXD0 of Raspberry Pi.
 
-![Raspberry Pi 3 B+ Pins](raspberry_pi_pins.jpg)
+![Raspberry Pi 3 B+ Pins](raspberry_pi_pins.png)
 
 You also need to setup the serial terminal to following specs:
 
@@ -71,16 +71,10 @@ You also need to setup the serial terminal to following specs:
 5. Flow control = None.
 
 ```shell
-dongsheng@E7440-01:~$ sudo minicom -b 115200 -8 -D /dev/ttyUSB0
+$ sudo minicom -b 115200 -8 -D /dev/ttyUSB0
+```
 
-Welcome to minicom 2.7.1
-
-OPTIONS: I18n
-Compiled on Dec 23 2019, 02:06:26.
-Port /dev/ttyUSB0, 22:51:24
-
-Press CTRL-A Z for help on special keys
-
+```shell
 [   1.0000000] NetBSD/evbarm (fdt) booting ...
 [   1.0000000] Copyright (c) 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005,
 [   1.0000000]     2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017,
@@ -495,6 +489,8 @@ You must set the password and configure **ssh** to allow root login before you c
 
 ```shell
 # vi /etc/ssh/sshd_config
+    PermitRootLogin yes
+    #PermitRootLogin prohibit-password
 
 # /etc/rc.d/sshd reload
 Reloading sshd config files.
@@ -502,6 +498,9 @@ Reloading sshd config files.
 
 ## System characteristics
 
+### dimension
+
+![Raspberry Pi 3 B+ Dimension](rpi_machine_3bplus.pdf)
 ### uname
 
 ```shell
@@ -827,25 +826,25 @@ gcc version 7.5.0 (nb4 20200810)
 
 ## NetBSD Packages Collection
 
-- https://www.pkgsrc.org/
-- https://www.netbsd.org/docs/pkgsrc/using.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/README-all.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/emulators/qemu/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/inputmethod/fcitx/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/inputmethod/ibus/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/clang/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/gcc10/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/ghc88/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/go/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/lua54/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/LuaJIT2/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/nodejs/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/openjdk11/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/openjdk8/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/python38/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/rust/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/zig/README.html
-- http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/net/avahi/README.html
+-   https://www.pkgsrc.org/
+-   https://www.netbsd.org/docs/pkgsrc/using.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/README-all.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/emulators/qemu/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/inputmethod/fcitx/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/inputmethod/ibus/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/clang/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/gcc10/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/ghc88/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/go/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/lua54/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/LuaJIT2/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/nodejs/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/openjdk11/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/openjdk8/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/python38/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/rust/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/lang/zig/README.html
+-   http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/net/avahi/README.html
 
 ```shell
 export PKG_PATH="http://cdn.NetBSD.org/pub/pkgsrc/packages/$(uname -s)/$(uname -p)/$(uname -r | cut -f '1 2' -d.)/All/"

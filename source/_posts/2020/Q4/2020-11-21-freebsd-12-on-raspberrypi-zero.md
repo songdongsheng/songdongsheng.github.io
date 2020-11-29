@@ -13,6 +13,18 @@ permalink: freebsd-12-on-raspberrypi-zero
 
 ## Download FreeBSD image
 
+-   https://www.freebsd.org/platforms/index.html
+-   https://www.freebsd.org/platforms/arm.html
+-   https://wiki.freebsd.org/arm64
+-   https://wiki.freebsd.org/arm64/QEMU
+-   https://wiki.freebsd.org/arm
+-   https://wiki.freebsd.org/arm/Raspberry%20Pi
+-   https://wiki.freebsd.org/arm/RockChip
+-   https://wiki.freebsd.org/arm/Allwinner
+-   https://download.freebsd.org/ftp/releases/arm/armv6/ISO-IMAGES/12.2/FreeBSD-12.2-RELEASE-arm-armv6-RPI-B.img.xz [Tier 2]
+-   https://download.freebsd.org/ftp/releases/arm/armv7/ISO-IMAGES/12.2/FreeBSD-12.2-RELEASE-arm-armv7-RPI2.img.xz [Tier 2]
+-   https://download.freebsd.org/ftp/releases/arm64/aarch64/ISO-IMAGES/12.2/FreeBSD-12.2-RELEASE-arm64-aarch64-RPI3.img.xz [Tier 2]
+
 ```shell
 $ aria2c https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.2/FreeBSD-12.2-RELEASE-arm-armv6-RPI-B.img.xz
 
@@ -28,6 +40,10 @@ $ cat FreeBSD-12.2-STABLE-arm-armv6-RPI-B-20201119-r367792.img.xz | xz -cd | sud
 ```
 
 ## Booting Raspberry Pi
+
+```shell
+$ sudo minicom -b 115200 -8 -D /dev/ttyUSB0
+```
 
 ```shell
 U-Boot 2020.10 (Nov 21 2020 - 14:02:49 +0000)
