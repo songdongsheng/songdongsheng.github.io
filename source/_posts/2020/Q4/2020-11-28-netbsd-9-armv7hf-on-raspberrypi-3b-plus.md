@@ -20,6 +20,7 @@ permalink: netbsd-9-armv7hf-on-raspberrypi-3b-plus
 -   http://wiki.netbsd.org/ports/evbmips/
 -   https://www.netbsd.org/docs/guide/en/chap-boot.html
 -   http://netbsd.org/releases/formal-9/NetBSD-9.1.html
+-   https://man.netbsd.org/NetBSD-9.1/mue.4
 -   https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/evbarm-earm/INSTALL.html
 -   https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/evbarm-aarch64/binary/gzimg/arm64.img.gz
 -   https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/evbarm-earmv6hf/binary/gzimg/rpi.img.gz

@@ -21,9 +21,17 @@ permalink: freebsd-12-arm64-on-raspberrypi-3b-plus
 -   https://wiki.freebsd.org/arm/Raspberry%20Pi
 -   https://wiki.freebsd.org/arm/RockChip
 -   https://wiki.freebsd.org/arm/Allwinner
+-   https://www.freebsd.org/cgi/man.cgi?query=muge
+-   https://www.freebsd.org/cgi/man.cgi?query=bwn
+-   https://wiki.freebsd.org/DeviceDrivers
+-   https://wiki.freebsd.org/SDIO
 -   https://download.freebsd.org/ftp/releases/arm/armv6/ISO-IMAGES/12.2/FreeBSD-12.2-RELEASE-arm-armv6-RPI-B.img.xz
 -   https://download.freebsd.org/ftp/releases/arm/armv7/ISO-IMAGES/12.2/FreeBSD-12.2-RELEASE-arm-armv7-RPI2.img.xz
 -   https://download.freebsd.org/ftp/releases/arm64/aarch64/ISO-IMAGES/12.2/FreeBSD-12.2-RELEASE-arm64-aarch64-RPI3.img.xz
+-   https://download.freebsd.org/ftp/snapshots/ISO-IMAGES/13.0/
+-   https://download.freebsd.org/ftp/snapshots/ISO-IMAGES/13.0/FreeBSD-13.0-CURRENT-arm-armv6-RPI-B-20201203-f659bf1d31c.img.xz
+-   https://download.freebsd.org/ftp/snapshots/ISO-IMAGES/13.0/FreeBSD-13.0-CURRENT-arm-armv7-RPI2-20201119-f2ea0734875.img.xz
+-   https://download.freebsd.org/ftp/snapshots/ISO-IMAGES/13.0/FreeBSD-13.0-CURRENT-arm64-aarch64-RPI3-20201203-f659bf1d31c.img.xz
 
 ```shell
 $ aria2c https://download.freebsd.org/ftp/releases/arm64/aarch64/ISO-IMAGES/12.2/FreeBSD-12.2-RELEASE-arm64-aarch64-RPI3.img.xz
