@@ -1,6 +1,6 @@
 ---
-title: Multicast DNS
-description: Multicast DNS
+title: Multicast DNS (mDNS)
+description: Multicast DNS (mDNS)
 date: 2020-11-07 13:10:21
 tags:
     - Operating system
@@ -9,9 +9,21 @@ categories: [Operating system, Linux]
 permalink: multicast-dns
 ---
 
-# Multicast DNS
+# Multicast DNS (mDNS)
 
 ## Overview
+
+- [Multicast DNS (mDNS)](https://tools.ietf.org/html/rfc6762)
+- [DNS-Based Service Discovery](https://tools.ietf.org/html/rfc6763)
+- [Link-local Multicast Name Resolution (LLMNR)](https://tools.ietf.org/html/rfc4795)
+- [Home Networking Control Protocol](https://tools.ietf.org/html/rfc7788)
+- [Avahi](https://avahi.org/)
+- [nss-mdns](https://github.com/lathiat/nss-mdns)
+- [Download ISC's software](https://www.isc.org/download/)
+- [Mdns daemon for OpenBSD](https://github.com/haesbaert/mdnsd)
+- [Mdns daemon not support IPv6 yet](https://github.com/haesbaert/mdnsd/issues/4)
+- [Local name resolution in windows networks#11](https://www.slideshare.net/MenandMice/part-2-local-name-resolution-in-windows-networks)
+- [Local name resolution in Linux](https://www.slideshare.net/MenandMice/part-3-local-name-resolution-in-linux-freebsd-and-macosios)
 
 Multicast DNS (mDNS) is a way of using familiar DNS programming interfaces, packet formats and operating semantics, in a small network where no conventional DNS server has been installed.
 
@@ -45,10 +57,14 @@ The payload structure is based on the **unicast DNS packet format**, consisting 
 
 The header is identical to that found in unicast DNS, as are the sub-sections in the data part: queries, answers, authoritative-nameservers, and additional records. The number of records in each sub-section matches the value of the corresponding COUNT field in the header.
 
-## Installation
+## Install Avahi
 
 ```shell
 $ sudo apt-get install -y --no-install-recommends avahi-daemon libnss-mdns
+
+$ dig -p 5353 @ff02::fb OP-7020-01.local aaaa
+$ dig -p 5353 @224.0.0.251 OP-7020-01.local
+$ dig -p 5353 @224.0.0.251 OP-7020-01.local aaaa
 ```
 
 ## Using Avahi
@@ -74,7 +90,7 @@ The mdns_minimal module handles queries for the **.local** TLD only. Note the **
 
 In case you want Avahi to support other TLDs, you should:
 
--   replace **mdns_minimal [NOTFOUND=return]** with the full **mdns** module. There also are IPv4-only and IPv6-only modules **mdns\[46\](\_minimal)**
+-   replace **mdns_minimal [NOTFOUND=return]** with the full **mdns** module. There also are IPv4-only and IPv6-only modules **mdns[46]\(\_minimal\)**
 -   customize **/etc/avahi/avahi-daemon.conf** with the **domain-name** of your choice
 -   whitelist Avahi custom TLDs in **/etc/mdns.allow**
 
@@ -92,7 +108,7 @@ to discover services in your network.
 
 ### Adding services to Avahi
 
-[The Avahi mDNS/DNS-SD daemon](https://www.freebsd.org/cgi/man.cgi?query=avahi-daemon&sektion=8&apropos=0&manpath=FreeBSD+12.2-RELEASE+and+Ports) advertises the services whose **\*.service** files are found in /etc/avahi/services**. Files in this directory must be readable by the **avahi\*\* user/group. See [avahi.service(5)](https://www.freebsd.org/cgi/man.cgi?query=avahi.service&sektion=5&apropos=0&manpath=FreeBSD+12.2-RELEASE+and+Ports) for more details.
+[The Avahi mDNS/DNS-SD daemon](https://www.freebsd.org/cgi/man.cgi?query=avahi-daemon) advertises the services whose **\*.service** files are found in **/etc/avahi/services/**. Files in this directory must be readable by the **avahi** user/group. See [avahi.service(5)](https://www.freebsd.org/cgi/man.cgi?query=avahi.service) for more details.
 
 ### Firewall
 
@@ -115,4 +131,24 @@ Ping statistics for 2409:8a55:8ba:fb20:e010:9723:cb71:a0cb:
     Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
 Approximate round trip times in milli-seconds:
     Minimum = 4ms, Maximum = 13ms, Average = 7ms
+```
+
+Windows 10 handles both hostname and hostname.local identically: it simultaneously tries LLMNR for the bare hostname, NetBIOS for the bare hostname, and (optionally) mDNS for hostname.local.
+
+To activate the mDNS support, you have to Turn off the Link Local Multicast Name Resolution (LLMNR), i.e. set the **EnableMulticast** registry value to 0 (0: Disable LLMNR, 1: Use LLMNR):
+
+```powershell
+PS C:\> netsh dnsclient show state
+PS C:\> resolve-dnsname OP-7020-01.local -LlmnrOnly
+
+PS C:\> reg delete "HKLM\Software\Policies\Microsoft\Windows NT\DNSClient" /v EnableMulticast /f
+The operation completed successfully.
+
+PS C:\> reg add "HKLM\Software\Policies\Microsoft\Windows NT\DNSClient" /v EnableMulticast /t REG_DWORD /d 0 /f
+The operation completed successfully.
+
+PS C:\> reg query "HKLM\Software\Policies\Microsoft\Windows NT\DNSClient"
+
+HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows NT\DNSClient
+    EnableMulticast    REG_DWORD    0x0
 ```
