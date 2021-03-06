@@ -381,14 +381,36 @@ pacman -Suv --noconfirm
 
 pacman -Ss "mingw-w64-x86_64-.*curl"
 
-pacman -Sv --noconfirm --needed base-devel mingw-w64-x86_64-toolchain \
-    mingw-w64-x86_64-zstd mingw-w64-x86_64-zlib mingw-w64-x86_64-xz \
-    mingw-w64-x86_64-curl mingw-w64-x86_64-openssl \
-    mingw-w64-x86_64-pcre  mingw-w64-x86_64-pcre2 \
-    mingw-w64-x86_64-ncurses mingw-w64-x86_64-librdkafka \
-    mingw-w64-x86_64-postgresql mingw-w64-x86_64-libmariadbclient \
-    mingw-w64-x86_64-llvm mingw-w64-x86_64-clang mingw-w64-x86_64-lld \
-    mingw-w64-x86_64-cmake mingw-w64-x86_64-make mingw-w64-x86_64-ninja
+pacman -Sv --noconfirm --needed \
+    autoconf base-devel bsdtar diffstat git patch tar vim \
+    mingw-w64-x86_64-aria2 \
+    mingw-w64-x86_64-binutils \
+    mingw-w64-x86_64-ca-certificates \
+    mingw-w64-x86_64-ccache \
+    mingw-w64-x86_64-clang \
+    mingw-w64-x86_64-cmake \
+    mingw-w64-x86_64-curl \
+    mingw-w64-x86_64-diffutils \
+    mingw-w64-x86_64-gmp \
+    mingw-w64-x86_64-mpc \
+    mingw-w64-x86_64-mpfr \
+    mingw-w64-x86_64-libmariadbclient \
+    mingw-w64-x86_64-librdkafka \
+    mingw-w64-x86_64-libtool \
+    mingw-w64-x86_64-lld \
+    mingw-w64-x86_64-llvm \
+    mingw-w64-x86_64-make \
+    mingw-w64-x86_64-ncurses \
+    mingw-w64-x86_64-ninja \
+    mingw-w64-x86_64-openssl \
+    mingw-w64-x86_64-pcre \
+    mingw-w64-x86_64-pcre2 \
+    mingw-w64-x86_64-postgresql \
+    mingw-w64-x86_64-python \
+    mingw-w64-x86_64-tools-git \
+    mingw-w64-x86_64-xz \
+    mingw-w64-x86_64-zlib \
+    mingw-w64-x86_64-zstd
 
 pacman -Q
 pacman -Ql mingw-w64-x86_64-llvm
@@ -397,6 +419,9 @@ pacman -Qo clang-format.exe
 LC_ALL=C pacman -Qi \
     | awk '/^Name/{name=$3} /^Installed Size/{print $4$5, name}' \
     | sort -h
+
+$ pacman -Scc --noconfirm
+$ paccache -r -k 0
 ```
 
 ### Hello Stack
