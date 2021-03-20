@@ -3,9 +3,9 @@ title: Haskell Programming Language
 description: Haskell Programming Language
 date: 2021-03-13 23:46:54
 tags:
-    - Operating system
-    - Linux
-categories: [Operating system, Linux]
+    - Programming
+    - Haskell
+categories: [Programming, Haskell]
 permalink: haskell-programming-language
 ---
 

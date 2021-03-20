@@ -1,17 +1,17 @@
 ---
-title: Cross compiling Rust on Linux for Windows MSVC target
-description: Cross compiling Rust on Linux for Windows MSVC target
+title: Cross compiling Rust for Windows MSVC target
+description: Cross compiling Rust for Windows MSVC target
 date: 2021-03-14 15:51:51
 tags:
-    - Operating system
-    - Linux
-categories: [Operating system, Linux]
+    - Programming
+    - Rust
+categories: [Programming, Rust]
 permalink: rust-cross-compiling-msvc-target
 ---
 
-# Cross compiling Rust on Linux for Windows MSVC target
+# Cross compiling Rust for Windows MSVC target
 
-Generally, We can compiling Rust applications on Linux for the Windows target **x86_64-pc-windows-gnu**. But for the Windows target **x86_64-pc-windows-msvc**, we need **Wine** or on the Windows host. Now, we can use **lld** on Linux to create the Windows target **x86_64-pc-windows-gnu**.
+Generally, We can compiling Rust applications for the Windows target **x86_64-pc-windows-gnu**. But for the Windows target **x86_64-pc-windows-msvc**, we need **Wine** or on the Windows host. Now, we can use **lld** to create the Windows target **x86_64-pc-windows-gnu**.
 
 ## Copy MSVC libraries to the Linux host
 
@@ -110,6 +110,15 @@ $ du -ks hello-world-windows-x86_64.exe
 
 $ file hello-world-windows-x86_64.exe
 hello-world-windows-x86_64.exe: PE32+ executable (console) x86-64, for MS Windows
+
+$ /usr/bin/x86_64-w64-mingw32-objdump -x hello-world-windows-x86_64.exe | grep -E '^\s*DLL Name'
+        DLL Name: KERNEL32.dll
+        DLL Name: VCRUNTIME140.dll
+        DLL Name: api-ms-win-crt-runtime-l1-1-0.dll
+        DLL Name: api-ms-win-crt-stdio-l1-1-0.dll
+        DLL Name: api-ms-win-crt-math-l1-1-0.dll
+        DLL Name: api-ms-win-crt-locale-l1-1-0.dll
+        DLL Name: api-ms-win-crt-heap-l1-1-0.dll
 ```
 
 ```powershell
@@ -153,6 +162,9 @@ $ du -ks hello-world-windows-x86_64.exe
 
 $ file hello-world-windows-x86_64.exe
 hello-world-windows-x86_64.exe: PE32+ executable (console) x86-64, for MS Windows
+
+$ /usr/bin/x86_64-w64-mingw32-objdump -x hello-world-windows-x86_64.exe | grep -E '^\s*DLL Name'
+        DLL Name: KERNEL32.dll
 ```
 
 ```powershell
