@@ -20,7 +20,6 @@ sudo apt-get install -y --no-install-recommends \
     binutils-aarch64-linux-gnu \
     binutils-arm-linux-gnueabihf \
     binutils-mips64-linux-gnuabi64 \
-    binutils-mips64el-linux-gnuabi64 \
     binutils-x86-64-linux-gnu \
     lld-11 \
     musl-tools \
@@ -41,7 +40,6 @@ rustup target add \
     aarch64-unknown-linux-musl \
     arm-unknown-linux-musleabihf \
     mips64-unknown-linux-muslabi64 \
-    mips64el-unknown-linux-muslabi64 \
     wasm32-wasi \
     x86_64-pc-windows-msvc \
     x86_64-unknown-linux-musl
@@ -132,23 +130,6 @@ $ file hello-world-linux-mips64
 hello-world-linux-mips64: ELF 64-bit MSB executable, MIPS, MIPS64 rel2 version 1 (SYSV), statically linked, stripped
 
 $ qemu-mips64-static hello-world-linux-mips64
-Hello, world!
-```
-
-## Linux mips64el
-
-```shell
-$ rustc -C opt-level=3 -C link-arg="-s" \
-    --target=mips64el-unknown-linux-muslabi64 -C linker=mips64el-linux-gnuabi64-ld -o hello-world-linux-mips64el \
-    hello-world.rs
-
-$ du -ks hello-world-linux-mips64el
-440     hello-world-linux-mips64el
-
-$ file hello-world-linux-mips64el
-hello-world-linux-mips64el: ELF 64-bit LSB executable, MIPS, MIPS64 rel2 version 1 (SYSV), statically linked, stripped
-
-$ qemu-mips64el-static hello-world-linux-mips64el
 Hello, world!
 ```
 
