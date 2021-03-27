@@ -73,6 +73,7 @@ Haskell has significant usage in:
 - [What I Wish I Knew When Learning Haskell](http://dev.stephendiehl.com/hask/)
 - [Haskell in Depth](https://livebook.manning.com/book/haskell-in-depth/)
 - [Learn You a Haskell for Great Good!](http://learnyouahaskell.com/chapters)
+- [Real World Haskell](http://book.realworldhaskell.org/read/)
 - [Parallel and Concurrent Programming in Haskell](https://www.oreilly.com/library/view/parallel-and-concurrent/9781449335939/)
 - [Stable Haskell package sets](https://www.stackage.org/)
 - [Hackage: The Haskell Package Repository](http://hackage.haskell.org/)

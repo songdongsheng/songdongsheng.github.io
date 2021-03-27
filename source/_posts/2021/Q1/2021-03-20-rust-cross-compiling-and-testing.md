@@ -20,6 +20,8 @@ sudo apt-get install -y --no-install-recommends \
     binutils-aarch64-linux-gnu \
     binutils-arm-linux-gnueabihf \
     binutils-mips64-linux-gnuabi64 \
+    binutils-riscv64-linux-gnu \
+    binutils-s390x-linux-gnu \
     binutils-x86-64-linux-gnu \
     lld-11 \
     musl-tools \
@@ -39,7 +41,10 @@ rustup update
 rustup target add \
     aarch64-unknown-linux-musl \
     arm-unknown-linux-musleabihf \
+    armv7-unknown-linux-musleabihf \
     mips64-unknown-linux-muslabi64 \
+    riscv64gc-unknown-linux-gnu \
+    s390x-unknown-linux-gnu \
     wasm32-wasi \
     x86_64-pc-windows-msvc \
     x86_64-unknown-linux-musl
@@ -75,7 +80,7 @@ wasmtime 0.25.0
 ## Hello World
 
 ```bash
-cat << EOF > hello-world.rs
+$ cat << EOF > hello-world.rs
 fn main() {
     println!("Hello, world!");
 }
@@ -116,6 +121,23 @@ $ qemu-arm-static hello-world-linux-armhf
 Hello, world!
 ```
 
+## Linux armv7
+
+```shell
+$ rustc -C opt-level=3 -C link-arg="-s" \
+    --target=armv7-unknown-linux-musleabihf -C linker=arm-linux-gnueabihf-ld -o hello-world-linux-armv7 \
+    hello-world.rs
+
+$ du -ks hello-world-linux-armv7
+276     hello-world-linux-armv7
+
+$ file hello-world-linux-armv7
+hello-world-linux-armv7: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), statically linked, stripped
+
+$ qemu-arm-static hello-world-linux-armv7
+Hello, world!
+```
+
 ## Linux mips64
 
 ```shell
@@ -130,6 +152,40 @@ $ file hello-world-linux-mips64
 hello-world-linux-mips64: ELF 64-bit MSB executable, MIPS, MIPS64 rel2 version 1 (SYSV), statically linked, stripped
 
 $ qemu-mips64-static hello-world-linux-mips64
+Hello, world!
+```
+
+## Linux riscv64
+
+```shell
+$ rustc -C opt-level=3 -C link-arg="-s" \
+    --target=riscv64gc-unknown-linux-gnu -C linker=riscv64-linux-gnu-gcc -o hello-world-linux-riscv64 \
+    hello-world.rs
+
+$ du -ks hello-world-linux-riscv64
+248     hello-world-linux-riscv64
+
+$ file hello-world-linux-riscv64
+hello-world-linux-riscv64: ELF 64-bit LSB pie executable, UCB RISC-V, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-riscv64-lp64d.so.1, BuildID[sha1]=09f924445a178acccd328d89104760203b98dd43, for GNU/Linux 4.15.0, stripped
+
+$ QEMU_LD_PREFIX=/usr/riscv64-linux-gnu/ qemu-riscv64-static ./hello-world-linux-riscv64
+Hello, world!
+```
+
+## Linux s390x
+
+```shell
+$ rustc -C opt-level=3 -C link-arg="-s" \
+    --target=s390x-unknown-linux-gnu -C linker=s390x-linux-gnu-gcc -o hello-world-linux-s390x \
+    hello-world.rs
+
+$ du -ks hello-world-linux-s390x
+380     hello-world-linux-s390x
+
+$ file hello-world-linux-s390x
+hello-world-linux-s390x: ELF 64-bit MSB pie executable, IBM S/390, version 1 (SYSV), dynamically linked, interpreter /lib/ld64.so.1, BuildID[sha1]=313640a3ef84a9f17cba436152349c02c849a1b2, for GNU/Linux 3.2.0, stripped
+
+$ QEMU_LD_PREFIX=/usr/s390x-linux-gnu/ qemu-s390x-static ./hello-world-linux-s390x
 Hello, world!
 ```
 
