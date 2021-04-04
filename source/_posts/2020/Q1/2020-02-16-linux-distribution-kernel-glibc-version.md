@@ -34,12 +34,15 @@ Debian 8                   | 2015-04        | 2.19                  | 3.16
 SUSE 12                    | 2014-10        | 2.22                  | 3.12, 4.4, 4.12
 ubuntu:16.04               | 2016-04        | 2.23                  | 4.4
 Debian 9                   | 2017-06        | 2.24                  | 4.9
-SUSE 15                    | 2018-07        | 2.26                  | 4.12, 5.3
+SUSE 15                    | 2018-07        | 2.26, 2.31 (SP3)      | 4.12, 5.3 (SP2)
 ubuntu:18.04               | 2018-04        | 2.27                  | 4.15
 RHEL/CentOS 8              | 2019-05        | 2.28                  | 4.18
 Debian 10                  | 2019-07        | 2.28                  | 4.19
 ubuntu:20.04               | 2020-04        | 2.30                  | 5.4
+alpine:3.12                | 2020-05        | 1.1.24 - musl         | 5.4
 fedora:33                  | 2020-10        | 2.32                  | 5.8
+alpine:3.13                | 2021-01        | 1.2.2  - musl         | 5.10
+fedora:34                  | 2021-04        | 2.33                  | 5.11
 
 ## docker images
 
@@ -55,8 +58,6 @@ centos                                8                   470671670cac        4 
 debian                                8                   955c8f8160c2        2 weeks ago         129MB
 debian                                9                   92416e205014        2 weeks ago         101MB
 debian                                10                  a8797652cfd9        2 weeks ago         114MB
-registry.access.redhat.com/rhel6      latest              06a6be77b9ea        4 weeks ago         200MB
-registry.access.redhat.com/rhel7      latest              2ef6ad3f3825        3 weeks ago         205MB
 registry.access.redhat.com/ubi7/ubi   latest              74954afdc5e7        3 weeks ago         205MB
 registry.access.redhat.com/ubi8/ubi   latest              fd73e6738a95        3 weeks ago         231MB
 registry.suse.com/suse/sle15          15.1                574954199ba6        2 weeks ago         114MB
