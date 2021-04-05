@@ -52,14 +52,14 @@ Platform Name           | Platform Target       | Support Tier
 
 ```shell
 $ cat << EOF | https_proxy="http://proxy.example.com:8080" aria2c -c -i -
-https://download.freebsd.org/ftp/releases/iso-images/13.0/freebsd-13.0-rc5-amd64-mini-memstick.img
-https://download.freebsd.org/ftp/releases/iso-images/13.0/freebsd-13.0-rc5-arm-armv6-rpi-b.img.xz
-https://download.freebsd.org/ftp/releases/iso-images/13.0/freebsd-13.0-rc5-arm64-aarch64-mini-memstick.img
-https://download.freebsd.org/ftp/releases/iso-images/13.0/freebsd-13.0-rc5-arm64-aarch64-rpi.img.xz
-https://download.freebsd.org/ftp/releases/iso-images/13.0/freebsd-13.0-rc5-riscv-riscv64-mini-memstick.img
-https://download.freebsd.org/ftp/releases/VM-IMAGES/13.0-RC5/riscv64/Latest/FreeBSD-13.0-RC5-riscv-riscv64.qcow2.xz
-https://download.freebsd.org/ftp/releases/VM-IMAGES/13.0-RC5/aarch64/Latest/FreeBSD-13.0-RC5-arm64-aarch64.qcow2.xz
-https://download.freebsd.org/ftp/releases/VM-IMAGES/13.0-RC5/amd64/Latest/FreeBSD-13.0-RC5-amd64.qcow2.xz
+https://download.freebsd.org/ftp/releases/ISO-IMAGES/13.0/FreeBSD-13.0-RELEASE-amd64-mini-memstick.img.xz
+https://download.freebsd.org/ftp/releases/ISO-IMAGES/13.0/FreeBSD-13.0-RELEASE-arm-armv6-RPI-B.img.xz
+https://download.freebsd.org/ftp/releases/ISO-IMAGES/13.0/FreeBSD-13.0-RELEASE-arm64-aarch64-mini-memstick.img.xz
+https://download.freebsd.org/ftp/releases/ISO-IMAGES/13.0/FreeBSD-13.0-RELEASE-arm64-aarch64-RPI.img.xz
+https://download.freebsd.org/ftp/releases/ISO-IMAGES/13.0/FreeBSD-13.0-RELEASE-riscv-riscv64-mini-memstick.img.xz
+https://download.freebsd.org/ftp/releases/VM-IMAGES/13.0-RELEASE/aarch64/Latest/FreeBSD-13.0-RELEASE-arm64-aarch64.qcow2.xz
+https://download.freebsd.org/ftp/releases/VM-IMAGES/13.0-RELEASE/amd64/Latest/FreeBSD-13.0-RELEASE-amd64.qcow2.xz
+https://download.freebsd.org/ftp/releases/VM-IMAGES/13.0-RELEASE/riscv64/Latest/FreeBSD-13.0-RELEASE-riscv-riscv64.qcow2.xz
 EOF
 ```
 

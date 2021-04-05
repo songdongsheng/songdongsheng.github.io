@@ -26,6 +26,70 @@ permalink: prometheus-query-language
 - [PromQL Cheat Sheet](https://promlabs.com/promql-cheat-sheet/)
 - [PromLens - The power tool for querying Prometheus](https://promlens.com/)
 
+## Setup Prometheus
+
+### The Java demo code
+
+```java
+
+    @Scheduled(fixedDelay = 1000)
+    public void simulator() {
+        int[] values = new int[]{100, 300, 400, 1600, 500, 200};
+        Tags[] tagsList = new Tags[]{
+            Tags.of("api", "", "app", ""),
+            Tags.of("api", "bdt-sbi", "app", "bdt"),
+            Tags.of("api", "cp-sbi", "app", "cp"),
+            Tags.of("api", "ee-sbi", "app", "ee"),
+            Tags.of("api", "qos-sbi", "app", "qos"),
+            Tags.of("api", "afi-sbi", "app", "afi")
+        };
+        Random random = new SecureRandom();
+        for (int i = 0; i < 6; i++) {
+            Tags tags = tagsList[i];
+            meterRegistry.counter("api_north_requests_recv_total", tags)
+                .increment(values[i]);
+            meterRegistry.gauge("connected_device_gauge", tags, new AtomicInteger(0))
+                .set(values[i]);
+            Timer.builder("database_access_time").tags(tags)
+                .publishPercentiles(0.75, 0.8, 0.85, 0.9, 0.95, 0.99, 0.999)
+                .publishPercentileHistogram()
+                .minimumExpectedValue(Duration.ofMillis(1))
+                .maximumExpectedValue(Duration.ofSeconds(30))
+                .register(meterRegistry)
+                .record(Duration.ofMillis((int) (random.nextDouble() * 30_000)));
+        }
+    }
+```
+
+### prometheus.yml
+
+```yaml
+global:
+  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+
+# A list of scrape configurations.
+scrape_configs:
+  - job_name: 'prometheus-localhost-9090'
+    static_configs:
+    - targets: ['localhost:9090']
+
+  - job_name: 'simulator-localhost-8181'
+    static_configs:
+    - targets: ['localhost:8181']
+```
+
+### Start Java service and Prometheus
+
+```shell
+java -jar /path/to/java/service/jar &
+
+prometheus --web.enable-admin-api \
+  --storage.tsdb.retention.time=3d \
+  --storage.tsdb.retention.size=512MB \
+  --storage.tsdb.path=data/
+```
+
 ## Querying Prometheus status
 
 ### Querying Prometheus config

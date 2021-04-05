@@ -26,7 +26,7 @@ x86\_64-linux-gnu-gcc            | OK            | OK    | Linux 3.2     | GLIBC
 
 ## Hello World
 
-```C
+```shell
 $ cat << EOF > HelloWorld.c
 # include <stdio.h>
 
@@ -41,7 +41,7 @@ EOF
 ## Static PIE Generation
 
 ```bash
-$ export HARDENING_FLAGS=" -D_FORTIFY_SOURCE=2 -D_GLIBCXX_ASSERTIONS -Wall -Wextra -Wformat=2 -Wdate-time -Werror=format-security -Wstack-protector -fasynchronous-unwind-tables -fexceptions -fstack-protector-strong -fstack-clash-protection -pedantic -Wl,-z,noexecstack -Wl,-z,now -Wl,-z,relro -Wl,-z,defs -fPIE"
+$ export HARDENING_FLAGS=" -D_FORTIFY_SOURCE=2 -D_GLIBCXX_ASSERTIONS -Wall -Wextra -Wformat=2 -Wdate-time -Werror=format-security -Wstack-protector -fasynchronous-unwind-tables -fexceptions -fstack-protector-strong -fstack-clash-protection -pedantic -z defs -z noexecstack -z now -z relro -z text -fPIE"
 
 $ x86_64-linux-gnu-gcc -O2 -march=haswell -mavx2 -std=c11 ${HARDENING_FLAGS} -pie -s -o HelloWorld HelloWorld.c
 
@@ -94,7 +94,7 @@ Symbol table '.dynsym' contains 8 entries:
      7: 0000000000000624    32 FUNC    GLOBAL DEFAULT   12 main
 ```
 
-## Notes on Build Hardening 
+## Notes on Build Hardening
 
 ### Stack guards
 
@@ -178,13 +178,14 @@ In addition, the aggressive settings of **-O3 have lead to security problems ove
 
 ### Summary
 
-If you are building code using gcc on Linux, here are the options/flags you should use: `-Wall -Wformat -Wformat-security -Werror=format-security -fstack-protector -pie -fPIE -D_FORTIFY_SOURCE=2 -O2 -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack`
+If you are building code using gcc on Linux, here are the options/flags you should use: `-Wall -Wformat -Wformat-security -Werror=format-security -fstack-protector -pie -fPIE -D_FORTIFY_SOURCE=2 -O2 -z defs -z noexecstack -z now -z relro -z text`
 
-If you are more paranoid, these options would be: `-O2 -D_FORTIFY_SOURCE=2 -Wall -Wextra -Wformat=2 -Wformat-security -Wstack-protector -Wdate-time -Werror -pedantic -fstack-protector-all -fstack-clash-protection -fPIE -pie -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack`
+If you are more paranoid, these options would be: `-O2 -D_FORTIFY_SOURCE=2 -Wall -Wextra -Wformat=2 -Wformat-security -Wstack-protector -Wdate-time -Werror -pedantic -fstack-protector-all -fstack-clash-protection -fPIE -pie -z defs -z noexecstack -z now -z relro -z text`
 
 ## Hardening Check
 
 ```shell
+# hardening-check HelloWorld
 HelloWorld:
  Position Independent Executable: yes
  Stack protected: yes
