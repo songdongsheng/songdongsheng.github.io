@@ -217,10 +217,10 @@ allow-newer: true
 
 ghc-options:
   # -Werror -Wall -threaded -fPIC -static -optl-s -optl-static -optl-pthread
-  # -optc-O3 -optc-ffast-math -funfolding-use-threshold=16
-  "$locals": -Wall -fPIC
-  "$targets": -Wall -fPIC
-  "$everything": -O2 -threaded
+  #     -optc-O3 -optc-ffast-math -funfolding-use-threshold=16
+  # "$locals": -O2 -threaded -Wall -fPIC
+  # "$targets": -O2 -threaded -Wall -fPIC
+  "$everything": -O2 -threaded -Wall -fPIC
 
 connection-count: 16
 
