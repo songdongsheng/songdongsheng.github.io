@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>TCC principle | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>TCC principle</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2019年04月26日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Architecture/">Architecture</a>/ <a class="article-category-link" href="/categories/Architecture/TCC/">TCC</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tag" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Architecture" class='tag'>Architecture</a>
+
+
+            
+          </div>
+          <h1 id="TCC-principle"><a href="#TCC-principle" class="headerlink" title="TCC principle"></a>TCC principle</h1><h2 id="In-a-nutshell"><a href="#In-a-nutshell" class="headerlink" title="In a nutshell"></a>In a nutshell</h2><ol>
+<li><p>Try: 尝试执行业务</p>
+<ul>
+<li>完成所有业务检查(一致性)</li>
+<li>预留必须业务资源(准隔离性)</li>
+<li>Autonomous Timeout and Cancel</li>
+</ul>
+</li>
+<li><p>Confirm: 确认执行业务</p>
+<ul>
+<li>真正执行业务</li>
+<li>不作任何业务检查</li>
+<li>只使用 Try 阶段预留的业务资源</li>
+<li>操作满足幂等性</li>
+</ul>
+</li>
+<li><p>Cancel: 取消执行业务</p>
+<ul>
+<li>释放 Try 阶段预留的业务资源</li>
+<li>操作满足幂等性</li>
+</ul>
+</li>
+</ol>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">TccService</span><span class="token operator">&lt;</span>P <span class="token keyword">extends</span> <span class="token class-name">TccRequest</span><span class="token operator">&lt;</span>R<span class="token operator">></span><span class="token punctuation">,</span> R <span class="token keyword">extends</span> <span class="token class-name">Serializable</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    R <span class="token function">doTry</span><span class="token punctuation">(</span>P param<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">void</span> <span class="token function">doConfirm</span><span class="token punctuation">(</span>P param<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">void</span> <span class="token function">doCancel</span><span class="token punctuation">(</span>P param<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Participant"><a href="#Participant" class="headerlink" title="Participant"></a>Participant</h2><ol>
+<li><p>Try: ParticipantLink</p>
+<pre class="line-numbers language-json"><code class="language-json">    <span class="token punctuation">{</span>
+        <span class="token property">"participantLink"</span><span class="token operator">:</span>
+        <span class="token punctuation">{</span>
+            <span class="token property">"uri"</span><span class="token operator">:</span><span class="token string">"http://www.example.com/v1/tcc/tx/782973177474060290"</span><span class="token punctuation">,</span>
+            <span class="token property">"expires"</span><span class="token operator">:</span><span class="token string">"2017-10-24T10:20:12Z"</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>Confirm</p>
+<pre><code>PUT /v1/tcc/tx/782973177474060290 HTTP/1.1
+Host: www.example.com
+Accept: application/tcc
+
+HTTP/1.1 204 No Content
+HTTP/1.1 404 Not Found
+</code></pre>
+</li>
+<li><p>Cancel</p>
+<pre><code>DELETE /v1/tcc/tx/782973177474060290 HTTP/1.1
+Host: www.example.com
+Accept: application/tcc
+
+HTTP/1.1 204 No Content
+</code></pre>
+</li>
+<li><p>URL</p>
+<pre><code>^/v1/tcc/bo/{type}       POST
+^/v1/tcc/bo/{type}/{id}  PATCH|PUT|DELETE
+^/v1/tcc/tx/{txid}       PUT to confirm, DELETE to cancel
+</code></pre>
+</li>
+</ol>
+<h2 id="Coordinator"><a href="#Coordinator" class="headerlink" title="Coordinator"></a>Coordinator</h2><ol>
+<li><p>Confirm all participants when asked to do so.</p>
+</li>
+<li><p>Recover after failures during the confirmation phase.</p>
+</li>
+<li><p>Allow cancellation of all participants when asked to do so.</p>
+</li>
+<li><p>URL</p>
+<pre><code>^/v1/tcc/dtc/confirm     PUT to confirm
+^/v1/tcc/dtc/cancel      DELETE to cancel
+</code></pre>
+</li>
+</ol>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#TCC-principle"><span class="toc-number">1.</span> <span class="toc-text">TCC principle</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#In-a-nutshell"><span class="toc-number">1.1.</span> <span class="toc-text">In a nutshell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Participant"><span class="toc-number">1.2.</span> <span class="toc-text">Participant</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Coordinator"><span class="toc-number">1.3.</span> <span class="toc-text">Coordinator</span></a></li></ol></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

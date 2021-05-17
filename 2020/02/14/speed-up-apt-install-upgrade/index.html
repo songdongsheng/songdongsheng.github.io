@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Speed up apt installation or upgrade | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>Speed up apt installation or upgrade</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2020年02月14日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/Linux/">Linux</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tag" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+
+            
+          </div>
+          <h1 id="Speed-up-apt-installation-or-upgrade"><a href="#Speed-up-apt-installation-or-upgrade" class="headerlink" title="Speed up apt installation or upgrade"></a>Speed up apt installation or upgrade</h1><h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><ol>
+<li>Get URIs of fetching files</li>
+<li>Download them by aria2c to utilize maximum bandwidth</li>
+<li>Install packages from the cache</li>
+</ol>
+<h2 id="Script-apt-fast-sh"><a href="#Script-apt-fast-sh" class="headerlink" title="Script (apt-fast.sh)"></a>Script (apt-fast.sh)</h2><pre class="line-numbers language-bash"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
+
+<span class="token punctuation">[</span> <span class="token string">"<span class="token variable"><span class="token variable">`</span><span class="token function">whoami</span><span class="token variable">`</span></span>"</span> <span class="token operator">=</span> root <span class="token punctuation">]</span> <span class="token operator">||</span> <span class="token function">exec</span> <span class="token function">sudo</span> <span class="token function">bash</span> <span class="token string">"<span class="token variable">$0</span>"</span> <span class="token string">"<span class="token variable">$@</span>"</span>
+
+<span class="token function">which</span> aria2c <span class="token operator">&amp;</span><span class="token operator">></span>/dev/null  <span class="token operator">||</span> <span class="token function">apt-get</span> <span class="token function">install</span> -y --install-recommends aria2
+
+<span class="token keyword">if</span> <span class="token keyword">echo</span> <span class="token string">"<span class="token variable">$@</span>"</span> <span class="token operator">|</span> <span class="token function">grep</span> -q <span class="token string">"upgrade\|install\|dist-upgrade"</span><span class="token punctuation">;</span> <span class="token keyword">then</span>
+    <span class="token function">cd</span> /var/cache/apt/archives/
+
+    deb_file_list<span class="token operator">=</span><span class="token variable"><span class="token variable">`</span>mktemp<span class="token variable">`</span></span>
+    <span class="token function">trap</span> <span class="token string">"rm -f <span class="token variable">${deb_file_list}</span>"</span> EXIT
+    <span class="token function">apt-get</span> -y --print-uris <span class="token variable">$@</span> <span class="token operator">|</span> <span class="token function">egrep</span> -o -e <span class="token string">"(http|https)://[^\']+"</span> <span class="token operator">></span> <span class="token variable">${deb_file_list}</span>
+    <span class="token function">cat</span> <span class="token variable">${deb_file_list}</span>
+
+    aria2c -c -j 50 -x 5 -k 1m \
+        --connect-timeout<span class="token operator">=</span>15 --timeout<span class="token operator">=</span>15 --max-tries<span class="token operator">=</span>0 \
+        --file-allocation<span class="token operator">=</span>falloc --input-file<span class="token operator">=</span><span class="token variable">${deb_file_list}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token string">"<span class="token variable">$?</span>"</span> <span class="token operator">=</span> <span class="token string">"0"</span> <span class="token punctuation">]</span> <span class="token punctuation">;</span> <span class="token keyword">then</span>
+        <span class="token function">apt-get</span> <span class="token variable">$@</span> -y
+    <span class="token keyword">else</span>
+        <span class="token function">find</span> /var/cache/apt/ -name <span class="token string">"*.deb"</span> -or -name <span class="token string">"*.deb.aria2"</span> <span class="token operator">|</span> <span class="token function">xargs</span> -n 1 -r <span class="token function">rm</span> --
+    <span class="token keyword">fi</span>
+<span class="token keyword">else</span>
+    <span class="token function">apt-get</span> <span class="token variable">$@</span>
+<span class="token keyword">fi</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h2><pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">bash</span> apt-fast.sh upgrade
+
+<span class="token function">bash</span> apt-fast.sh dist-upgrade
+
+<span class="token function">bash</span> apt-fast.sh <span class="token function">install</span> mssql-server mssql-server-fts mssql-tools
+
+<span class="token comment" spellcheck="true"># https://docs.microsoft.com/en-us/sql/sql-server/</span>
+
+<span class="token function">sudo</span> /opt/mssql/bin/mssql-conf setup
+
+systemctl status mssql-server --no-pager
+
+<span class="token keyword">echo</span> <span class="token string">'export PATH="<span class="token variable">$PATH</span>:/opt/mssql-tools/bin"'</span> <span class="token operator">>></span> ~/.bashrc
+<span class="token function">source</span> ~/.bashrc
+
+sqlcmd -S localhost -U SA -P <span class="token string">'&lt;YourPassword>'</span>
+
+SELECT Name FROM sys.databases<span class="token punctuation">;</span>
+CREATE DATABASE TestDB<span class="token punctuation">;</span>
+USE TestDB<span class="token punctuation">;</span>
+GO
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Speed-up-apt-installation-or-upgrade"><span class="toc-number">1.</span> <span class="toc-text">Speed up apt installation or upgrade</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Overview"><span class="toc-number">1.1.</span> <span class="toc-text">Overview</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Script-apt-fast-sh"><span class="toc-number">1.2.</span> <span class="toc-text">Script (apt-fast.sh)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Usage"><span class="toc-number">1.3.</span> <span class="toc-text">Usage</span></a></li></ol></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>CQRS LDC | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>CQRS LDC</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2019年10月20日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/CQRS/">CQRS</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tag" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#CQRS" class='tag'>CQRS</a>
+
+
+            
+          </div>
+          <h1 id="CQRS-LDC"><a href="#CQRS-LDC" class="headerlink" title="CQRS LDC"></a>CQRS LDC</h1><pre class="line-numbers language-sql"><code class="language-sql">    <span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> <span class="token keyword">IF</span> <span class="token operator">NOT</span> <span class="token keyword">EXISTS</span> CQRS_LDC_EVENT <span class="token punctuation">(</span>
+        ID <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">36</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+        AGGREGATE_ID <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">36</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+        REVISION <span class="token keyword">BIGINT</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+        <span class="token comment" spellcheck="true">-- ENTINY_ID VARCHAR(36) NOT NULL,</span>
+        <span class="token comment" spellcheck="true">-- ENTINY_TYPE_ID VARCHAR(64) NOT NULL,</span>
+
+        EVENT JSON <span class="token operator">NOT</span> <span class="token boolean">NULL</span> <span class="token keyword">CHECK</span> <span class="token punctuation">(</span>JSON_VALID<span class="token punctuation">(</span>EVENT<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token keyword">TIMESTAMP</span> <span class="token keyword">DATETIME</span><span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span> <span class="token keyword">DEFAULT</span> LOCALTIMESTAMP<span class="token punctuation">,</span>
+
+     <span class="token comment" spellcheck="true">-- EVENT JSONB NOT NULL,</span>
+     <span class="token comment" spellcheck="true">-- EVENT JSON NOT NULL CHECK (JSON_VALID(EVENT)),</span>
+     <span class="token comment" spellcheck="true">-- EVENT NVARCHAR(MAX) NOT NULL CHECK (ISJSON(EVENT)=1)</span>
+     <span class="token comment" spellcheck="true">-- TIMESTAMP TIMESTAMP(6) NOT NULL DEFAULT LOCALTIMESTAMP,</span>
+     <span class="token comment" spellcheck="true">-- TIMESTAMP DATETIME(6) NOT NULL DEFAULT LOCALTIMESTAMP,</span>
+     <span class="token comment" spellcheck="true">-- TIMESTAMP DATETIME2(6) NOT NULL DEFAULT SYSDATETIME,</span>
+
+        IS_PUBLISHED <span class="token keyword">BOOLEAN</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span> <span class="token keyword">DEFAULT</span> <span class="token boolean">TRUE</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">-- BOOLEAN, BIT</span>
+        CORRELATION_ID <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">36</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+
+        <span class="token keyword">CONSTRAINT</span> CQRS_LDC_EVENT_PK <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span><span class="token punctuation">(</span>ID<span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token keyword">CONSTRAINT</span> CQRS_LDC_EVENT_AGGREGATE_ID_REVISION <span class="token keyword">UNIQUE</span> <span class="token punctuation">(</span>AGGREGATE_ID<span class="token punctuation">,</span> REVISION<span class="token punctuation">)</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> <span class="token keyword">IF</span> <span class="token operator">NOT</span> <span class="token keyword">EXISTS</span> CQRS_LDC_SNAPSHOT <span class="token punctuation">(</span>
+        ID <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">36</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+        AGGREGATE_ID <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">36</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+        REVISION <span class="token keyword">BIGINT</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+
+        STATE JSONB <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+        <span class="token keyword">TIMESTAMP</span> <span class="token keyword">TIMESTAMP</span><span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span> <span class="token keyword">DEFAULT</span> LOCALTIMESTAMP<span class="token punctuation">,</span>
+
+      <span class="token comment" spellcheck="true">--STATE JSONB NOT NULL,</span>
+      <span class="token comment" spellcheck="true">--STATE JSON NOT NULL CHECK (JSON_VALID(STATE)),</span>
+      <span class="token comment" spellcheck="true">--STATE NVARCHAR(MAX) NOT NULL CHECK (ISJSON(STATE)=1)</span>
+      <span class="token comment" spellcheck="true">--TIMESTAMP TIMESTAMP(6) NOT NULL DEFAULT LOCALTIMESTAMP,</span>
+      <span class="token comment" spellcheck="true">--TIMESTAMP DATETIME(6) NOT NULL DEFAULT LOCALTIMESTAMP,</span>
+      <span class="token comment" spellcheck="true">--TIMESTAMP DATETIME2(6) NOT NULL DEFAULT SYSDATETIME,</span>
+
+        <span class="token keyword">CONSTRAINT</span> CQRS_LDC_SNAPSHOT_PK <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span><span class="token punctuation">(</span>ID<span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token keyword">CONSTRAINT</span> CQRS_LDC_SNAPSHOT_AGGREGATE_ID_REVISION <span class="token keyword">UNIQUE</span> <span class="token punctuation">(</span>AGGREGATE_ID<span class="token punctuation">,</span> REVISION<span class="token punctuation">)</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CQRS-LDC"><span class="toc-number">1.</span> <span class="toc-text">CQRS LDC</span></a></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

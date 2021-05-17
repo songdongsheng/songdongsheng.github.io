@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>REST API Error Handling Best Practices | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>REST API Error Handling Best Practices</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2019年09月21日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/API/">API</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tag" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#REST" class='tag'>REST</a>
+
+
+            
+          </div>
+          <h1 id="REST-API-Error-Handling-Best-Practices"><a href="#REST-API-Error-Handling-Best-Practices" class="headerlink" title="REST API Error Handling Best Practices"></a>REST API Error Handling Best Practices</h1><h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><ul>
+<li><a href="http://jsonapi.org/format/" target="_blank" rel="noopener">http://jsonapi.org/format/</a></li>
+<li><a href="http://json-schema.org/" target="_blank" rel="noopener">http://json-schema.org</a></li>
+<li><a href="http://www.jsonrpc.org/specification" target="_blank" rel="noopener">http://www.jsonrpc.org/specification</a></li>
+<li><a href="https://apigee.com/about/blog/technology/restful-api-design-what-about-errors" target="_blank" rel="noopener">https://apigee.com/about/blog/technology/restful-api-design-what-about-errors</a></li>
+<li><a href="https://blog.jayway.com/2014/10/19/spring-boot-error-responses/" target="_blank" rel="noopener">https://blog.jayway.com/2014/10/19/spring-boot-error-responses/</a></li>
+<li><a href="https://docs.microsoft.com/en-us/rest/api/storageservices/common-rest-api-error-codes" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/rest/api/storageservices/common-rest-api-error-codes</a></li>
+<li><a href="https://google.github.io/styleguide/jsoncstyleguide.xml" target="_blank" rel="noopener">https://google.github.io/styleguide/jsoncstyleguide.xml</a></li>
+<li><a href="https://nordicapis.com/best-practices-api-error-handling/" target="_blank" rel="noopener">https://nordicapis.com/best-practices-api-error-handling/</a></li>
+<li><a href="https://tools.ietf.org/html/rfc7807" target="_blank" rel="noopener">https://tools.ietf.org/html/rfc7807</a></li>
+<li><a href="https://www.petrikainulainen.net/programming/spring-framework/spring-from-the-trenches-adding-validation-to-a-rest-api/" target="_blank" rel="noopener">https://www.petrikainulainen.net/programming/spring-framework/spring-from-the-trenches-adding-validation-to-a-rest-api/</a></li>
+<li><a href="https://www.restcase.com/" target="_blank" rel="noopener">https://www.restcase.com</a></li>
+</ul>
+<h1 id="HTTP-status"><a href="#HTTP-status" class="headerlink" title="HTTP status"></a>HTTP status</h1><ul>
+<li><a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/List_of_HTTP_status_codes</a></li>
+<li>200 OK</li>
+<li>201 Created</li>
+<li>202 Accepted</li>
+<li>204 No Content</li>
+<li>301 Moved Permanently</li>
+<li>304 Not Modified</li>
+<li>307 Temporary Redirect</li>
+<li>308 Permanent Redirect</li>
+<li>400 Bad Request</li>
+<li>401 Unauthorized</li>
+<li>403 Forbidden</li>
+<li>404 NOT FOUND</li>
+<li>405 Method Not Allowed</li>
+<li>409 Conflict</li>
+<li>410 Gone</li>
+<li>412 Precondition Failed</li>
+<li>429 Too Many Requests</li>
+<li>500 Internal Server Error</li>
+<li>501 Not Implemented</li>
+<li>502 Bad Gateway</li>
+<li>503 Service Unavailable</li>
+<li>508 Loop Detected</li>
+</ul>
+<h1 id="Sample"><a href="#Sample" class="headerlink" title="Sample"></a>Sample</h1><pre><code>   HTTP/1.1 403 Forbidden
+   Content-Type: application/problem+json
+   Content-Language: en
+
+   {
+    &quot;timestamp&quot;:&quot;2019-09-21 13:01:59.667+08:00&quot;,
+    &quot;path&quot;:&quot;/api/books/12345&quot;
+    &quot;status&quot; : 403,
+    &quot;code&quot; : 123,
+    &quot;error&quot;:&quot;NoHostAvailable&quot;,
+    &quot;message&quot;: &quot;Your current balance is 30, but that costs 50.&quot;
+   }
+</code></pre>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#REST-API-Error-Handling-Best-Practices"><span class="toc-number">1.</span> <span class="toc-text">REST API Error Handling Best Practices</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#References"><span class="toc-number">2.</span> <span class="toc-text">References</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HTTP-status"><span class="toc-number">3.</span> <span class="toc-text">HTTP status</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Sample"><span class="toc-number">4.</span> <span class="toc-text">Sample</span></a></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

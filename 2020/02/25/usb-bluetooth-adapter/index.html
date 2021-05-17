@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>USB Bluetooth Adaper | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>USB Bluetooth Adaper</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2020年02月25日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Trends/">Trends</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tag" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Trends" class='tag'>Trends</a>
+
+
+            
+          </div>
+          <h1 id="USB-Bluetooth-Adaper"><a href="#USB-Bluetooth-Adaper" class="headerlink" title="USB Bluetooth Adaper"></a>USB Bluetooth Adaper</h1><h2 id="Introductions"><a href="#Introductions" class="headerlink" title="Introductions"></a>Introductions</h2><ul>
+<li><a href="https://en.wikipedia.org/wiki/Bluetooth" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Bluetooth</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Bluetooth/_Low/_Energy" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Bluetooth\_Low\_Energy</a></li>
+<li><a href="https://www.broadcom.com/products/wireless/wireless-lan-bluetooth" target="_blank" rel="noopener">https://www.broadcom.com/products/wireless/wireless-lan-bluetooth</a></li>
+<li><a href="https://www.qualcomm.com/products/csr8510" target="_blank" rel="noopener">https://www.qualcomm.com/products/csr8510</a></li>
+<li><a href="http://www.barrot.com.cn/a/BR200Xxilie/12.html" target="_blank" rel="noopener">http://www.barrot.com.cn/a/BR200Xxilie/12.html</a></li>
+<li><a href="https://www.lulian.cn/product/list-160-cn.html" target="_blank" rel="noopener">https://www.lulian.cn/product/list-160-cn.html</a></li>
+<li><a href="https://bugzilla.kernel.org/show/_bug.cgi?id=60824" target="_blank" rel="noopener">https://bugzilla.kernel.org/show\_bug.cgi?id=60824</a></li>
+<li><a href="https://blog.csdn.net/xubin341719/article/details/38145507" target="_blank" rel="noopener">https://blog.csdn.net/xubin341719/article/details/38145507</a></li>
+<li><a href="https://blog.csdn.net/xubin341719/article/details/38228705" target="_blank" rel="noopener">https://blog.csdn.net/xubin341719/article/details/38228705</a></li>
+<li><a href="https://blog.csdn.net/xubin341719/article/details/38303881" target="_blank" rel="noopener">https://blog.csdn.net/xubin341719/article/details/38303881</a></li>
+<li><a href="https://blog.csdn.net/xubin341719/article/details/38305331" target="_blank" rel="noopener">https://blog.csdn.net/xubin341719/article/details/38305331</a></li>
+<li><a href="https://blog.csdn.net/xubin341719/article/details/38335533" target="_blank" rel="noopener">https://blog.csdn.net/xubin341719/article/details/38335533</a></li>
+</ul>
+<p>国内市场上的 USB 蓝牙适配器，大多数基于 CSR8510 芯片，少数采用 BCM20702 芯片，都是蓝牙 4.0 产品。基于 BR8041 芯片的低端产品从 2019 下半年开始陆续出现。</p>
+<h2 id="BR8041"><a href="#BR8041" class="headerlink" title="BR8041"></a>BR8041</h2><p>百瑞互联的 BR8041 于 2019 年 1 月通过了 SIG Bluetooth 5.0 的认证。BR8041 声称兼容 BCM20702 和 CSR8510，并且因为没有官方驱动，所以通常被识别为 CSR8510。它与 Linux 的兼容性很差，个人尝试不成功，也没有搜索到成功案例。在 Windows 10 下，使用系统内置驱动工作不够稳定，会频繁断开，或者报告驱动程序错误。</p>
+<p>代表产品是胜为的 UDC-328B，19.9 包邮。</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># btmon</span>
+
+<span class="token operator">&lt;</span> HCI Command: Delete Stored Link Key <span class="token punctuation">(</span>0x03<span class="token operator">|</span>0x0012<span class="token punctuation">)</span> plen 7                 <span class="token comment" spellcheck="true">#59 [hci0] 47.447047</span>
+        Address: 00:00:00:00:00:00 <span class="token punctuation">(</span>OUI 00-00-00<span class="token punctuation">)</span>
+        Delete all: 0x01
+<span class="token operator">></span> HCI Event: Command Complete <span class="token punctuation">(</span>0x0e<span class="token punctuation">)</span> plen 6                                <span class="token comment" spellcheck="true">#60 [hci0] 47.447946</span>
+      Delete Stored Link Key <span class="token punctuation">(</span>0x03<span class="token operator">|</span>0x0012<span class="token punctuation">)</span> ncmd 1
+        Status: Unsupported Feature or Parameter Value <span class="token punctuation">(</span>0x11<span class="token punctuation">)</span>
+        Num keys: 0
+<span class="token operator">=</span> Close Index: 00:1A:7D:DA:71:11                                               <span class="token punctuation">[</span>hci0<span class="token punctuation">]</span> 47.448017
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="CSR8510-UGREEN-CM109"><a href="#CSR8510-UGREEN-CM109" class="headerlink" title="CSR8510 - UGREEN CM109"></a>CSR8510 - UGREEN CM109</h2><h3 id="Specifications"><a href="#Specifications" class="headerlink" title="Specifications"></a>Specifications</h3><ul>
+<li>Bluetooth adapter 30722</li>
+<li>CMIIT ID: 2017DP1793</li>
+<li>产品型号：CM109</li>
+<li>产品尺寸：L27.5xW16xH7.5(mm)</li>
+<li>芯片型号：CSR8510</li>
+<li>蓝牙版本：4.0</li>
+<li>传输频率：2.4GHz</li>
+<li>传输速率：3Mbps</li>
+<li>无障碍传输距离：20m</li>
+<li>USB 接口：2.0 A 公接口</li>
+<li>协议：HFP 1.5，HSP 1.2，AVRCP 1.4，A2DP 1.2，FTB 1.1</li>
+<li>支持 Windows XP，Vista 和 7/8/10</li>
+</ul>
+<h3 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h3><h4 id="dmesg"><a href="#dmesg" class="headerlink" title="dmesg"></a>dmesg</h4><pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">dmesg</span> <span class="token operator">|</span> <span class="token function">grep</span> -i Bluetooth
+<span class="token punctuation">[</span>  223.346181<span class="token punctuation">]</span> usb 2-8: new full-speed USB device number 5 using xhci_hcd
+<span class="token punctuation">[</span>  223.588222<span class="token punctuation">]</span> usb 2-8: New USB device found, idVendor<span class="token operator">=</span>0a12, idProduct<span class="token operator">=</span>0001, bcdDevice<span class="token operator">=</span>88.91
+<span class="token punctuation">[</span>  223.588227<span class="token punctuation">]</span> usb 2-8: New USB device strings: Mfr<span class="token operator">=</span>0, Product<span class="token operator">=</span>2, SerialNumber<span class="token operator">=</span>0
+<span class="token punctuation">[</span>  223.588229<span class="token punctuation">]</span> usb 2-8: Product: CSR8510 A10
+<span class="token punctuation">[</span>  223.728329<span class="token punctuation">]</span> alg: No <span class="token function">test</span> <span class="token keyword">for</span> fips<span class="token punctuation">(</span>ansi_cprng<span class="token punctuation">)</span> <span class="token punctuation">(</span>fips_ansi_cprng<span class="token punctuation">)</span>
+<span class="token punctuation">[</span>  223.783748<span class="token punctuation">]</span> Bluetooth: Core ver 2.22
+<span class="token punctuation">[</span>  223.783765<span class="token punctuation">]</span> NET: Registered protocol family 31
+<span class="token punctuation">[</span>  223.783765<span class="token punctuation">]</span> Bluetooth: HCI device and connection manager initialized
+<span class="token punctuation">[</span>  223.783768<span class="token punctuation">]</span> Bluetooth: HCI socket layer initialized
+<span class="token punctuation">[</span>  223.783769<span class="token punctuation">]</span> Bluetooth: L2CAP socket layer initialized
+<span class="token punctuation">[</span>  223.783773<span class="token punctuation">]</span> Bluetooth: SCO socket layer initialized
+<span class="token punctuation">[</span>  223.815292<span class="token punctuation">]</span> usbcore: registered new interface driver btusb
+<span class="token punctuation">[</span>  224.067336<span class="token punctuation">]</span> Bluetooth: BNEP <span class="token punctuation">(</span>Ethernet Emulation<span class="token punctuation">)</span> ver 1.3
+<span class="token punctuation">[</span>  224.067337<span class="token punctuation">]</span> Bluetooth: BNEP filters: protocol multicast
+<span class="token punctuation">[</span>  224.067340<span class="token punctuation">]</span> Bluetooth: BNEP socket layer initialized
+<span class="token punctuation">[</span>  224.113811<span class="token punctuation">]</span> Bluetooth: RFCOMM TTY layer initialized
+<span class="token punctuation">[</span>  224.113818<span class="token punctuation">]</span> Bluetooth: RFCOMM socket layer initialized
+<span class="token punctuation">[</span>  224.113825<span class="token punctuation">]</span> Bluetooth: RFCOMM ver 1.11
+
+<span class="token punctuation">[</span>  265.491088<span class="token punctuation">]</span> usb 2-8: USB disconnect, device number 5
+
+<span class="token punctuation">[</span>  268.881973<span class="token punctuation">]</span> usb 2-8: new full-speed USB device number 6 using xhci_hcd
+<span class="token punctuation">[</span>  269.131874<span class="token punctuation">]</span> usb 2-8: New USB device found, idVendor<span class="token operator">=</span>0a12, idProduct<span class="token operator">=</span>0001, bcdDevice<span class="token operator">=</span>88.91
+<span class="token punctuation">[</span>  269.131880<span class="token punctuation">]</span> usb 2-8: New USB device strings: Mfr<span class="token operator">=</span>0, Product<span class="token operator">=</span>2, SerialNumber<span class="token operator">=</span>0
+<span class="token punctuation">[</span>  269.131883<span class="token punctuation">]</span> usb 2-8: Product: CSR8510 A10
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="lsusb"><a href="#lsusb" class="headerlink" title="lsusb"></a>lsusb</h4><pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># lsusb</span>
+Bus 004 Device 002: ID 8087:8000 Intel Corp.
+Bus 004 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 001 Device 002: ID 8087:8008 Intel Corp.
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 003 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 002 Device 006: ID 0a12:0001 Cambridge Silicon Radio, Ltd Bluetooth Dongle <span class="token punctuation">(</span>HCI mode<span class="token punctuation">)</span>
+Bus 002 Device 002: ID 04ca:0061 Lite-On Technology Corp.
+Bus 002 Device 004: ID 1c4f:0002 SiGma Micro Keyboard TRACER Gamma Ivory
+Bus 002 Device 003: ID 148f:5572 Ralink Technology, Corp. RT5572 Wireless Adapter
+Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># usb-devices | awk '/0a12/' RS=</span>
+T:  Bus<span class="token operator">=</span>02 Lev<span class="token operator">=</span>01 Prnt<span class="token operator">=</span>01 Port<span class="token operator">=</span>07 Cnt<span class="token operator">=</span>04 Dev<span class="token comment" spellcheck="true">#=  6 Spd=12  MxCh= 0</span>
+D:  Ver<span class="token operator">=</span> 2.00 Cls<span class="token operator">=</span>e0<span class="token punctuation">(</span>wlcon<span class="token punctuation">)</span> Sub<span class="token operator">=</span>01 Prot<span class="token operator">=</span>01 MxPS<span class="token operator">=</span>64 <span class="token comment" spellcheck="true">#Cfgs=  1</span>
+P:  Vendor<span class="token operator">=</span>0a12 ProdID<span class="token operator">=</span>0001 Rev<span class="token operator">=</span>88.91
+S:  Product<span class="token operator">=</span>CSR8510 A10
+C:  <span class="token comment" spellcheck="true">#Ifs= 2 Cfg#= 1 Atr=e0 MxPwr=100mA</span>
+I:  If<span class="token comment" spellcheck="true">#=0x0 Alt= 0 #EPs= 3 Cls=e0(wlcon) Sub=01 Prot=01 Driver=btusb</span>
+I:  If<span class="token comment" spellcheck="true">#=0x1 Alt= 0 #EPs= 2 Cls=e0(wlcon) Sub=01 Prot=01 Driver=btusb</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-bash"><code class="language-bash">lsusb -v -d 0a12:0001
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="hwinfo"><a href="#hwinfo" class="headerlink" title="hwinfo"></a>hwinfo</h4><pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># hwinfo --bluetooth</span>
+01: USB 00.0: 11500 Bluetooth Device
+  <span class="token punctuation">[</span>Created at usb.122<span class="token punctuation">]</span>
+  Unique ID: 1Nxo.nQKjiuCfL84
+  Parent ID: pBe4.2DFUsyrieMD
+  SysFS ID: /devices/pci0000:00/0000:00:14.0/usb2/2-8/2-8:1.0
+  SysFS BusID: 2-8:1.0
+  Hardware Class: bluetooth
+  Model: <span class="token string">"Cambridge Silicon Radio Bluetooth Dongle (HCI mode)"</span>
+  Hotplug: USB
+  Vendor: usb 0x0a12 <span class="token string">"Cambridge Silicon Radio, Ltd"</span>
+  Device: usb 0x0001 <span class="token string">"Bluetooth Dongle (HCI mode)"</span>
+  Revision: <span class="token string">"88.91"</span>
+  Driver: <span class="token string">"btusb"</span>
+  Driver Modules: <span class="token string">"btusb"</span>
+  Speed: 12 Mbps
+  Module Alias: <span class="token string">"usb:v0A12p0001d8891dcE0dsc01dp01icE0isc01ip01in00"</span>
+  Driver Info <span class="token comment" spellcheck="true">#0:</span>
+    Driver Status: btusb is active
+    Driver Activation Cmd: <span class="token string">"modprobe btusb"</span>
+  Config Status: cfg<span class="token operator">=</span>new, avail<span class="token operator">=</span>yes, need<span class="token operator">=</span>no, active<span class="token operator">=</span>unknown
+  Attached to: <span class="token comment" spellcheck="true">#12 (Hub)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="hciconfig"><a href="#hciconfig" class="headerlink" title="hciconfig"></a>hciconfig</h4><pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># hciconfig -a</span>
+hci0:   Type: Primary  Bus: USB
+    BD Address: 00:1A:7D:DA:71:11  ACL MTU: 310:10  SCO MTU: 64:8
+    UP RUNNING
+    RX bytes:682 acl:0 sco:0 events:48 errors:0
+    TX bytes:3163 acl:0 sco:0 commands:48 errors:0
+    Features: 0xff 0xff 0x8f 0xfe 0xdb 0xff 0x5b 0x87
+    Packet type: DM1 DM3 DM5 DH1 DH3 DH5 HV1 HV2 HV3
+    Link policy: RSWITCH HOLD SNIFF PARK
+    Link mode: SLAVE ACCEPT
+    Name: <span class="token string">'OP-7020-01'</span>
+    Class: 0x0c0104
+    Service Classes: Rendering, Capturing
+    Device Class: Computer, Desktop workstation
+    HCI Version: 4.0 <span class="token punctuation">(</span>0x6<span class="token punctuation">)</span>  Revision: 0x22bb
+    LMP Version: 4.0 <span class="token punctuation">(</span>0x6<span class="token punctuation">)</span>  Subversion: 0x22bb
+    Manufacturer: Cambridge Silicon Radio <span class="token punctuation">(</span>10<span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># hciconfig hci0 version</span>
+hci0:   Type: Primary  Bus: USB
+    BD Address: 00:1A:7D:DA:71:11  ACL MTU: 310:10  SCO MTU: 64:8
+    HCI Version: 4.0 <span class="token punctuation">(</span>0x6<span class="token punctuation">)</span>  Revision: 0x22bb
+    LMP Version: 4.0 <span class="token punctuation">(</span>0x6<span class="token punctuation">)</span>  Subversion: 0x22bb
+    Manufacturer: Cambridge Silicon Radio <span class="token punctuation">(</span>10<span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># hciconfig hci0 features</span>
+hci0:   Type: Primary  Bus: USB
+    BD Address: 00:1A:7D:DA:71:11  ACL MTU: 310:10  SCO MTU: 64:8
+    Features page 0: 0xff 0xff 0x8f 0xfe 0xdb 0xff 0x5b 0x87
+        <span class="token operator">&lt;</span>3-slot packets<span class="token operator">></span> <span class="token operator">&lt;</span>5-slot packets<span class="token operator">></span> <span class="token operator">&lt;</span>encryption<span class="token operator">></span> <span class="token operator">&lt;</span>slot offset<span class="token operator">></span>
+        <span class="token operator">&lt;</span>timing accuracy<span class="token operator">></span> <span class="token operator">&lt;</span>role switch<span class="token operator">></span> <span class="token operator">&lt;</span>hold mode<span class="token operator">></span> <span class="token operator">&lt;</span>sniff mode<span class="token operator">></span>
+        <span class="token operator">&lt;</span>park state<span class="token operator">></span> <span class="token operator">&lt;</span>RSSI<span class="token operator">></span> <span class="token operator">&lt;</span>channel quality<span class="token operator">></span> <span class="token operator">&lt;</span>SCO link<span class="token operator">></span> <span class="token operator">&lt;</span>HV2 packets<span class="token operator">></span>
+        <span class="token operator">&lt;</span>HV3 packets<span class="token operator">></span> <span class="token operator">&lt;</span>u-law log<span class="token operator">></span> <span class="token operator">&lt;</span>A-law log<span class="token operator">></span> <span class="token operator">&lt;</span>CVSD<span class="token operator">></span> <span class="token operator">&lt;</span>paging scheme<span class="token operator">></span>
+        <span class="token operator">&lt;</span>power control<span class="token operator">></span> <span class="token operator">&lt;</span>transparent SCO<span class="token operator">></span> <span class="token operator">&lt;</span>broadcast encrypt<span class="token operator">></span>
+        <span class="token operator">&lt;</span>EDR ACL 2 Mbps<span class="token operator">></span> <span class="token operator">&lt;</span>EDR ACL 3 Mbps<span class="token operator">></span> <span class="token operator">&lt;</span>enhanced iscan<span class="token operator">></span>
+        <span class="token operator">&lt;</span>interlaced iscan<span class="token operator">></span> <span class="token operator">&lt;</span>interlaced pscan<span class="token operator">></span> <span class="token operator">&lt;</span>inquiry with RSSI<span class="token operator">></span>
+        <span class="token operator">&lt;</span>extended SCO<span class="token operator">></span> <span class="token operator">&lt;</span>EV4 packets<span class="token operator">></span> <span class="token operator">&lt;</span>EV5 packets<span class="token operator">></span> <span class="token operator">&lt;</span>AFH cap. slave<span class="token operator">></span>
+        <span class="token operator">&lt;</span>AFH class. slave<span class="token operator">></span> <span class="token operator">&lt;</span>LE support<span class="token operator">></span> <span class="token operator">&lt;</span>3-slot EDR ACL<span class="token operator">></span>
+        <span class="token operator">&lt;</span>5-slot EDR ACL<span class="token operator">></span> <span class="token operator">&lt;</span>sniff subrating<span class="token operator">></span> <span class="token operator">&lt;</span>pause encryption<span class="token operator">></span>
+        <span class="token operator">&lt;</span>AFH cap. master<span class="token operator">></span> <span class="token operator">&lt;</span>AFH class. master<span class="token operator">></span> <span class="token operator">&lt;</span>EDR eSCO 2 Mbps<span class="token operator">></span>
+        <span class="token operator">&lt;</span>EDR eSCO 3 Mbps<span class="token operator">></span> <span class="token operator">&lt;</span>3-slot EDR eSCO<span class="token operator">></span> <span class="token operator">&lt;</span>extended inquiry<span class="token operator">></span>
+        <span class="token operator">&lt;</span>LE and BR/EDR<span class="token operator">></span> <span class="token operator">&lt;</span>simple pairing<span class="token operator">></span> <span class="token operator">&lt;</span>encapsulated PDU<span class="token operator">></span>
+        <span class="token operator">&lt;</span>non-flush flag<span class="token operator">></span> <span class="token operator">&lt;</span>LSTO<span class="token operator">></span> <span class="token operator">&lt;</span>inquiry TX power<span class="token operator">></span> <span class="token operator">&lt;</span>EPC<span class="token operator">></span>
+        <span class="token operator">&lt;</span>extended features<span class="token operator">></span>
+    Features page 1: 0x03 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-bash"><code class="language-bash">hciconfig hci down
+hciconfig hci up
+hcitool dev
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h4 id="bluetoothctl"><a href="#bluetoothctl" class="headerlink" title="bluetoothctl"></a>bluetoothctl</h4><pre class="line-numbers language-bash"><code class="language-bash">$ bluetoothctl version
+Version 5.50
+
+$ bluetoothctl list
+Controller 00:1A:7D:DA:71:11 OP-7020-01 <span class="token punctuation">[</span>default<span class="token punctuation">]</span>
+
+$ bluetoothctl devices
+Device FC:58:FA:FB:68:35 T5S
+Device AC:C1:EE:0C:77:AB 小米手机5
+Device E0:B6:55:60:54:2D MI BT18 BLE
+
+$ bluetoothctl info FC:58:FA:FB:68:35
+Device FC:58:FA:FB:68:35 <span class="token punctuation">(</span>public<span class="token punctuation">)</span>
+    Name: T5S
+    Alias: T5S
+    Class: 0x00260404
+    Icon: audio-card
+    Paired: <span class="token function">yes</span>
+    Trusted: <span class="token function">yes</span>
+    Blocked: no
+    Connected: <span class="token function">yes</span>
+    LegacyPairing: no
+    UUID: Headset                   <span class="token punctuation">(</span>00001108-0000-1000-8000-00805f9b34fb<span class="token punctuation">)</span>
+    UUID: Audio Sink                <span class="token punctuation">(</span>0000110b-0000-1000-8000-00805f9b34fb<span class="token punctuation">)</span>
+    UUID: A/V Remote Control Target <span class="token punctuation">(</span>0000110c-0000-1000-8000-00805f9b34fb<span class="token punctuation">)</span>
+    UUID: A/V Remote Control        <span class="token punctuation">(</span>0000110e-0000-1000-8000-00805f9b34fb<span class="token punctuation">)</span>
+    UUID: Handsfree                 <span class="token punctuation">(</span>0000111e-0000-1000-8000-00805f9b34fb<span class="token punctuation">)</span>
+    RSSI: -47
+
+$ bluetoothctl info
+Device FC:58:FA:FB:68:35 <span class="token punctuation">(</span>public<span class="token punctuation">)</span>
+    Name: T5S
+    Alias: T5S
+    Class: 0x00260404
+    Icon: audio-card
+    Paired: <span class="token function">yes</span>
+    Trusted: <span class="token function">yes</span>
+    Blocked: no
+    Connected: <span class="token function">yes</span>
+    LegacyPairing: no
+    UUID: Headset                   <span class="token punctuation">(</span>00001108-0000-1000-8000-00805f9b34fb<span class="token punctuation">)</span>
+    UUID: Audio Sink                <span class="token punctuation">(</span>0000110b-0000-1000-8000-00805f9b34fb<span class="token punctuation">)</span>
+    UUID: A/V Remote Control Target <span class="token punctuation">(</span>0000110c-0000-1000-8000-00805f9b34fb<span class="token punctuation">)</span>
+    UUID: A/V Remote Control        <span class="token punctuation">(</span>0000110e-0000-1000-8000-00805f9b34fb<span class="token punctuation">)</span>
+    UUID: Handsfree                 <span class="token punctuation">(</span>0000111e-0000-1000-8000-00805f9b34fb<span class="token punctuation">)</span>
+    RSSI: -47
+
+$ bluetoothctl show
+Controller 00:1A:7D:DA:71:11 <span class="token punctuation">(</span>public<span class="token punctuation">)</span>
+    Name: OP-7020-01
+    Alias: OP-7020-01
+    Class: 0x001c0104
+    Powered: <span class="token function">yes</span>
+    Discoverable: no
+    Pairable: <span class="token function">yes</span>
+    UUID: Headset AG                <span class="token punctuation">(</span>00001112-0000-1000-8000-00805f9b34fb<span class="token punctuation">)</span>
+    UUID: Generic Attribute Profile <span class="token punctuation">(</span>00001801-0000-1000-8000-00805f9b34fb<span class="token punctuation">)</span>
+    UUID: A/V Remote Control        <span class="token punctuation">(</span>0000110e-0000-1000-8000-00805f9b34fb<span class="token punctuation">)</span>
+    UUID: OBEX File Transfer        <span class="token punctuation">(</span>00001106-0000-1000-8000-00805f9b34fb<span class="token punctuation">)</span>
+    UUID: Generic Access Profile    <span class="token punctuation">(</span>00001800-0000-1000-8000-00805f9b34fb<span class="token punctuation">)</span>
+    UUID: OBEX Object Push          <span class="token punctuation">(</span>00001105-0000-1000-8000-00805f9b34fb<span class="token punctuation">)</span>
+    UUID: PnP Information           <span class="token punctuation">(</span>00001200-0000-1000-8000-00805f9b34fb<span class="token punctuation">)</span>
+    UUID: A/V Remote Control Target <span class="token punctuation">(</span>0000110c-0000-1000-8000-00805f9b34fb<span class="token punctuation">)</span>
+    UUID: IrMC Sync                 <span class="token punctuation">(</span>00001104-0000-1000-8000-00805f9b34fb<span class="token punctuation">)</span>
+    UUID: Audio Source              <span class="token punctuation">(</span>0000110a-0000-1000-8000-00805f9b34fb<span class="token punctuation">)</span>
+    UUID: Audio Sink                <span class="token punctuation">(</span>0000110b-0000-1000-8000-00805f9b34fb<span class="token punctuation">)</span>
+    UUID: Vendor specific           <span class="token punctuation">(</span>00005005-0000-1000-8000-0002ee000001<span class="token punctuation">)</span>
+    UUID: Message Notification Se<span class="token punctuation">..</span> <span class="token punctuation">(</span>00001133-0000-1000-8000-00805f9b34fb<span class="token punctuation">)</span>
+    UUID: Phonebook Access Server   <span class="token punctuation">(</span>0000112f-0000-1000-8000-00805f9b34fb<span class="token punctuation">)</span>
+    UUID: Message Access Server     <span class="token punctuation">(</span>00001132-0000-1000-8000-00805f9b34fb<span class="token punctuation">)</span>
+    UUID: Headset                   <span class="token punctuation">(</span>00001108-0000-1000-8000-00805f9b34fb<span class="token punctuation">)</span>
+    Modalias: usb:v1D6Bp0246d0532
+    Discovering: <span class="token function">yes</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="btmon"><a href="#btmon" class="headerlink" title="btmon"></a>btmon</h4><pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># btmon</span>
+<span class="token operator">&lt;</span> HCI Command: Delete Stored Link Key <span class="token punctuation">(</span>0x03<span class="token operator">|</span>0x0012<span class="token punctuation">)</span> plen 7                                                      <span class="token comment" spellcheck="true">#59 [hci0] 5.497484</span>
+        Address: 00:00:00:00:00:00 <span class="token punctuation">(</span>OUI 00-00-00<span class="token punctuation">)</span>
+        Delete all: 0x01
+<span class="token operator">></span> HCI Event: Command Complete <span class="token punctuation">(</span>0x0e<span class="token punctuation">)</span> plen 6                                                                     <span class="token comment" spellcheck="true">#60 [hci0] 5.498427</span>
+      Delete Stored Link Key <span class="token punctuation">(</span>0x03<span class="token operator">|</span>0x0012<span class="token punctuation">)</span> ncmd 1
+        Status: Unsupported Feature or Parameter Value <span class="token punctuation">(</span>0x11<span class="token punctuation">)</span>
+        Num keys: 0
+<span class="token operator">=</span> Close Index: 00:1A:7D:DA:71:11
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="hcidump"><a href="#hcidump" class="headerlink" title="hcidump"></a>hcidump</h4><pre class="line-numbers language-bash"><code class="language-bash"><span class="token punctuation">(</span>hciconfig hci0 down<span class="token punctuation">;</span>hciconfig hci0 up<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token punctuation">(</span>hcidump <span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>hciconfig hci0 down
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="BCM20702-UDC-324"><a href="#BCM20702-UDC-324" class="headerlink" title="BCM20702 - UDC-324"></a>BCM20702 - UDC-324</h2><h3 id="Specifications-1"><a href="#Specifications-1" class="headerlink" title="Specifications"></a>Specifications</h3><ul>
+<li>蓝牙版本：4.0</li>
+<li>无障碍传输距离：20m</li>
+<li>24 bit CRC 抗干扰</li>
+<li>自动跳频减少串扰</li>
+<li>芯片组：博通 20702A3</li>
+<li>供应商 ID：0x0A5C</li>
+<li>产品 ID：0x21EC</li>
+</ul>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#USB-Bluetooth-Adaper"><span class="toc-number">1.</span> <span class="toc-text">USB Bluetooth Adaper</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introductions"><span class="toc-number">1.1.</span> <span class="toc-text">Introductions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BR8041"><span class="toc-number">1.2.</span> <span class="toc-text">BR8041</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSR8510-UGREEN-CM109"><span class="toc-number">1.3.</span> <span class="toc-text">CSR8510 - UGREEN CM109</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Specifications"><span class="toc-number">1.3.1.</span> <span class="toc-text">Specifications</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux"><span class="toc-number">1.3.2.</span> <span class="toc-text">Linux</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#dmesg"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">dmesg</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#lsusb"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">lsusb</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#hwinfo"><span class="toc-number">1.3.2.3.</span> <span class="toc-text">hwinfo</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#hciconfig"><span class="toc-number">1.3.2.4.</span> <span class="toc-text">hciconfig</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#bluetoothctl"><span class="toc-number">1.3.2.5.</span> <span class="toc-text">bluetoothctl</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#btmon"><span class="toc-number">1.3.2.6.</span> <span class="toc-text">btmon</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#hcidump"><span class="toc-number">1.3.2.7.</span> <span class="toc-text">hcidump</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BCM20702-UDC-324"><span class="toc-number">1.4.</span> <span class="toc-text">BCM20702 - UDC-324</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Specifications-1"><span class="toc-number">1.4.1.</span> <span class="toc-text">Specifications</span></a></li></ol></li></ol></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

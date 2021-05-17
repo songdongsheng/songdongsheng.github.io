@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Synchronization of Linux clocks | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>Synchronization of Linux clocks</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2020年03月08日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/Linux/">Linux</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tags" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Cloud" class='tag'>Cloud</a>
+
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+
+            
+          </div>
+          <h1 id="Synchronization-of-computer-clocks-by-NTP-and-PTP"><a href="#Synchronization-of-computer-clocks-by-NTP-and-PTP" class="headerlink" title="Synchronization of computer clocks by NTP and PTP"></a>Synchronization of computer clocks by NTP and PTP</h1><p>There are two supported protocols for synchronization of computer clocks over a network. The older and more well-known protocol is the Network Time Protocol (NTP). In its fourth version, NTP is defined by IETF in <a href="https://tools.ietf.org/html/rfc5905" target="_blank" rel="noopener">RFC 5905</a>. The newer protocol is the Precision Time Protocol (PTP), which is defined in the <a href="https://en.wikipedia.org/wiki/Precision_Time_Protocol" target="_blank" rel="noopener">IEEE 1588-2008</a> standard.</p>
+<p>The reference implementation of NTP is provided in the <a href="http://www.ntp.org/" target="_blank" rel="noopener">ntp</a> package.
+<a href="https://chrony.tuxfamily.org/" target="_blank" rel="noopener">chrony</a> is a more versatile NTP implementation, which can usually synchronize the clock with better accuracy and has other advantages over the reference implementation. PTP is implemented in the <a href="http://linuxptp.sourceforge.net/" target="_blank" rel="noopener">linuxptp</a> package.</p>
+<p>PTP was designed for local networks with broadcast/multicast transmission and, in ideal conditions, the system clock can be synchronized with sub-microsecond accuracy to the reference time. NTP was primarily designed for synchronization over the Internet using unicast, where it can usually achieve accuracy in the single-digit millisecond range.</p>
+<p>The basic principles of the two protocols are the same. Computers or other devices that have a clock are connected in a network and form a hierarchy of time sources in which time is distributed from top to bottom. The devices on top are normally synchronized to a reference time source (e.g. a timing signal from a GPS receiver). Devices “below” periodically exchange timestamps with their time sources in order to measure the offset of their clocks. The clocks are continuously adjusted to correct for random variations in their rate (due to effects like thermal changes) and to minimize the observed offset.</p>
+<p>In NTP, one level of the hierarchy is called stratum. The devices on top are stratum 1 servers, below them are stratum 2 clients, which are servers to stratum 3 clients, and so on. In PTP there are slaves, which are synchronized to their masters. Each communication path has one master and its slaves can be masters on other communication paths. The master on top is called grandmaster (GM). A device that has ports in two or more communication paths (i.e. it can be a slave and also master of other slaves at the same time) is a boundary clock (BC). Clocks with one port are ordinary clocks (OC). The group of all clocks that are directly or indirectly synchronized to each other using the protocol is called a PTP domain.</p>
+<h2 id="Combining-PTP-with-NTP"><a href="#Combining-PTP-with-NTP" class="headerlink" title="Combining PTP with NTP"></a>Combining PTP with NTP</h2><p>In order to get both accuracy and resiliency at the same time, it would be useful if PTP and NTP could be combined. PTP would be the primary source for synchronization of the clock when everything is working as expected. NTP would keep the PTP sources in check and allow for fallback between different PTP sources, or to NTP servers when all PTP sources fail.</p>
+<h3 id="etc-linuxptp-timemaster-conf"><a href="#etc-linuxptp-timemaster-conf" class="headerlink" title="/etc/linuxptp/timemaster.conf"></a>/etc/linuxptp/timemaster.conf</h3><pre><code>[ptp_domain 0]
+interfaces ens3
+delay 10e-6
+
+#[ptp_domain 1]
+#interfaces eth1
+#delay 10e-6
+
+[ntp_server us.pool.ntp.org]
+minpoll 3
+maxpoll 15
+iburst 1
+
+[ntp_server ca.pool.ntp.org]
+minpoll 3
+maxpoll 15
+iburst 1
+
+[ntp_server de.pool.ntp.org]
+minpoll 3
+maxpoll 15
+iburst 1
+
+[timemaster]
+ntp_program chronyd
+</code></pre>
+<h3 id="Verification"><a href="#Verification" class="headerlink" title="Verification"></a>Verification</h3><pre class="line-numbers language-shell"><code class="language-shell"># apt-get install -y linuxptp
+# dpkg -L linuxptp | sort | less
+    /etc/linuxptp/ptp4l.conf
+    /etc/linuxptp/timemaster.conf
+    /lib/systemd/system/ptp4l.service
+    /lib/systemd/system/timemaster.service
+    /usr/sbin/ptp4l
+    /usr/sbin/timemaster
+    /var/run/timemaster
+
+# ptp4l -i ens3 -m -H
+# ptp4l -i ens3 -m -S
+
+# phc_ctl /dev/ptp0
+# phc_ctl /dev/ptp0 get
+# phc_ctl /dev/ptp0 cmp
+
+# /usr/sbin/timemaster -f /etc/linuxptp/timemaster.conf -m -l 7 -n
+
+# systemctl start timemaster && systemctl status timemaster -l --no-pager
+
+# pmc -u -b 0 'GET CURRENT_DATA_SET'
+# pmc -u -b 0 'GET TIME_STATUS_NP'
+
+# chronyc sources
+# chronyc -n tracking
+
+# ethtool -T ens3
+Time stamping parameters for ens3:
+Capabilities:
+        software-transmit     (SOF_TIMESTAMPING_TX_SOFTWARE)
+        software-receive      (SOF_TIMESTAMPING_RX_SOFTWARE)
+        software-system-clock (SOF_TIMESTAMPING_SOFTWARE)
+PTP Hardware Clock: none
+Hardware Transmit Timestamp Modes: none
+Hardware Receive Filter Modes: none
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Virtual-PTP-hardware-clock-PHC"><a href="#Virtual-PTP-hardware-clock-PHC" class="headerlink" title="Virtual PTP hardware clock (PHC)"></a>Virtual PTP hardware clock (PHC)</h2><p>Virtual network devices in KVM guests do not support hardware timestamping, which means it is difficult to synchronize the clocks of guests that use a network protocol like NTP or PTP with better accuracy than tens of microseconds.</p>
+<p>When a more accurate synchronization of the guests is required, it is recommended to synchronize the clock of the host using NTP or PTP with hardware timestamping, and to synchronize the guests to the host directly. Linux KVM provide a virtual PTP hardware clock (PHC), which enables the guests to synchronize to the host with a sub-microsecond accuracy.</p>
+<h3 id="ptp-kvm"><a href="#ptp-kvm" class="headerlink" title="ptp_kvm"></a>ptp_kvm</h3><pre class="line-numbers language-shell"><code class="language-shell"># modinfo ptp_kvm
+filename:       /lib/modules/5.4.0-4-amd64/kernel/drivers/ptp/ptp_kvm.ko
+license:        GPL
+description:    PTP clock using KVMCLOCK
+author:         Marcelo Tosatti <mtosatti@redhat.com>
+depends:        ptp
+
+# modprobe ptp_kvm
+[31918.515562] pps_core: LinuxPPS API ver. 1 registered
+[31918.515575] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+[31918.516788] PTP clock support registered
+
+# echo ptp_kvm > /etc/modules-load.d/ptp_kvm.conf
+# echo "refclock PHC /dev/ptp0 poll 2" >> /etc/chrony.conf
+# systemctl restart chronyd
+# chronyc sources
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="etc-chrony-chrony-conf"><a href="#etc-chrony-chrony-conf" class="headerlink" title="/etc/chrony/chrony.conf"></a>/etc/chrony/chrony.conf</h3><pre><code>keyfile /etc/chrony/chrony.keys
+driftfile /var/lib/chrony/chrony.drift
+logdir /var/log/chrony
+
+maxupdateskew 100.0
+makestep 1 3
+rtcsync
+
+leapsecmode slew
+maxslewrate 1000
+smoothtime 400 0.001 leaponly
+
+# PTP hardware clock (PHC) driver
+refclock PHC /dev/ptp0 poll 2 trust
+
+pool de.pool.ntp.org iburst maxsources 2 minpoll 3 maxpoll 15
+pool us.pool.ntp.org iburst maxsources 2 minpoll 3 maxpoll 15
+pool fr.pool.ntp.org iburst maxsources 2 minpoll 3 maxpoll 15
+pool uk.pool.ntp.org iburst maxsources 2 minpoll 3 maxpoll 15
+pool nl.pool.ntp.org iburst maxsources 2 minpoll 3 maxpoll 15
+pool ru.pool.ntp.org iburst maxsources 2 minpoll 3 maxpoll 15
+pool ca.pool.ntp.org iburst maxsources 2 minpoll 3 maxpoll 15
+</code></pre>
+<h3 id="Verification-1"><a href="#Verification-1" class="headerlink" title="Verification"></a>Verification</h3><pre class="line-numbers language-shell"><code class="language-shell"># apt-get install -y chrony
+
+# chronyd -f /etc/chrony/chrony.conf -d -Q
+
+# systemctl restart chronyd && systemctl status chronyd --no-pager
+
+# chronyc -n tracking
+Reference ID    : 50484330 (PHC0)
+Stratum         : 1
+Ref time (UTC)  : Tue Mar 17 05:01:01 2020
+System time     : 0.000000001 seconds slow of NTP time
+Last offset     : -0.000000001 seconds
+RMS offset      : 0.000000024 seconds
+Frequency       : 1.393 ppm slow
+Residual freq   : -0.000 ppm
+Skew            : 0.001 ppm
+Root delay      : 0.000000001 seconds
+Root dispersion : 0.000004307 seconds
+Update interval : 4.0 seconds
+Leap status     : Normal
+
+# chronyc -n sources
+
+210 Number of sources = 15
+MS Name/IP address         Stratum Poll Reach LastRx Last sample
+===============================================================================
+#* PHC0                          0   2   377     5     +1ns[   -1ns] +/-   23ns
+^- 185.244.195.159               3   8   377   229  -1259us[-1257us] +/-  104ms
+^- 193.30.35.11                  2   8   377   230  +2118us[+2120us] +/-  113ms
+^- 216.229.0.50                  2   8   377   228  +1084us[+1086us] +/-   44ms
+^- 96.245.170.99                 2   8   377    31   -159us[ -159us] +/-  132ms
+^- 212.83.145.32                 3   7   377    53    -55us[  -55us] +/-   97ms
+^- 37.187.2.230                  3   8   377   227   +793us[ +795us] +/-  101ms
+^- 195.219.205.9                 2   8   377   227  +1867us[+1869us] +/-   93ms
+^- 178.62.16.103                 2   8   377   230   +572us[ +574us] +/-   87ms
+^- 5.200.6.34                    2   4   377     3    -62ms[  -62ms] +/-  184ms
+^- 5.39.184.5                    2   8   377    99   -407us[ -407us] +/-   90ms
+^- 85.21.78.91                   2   8   377   118   +290us[ +291us] +/-  112ms
+^- 91.207.136.55                 2   8   377   229  -1403us[-1401us] +/-  143ms
+^- 192.99.2.172                  2   8   377    29  +1033us[+1033us] +/-   37ms
+^- 216.197.156.83                1   7   377    18    +11ms[  +11ms] +/-   51ms
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Protocol-dependencies"><a href="#Protocol-dependencies" class="headerlink" title="Protocol dependencies"></a>Protocol dependencies</h2><h3 id="PTP"><a href="#PTP" class="headerlink" title="PTP"></a>PTP</h3><ul>
+<li>UDP: Typically, PTP uses UDP as its transport protocol (although other transport protocols are possible). The well known UDP ports for PTP traffic are 319 (Event Message) and 320 (General Message).</li>
+<li>Ethernet: Starting with IEEE1588 Version2, a native Layer2 Ethernet implementation was designed. PTP can use Ethernet as its transport protocol. The well known Ethernet type for PTP traffic is 0x88F7.</li>
+</ul>
+<pre class="line-numbers language-shell"><code class="language-shell">tcpdump -vv -i ens3 "(ether proto 0x88F7) or (udp port 319 or udp port 320)"
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="NTP"><a href="#NTP" class="headerlink" title="NTP"></a>NTP</h3><p>NTP is a UDP-based service. NTP servers use well-known port 123 to talk to each other and to NTP clients. NTP clients use random ports above 1023.</p>
+<pre class="line-numbers language-shell"><code class="language-shell">tcpdump -vv -i any "udp port 123"
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>Here is an overview of main features that are currently specified in the protocols and that have an effect on accuracy, resiliency, or security:</p>
+<table>
+<thead>
+<tr>
+<th>features</th>
+<th>NTP</th>
+<th>PTP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Delay correction</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Transmit timestamp correction</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Client-side source selection</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Multiple sources</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Estimation of maximum error</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Authentication</td>
+<td>Yes</td>
+<td>Experimental</td>
+</tr>
+</tbody></table>
+<p>Both NTP and PTP have some strong advantages over the other. PTP in ideal conditions with HW timestamping and transparent clocks can effectively eliminate the effect of the network on the measurements and synchronize the system clock with sub-microsecond accuracy. NTP is highly resilient. It works with multiple sources, estimates their errors, and selects only good sources for synchronization.</p>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Synchronization-of-computer-clocks-by-NTP-and-PTP"><span class="toc-number">1.</span> <span class="toc-text">Synchronization of computer clocks by NTP and PTP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Combining-PTP-with-NTP"><span class="toc-number">1.1.</span> <span class="toc-text">Combining PTP with NTP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#etc-linuxptp-timemaster-conf"><span class="toc-number">1.1.1.</span> <span class="toc-text">&#x2F;etc&#x2F;linuxptp&#x2F;timemaster.conf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Verification"><span class="toc-number">1.1.2.</span> <span class="toc-text">Verification</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Virtual-PTP-hardware-clock-PHC"><span class="toc-number">1.2.</span> <span class="toc-text">Virtual PTP hardware clock (PHC)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ptp-kvm"><span class="toc-number">1.2.1.</span> <span class="toc-text">ptp_kvm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#etc-chrony-chrony-conf"><span class="toc-number">1.2.2.</span> <span class="toc-text">&#x2F;etc&#x2F;chrony&#x2F;chrony.conf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Verification-1"><span class="toc-number">1.2.3.</span> <span class="toc-text">Verification</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Protocol-dependencies"><span class="toc-number">1.3.</span> <span class="toc-text">Protocol dependencies</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PTP"><span class="toc-number">1.3.1.</span> <span class="toc-text">PTP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NTP"><span class="toc-number">1.3.2.</span> <span class="toc-text">NTP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Summary"><span class="toc-number">1.4.</span> <span class="toc-text">Summary</span></a></li></ol></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>OpenBSD 6.8 arm64 on Raspberry Pi 3B+ | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>OpenBSD 6.8 arm64 on Raspberry Pi 3B+</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2020年11月29日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tags" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Operating%20system" class='tag'>Operating system</a>
+
+  <a href="/tags/#OpenBSD" class='tag'>OpenBSD</a>
+
+
+            
+          </div>
+          <h1 id="OpenBSD-6-8-arm64-on-Raspberry-Pi-3B"><a href="#OpenBSD-6-8-arm64-on-Raspberry-Pi-3B" class="headerlink" title="OpenBSD 6.8 arm64 on Raspberry Pi 3B+"></a>OpenBSD 6.8 arm64 on Raspberry Pi 3B+</h1><h2 id="Download-OpenBSD-image"><a href="#Download-OpenBSD-image" class="headerlink" title="Download OpenBSD image"></a>Download OpenBSD image</h2><ul>
+<li>  <a href="https://www.openbsd.org/" target="_blank" rel="noopener">https://www.openbsd.org/</a></li>
+<li>  <a href="https://www.openbsd.org/armv7.html" target="_blank" rel="noopener">https://www.openbsd.org/armv7.html</a></li>
+<li>  <a href="https://www.openbsd.org/arm64.html" target="_blank" rel="noopener">https://www.openbsd.org/arm64.html</a></li>
+<li>  <a href="https://www.openbsd.org/faq/index.html" target="_blank" rel="noopener">https://www.openbsd.org/faq/index.html</a></li>
+<li>  <a href="https://www.openbsd.org/faq/faq4.html" target="_blank" rel="noopener">https://www.openbsd.org/faq/faq4.html</a></li>
+<li>  <a href="https://www.openbsd.org/faq/faq10.html" target="_blank" rel="noopener">https://www.openbsd.org/faq/faq10.html</a></li>
+<li>  <a href="https://www.openbsd.org/faq/faq15.html" target="_blank" rel="noopener">https://www.openbsd.org/faq/faq15.html</a></li>
+<li>  <a href="https://www.sudopigeon.com/raspberry-pi/os-install/how-to-install-freebsd-on-raspberry-pi-3-b/" target="_blank" rel="noopener">https://www.sudopigeon.com/raspberry-pi/os-install/how-to-install-freebsd-on-raspberry-pi-3-b/</a></li>
+<li>  <a href="https://man.openbsd.org/OpenBSD-6.8/mue.4" target="_blank" rel="noopener">https://man.openbsd.org/OpenBSD-6.8/mue.4</a></li>
+<li>  <a href="https://man.openbsd.org/OpenBSD-6.8/bwfm.4" target="_blank" rel="noopener">https://man.openbsd.org/OpenBSD-6.8/bwfm.4</a></li>
+<li>  <a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/armv7/" target="_blank" rel="noopener">https://cdn.openbsd.org/pub/OpenBSD/6.8/armv7/</a></li>
+<li>  <a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/arm64/" target="_blank" rel="noopener">https://cdn.openbsd.org/pub/OpenBSD/6.8/arm64/</a></li>
+<li>  <a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/amd64/" target="_blank" rel="noopener">https://cdn.openbsd.org/pub/OpenBSD/6.8/amd64/</a></li>
+<li>  <a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/powerpc64/" target="_blank" rel="noopener">https://cdn.openbsd.org/pub/OpenBSD/6.8/powerpc64/</a></li>
+<li>  <a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/loongson/" target="_blank" rel="noopener">https://cdn.openbsd.org/pub/OpenBSD/6.8/loongson/</a></li>
+</ul>
+<pre class="line-numbers language-shell"><code class="language-shell">$ aria2c https://cdn.openbsd.org/pub/OpenBSD/6.8/arm64/miniroot68.img
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="Write-image-to-SDXC-card"><a href="#Write-image-to-SDXC-card" class="headerlink" title="Write image to SDXC card"></a>Write image to SDXC card</h2><pre class="line-numbers language-shell"><code class="language-shell">$ cat miniroot68.img | sudo dd of=/dev/sdb bs=1M oflag=sync status=progress; time sync
+17498112 bytes (17 MB, 17 MiB) copied, 1 s, 17.4 MB/s
+0+528 records in
+0+528 records out
+34603008 bytes (35 MB, 33 MiB) copied, 1.97157 s, 17.6 MB/s
+
+real    0m0.004s
+user    0m0.002s
+sys    0m0.000s
+
+$ lsblk /dev/mmcblk0
+NAME        MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+mmcblk0     179:0    0 58.2G  0 disk
+├─mmcblk0p1 179:1    0    4M  0 part /media/dongsheng/BOOT
+└─mmcblk0p4 179:4    0   13M  0 part /media/dongsheng/5f7a8b9eaf6a1d6d
+
+$ sudo fdisk -l /dev/mmcblk0
+Disk /dev/mmcblk0: 58.22 GiB, 62511906816 bytes, 122093568 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x00000000
+
+Device         Boot Start   End Sectors Size Id Type
+/dev/mmcblk0p1 *    32768 40959    8192   4M  c W95 FAT32 (LBA)
+/dev/mmcblk0p4      40960 67583   26624  13M a6 OpenBSD
+
+$ sudo gdisk -l /dev/mmcblk0
+GPT fdisk (gdisk) version 1.0.5
+
+Partition table scan:
+  MBR: MBR only
+  BSD: not present
+  APM: not present
+  GPT: not present
+
+
+***************************************************************
+Found invalid GPT and valid MBR; converting MBR to GPT format
+in memory.
+***************************************************************
+
+Disk /dev/mmcblk0: 122093568 sectors, 58.2 GiB
+Sector size (logical/physical): 512/512 bytes
+Disk identifier (GUID): E7876236-8DD4-49E6-8E3D-B95F04CCB477
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 122093534
+Partitions will be aligned on 2048-sector boundaries
+Total free space is 122058685 sectors (58.2 GiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1           32768           40959   4.0 MiB     0700  Microsoft basic data
+   4           40960           67583   13.0 MiB    A600  OpenBSD disklabel
+
+$ find BOOT/ -type f | xargs ls -ln
+-rw-r--r-- 1 1000 1000   27980 Oct  5 02:57 BOOT/bcm2710-rpi-3-b.dtb
+-rw-r--r-- 1 1000 1000   28599 Oct  5 02:57 BOOT/bcm2710-rpi-3-b-plus.dtb
+-rw-r--r-- 1 1000 1000   26289 Oct  5 02:57 BOOT/bcm2710-rpi-cm3.dtb
+-rw-r--r-- 1 1000 1000   52480 Oct  5 02:57 BOOT/bootcode.bin
+-rw-r--r-- 1 1000 1000      65 Oct  5 02:57 BOOT/config.txt
+-r--r--r-- 1 1000 1000  168696 Oct  5 02:57 BOOT/efi/boot/bootaa64.efi
+-rw-r--r-- 1 1000 1000      13 Oct  5 02:57 BOOT/efi/boot/startup.nsh
+-rw-r--r-- 1 1000 1000    7285 Oct  5 02:57 BOOT/fixup.dat
+-rw-r--r-- 1 1000 1000    1073 Oct  5 02:57 BOOT/overlays/disable-bt.dtbo
+-rw-r--r-- 1 1000 1000 3002048 Oct  5 02:57 BOOT/start.elf
+-rw-r--r-- 1 1000 1000  508776 Oct  5 02:57 BOOT/u-boot.bin
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Booting-Raspberry-Pi"><a href="#Booting-Raspberry-Pi" class="headerlink" title="Booting Raspberry Pi"></a>Booting Raspberry Pi</h2><h3 id="minicom"><a href="#minicom" class="headerlink" title="minicom"></a>minicom</h3><pre class="line-numbers language-shell"><code class="language-shell">$ sudo minicom -b 115200 -8 -D /dev/ttyUSB0
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="firmware"><a href="#firmware" class="headerlink" title="firmware"></a>firmware</h3><pre><code>bwfm0: failed loadfirmware of file brcmfmac43455-sdio.bin
+
+bwfm-firmware-20200316.1.2.tgz: http://firmware.openbsd.org/firmware/6.8/
+linux-firmware-raspbian:        https://packages.debian.org/sid/firmware-brcm80211
+
+Name: brcmfmac43455-sdio.bin
+Name: brcmfmac43455-sdio.raspberrypi,3-model-b-plus.txt
+</code></pre>
+<h3 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h3><pre class="line-numbers language-shell"><code class="language-shell">U-Boot 2020.07 (Sep 13 2020 - 13:13:43 -0600)
+
+DRAM:  948 MiB
+RPI 3 Model B+ (0xa020d3)
+MMC:   mmc@7e202000: 0, mmcnr@7e300000: 1
+Loading Environment from FAT... *** Warning - bad CRC, using default environment
+
+In:    serial
+Out:   vidconsole
+Err:   vidconsole
+Net:   No ethernet found.
+starting USB...
+Bus usb@7e980000: USB DWC2
+scanning bus usb@7e980000 for devices... 6 USB Device(s) found
+       scanning usb for storage devices... 0 Storage Device(s) found
+Hit any key to stop autoboot:  0
+switch to partitions #0, OK
+mmc0 is current device
+Scanning mmc 0:1...
+Found EFI removable media binary efi/boot/bootaa64.efi
+libfdt fdt_check_header(): FDT_ERR_BADMAGIC
+Scanning disk mmc@7e202000.blk...
+** Unrecognized filesystem type **
+Card did not respond to voltage select!
+Scanning disk mmcnr@7e300000.blk...
+Disk mmcnr@7e300000.blk not ready
+Found 3 disks
+BootOrder not defined
+EFI boot manager: Cannot load any image
+168696 bytes read in 12 ms (13.4 MiB/s)
+libfdt fdt_check_header(): FDT_ERR_BADMAGIC
+disks: sd0*
+>> OpenBSD/arm64 BOOTAA64 1.2
+boot>
+cannot open sd0a:/etc/random.seed: No such file or directory
+booting sd0a:/bsd: 2352340+659260+8777560+681840 [195371+109+573336+214661]=0xff5c48
+type 0x0 pa 0x0 va 0x0 pages 0x1 attr 0x8
+type 0x7 pa 0x1000 va 0x1000 pages 0x1ff attr 0x8
+type 0x2 pa 0x200000 va 0x200000 pages 0x4000 attr 0x8
+type 0x7 pa 0x4200000 va 0x4200000 pages 0x3cf5 attr 0x8
+type 0x9 pa 0x7ef5000 va 0x7ef5000 pages 0x16 attr 0x8
+type 0x7 pa 0x7f0b000 va 0x7f0b000 pages 0x31337 attr 0x8
+type 0x2 pa 0x39242000 va 0x39242000 pages 0xbc4 attr 0x8
+type 0x4 pa 0x39e06000 va 0x39e06000 pages 0x1 attr 0x8
+type 0x2 pa 0x39e07000 va 0x39e07000 pages 0x3 attr 0x8
+type 0x7 pa 0x39e0a000 va 0x39e0a000 pages 0x1 attr 0x8
+type 0x2 pa 0x39e0b000 va 0x39e0b000 pages 0x100 attr 0x8
+type 0x1 pa 0x39f0b000 va 0x39f0b000 pages 0x2a attr 0x8
+type 0x0 pa 0x39f35000 va 0x39f35000 pages 0x7 attr 0x8
+type 0x4 pa 0x39f3c000 va 0x39f3c000 pages 0x1 attr 0x8
+type 0x6 pa 0x39f3d000 va 0xa3863000 pages 0x1 attr 0x8000000000000008
+type 0x4 pa 0x39f3e000 va 0x39f3e000 pages 0x2 attr 0x8
+type 0x0 pa 0x39f40000 va 0x39f40000 pages 0x1 attr 0x8
+type 0x4 pa 0x39f41000 va 0x39f41000 pages 0x2 attr 0x8
+type 0x6 pa 0x39f43000 va 0xa3869000 pages 0x2 attr 0x8000000000000008
+type 0x0 pa 0x39f45000 va 0x39f45000 pages 0x1 attr 0x8
+type 0x4 pa 0x39f46000 va 0x39f46000 pages 0x1 attr 0x8
+type 0x0 pa 0x39f47000 va 0x39f47000 pages 0x1 attr 0x8
+type 0x4 pa 0x39f48000 va 0x39f48000 pages 0x2 attr 0x8
+type 0x0 pa 0x39f4a000 va 0x39f4a000 pages 0x1 attr 0x8
+type 0x2 pa 0x39f4b000 va 0x39f4b000 pages 0x1405 attr 0x8
+type 0x5 pa 0x3b350000 va 0xa4c76000 pages 0x10 attr 0x8000000000000008
+type 0x2 pa 0x3b360000 va 0x3b360000 pages 0xa0 attr 0x8
+type 0xb pa 0x3f100000 va 0xa4c86000 pages 0x1 attr 0x8000000000000000
+Copyright (c) 1982, 1986, 1989, 1991, 1993
+        The Regents of the University of California.  All rights reserved.
+Copyright (c) 1995-2020 OpenBSD. All rights reserved.  https://www.OpenBSD.org
+
+OpenBSD 6.8 (RAMDISK) #780: Sun Oct  4 20:57:28 MDT 2020
+    deraadt@arm64.openbsd.org:/usr/src/sys/arch/arm64/compile/RAMDISK
+real mem  = 958574592 (914MB)
+avail mem = 896290816 (854MB)
+random: boothowto does not indicate good seed
+mainbus0 at root: Raspberry Pi 3 Model B Plus Rev 1.3
+cpu0 at mainbus0 mpidr 0: ARM Cortex-A53 r0p4
+cpu0: 32KB 64b/line 2-way L1 VIPT I-cache, 32KB 64b/line 4-way L1 D-cache
+cpu0: 512KB 64b/line 16-way L2 cache
+efi0 at mainbus0: UEFI 2.8
+efi0: Das U-Boot rev 0x20200700
+simplefb0 at mainbus0: 1824x984, 32bpp
+wsdisplay0 at simplefb0
+wsdisplay0: screen 0 added (std, vt100 emulation)
+"system" at mainbus0 not configured
+"axi" at mainbus0 not configured
+simplebus0 at mainbus0: "soc"
+bcmclock0 at simplebus0
+bcmmbox0 at simplebus0
+bcmgpio0 at simplebus0
+bcmaux0 at simplebus0
+bcmdmac0 at simplebus0: DMA0 DMA2 DMA4 DMA5 DMA8 DMA9 DMA10
+bcmintc0 at simplebus0
+bcmrng0 at simplebus0
+pluart0 at simplebus0: console
+bcmsdhost0 at simplebus0: 250 MHz base clock
+sdmmc0 at bcmsdhost0: 4-bit, sd high-speed, mmc high-speed, dma
+dwctwo0 at simplebus0
+bcmdog0 at simplebus0
+"thermal" at simplebus0 not configured
+"local_intc" at simplebus0 not configured
+sdhc0 at simplebus0
+sdhc0: SDHC 3.0, 200 MHz base clock
+sdmmc1 at sdhc0: 4-bit, sd high-speed, mmc high-speed
+simplebus1 at simplebus0: "firmware"
+"clocks" at simplebus1 not configured
+"expgpio" at simplebus1 not configured
+"power" at simplebus0 not configured
+"mailbox" at simplebus0 not configured
+"gpiomem" at simplebus0 not configured
+"fb" at simplebus0 not configured
+"vcsm" at simplebus0 not configured
+"clocks" at mainbus0 not configured
+"phy" at mainbus0 not configured
+"arm-pmu" at mainbus0 not configured
+agtimer0 at mainbus0: tick rate 19200 KHz
+"leds" at mainbus0 not configured
+"fixedregulator_3v3" at mainbus0 not configured
+"fixedregulator_5v0" at mainbus0 not configured
+usb0 at dwctwo0: USB revision 2.0
+scsibus0 at sdmmc0: 2 targets, initiator 0
+sd0 at scsibus0 targ 1 lun 0: <SD/MMC, SD64G, 0060> removable
+sd0: 59616MB, 512 bytes/sector, 122093568 sectors
+uhub0 at usb0 configuration 1 interface 0 "Broadcom DWC2 root hub" rev 2.00/1.00 addr 1
+uhub1 at uhub0 port 1 configuration 1 interface 0 "Standard Microsystems product 0x2514" rev 2.00/b.b3 addr 2
+bwfm0 at sdmmc1 function 1
+uhub2 at uhub1 port 1 configuration 1 interface 0 "Standard Microsystems product 0x2514" rev 2.00/b.b3 addr 3
+manufacturer 0x02d0, product 0xa9a6 at sdmmc1 function 2 not configured
+manufacturer 0x02d0, product 0xa9a6 at sdmmc1 function 3 not configured
+uhub3 at uhub2 port 3 configuration 1 interface 0 "vendor 0x214b USB2.0 HUB" rev 2.00/1.00 addr 4
+ure0 at uhub3 port 1 configuration 1 interface 0 "Realtek USB 10/100 LAN" rev 2.10/20.00 addr 5
+ure0: RTL8152 (0x4c10), address 00:e0:4c:36:03:b4
+rlphy0 at ure0 phy 0: RTL8201E 10/100 PHY, rev. 2
+softraid0 at root
+scsibus1 at softraid0: 256 targets
+bootfile: sd0a:/bsd
+boot device: sd0
+root on rd0a swap on rd0b dump on rd0b
+WARNING: CHECK AND RESET THE DATE!
+gpio at bcmgpio0 not configured
+bwfm0: failed loadfirmware of file brcmfmac43455-sdio.bin
+erase ^?, werase ^W, kill ^U, intr ^C, status ^T
+
+Welcome to the OpenBSD/arm64 6.8 installation program.
+(I)nstall, (U)pgrade, (A)utoinstall or (S)hell? S
+
+# dhclient ure0
+ure0: 192.168.1.10 lease accepted from 192.168.1.1 (4c:ab:fc:31:0c:78)
+# ping 114.114.114.114
+PING 114.114.114.114 (114.114.114.114): 56 data bytes
+64 bytes from 114.114.114.114: icmp_seq=0 ttl=68 time=131.735 ms
+64 bytes from 114.114.114.114: icmp_seq=1 ttl=83 time=74.055 ms
+^C
+--- 114.114.114.114 ping statistics ---
+2 packets transmitted, 2 packets received, 0.0% packet loss
+round-trip min/avg/max/std-dev = 74.055/102.895/131.735/28.840 ms
+
+# df -h
+Filesystem     Size    Used   Avail Capacity  Mounted on
+/dev/rd0a      7.7M    7.1M    614K    92%    /
+
+# install
+At any prompt except password prompts you can escape to a shell by
+typing '!'. Default answers are shown in []'s and are selected by
+pressing RETURN.  You can exit this program at any time by pressing
+Control-C, but this can leave your system in an inconsistent state.
+
+Terminal type? [vt220] xterm
+System hostname? (short form, e.g. 'foo') openbsd-68
+
+Available network interfaces are: bwfm0 ure0 vlan0.
+Which network interface do you wish to configure? (or 'done') [bwfm0] ure0
+IPv4 address for ure0? (or 'dhcp' or 'none') [192.168.1.10]
+Netmask for ure0? [255.255.255.0]
+IPv6 address for ure0? (or 'autoconf' or 'none') [none] autoconf
+Available network interfaces are: bwfm0 ure0 vlan0.
+Which network interface do you wish to configure? (or 'done') [done]
+Default IPv4 route? (IPv4 address or none) 192.168.1.1
+add net default: gateway 192.168.1.1
+DNS domain name? (e.g. 'example.com') [my.domain]
+DNS nameservers? (IP address list or 'none') [192.168.1.1]
+
+Password for root account? (will not echo)
+Password for root account? (again)
+Start sshd(8) by default? [yes]
+Setup a user? (enter a lower-case loginname, or 'no') [no]
+Since no user was setup, root logins via sshd(8) might be useful.
+WARNING: root is targeted by password guessing attacks, pubkeys are safer.
+Allow root ssh login? (yes, no, prohibit-password) [no] yes
+
+Available disks are: sd0.
+Which disk is the root disk? ('?' for details) [sd0]
+Disk: sd0       geometry: 7599/255/63 [122093568 Sectors]
+Offset: 0       Signature: 0xAA55
+            Starting         Ending         LBA Info:
+ #: id      C   H   S -      C   H   S [       start:        size ]
+-------------------------------------------------------------------------------
+*0: 0C      2  10   9 -      2 140  10 [       32768:        8192 ] FAT32L
+ 1: 00      0   0   0 -      0   0   0 [           0:           0 ] unused
+ 2: 00      0   0   0 -      0   0   0 [           0:           0 ] unused
+ 3: A6      2 140  11 -      4  52  48 [       40960:       26624 ] OpenBSD
+Use (W)hole disk or (E)dit the MBR? [whole] W
+Creating a msdos partition and an OpenBSD partition for rest of sd0...done.
+/dev/rsd0i: 32668 sectors in 8167 FAT16 clusters (2048 bytes/cluster)
+bps=512 spc=4 res=1 nft=2 rde=512 mid=0xf8 spf=32 spt=63 hds=255 hid=32768 bsec=32768
+The auto-allocated layout for sd0 is:
+#                size           offset  fstype [fsize bsize   cpg]
+  a:          1024.0M            65536  4.2BSD   2048 16384     1 # /
+  b:          1170.2M          2162688    swap
+  c:         59616.0M                0  unused
+  d:          4024.1M          4559200  4.2BSD   2048 16384     1 # /tmp
+  e:          5924.3M         12800640  4.2BSD   2048 16384     1 # /var
+  f:          6144.0M         24933664  4.2BSD   2048 16384     1 # /usr
+  g:          1024.0M         37516576  4.2BSD   2048 16384     1 # /usr/X11R6
+  h:          8344.3M         39613728  4.2BSD   2048 16384     1 # /usr/local
+  i:            16.0M            32768   MSDOS
+  j:          2048.0M         56702816  4.2BSD   2048 16384     1 # /usr/src
+  k:          6144.0M         60897120  4.2BSD   2048 16384     1 # /usr/obj
+  l:         23737.1M         73480032  4.2BSD   2048 16384     1 # /home
+Use (A)uto layout, (E)dit auto layout, or create (C)ustom layout? [a] E
+Label editor (enter '?' for help at any prompt)
+sd0> p
+OpenBSD area: 65536-122093568; size: 122028032; free: 8
+#                size           offset  fstype [fsize bsize   cpg]
+  a:          2097152            65536  4.2BSD   2048 16384     1 # /
+  b:          2396504          2162688    swap
+  c:        122093568                0  unused
+  d:          8241440          4559200  4.2BSD   2048 16384     1 # /tmp
+  e:         12133024         12800640  4.2BSD   2048 16384     1 # /var
+  f:         12582912         24933664  4.2BSD   2048 16384     1 # /usr
+  g:          2097152         37516576  4.2BSD   2048 16384     1 # /usr/X11R6
+  h:         17089088         39613728  4.2BSD   2048 16384     1 # /usr/local
+  i:            32768            32768   MSDOS
+  j:          4194304         56702816  4.2BSD   2048 16384     1 # /usr/src
+  k:         12582912         60897120  4.2BSD   2048 16384     1 # /usr/obj
+  l:         48613536         73480032  4.2BSD   2048 16384     1 # /home
+sd0> d a
+sd0*> d b
+sd0*> d d
+sd0*> d e
+sd0*> d f
+sd0*> d g
+sd0*> d h
+sd0*> d j
+sd0*> d k
+sd0*> d l
+sd0*> p
+OpenBSD area: 65536-122093568; size: 122028032; free: 122028032
+#                size           offset  fstype [fsize bsize   cpg]
+  c:        122093568                0  unused
+  i:            32768            32768   MSDOS
+sd0*> a b
+offset: [65536]
+size: [122028032] 2G
+FS type: [swap]
+sd0*> a a
+offset: [4273290]
+size: [117820278]
+FS type: [4.2BSD]
+mount point: [none] /
+sd0*> p
+OpenBSD area: 65536-122093568; size: 122028032; free: 22
+#                size           offset  fstype [fsize bsize   cpg]
+  a:        117820256          4273312  4.2BSD   2048 16384     1 # /
+  b:          4207754            65536    swap
+  c:        122093568                0  unused
+  i:            32768            32768   MSDOS
+sd0> quit
+No label changes.
+/dev/rsd0a: 57529.4MB in 117820256 sectors of 512 bytes
+285 cylinder groups of 202.50MB, 12960 blocks, 25920 inodes each
+/dev/sd0a (d11f67598186a9ba.a) on /mnt type ffs (rw, asynchronous, local)
+
+Let's install the sets!
+Location of sets? (disk http nfs or 'done') [http]
+HTTP proxy URL? (e.g. 'http://proxy:8080', or 'none') [none]
+(Unable to get list from ftp.openbsd.org, but that is OK)
+HTTP Server? (hostname or 'done') 192.168.1.12
+Server directory? [pub/OpenBSD/6.8/arm64]
+Unable to connect using https. Use http instead? [no] yes
+
+Select sets by entering a set name, a file name pattern or 'all'. De-select
+sets by prepending a '-', e.g.: '-game*'. Selected sets are labelled '[X]'.
+    [X] bsd           [X] base68.tgz    [X] game68.tgz    [X] xfont68.tgz
+    [X] bsd.mp        [X] comp68.tgz    [X] xbase68.tgz   [X] xserv68.tgz
+    [X] bsd.rd        [X] man68.tgz     [X] xshare68.tgz
+Set name(s)? (or 'abort' or 'done') [done]
+Get/Verify SHA256.sig   100% |**************************|  1454       00:00
+Signature Verified
+Get/Verify bsd          100% |**************************| 13017 KB    00:05
+Get/Verify bsd.mp       100% |**************************| 13082 KB    00:04
+Get/Verify bsd.rd       100% |**************************| 12669 KB    00:04
+Get/Verify base68.tgz   100% |**************************|   216 MB    01:00
+Get/Verify comp68.tgz   100% |**************************| 53375 KB    00:14
+Get/Verify man68.tgz    100% |**************************|  7484 KB    00:02
+Get/Verify game68.tgz   100% |**************************|  2677 KB    00:01
+Get/Verify xbase68.tgz  100% |**************************| 24967 KB    00:07
+Get/Verify xshare68.tgz 100% |**************************|  4500 KB    00:01
+Get/Verify xfont68.tgz  100% |**************************| 39344 KB    00:12
+Get/Verify xserv68.tgz  100% |**************************| 10943 KB    00:03
+Installing bsd          100% |**************************| 13017 KB    00:02
+Installing bsd.mp       100% |**************************| 13082 KB    00:02
+Installing bsd.rd       100% |**************************| 12669 KB    00:02
+Installing base68.tgz   100% |**************************|   216 MB    01:40
+Extracting etc.tgz      100% |**************************|   260 KB    00:00
+Installing comp68.tgz   100% |**************************| 53375 KB    00:45
+Installing man68.tgz    100% |**************************|  7484 KB    00:08
+Installing game68.tgz   100% |**************************|  2677 KB    00:01
+Installing xbase68.tgz  100% |**************************| 24967 KB    00:18
+Extracting xetc.tgz     100% |**************************|  7068       00:00
+Installing xshare68.tgz 100% |**************************|  4500 KB    00:09
+Installing xfont68.tgz  100% |**************************| 39344 KB    00:20
+Installing xserv68.tgz  100% |**************************| 10943 KB    00:06
+Location of sets? (disk http nfs or 'done') [done]
+
+What timezone are you in? ('?' for list) [Canada/Mountain] ?
+Africa/      Chile/       GB-Eire      Israel       Navajo       US/
+America/     Cuba         GMT          Jamaica      PRC          UTC
+Antarctica/  EET          GMT+0        Japan        PST8PDT      Universal
+Arctic/      EST          GMT-0        Kwajalein    Pacific/     W-SU
+Asia/        EST5EDT      GMT0         Libya        Poland       WET
+Atlantic/    Egypt        Greenwich    MET          Portugal     Zulu
+Australia/   Eire         HST          MST          ROC          posixrules
+Brazil/      Etc/         Hongkong     MST7MDT      ROK
+CET          Europe/      Iceland      Mexico/      Singapore
+CST6CDT      Factory      Indian/      NZ           Turkey
+Canada/      GB           Iran         NZ-CHAT      UCT
+What timezone are you in? ('?' for list) [Canada/Mountain] Asia
+What sub-timezone of 'Asia' are you in? ('?' for list) ?
+Aden            Chongqing       Jerusalem       Novokuznetsk    Tashkent
+Almaty          Chungking       Kabul           Novosibirsk     Tbilisi
+Amman           Colombo         Kamchatka       Omsk            Tehran
+Anadyr          Dacca           Karachi         Oral            Tel_Aviv
+Aqtau           Damascus        Kashgar         Phnom_Penh      Thimbu
+Aqtobe          Dhaka           Kathmandu       Pontianak       Thimphu
+Ashgabat        Dili            Katmandu        Pyongyang       Tokyo
+Ashkhabad       Dubai           Khandyga        Qatar           Tomsk
+Atyrau          Dushanbe        Kolkata         Qostanay        Ujung_Pandang
+Baghdad         Famagusta       Krasnoyarsk     Qyzylorda       Ulaanbaatar
+Bahrain         Gaza            Kuala_Lumpur    Rangoon         Ulan_Bator
+Baku            Harbin          Kuching         Riyadh          Urumqi
+Bangkok         Hebron          Kuwait          Saigon          Ust-Nera
+Barnaul         Ho_Chi_Minh     Macao           Sakhalin        Vientiane
+Beirut          Hong_Kong       Macau           Samarkand       Vladivostok
+Bishkek         Hovd            Magadan         Seoul           Yakutsk
+Brunei          Irkutsk         Makassar        Shanghai        Yangon
+Calcutta        Istanbul        Manila          Singapore       Yekaterinburg
+Chita           Jakarta         Muscat          Srednekolymsk   Yerevan
+Choibalsan      Jayapura        Nicosia         Taipei
+What sub-timezone of 'Asia' are you in? ('?' for list) Shanghai
+Saving configuration files... done.
+Making all device nodes... done.
+Multiprocessor machine; using bsd.mp instead of bsd.
+Relinking to create unique kernel... done.
+
+CONGRATULATIONS! Your OpenBSD install has been successfully completed!
+
+When you login to your new system the first time, please read your mail
+using the 'mail' command.
+
+Exit to (S)hell, (H)alt or (R)eboot? [reboot]
+syncing disks... done
+rebooting...
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="First-boot"><a href="#First-boot" class="headerlink" title="First boot"></a>First boot</h3><pre class="line-numbers language-shell"><code class="language-shell">
+U-Boot 2020.07 (Sep 13 2020 - 13:13:43 -0600)
+
+DRAM:  948 MiB
+RPI 3 Model B+ (0xa020d3)
+MMC:   mmc@7e202000: 0, mmcnr@7e300000: 1
+Loading Environment from FAT... *** Warning - bad CRC, using default environment
+
+In:    serial
+Out:   vidconsole
+Err:   vidconsole
+Net:   No ethernet found.
+starting USB...
+Bus usb@7e980000: USB DWC2
+scanning bus usb@7e980000 for devices... 6 USB Device(s) found
+       scanning usb for storage devices... 0 Storage Device(s) found
+Hit any key to stop autoboot:  0
+switch to partitions #0, OK
+mmc0 is current device
+Scanning mmc 0:1...
+Found EFI removable media binary efi/boot/bootaa64.efi
+libfdt fdt_check_header(): FDT_ERR_BADMAGIC
+Scanning disk mmc@7e202000.blk...
+** Unrecognized filesystem type **
+Card did not respond to voltage select!
+Scanning disk mmcnr@7e300000.blk...
+Disk mmcnr@7e300000.blk not ready
+Found 3 disks
+BootOrder not defined
+EFI boot manager: Cannot load any image
+168696 bytes read in 11 ms (14.6 MiB/s)
+libfdt fdt_check_header(): FDT_ERR_BADMAGIC
+disks: sd0*
+>> OpenBSD/arm64 BOOTAA64 1.2
+boot>
+booting sd0a:/bsd: 8626252+1764264+552000+797952 [624213+109+1051200+616512]=0xf79648
+type 0x0 pa 0x0 va 0x0 pages 0x1 attr 0x8
+type 0x7 pa 0x1000 va 0x1000 pages 0x1ff attr 0x8
+type 0x2 pa 0x200000 va 0x200000 pages 0x4000 attr 0x8
+type 0x7 pa 0x4200000 va 0x4200000 pages 0x3cf5 attr 0x8
+type 0x9 pa 0x7ef5000 va 0x7ef5000 pages 0x16 attr 0x8
+type 0x7 pa 0x7f0b000 va 0x7f0b000 pages 0x31214 attr 0x8
+type 0x2 pa 0x3911f000 va 0x3911f000 pages 0xce7 attr 0x8
+type 0x4 pa 0x39e06000 va 0x39e06000 pages 0x1 attr 0x8
+type 0x2 pa 0x39e07000 va 0x39e07000 pages 0x3 attr 0x8
+type 0x7 pa 0x39e0a000 va 0x39e0a000 pages 0x1 attr 0x8
+type 0x2 pa 0x39e0b000 va 0x39e0b000 pages 0x100 attr 0x8
+type 0x1 pa 0x39f0b000 va 0x39f0b000 pages 0x2a attr 0x8
+type 0x0 pa 0x39f35000 va 0x39f35000 pages 0x7 attr 0x8
+type 0x4 pa 0x39f3c000 va 0x39f3c000 pages 0x1 attr 0x8
+type 0x6 pa 0x39f3d000 va 0x3071b4a000 pages 0x1 attr 0x8000000000000008
+type 0x4 pa 0x39f3e000 va 0x39f3e000 pages 0x2 attr 0x8
+type 0x0 pa 0x39f40000 va 0x39f40000 pages 0x1 attr 0x8
+type 0x4 pa 0x39f41000 va 0x39f41000 pages 0x2 attr 0x8
+type 0x6 pa 0x39f43000 va 0x3071b50000 pages 0x2 attr 0x8000000000000008
+type 0x0 pa 0x39f45000 va 0x39f45000 pages 0x1 attr 0x8
+type 0x4 pa 0x39f46000 va 0x39f46000 pages 0x1 attr 0x8
+type 0x0 pa 0x39f47000 va 0x39f47000 pages 0x1 attr 0x8
+type 0x4 pa 0x39f48000 va 0x39f48000 pages 0x2 attr 0x8
+type 0x0 pa 0x39f4a000 va 0x39f4a000 pages 0x1 attr 0x8
+type 0x2 pa 0x39f4b000 va 0x39f4b000 pages 0x1405 attr 0x8
+type 0x5 pa 0x3b350000 va 0x3072f5d000 pages 0x10 attr 0x8000000000000008
+type 0x2 pa 0x3b360000 va 0x3b360000 pages 0xa0 attr 0x8
+type 0xb pa 0x3f100000 va 0x3072f6d000 pages 0x1 attr 0x8000000000000000
+[ using 2293000 bytes of bsd ELF symbol table ]
+Copyright (c) 1982, 1986, 1989, 1991, 1993
+        The Regents of the University of California.  All rights reserved.
+Copyright (c) 1995-2020 OpenBSD. All rights reserved.  https://www.OpenBSD.org
+
+OpenBSD 6.8 (GENERIC.MP) #828: Sun Oct  4 20:35:47 MDT 2020
+    deraadt@arm64.openbsd.org:/usr/src/sys/arch/arm64/compile/GENERIC.MP
+real mem  = 957382656 (913MB)
+avail mem = 895623168 (854MB)
+random: good seed from bootblocks
+mainbus0 at root: Raspberry Pi 3 Model B Plus Rev 1.3
+cpu0 at mainbus0 mpidr 0: ARM Cortex-A53 r0p4
+cpu0: 32KB 64b/line 2-way L1 VIPT I-cache, 32KB 64b/line 4-way L1 D-cache
+cpu0: 512KB 64b/line 16-way L2 cache
+cpu1 at mainbus0 mpidr 1: ARM Cortex-A53 r0p4
+cpu1: 32KB 64b/line 2-way L1 VIPT I-cache, 32KB 64b/line 4-way L1 D-cache
+cpu1: 512KB 64b/line 16-way L2 cache
+cpu2 at mainbus0 mpidr 2: ARM Cortex-A53 r0p4
+cpu2: 32KB 64b/line 2-way L1 VIPT I-cache, 32KB 64b/line 4-way L1 D-cache
+cpu2: 512KB 64b/line 16-way L2 cache
+cpu3 at mainbus0 mpidr 3: ARM Cortex-A53 r0p4
+cpu3: 32KB 64b/line 2-way L1 VIPT I-cache, 32KB 64b/line 4-way L1 D-cache
+cpu3: 512KB 64b/line 16-way L2 cache
+efi0 at mainbus0: UEFI 2.8
+efi0: Das U-Boot rev 0x20200700
+apm0 at mainbus0
+simplefb0 at mainbus0: 1824x984, 32bpp
+wsdisplay0 at simplefb0 mux 1
+wsdisplay0: screen 0-5 added (std, vt100 emulation)
+"system" at mainbus0 not configured
+"axi" at mainbus0 not configured
+simplebus0 at mainbus0: "soc"
+bcmclock0 at simplebus0
+bcmmbox0 at simplebus0
+bcmgpio0 at simplebus0
+bcmaux0 at simplebus0
+bcmdmac0 at simplebus0: DMA0 DMA2 DMA4 DMA5 DMA8 DMA9 DMA10
+bcmintc0 at simplebus0
+bcmrng0 at simplebus0
+pluart0 at simplebus0: console
+bcmsdhost0 at simplebus0: 250 MHz base clock
+sdmmc0 at bcmsdhost0: 4-bit, sd high-speed, mmc high-speed, dma
+dwctwo0 at simplebus0
+bcmdog0 at simplebus0
+bcmtemp0 at simplebus0
+"local_intc" at simplebus0 not configured
+sdhc0 at simplebus0
+sdhc0: SDHC 3.0, 200 MHz base clock
+sdmmc1 at sdhc0: 4-bit, sd high-speed, mmc high-speed
+simplebus1 at simplebus0: "firmware"
+"clocks" at simplebus1 not configured
+"expgpio" at simplebus1 not configured
+"power" at simplebus0 not configured
+"mailbox" at simplebus0 not configured
+"gpiomem" at simplebus0 not configured
+"fb" at simplebus0 not configured
+"vcsm" at simplebus0 not configured
+"clocks" at mainbus0 not configured
+"phy" at mainbus0 not configured
+"arm-pmu" at mainbus0 not configured
+agtimer0 at mainbus0: tick rate 19200 KHz
+"leds" at mainbus0 not configured
+"fixedregulator_3v3" at mainbus0 not configured
+"fixedregulator_5v0" at mainbus0 not configured
+usb0 at dwctwo0: USB revision 2.0
+scsibus0 at sdmmc0: 2 targets, initiator 0
+sd0 at scsibus0 targ 1 lun 0: <SD/MMC, SD64G, 0060> removable
+sd0: 59616MB, 512 bytes/sector, 122093568 sectors
+uhub0 at usb0 configuration 1 interface 0 "Broadcom DWC2 root hub" rev 2.00/1.00 addr 1
+uhub1 at uhub0 port 1 configuration 1 interface 0 "Standard Microsystems product 0x2514" rev 2.00/b.b3 addr 2
+bwfm0 at sdmmc1 function 1
+manufacturer 0x02d0, product 0xa9a6 at sdmmc1 function 2 not configured
+manufacturer 0x02d0, product 0xa9a6 at sdmmc1 function 3 not configured
+uhub2 at uhub1 port 1 configuration 1 interface 0 "Standard Microsystems product 0x2514" rev 2.00/b.b3 addr 3
+uhub3 at uhub2 port 3 configuration 1 interface 0 "vendor 0x214b USB2.0 HUB" rev 2.00/1.00 addr 4
+ure0 at uhub3 port 1 configuration 1 interface 0 "Realtek USB 10/100 LAN" rev 2.10/20.00 addr 5
+ure0: RTL8152 (0x4c10), address 00:e0:4c:36:03:b4
+rlphy0 at ure0 phy 0: RTL8201E 10/100 PHY, rev. 2
+vscsi0 at root
+scsibus1 at vscsi0: 256 targets
+softraid0 at root
+scsibus2 at softraid0: 256 targets
+bootfile: sd0a:/bsd
+boot device: sd0
+root on sd0a (d11f67598186a9ba.a) swap on sd0b dump on sd0b
+WARNING: CHECK AND RESET THE DATE!
+gpio0 at bcmgpio0: 54 pins
+bwfm0: failed loadfirmware of file brcmfmac43455-sdio.bin
+Automatic boot in progress: starting file system checks.
+/dev/sd0a (d11f67598186a9ba.a): file system is clean; not checking
+pf enabled
+starting network
+reordering libraries: done.
+openssl: generating isakmpd/iked RSA keys... done.
+ssh-keygen: generating new host keys: RSA DSA ECDSA ED25519
+starting early daemons: syslogd pflogd ntpd.
+starting RPC daemons:.
+savecore: no core dump
+checking quotas: done.
+clearing /tmp
+kern.securelevel: 0 -> 1
+creating runtime link editor directory cache.
+preserving editor files.
+starting network daemons: sshd smtpd sndiod.
+running rc.firsttime
+Path to firmware: http://firmware.openbsd.org/firmware/6.8/
+Installing: bwfm-firmware
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Logging-in-to-OpenBSD"><a href="#Logging-in-to-OpenBSD" class="headerlink" title="Logging in to OpenBSD"></a>Logging in to OpenBSD</h2><p>You must log in with the account created during system installation.</p>
+<h2 id="System-characteristics"><a href="#System-characteristics" class="headerlink" title="System characteristics"></a>System characteristics</h2><h3 id="uname"><a href="#uname" class="headerlink" title="uname"></a>uname</h3><pre class="line-numbers language-shell"><code class="language-shell"># uname -snrmp
+OpenBSD openbsd-68.my.domain 6.8 arm64 aarch64
+
+# uname -a
+OpenBSD openbsd-68.my.domain 6.8 GENERIC.MP#828 arm64
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="cpu"><a href="#cpu" class="headerlink" title="cpu"></a>cpu</h3><pre class="line-numbers language-shell"><code class="language-shell"># dmesg | grep cpu
+cpu0 at mainbus0 mpidr 0: ARM Cortex-A53 r0p4
+cpu0: 32KB 64b/line 2-way L1 VIPT I-cache, 32KB 64b/line 4-way L1 D-cache
+cpu0: 512KB 64b/line 16-way L2 cache
+cpu1 at mainbus0 mpidr 1: ARM Cortex-A53 r0p4
+cpu1: 32KB 64b/line 2-way L1 VIPT I-cache, 32KB 64b/line 4-way L1 D-cache
+cpu1: 512KB 64b/line 16-way L2 cache
+cpu2 at mainbus0 mpidr 2: ARM Cortex-A53 r0p4
+cpu2: 32KB 64b/line 2-way L1 VIPT I-cache, 32KB 64b/line 4-way L1 D-cache
+cpu2: 512KB 64b/line 16-way L2 cache
+cpu3 at mainbus0 mpidr 3: ARM Cortex-A53 r0p4
+cpu3: 32KB 64b/line 2-way L1 VIPT I-cache, 32KB 64b/line 4-way L1 D-cache
+cpu3: 512KB 64b/line 16-way L2 cache
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="memory"><a href="#memory" class="headerlink" title="memory"></a>memory</h3><pre class="line-numbers language-shell"><code class="language-shell"># dmesg | grep -i mem
+real mem  = 957382656 (913MB)
+avail mem = 895623168 (854MB)
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="ure"><a href="#ure" class="headerlink" title="ure"></a>ure</h3><p>Realtek RTL8152 Based USB Ethernet Adapter</p>
+<pre class="line-numbers language-shell"><code class="language-shell"># dmesg | grep ure0
+ure0 at uhub3 port 1 configuration 1 interface 0 "Realtek USB 10/100 LAN" rev 2.10/20.00 addr 5
+ure0: RTL8152 (0x4c10), address 00:e0:4c:36:03:b4
+rlphy0 at ure0 phy 0: RTL8201E 10/100 PHY, rev. 2
+
+# dmesg | grep bwfm0
+bwfm0 at sdmmc1 function 1
+bwfm0: failed loadfirmware of file brcmfmac43455-sdio.bin
+
+# dmesg | grep uhub
+uhub0 at usb0 configuration 1 interface 0 "Broadcom DWC2 root hub" rev 2.00/1.00 addr 1
+uhub1 at uhub0 port 1 configuration 1 interface 0 "Standard Microsystems product 0x2514" rev 2.00/b.b3 addr 2
+uhub2 at uhub1 port 1 configuration 1 interface 0 "Standard Microsystems product 0x2514" rev 2.00/b.b3 addr 3
+uhub3 at uhub2 port 3 configuration 1 interface 0 "vendor 0x214b USB2.0 HUB" rev 2.00/1.00 addr 4
+ure0 at uhub3 port 1 configuration 1 interface 0 "Realtek USB 10/100 LAN" rev 2.10/20.00 addr 5
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="sysctl"><a href="#sysctl" class="headerlink" title="sysctl"></a>sysctl</h3><pre class="line-numbers language-shell"><code class="language-shell"># sysctl | grep ^hw
+hw.machine=arm64
+hw.model=ARM Cortex-A53 r0p4
+hw.ncpu=4
+hw.byteorder=1234
+hw.pagesize=4096
+hw.disknames=sd0:d11f67598186a9ba
+hw.diskcount=1
+hw.sensors.bcmtemp0.temp0=40.78 degC
+hw.product=Raspberry Pi 3 Model B Plus Rev 1.3
+hw.serialno=0000000066661338
+hw.physmem=957382656
+hw.usermem=957366272
+hw.ncpufound=4
+hw.allowpowerdown=1
+hw.ncpuonline=4
+
+kern.clockrate=tick = 10000, tickadj = 40, hz = 100, profhz = 1000, stathz = 100
+kern.consbufsize=16344
+kern.consdev=tty00
+kern.fscale=2048
+kern.fsync=1
+kern.maxclusters=65536
+kern.maxfiles=7030
+kern.maxlocksperuid=1024
+kern.maxpartitions=16
+kern.maxproc=1310
+kern.maxthread=1950
+kern.maxvnodes=10920
+kern.numvnodes=4570
+kern.osrelease=6.8
+kern.osrevision=202010
+kern.ostype=OpenBSD
+kern.osversion=GENERIC.MP#828
+kern.timecounter.choice=agtimer(0)
+kern.timecounter.hardware=agtimer
+kern.timecounter.tick=1
+kern.timecounter.timestepwarnings=0
+kern.timeout_stats=added = 203712, cancelled = 106901, deleted = 131218, late = 15, pending = 31, readded = 8987, scheduled = 105962, rescheduled = 923, run_softclock = 69066, run_thread = 18727, softclocks = 126713, thread_wakeups = 16364
+kern.tty.tk_cancc=9
+kern.tty.tk_nin=559
+kern.tty.tk_nout=61410
+kern.tty.tk_rawcc=550
+kern.ttycount=8
+kern.utc_offset=0
+kern.version=OpenBSD 6.8 (GENERIC.MP) #828: Sun Oct  4 20:35:47 MDT 2020
+kern.watchdog.auto=1
+kern.watchdog.period=0
+kern.wxabort=0
+
+machdep.compatible=raspberrypi,3-model-b-plus
+
+net.inet.carp.allow=1
+net.inet.carp.log=2
+net.inet.carp.preempt=0
+
+net.mpls.mapttl_ip6=0
+net.mpls.mapttl_ip=1
+net.mpls.ttl=255
+
+vm.swapencrypt.enable=1
+vm.swapencrypt.keyscreated=0
+vm.swapencrypt.keysdeleted=0
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="mmc"><a href="#mmc" class="headerlink" title="mmc"></a>mmc</h3><pre class="line-numbers language-shell"><code class="language-shell"># dmesg | grep mmc
+sdmmc0 at bcmsdhost0: 4-bit, sd high-speed, mmc high-speed, dma
+sdmmc1 at sdhc0: 4-bit, sd high-speed, mmc high-speed
+scsibus0 at sdmmc0: 2 targets, initiator 0
+bwfm0 at sdmmc1 function 1
+manufacturer 0x02d0, product 0xa9a6 at sdmmc1 function 2 not configured
+manufacturer 0x02d0, product 0xa9a6 at sdmmc1 function 3 not configured
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="mounts"><a href="#mounts" class="headerlink" title="mounts"></a>mounts</h3><pre class="line-numbers language-shell"><code class="language-shell"># mount
+/dev/sd0a on / type ffs (local, wxallowed)
+
+# df -h
+Filesystem     Size    Used   Avail Capacity  Mounted on
+/dev/sd0a     54.4G    1.1G   50.6G     2%    /
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="fdisk"><a href="#fdisk" class="headerlink" title="fdisk"></a>fdisk</h3><pre class="line-numbers language-shell"><code class="language-shell"># fdisk /dev/rsd0c
+Disk: /dev/rsd0c    geometry: 7599/255/63 [122093568 Sectors]
+Offset: 0    Signature: 0xAA55
+            Starting         Ending         LBA Info:
+ #: id      C   H   S -      C   H   S [       start:        size ]
+-------------------------------------------------------------------------------
+*0: 0C      2  10   9 -      4  20  16 [       32768:       32768 ] FAT32L
+ 1: 00      0   0   0 -      0   0   0 [           0:           0 ] unused
+ 2: 00      0   0   0 -      0   0   0 [           0:           0 ] unused
+ 3: A6      4  20  17 -   7599 248   9 [       65536:   122028032 ] OpenBSD
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="disklabel"><a href="#disklabel" class="headerlink" title="disklabel"></a>disklabel</h3><pre class="line-numbers language-shell"><code class="language-shell"># disklabel /dev/rsd0c
+# /dev/rsd0c:
+type: SCSI
+disk: SCSI disk
+label: SD/MMC SD64G
+duid: d11f67598186a9ba
+flags:
+bytes/sector: 512
+sectors/track: 63
+tracks/cylinder: 255
+sectors/cylinder: 16065
+cylinders: 7599
+total sectors: 122093568
+boundstart: 65536
+boundend: 122093568
+drivedata: 0
+
+16 partitions:
+#                size           offset  fstype [fsize bsize   cpg]
+  a:        117820256          4273312  4.2BSD   2048 16384 12960 # /
+  b:          4207754            65536    swap                    # none
+  c:        122093568                0  unused
+  i:            32768            32768   MSDOS
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="List-of-processes-after-startup"><a href="#List-of-processes-after-startup" class="headerlink" title="List of processes after startup"></a>List of processes after startup</h2><pre class="line-numbers language-shell"><code class="language-shell"># ps -Auww
+# ps -Avww
+# ps -Alww
+  UID   PID  PPID CPU PRI  NI   VSZ   RSS WCHAN   STAT   TT       TIME COMMAND
+    0     1     0  22  10   0   424   296 wait    I      ??    0:01.03 /sbin/init
+    0 40766     1   0   2   0   728   524 kqread  Ip     ??    0:00.03 /sbin/slaacd
+  115 17592 40766   0   2   0   748   636 kqread  Ip     ??    0:00.04 slaacd: engine (slaacd)
+  115 77135 40766   0   2   0   760   628 kqread  Ip     ??    0:00.20 slaacd: frontend (slaacd)
+    0  7309     1  20   2   0   532  2064 netio   IpU    ??    0:00.06 syslogd: [priv] (syslogd)
+   73 77649  7309   0   2   0  1060  1288 kqread  Sp     ??    0:00.20 /usr/sbin/syslogd
+    0  7362     1  20   2   0   716   476 netio   IU     ??    0:00.15 pflogd: [priv] (pflogd)
+   74  1735  7362   0   4   0   752   428 bpf     Sp     ??    0:00.34 pflogd: [running] -s 160 -i pflog0 -f /var/log/pflog (pflogd)
+   83 29117     1   0   2 -20  1032  2660 poll    S<p    ??    0:00.26 ntpd: ntp engine (ntpd)
+   83  2803 29117   0   2   0   840  2316 poll    Ip     ??    0:00.28 ntpd: dns engine (ntpd)
+    0 16607     1   0   2 -20   780  1456 poll    I<pU   ??    0:00.09 /usr/sbin/ntpd
+    0 97076     1   0   2   0  1020  1284 select  S      ??    0:00.02 sshd: /usr/sbin/sshd [listener] 0 of 10-100 startups (sshd)
+    0 28535     1   0   2   0  1564  1976 kqread  Ip     ??    0:00.10 /usr/sbin/smtpd
+   95 85245 28535  11   2   0  1300  3564 kqread  Ip     ??    0:00.26 smtpd: klondike (smtpd)
+   95 42581 28535   0   2   0  1640  3936 kqread  Ip     ??    0:00.21 smtpd: control (smtpd)
+   95 71786 28535   0   2   0  1420  3804 kqread  Ip     ??    0:00.16 smtpd: lookup (smtpd)
+   95 11403 28535   0   2   0  1720  4164 kqread  Ip     ??    0:00.25 smtpd: pony express (smtpd)
+  103 60517 28535   0   2   0  1524  3848 kqread  Ip     ??    0:00.22 smtpd: queue (smtpd)
+   95 88138 28535   0   2   0  1296  3640 kqread  Ip     ??    0:00.16 smtpd: scheduler (smtpd)
+  110 33178     1  20   2   0   500   820 poll    IpU    ??    0:00.07 sndiod: helper (sndiod)
+   99 31324     1  20   2 -20   516   660 poll    I<p    ??    0:00.02 /usr/bin/sndiod
+    0 44354     1   0   2   0   672  1152 poll    Sp     ??    0:00.03 /usr/sbin/cron
+    0 38283     1   0  18   0   812   680 pause   Sp     00    0:00.11 -ksh (ksh)
+    0 71343 38283   0  28   0   444   356 -       R+pU/0 00    0:00.00 ps -Alww
+    0  6050     1   0   3   0   308  1100 ttyin   I+pU   C1    0:00.05 /usr/libexec/getty std.9600 ttyC1
+    0 43052     1   0   3   0   308  1092 ttyin   I+pU   C2    0:00.04 /usr/libexec/getty std.9600 ttyC2
+    0 22185     1   0   3   0   316  1100 ttyin   I+pU   C3    0:00.04 /usr/libexec/getty std.9600 ttyC3
+    0 89374     1   0   3   0   316  1096 ttyin   I+pU   C5    0:00.02 /usr/libexec/getty std.9600 ttyC5
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="ifconfig"><a href="#ifconfig" class="headerlink" title="ifconfig"></a>ifconfig</h2><pre class="line-numbers language-shell"><code class="language-shell"># ifconfig -a
+lo0: flags=8049<UP,LOOPBACK,RUNNING,MULTICAST> mtu 32768
+    index 2 priority 0 llprio 3
+    groups: lo
+    inet6 ::1 prefixlen 128
+    inet6 fe80::1%lo0 prefixlen 64 scopeid 0x2
+    inet 127.0.0.1 netmask 0xff000000
+enc0: flags=0<>
+    index 1 priority 0 llprio 3
+    groups: enc
+    status: active
+bwfm0: flags=808803<UP,BROADCAST,SIMPLEX,MULTICAST,AUTOCONF4> mtu 1500
+    lladdr 00:00:00:00:00:00
+    index 3 priority 4 llprio 3
+    groups: wlan
+    media: IEEE802.11 autoselect
+    status: no network
+    ieee80211: nwid ""
+ure0: flags=208843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST,AUTOCONF6> mtu 1500
+    lladdr 00:e0:4c:36:03:b4
+    index 4 priority 0 llprio 3
+    groups: egress
+    media: Ethernet autoselect (100baseTX full-duplex)
+    status: active
+    inet 192.168.1.10 netmask 0xffffff00 broadcast 192.168.1.255
+    inet6 fe80::2e0:4cff:fe36:3b4%ure0 prefixlen 64 scopeid 0x4
+    inet6 2409:8a55:8b5:6740:46b4:f79:f201:a029 prefixlen 64 autoconf pltime 100090 vltime 186490
+    inet6 2409:8a55:8b5:6740:6b9d:19d2:39a3:ce40 prefixlen 64 autoconf autoconfprivacy pltime 85537 vltime 172011
+pflog0: flags=141<UP,RUNNING,PROMISC> mtu 33136
+    index 5 priority 0 llprio 3
+    groups: pflog
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Compiler"><a href="#Compiler" class="headerlink" title="Compiler"></a>Compiler</h2><pre class="line-numbers language-shell"><code class="language-shell"># ld -v
+LLD 10.0.1 (compatible with GNU linkers)
+
+# cc -v
+OpenBSD clang version 10.0.1
+Target: aarch64-unknown-openbsd6.8
+Thread model: posix
+InstalledDir: /usr/bin
+
+# c++ -v
+OpenBSD clang version 10.0.1
+Target: aarch64-unknown-openbsd6.8
+Thread model: posix
+InstalledDir: /usr/bin
+
+# file sh
+sh: ELF 64-bit LSB shared object, AArch64, version 1
+
+# ldd sh
+sh:
+    Start            End              Type  Open Ref GrpRef Name
+    0000001e95ddc000 0000001e95ea1000 dlib  1    0   0      /bin/sh
+
+# file /usr/bin/cc
+/usr/bin/cc: ELF 64-bit LSB executable, AArch64, version 1
+
+# ldd /usr/bin/cc
+/usr/bin/cc:
+    Start            End              Type  Open Ref GrpRef Name
+    0000000000200000 000000000382b000 exe   2    0   0      /usr/bin/cc
+    000000047f890000 000000047f991000 rlib  0    1   0      /usr/lib/libc++.so.5.0
+    000000046d67c000 000000046d6e7000 rlib  0    2   0      /usr/lib/libc++abi.so.3.0
+    000000043d02b000 000000043d063000 rlib  0    1   0      /usr/lib/libpthread.so.26.1
+    000000043012e000 0000000430193000 rlib  0    1   0      /usr/lib/libm.so.10.1
+    00000004248bd000 00000004249c3000 rlib  0    1   0      /usr/lib/libc.so.96.0
+    0000000457850000 0000000457850000 ld.so 0    1   0      /usr/libexec/ld.so
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="OpenBSD-Ports"><a href="#OpenBSD-Ports" class="headerlink" title="OpenBSD Ports"></a>OpenBSD Ports</h2><ul>
+<li><a href="https://man.openbsd.org/fw_update" target="_blank" rel="noopener">https://man.openbsd.org/fw_update</a></li>
+<li><a href="https://man.openbsd.org/bwfm" target="_blank" rel="noopener">https://man.openbsd.org/bwfm</a></li>
+<li><a href="https://man.openbsd.org/packages.7" target="_blank" rel="noopener">https://man.openbsd.org/packages.7</a></li>
+<li><a href="https://man.openbsd.org/pkg_info.1" target="_blank" rel="noopener">https://man.openbsd.org/pkg_info.1</a></li>
+<li><a href="https://man.openbsd.org/pkg_add.1" target="_blank" rel="noopener">https://man.openbsd.org/pkg_add.1</a></li>
+<li><a href="https://man.openbsd.org/pkg_delete.1" target="_blank" rel="noopener">https://man.openbsd.org/pkg_delete.1</a></li>
+<li><a href="https://man.openbsd.org/pkg_check" target="_blank" rel="noopener">https://man.openbsd.org/pkg_check</a></li>
+<li><a href="https://man.openbsd.org/pkg_sign.1" target="_blank" rel="noopener">https://man.openbsd.org/pkg_sign.1</a></li>
+</ul>
+<pre class="line-numbers language-shell"><code class="language-shell"># fw_update -iv
+Path to firmware: http://firmware.openbsd.org/firmware/6.8/
+Installed: bwfm-firmware-20200316.1.2
+
+# shutdown -r now
+
+# find /etc/firmware/ | grep 43455
+/etc/firmware/brcmfmac43455-sdio.bin
+/etc/firmware/brcmfmac43455-sdio.raspberrypi,4-model-b.txt
+/etc/firmware/brcmfmac43455-sdio.MINIX-NEO Z83-4.txt
+/etc/firmware/brcmfmac43455-sdio.raspberrypi,3-model-b-plus.txt
+
+# dmesg | grep bwfm
+bwfm0 at sdmmc1 function 1
+bwfm_sdio_buf_write: error 60
+bwfm0: could not load microcode
+bwfm0: HT avail timeout
+bwfm_sdio_buf_write: error 60
+bwfm0: could not load microcode
+bwfm0: could not init bus
+
+# export PKG_PATH=scp://user@company-build-server/usr/ports/packages/%a/all:https://trusted-public-server/%m:installpath
+
+# cat /etc/installurl
+#http://192.168.1.12/pub/OpenBSD
+https://cdn.openbsd.org/pub/OpenBSD
+
+$ pkg_info -Q unzip
+# pkg_add -UVv rsync xz curl
+# pkg_add -uVv unzip
+
+# pkg_info
+bwfm-firmware-20200316.1.2 firmware binary images for bwfm(4) driver
+curl-7.72.0         transfer files with FTP, HTTP, HTTPS, etc.
+nghttp2-1.41.0p1    library for HTTP/2
+quirks-3.440        exceptions to pkg_add rules
+rsync-3.2.3         mirroring/synchronization over low bandwidth links
+xz-5.2.5            LZMA compression and decompression tools
+
+$ pkg_info -mz | tee list
+# pkg_add -l list
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>OpenBSD 6.8 arm64 can use my Realtek RTL8152 Based USB Ethernet Adapter, it’s works very good. But is can’t found the Ethernet Adapterin Raspberry Pi 3 Model B Plus Rev 1.3, and the WiFi Adapter after firmware installation, it’s really disappointing.</p>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#OpenBSD-6-8-arm64-on-Raspberry-Pi-3B"><span class="toc-number">1.</span> <span class="toc-text">OpenBSD 6.8 arm64 on Raspberry Pi 3B+</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Download-OpenBSD-image"><span class="toc-number">1.1.</span> <span class="toc-text">Download OpenBSD image</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Write-image-to-SDXC-card"><span class="toc-number">1.2.</span> <span class="toc-text">Write image to SDXC card</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Booting-Raspberry-Pi"><span class="toc-number">1.3.</span> <span class="toc-text">Booting Raspberry Pi</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#minicom"><span class="toc-number">1.3.1.</span> <span class="toc-text">minicom</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#firmware"><span class="toc-number">1.3.2.</span> <span class="toc-text">firmware</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Install"><span class="toc-number">1.3.3.</span> <span class="toc-text">Install</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#First-boot"><span class="toc-number">1.3.4.</span> <span class="toc-text">First boot</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Logging-in-to-OpenBSD"><span class="toc-number">1.4.</span> <span class="toc-text">Logging in to OpenBSD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#System-characteristics"><span class="toc-number">1.5.</span> <span class="toc-text">System characteristics</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#uname"><span class="toc-number">1.5.1.</span> <span class="toc-text">uname</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cpu"><span class="toc-number">1.5.2.</span> <span class="toc-text">cpu</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#memory"><span class="toc-number">1.5.3.</span> <span class="toc-text">memory</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ure"><span class="toc-number">1.5.4.</span> <span class="toc-text">ure</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sysctl"><span class="toc-number">1.5.5.</span> <span class="toc-text">sysctl</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mmc"><span class="toc-number">1.5.6.</span> <span class="toc-text">mmc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mounts"><span class="toc-number">1.5.7.</span> <span class="toc-text">mounts</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fdisk"><span class="toc-number">1.5.8.</span> <span class="toc-text">fdisk</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#disklabel"><span class="toc-number">1.5.9.</span> <span class="toc-text">disklabel</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#List-of-processes-after-startup"><span class="toc-number">1.6.</span> <span class="toc-text">List of processes after startup</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ifconfig"><span class="toc-number">1.7.</span> <span class="toc-text">ifconfig</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Compiler"><span class="toc-number">1.8.</span> <span class="toc-text">Compiler</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenBSD-Ports"><span class="toc-number">1.9.</span> <span class="toc-text">OpenBSD Ports</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion"><span class="toc-number">1.10.</span> <span class="toc-text">Conclusion</span></a></li></ol></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

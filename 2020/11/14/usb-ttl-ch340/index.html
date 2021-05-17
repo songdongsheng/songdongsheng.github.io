@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>USB to TTL - CH340 | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>USB to TTL - CH340</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2020年11月14日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tags" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Windows" class='tag'>Windows</a>
+
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+  <a href="/tags/#Operating%20system" class='tag'>Operating system</a>
+
+
+            
+          </div>
+          <h1 id="USB-to-TTL-CH340"><a href="#USB-to-TTL-CH340" class="headerlink" title="USB to TTL - CH340"></a>USB to TTL - CH340</h1><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>在某宝买了一个 USB 转 TTL 模块，芯片型号是 CH340，芯片厂家是南京沁恒微电子股份有限公司。
+产品介绍，驱动程序，技术手册和原理图页面位于<a href="http://www.wch.cn/products/CH340.html" target="_blank" rel="noopener">USB转串口芯片:CH340</a>。</p>
+<h3 id="USB-to-Serial-Port-Chips"><a href="#USB-to-Serial-Port-Chips" class="headerlink" title="USB to Serial Port Chips"></a>USB to Serial Port Chips</h3><p><img src="usb_serial_converter.png" alt="USB 转串口芯片"></p>
+<h3 id="Interface-conversion-expert"><a href="#Interface-conversion-expert" class="headerlink" title="Interface conversion expert"></a>Interface conversion expert</h3><p><img src="interface_conversion_expert.png" alt="接口转换专家"></p>
+<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><p>进入 Linux 系统，将这个 USB 转 TTL 模块插入 USB A 口后自动识别。</p>
+<h3 id="dmesg"><a href="#dmesg" class="headerlink" title="dmesg"></a>dmesg</h3><pre class="line-numbers language-shell"><code class="language-shell">$ dmesg -w
+[  160.990615] usb 2-6: new full-speed USB device number 4 using xhci_hcd
+[  161.139926] usb 2-6: New USB device found, idVendor=1a86, idProduct=7523, bcdDevice= 2.64
+[  161.139932] usb 2-6: New USB device strings: Mfr=0, Product=2, SerialNumber=0
+[  161.139934] usb 2-6: Product: USB Serial
+[  161.165466] usbcore: registered new interface driver usbserial_generic
+[  161.165513] usbserial: USB Serial support registered for generic
+[  161.167670] usbcore: registered new interface driver ch341
+[  161.167684] usbserial: USB Serial support registered for ch341-uart
+[  161.167703] ch341 2-6:1.0: ch341-uart converter detected
+[  161.168611] usb 2-6: ch341-uart converter now attached to ttyUSB0
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="lsusb"><a href="#lsusb" class="headerlink" title="lsusb"></a>lsusb</h3><pre class="line-numbers language-shell"><code class="language-shell">$ lsusb
+Bus 001 Device 002: ID 8087:8000 Intel Corp.
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 003 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 002 Device 004: ID 1a86:7523 QinHeng Electronics HL-340 USB-Serial adapter
+Bus 002 Device 003: ID 0c45:64d2 Microdia Integrated Webcam
+Bus 002 Device 002: ID 1d57:0008 Xenta 2.4G Wireless Optical Mouse
+Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="udev-rules"><a href="#udev-rules" class="headerlink" title="udev rules"></a>udev rules</h3><pre><code>udev /dev/ttyCH340
+
+KERNEL==&quot;ttyUSB*&quot;,\
+    ATTRS{idVendor}==&quot;1a86&quot;,\
+    ATTRS{idProduct}==&quot;7523&quot;,\
+    GROUP=&quot;dialout&quot;,\
+    MODE=&quot;0660&quot;,\
+    RUN+=&quot;/bin/ln -sf %k /dev/ttyCH340&quot;
+</code></pre>
+<h3 id="terminal-emulation-program"><a href="#terminal-emulation-program" class="headerlink" title="terminal emulation program"></a>terminal emulation program</h3><pre class="line-numbers language-shell"><code class="language-shell">$ sudo screen /dev/ttyUSB0 115200
+
+$ sudo busybox microcom -t 5000 -s 115200 -X /dev/ttyUSB0
+
+$ sudo tio -b 115200 -t /dev/ttyUSB0
+
+$ sudo picocom -b 115200 /dev/ttyUSB0
+
+$ sudo minicom -b 115200 -8 -D /dev/ttyUSB0
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="pySerial"><a href="#pySerial" class="headerlink" title="pySerial"></a>pySerial</h3><pre class="line-numbers language-shell"><code class="language-shell">$ sudo apt-get install -y python3-serial
+
+$ sudo python3 -m serial.tools.list_ports
+/dev/ttyUSB0
+1 ports found
+
+$ sudo python3
+Python 3.8.5 (default, Jul 28 2020, 12:59:40)
+[GCC 9.3.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import serial
+>>>
+>>> ser = serial.Serial('/dev/ttyUSB0', 115200)
+>>> ser.timeout = 3
+>>> ser.write(b'xyz123abc')
+9
+>>> ser.read(8)
+b'xyz123ab'
+>>> ser.read(8)
+b'c'
+>>>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> serial
+<span class="token keyword">from</span> serial<span class="token punctuation">.</span>tools <span class="token keyword">import</span> list_ports
+
+ports <span class="token operator">=</span> list_ports<span class="token punctuation">.</span>comports<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">for</span> port <span class="token keyword">in</span> ports<span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>port<span class="token punctuation">)</span>
+
+ser <span class="token operator">=</span> serial<span class="token punctuation">.</span>Serial<span class="token punctuation">(</span><span class="token string">'/dev/ttyUSB0'</span><span class="token punctuation">,</span> <span class="token number">115200</span><span class="token punctuation">)</span>
+ser<span class="token punctuation">.</span>timeout <span class="token operator">=</span> <span class="token number">3</span>
+ser<span class="token punctuation">.</span>write<span class="token punctuation">(</span>b<span class="token string">'xyz123abc'</span><span class="token punctuation">)</span>
+ser<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><h3 id="驱动程序"><a href="#驱动程序" class="headerlink" title="驱动程序"></a>驱动程序</h3><p>在<a href="http://www.wch.cn/products/CH340.html" target="_blank" rel="noopener">USB转串口芯片:CH340</a>页面，厂家提供了 WHQL <a href="http://www.wch.cn/downloads/CH341SER_EXE.html" target="_blank" rel="noopener">驱动下载</a>，支持主流 Windows 系统。</p>
+<p>进入 Windows 系统，将这个 USB 转 TTL 模块插入 USB A 口，安装厂家提供的驱动程序。然后在设备管理器中的**端口(COM 和 LPT)**设备分类下，可以看到设备 **USB-SERIAL CH340 (COM11)**。</p>
+<p>查看这个设备的属性，可以发现驱动程序是由 <strong>Microsoft Windows Hardware Compatibility Publisher</strong> 签名，提供商是 <strong>wch.cn</strong>，驱动程序日期是 <strong>2019/1/30</strong>，版本是 <strong>3.5.2019.1</strong>，驱动程序文件是 <strong>C:\Windows\System32\Drivers\CH341S64.SYS</strong>。</p>
+<h3 id="设备信息"><a href="#设备信息" class="headerlink" title="设备信息"></a>设备信息</h3><p>在设备的详细信息页面中，可以看到如下在 <strong>USB-IF</strong> 注册的属性：</p>
+<pre><code>QinHeng Electronics HL-340 USB-Serial adapter
+USB-SERIAL CH340
+USB\VID_1A86&amp;PID_7523\5&amp;3B489C26&amp;0&amp;6
+USB\VID_1A86&amp;PID_7523&amp;REV_0264
+USB\VID_1A86&amp;PID_7523
+</code></pre>
+<h3 id="pySerial-1"><a href="#pySerial-1" class="headerlink" title="pySerial"></a>pySerial</h3><ul>
+<li><a href="https://github.com/pyserial/pyserial" target="_blank" rel="noopener">https://github.com/pyserial/pyserial</a></li>
+<li><a href="https://pythonhosted.org/pyserial/" target="_blank" rel="noopener">https://pythonhosted.org/pyserial/</a></li>
+<li><a href="https://pyserial.readthedocs.io/" target="_blank" rel="noopener">https://pyserial.readthedocs.io/</a></li>
+</ul>
+<pre class="line-numbers language-PowerShell"><code class="language-PowerShell">PS C:\> python -m pip install pyserial
+PS C:\> python -m serial.tools.list_ports
+COM11
+1 ports found
+
+PS C:\> python -m serial.tools.list_ports -v
+COM11
+    desc: USB-SERIAL CH340 (COM11)
+    hwid: USB VID:PID=1A86:7523 SER=5 LOCATION=1-6
+1 ports found
+
+PS C:\> python -m serial.tools.miniterm -h
+PS C:\> python -m serial.tools.miniterm COM11 115200
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-PowerShell"><code class="language-PowerShell">PS C:\> python
+Python 3.8.6 (tags/v3.8.6:db45529, Sep 23 2020, 15:52:53) [MSC v.1927 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import serial
+>>> from serial.tools import list_ports
+>>> ports = list_ports.comports()
+>>> for port in ports:
+...     print(port)
+...
+COM11 - USB-SERIAL CH340 (COM11)
+>>> with serial.Serial('COM11', 19200, timeout=1) as ser:
+...     ser.write(b'hello')
+...     ser.read(5)
+...
+5
+b'hello'
+>>>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> serial
+<span class="token keyword">from</span> serial<span class="token punctuation">.</span>tools <span class="token keyword">import</span> list_ports
+
+ports <span class="token operator">=</span> list_ports<span class="token punctuation">.</span>comports<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">for</span> port <span class="token keyword">in</span> ports<span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>port<span class="token punctuation">)</span>
+
+<span class="token keyword">with</span> serial<span class="token punctuation">.</span>Serial<span class="token punctuation">(</span><span class="token string">'COM11'</span><span class="token punctuation">,</span> <span class="token number">19200</span><span class="token punctuation">,</span> timeout<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">as</span> ser<span class="token punctuation">:</span>
+    ser<span class="token punctuation">.</span>write<span class="token punctuation">(</span>b<span class="token string">'hello'</span><span class="token punctuation">)</span>
+    ser<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#USB-to-TTL-CH340"><span class="toc-number">1.</span> <span class="toc-text">USB to TTL - CH340</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-number">1.1.</span> <span class="toc-text">Introduction</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#USB-to-Serial-Port-Chips"><span class="toc-number">1.1.1.</span> <span class="toc-text">USB to Serial Port Chips</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Interface-conversion-expert"><span class="toc-number">1.1.2.</span> <span class="toc-text">Interface conversion expert</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux"><span class="toc-number">1.2.</span> <span class="toc-text">Linux</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#dmesg"><span class="toc-number">1.2.1.</span> <span class="toc-text">dmesg</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lsusb"><span class="toc-number">1.2.2.</span> <span class="toc-text">lsusb</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#udev-rules"><span class="toc-number">1.2.3.</span> <span class="toc-text">udev rules</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#terminal-emulation-program"><span class="toc-number">1.2.4.</span> <span class="toc-text">terminal emulation program</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pySerial"><span class="toc-number">1.2.5.</span> <span class="toc-text">pySerial</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows"><span class="toc-number">1.3.</span> <span class="toc-text">Windows</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#驱动程序"><span class="toc-number">1.3.1.</span> <span class="toc-text">驱动程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设备信息"><span class="toc-number">1.3.2.</span> <span class="toc-text">设备信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pySerial-1"><span class="toc-number">1.3.3.</span> <span class="toc-text">pySerial</span></a></li></ol></li></ol></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

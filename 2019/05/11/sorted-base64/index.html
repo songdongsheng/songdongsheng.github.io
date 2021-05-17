@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Sorted base64 algorithm | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>Sorted base64 algorithm</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2019年05月11日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/Java/">Java</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tag" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Java" class='tag'>Java</a>
+
+
+            
+          </div>
+          <h1 id="Sorted-Base64"><a href="#Sorted-Base64" class="headerlink" title="Sorted Base64"></a>Sorted Base64</h1><p>The standard base64 algorithm does not preserve the order of the original data, so we need sorted base64 algorithm.</p>
+<p>URL safe characters include uppercase and lowercase letters, decimal digits, hyphen, period, underscore, and tilde, i.e. ALPHA / DIGIT / “-“ / “.” / “_” / “~”.</p>
+<p>Sorted Base64 encoding scheme use ‘-‘, decimal digits, uppercase letters, ‘_’, lowercase letters, in the ASCII table order.</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">import</span> java<span class="token punctuation">.</span>nio<span class="token punctuation">.</span>charset<span class="token punctuation">.</span>StandardCharsets<span class="token punctuation">;</span>
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>Arrays<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">/**
+ * Sorted Base64 without padding bytes.
+ * &lt;p>
+ * URL safe characters include uppercase and lowercase letters, decimal digits,
+ * hyphen, period, underscore, and tilde, i.e. ALPHA / DIGIT / "-" / "." / "_" / "~".
+ * &lt;p>
+ * Sorted Base64 encoding scheme use '-', decimal digits, uppercase letters, '_',
+ * lowercase letters, in the ASCII table order.
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SortedBase64</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> <span class="token function">SortedBase64</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * Returns a {@link Encoder} that encodes using the
+     * Sorted base64 encoding scheme.
+     *
+     * @return A Sorted Base64 encoder.
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> Encoder <span class="token function">getEncoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Encoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * Returns a {@link Decoder} that decodes using the
+     * Sorted base64 encoding scheme.
+     *
+     * @return A Sorted Base64 decoder.
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> Decoder <span class="token function">getDecoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Decoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * This class implements an encoder for encoding byte data using
+     * the Sorted Base64 {@link SortedBase64} encoding scheme.
+     * &lt;p>
+     * &lt;p> Instances of {@link Encoder} class are safe for use by
+     * multiple concurrent threads.
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">Encoder</span> <span class="token punctuation">{</span>
+
+        <span class="token keyword">private</span> <span class="token function">Encoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment" spellcheck="true">/**
+         * This array is a lookup table that translates 6-bit positive integer
+         * index values into their "Sorted Base64 Alphabet".
+         */</span>
+        <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">char</span><span class="token punctuation">[</span><span class="token punctuation">]</span> toSortedBase64 <span class="token operator">=</span> <span class="token punctuation">{</span>
+                <span class="token string">'-'</span><span class="token punctuation">,</span> <span class="token string">'0'</span><span class="token punctuation">,</span> <span class="token string">'1'</span><span class="token punctuation">,</span> <span class="token string">'2'</span><span class="token punctuation">,</span> <span class="token string">'3'</span><span class="token punctuation">,</span> <span class="token string">'4'</span><span class="token punctuation">,</span> <span class="token string">'5'</span><span class="token punctuation">,</span> <span class="token string">'6'</span><span class="token punctuation">,</span> <span class="token string">'7'</span><span class="token punctuation">,</span> <span class="token string">'8'</span><span class="token punctuation">,</span> <span class="token string">'9'</span><span class="token punctuation">,</span>
+                <span class="token string">'A'</span><span class="token punctuation">,</span> <span class="token string">'B'</span><span class="token punctuation">,</span> <span class="token string">'C'</span><span class="token punctuation">,</span> <span class="token string">'D'</span><span class="token punctuation">,</span> <span class="token string">'E'</span><span class="token punctuation">,</span> <span class="token string">'F'</span><span class="token punctuation">,</span> <span class="token string">'G'</span><span class="token punctuation">,</span> <span class="token string">'H'</span><span class="token punctuation">,</span> <span class="token string">'I'</span><span class="token punctuation">,</span> <span class="token string">'J'</span><span class="token punctuation">,</span> <span class="token string">'K'</span><span class="token punctuation">,</span> <span class="token string">'L'</span><span class="token punctuation">,</span> <span class="token string">'M'</span><span class="token punctuation">,</span>
+                <span class="token string">'N'</span><span class="token punctuation">,</span> <span class="token string">'O'</span><span class="token punctuation">,</span> <span class="token string">'P'</span><span class="token punctuation">,</span> <span class="token string">'Q'</span><span class="token punctuation">,</span> <span class="token string">'R'</span><span class="token punctuation">,</span> <span class="token string">'S'</span><span class="token punctuation">,</span> <span class="token string">'T'</span><span class="token punctuation">,</span> <span class="token string">'U'</span><span class="token punctuation">,</span> <span class="token string">'V'</span><span class="token punctuation">,</span> <span class="token string">'W'</span><span class="token punctuation">,</span> <span class="token string">'X'</span><span class="token punctuation">,</span> <span class="token string">'Y'</span><span class="token punctuation">,</span> <span class="token string">'Z'</span><span class="token punctuation">,</span>
+                <span class="token string">'_'</span><span class="token punctuation">,</span> <span class="token string">'a'</span><span class="token punctuation">,</span> <span class="token string">'b'</span><span class="token punctuation">,</span> <span class="token string">'c'</span><span class="token punctuation">,</span> <span class="token string">'d'</span><span class="token punctuation">,</span> <span class="token string">'e'</span><span class="token punctuation">,</span> <span class="token string">'f'</span><span class="token punctuation">,</span> <span class="token string">'g'</span><span class="token punctuation">,</span> <span class="token string">'h'</span><span class="token punctuation">,</span> <span class="token string">'i'</span><span class="token punctuation">,</span> <span class="token string">'j'</span><span class="token punctuation">,</span> <span class="token string">'k'</span><span class="token punctuation">,</span> <span class="token string">'l'</span><span class="token punctuation">,</span> <span class="token string">'m'</span><span class="token punctuation">,</span>
+                <span class="token string">'n'</span><span class="token punctuation">,</span> <span class="token string">'o'</span><span class="token punctuation">,</span> <span class="token string">'p'</span><span class="token punctuation">,</span> <span class="token string">'q'</span><span class="token punctuation">,</span> <span class="token string">'r'</span><span class="token punctuation">,</span> <span class="token string">'s'</span><span class="token punctuation">,</span> <span class="token string">'t'</span><span class="token punctuation">,</span> <span class="token string">'u'</span><span class="token punctuation">,</span> <span class="token string">'v'</span><span class="token punctuation">,</span> <span class="token string">'w'</span><span class="token punctuation">,</span> <span class="token string">'x'</span><span class="token punctuation">,</span> <span class="token string">'y'</span><span class="token punctuation">,</span> <span class="token string">'z'</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">int</span> <span class="token function">outLength</span><span class="token punctuation">(</span><span class="token keyword">int</span> srcLen<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token punctuation">(</span>srcLen <span class="token operator">*</span> <span class="token number">8</span> <span class="token operator">+</span> <span class="token number">5</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">6</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment" spellcheck="true">/**
+         * Encodes the specified byte array into a String using the {@link SortedBase64}
+         * encoding scheme.
+         */</span>
+        <span class="token keyword">public</span> String <span class="token function">encode</span><span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> src<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> encoded <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">byte</span><span class="token punctuation">[</span><span class="token function">outLength</span><span class="token punctuation">(</span>src<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token function">encode</span><span class="token punctuation">(</span>src<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> encoded<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> src<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">(</span>encoded<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> encoded<span class="token punctuation">.</span>length<span class="token punctuation">,</span> StandardCharsets<span class="token punctuation">.</span>ISO_8859_1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment" spellcheck="true">/**
+         * Encodes an array from the specified source array, beginning at the
+         * specified position, to the specified position of the destination array,
+         * using the {@link SortedBase64} encoding scheme. The number of bytes
+         * encoded is equal to the &lt;code>length&lt;/code> argument. The returned
+         * value is of the length of the resulting bytes.
+         */</span>
+        <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">encode</span><span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> src<span class="token punctuation">,</span> <span class="token keyword">int</span> srcPos<span class="token punctuation">,</span> <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> dst<span class="token punctuation">,</span> <span class="token keyword">int</span> dstPos<span class="token punctuation">,</span> <span class="token keyword">int</span> length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>srcPos <span class="token operator">+</span> length <span class="token operator">></span> src<span class="token punctuation">.</span>length <span class="token operator">||</span> <span class="token function">outLength</span><span class="token punctuation">(</span>length<span class="token punctuation">)</span> <span class="token operator">+</span> dstPos <span class="token operator">></span> dst<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalArgumentException</span><span class="token punctuation">(</span><span class="token string">"Output byte array is too small for encoding all input bytes"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+
+            <span class="token keyword">int</span> sp <span class="token operator">=</span> srcPos<span class="token punctuation">;</span>
+            <span class="token keyword">int</span> s1 <span class="token operator">=</span> srcPos <span class="token operator">+</span> <span class="token punctuation">(</span>length <span class="token operator">/</span> <span class="token number">3</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">3</span><span class="token punctuation">;</span>
+            <span class="token keyword">int</span> dp <span class="token operator">=</span> dstPos<span class="token punctuation">;</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>sp <span class="token operator">&lt;</span> s1<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">int</span> bits <span class="token operator">=</span> <span class="token punctuation">(</span>src<span class="token punctuation">[</span>sp<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">&amp;</span> <span class="token number">0xff</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token number">16</span> <span class="token operator">|</span> <span class="token punctuation">(</span>src<span class="token punctuation">[</span>sp<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">&amp;</span> <span class="token number">0xff</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token number">8</span> <span class="token operator">|</span> <span class="token punctuation">(</span>src<span class="token punctuation">[</span>sp<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">&amp;</span> <span class="token number">0xff</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                dst<span class="token punctuation">[</span>dp<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">)</span> toSortedBase64<span class="token punctuation">[</span><span class="token punctuation">(</span>bits <span class="token operator">>>></span> <span class="token number">18</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0x3f</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                dst<span class="token punctuation">[</span>dp<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">)</span> toSortedBase64<span class="token punctuation">[</span><span class="token punctuation">(</span>bits <span class="token operator">>>></span> <span class="token number">12</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0x3f</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                dst<span class="token punctuation">[</span>dp<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">)</span> toSortedBase64<span class="token punctuation">[</span><span class="token punctuation">(</span>bits <span class="token operator">>>></span> <span class="token number">6</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0x3f</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                dst<span class="token punctuation">[</span>dp<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">)</span> toSortedBase64<span class="token punctuation">[</span>bits <span class="token operator">&amp;</span> <span class="token number">0x3f</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+
+            <span class="token keyword">int</span> s2 <span class="token operator">=</span> srcPos <span class="token operator">+</span> length<span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>s1 <span class="token operator">&lt;</span> s2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// 1 or 2 leftover bytes</span>
+                <span class="token keyword">int</span> b0 <span class="token operator">=</span> src<span class="token punctuation">[</span>sp<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">&amp;</span> <span class="token number">0xff</span><span class="token punctuation">;</span>
+                dst<span class="token punctuation">[</span>dp<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">)</span> toSortedBase64<span class="token punctuation">[</span>b0 <span class="token operator">>></span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>sp <span class="token operator">==</span> s2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    dst<span class="token punctuation">[</span>dp<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">)</span> toSortedBase64<span class="token punctuation">[</span><span class="token punctuation">(</span>b0 <span class="token operator">&lt;&lt;</span> <span class="token number">4</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0x3f</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">int</span> b1 <span class="token operator">=</span> src<span class="token punctuation">[</span>sp<span class="token punctuation">]</span> <span class="token operator">&amp;</span> <span class="token number">0xff</span><span class="token punctuation">;</span>
+                    dst<span class="token punctuation">[</span>dp<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">)</span> toSortedBase64<span class="token punctuation">[</span><span class="token punctuation">(</span>b0 <span class="token operator">&lt;&lt;</span> <span class="token number">4</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0x3f</span> <span class="token operator">|</span> <span class="token punctuation">(</span>b1 <span class="token operator">>></span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                    dst<span class="token punctuation">[</span>dp<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">)</span> toSortedBase64<span class="token punctuation">[</span><span class="token punctuation">(</span>b1 <span class="token operator">&lt;&lt;</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0x3f</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+
+            <span class="token keyword">return</span> dp <span class="token operator">-</span> dstPos<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * This class implements a decoder for decoding byte data using the
+     * Sorted Base64 {@link SortedBase64} encoding scheme.
+     *
+     * &lt;p> Instances of {@link Decoder} class are safe for use by
+     * multiple concurrent threads.
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">Decoder</span> <span class="token punctuation">{</span>
+
+        <span class="token keyword">private</span> <span class="token function">Decoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment" spellcheck="true">/**
+         * Lookup table for decoding unicode characters drawn from the
+         * "Sorted Base64 Alphabet" into their 6-bit positive integer
+         * equivalents. Characters that are not in the Sorted Base64
+         * alphabet but fall within the bounds of the array are encoded to -1.
+         */</span>
+        <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> fromSortedBase64 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span><span class="token number">128</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">static</span> <span class="token punctuation">{</span>
+            Arrays<span class="token punctuation">.</span><span class="token function">fill</span><span class="token punctuation">(</span>fromSortedBase64<span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> SortedBase64<span class="token punctuation">.</span>Encoder<span class="token punctuation">.</span>toSortedBase64<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+                fromSortedBase64<span class="token punctuation">[</span>SortedBase64<span class="token punctuation">.</span>Encoder<span class="token punctuation">.</span>toSortedBase64<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">=</span> i<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">int</span> <span class="token function">outLength</span><span class="token punctuation">(</span><span class="token keyword">int</span> srcLen<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token punctuation">(</span>srcLen <span class="token operator">*</span> <span class="token number">6</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">8</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment" spellcheck="true">/**
+         * Decodes a Base64 encoded String into a newly-allocated byte array
+         * using the {@link SortedBase64} encoding scheme.
+         */</span>
+        <span class="token keyword">public</span> <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">decode</span><span class="token punctuation">(</span>String b64<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> src <span class="token operator">=</span> b64<span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span>StandardCharsets<span class="token punctuation">.</span>ISO_8859_1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> dst <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">byte</span><span class="token punctuation">[</span><span class="token function">outLength</span><span class="token punctuation">(</span>src<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token keyword">int</span> ret <span class="token operator">=</span> <span class="token function">decode</span><span class="token punctuation">(</span>src<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> dst<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> src<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>ret <span class="token operator">!=</span> dst<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                dst <span class="token operator">=</span> Arrays<span class="token punctuation">.</span><span class="token function">copyOf</span><span class="token punctuation">(</span>dst<span class="token punctuation">,</span> ret<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">return</span> dst<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment" spellcheck="true">/**
+         * Decodes an array from the specified source array, beginning at the
+         * specified position, to the specified position of the destination array,
+         * using the {@link SortedBase64} encoding scheme. The number of bytes
+         * decoded is equal to the &lt;code>length&lt;/code> argument. The returned
+         * value is of the length of the resulting bytes.
+         */</span>
+        <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">decode</span><span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> src<span class="token punctuation">,</span> <span class="token keyword">int</span> srcPos<span class="token punctuation">,</span> <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> dst<span class="token punctuation">,</span> <span class="token keyword">int</span> dstPos<span class="token punctuation">,</span> <span class="token keyword">int</span> length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>length <span class="token operator">&lt;</span> <span class="token number">2</span> <span class="token operator">||</span> length <span class="token operator">%</span> <span class="token number">4</span> <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalArgumentException</span><span class="token punctuation">(</span><span class="token string">"Input byte array has invalid length for decoding"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>srcPos <span class="token operator">+</span> length <span class="token operator">></span> src<span class="token punctuation">.</span>length <span class="token operator">||</span> <span class="token function">outLength</span><span class="token punctuation">(</span>length<span class="token punctuation">)</span> <span class="token operator">+</span> dstPos <span class="token operator">></span> dst<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalArgumentException</span><span class="token punctuation">(</span><span class="token string">"Output byte array is too small for decoding all input bytes"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+
+            <span class="token keyword">int</span> sp <span class="token operator">=</span> srcPos<span class="token punctuation">;</span>
+            <span class="token keyword">int</span> s1 <span class="token operator">=</span> srcPos <span class="token operator">+</span> <span class="token punctuation">(</span>length <span class="token operator">/</span> <span class="token number">4</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">4</span><span class="token punctuation">;</span>
+            <span class="token keyword">int</span> dp <span class="token operator">=</span> dstPos<span class="token punctuation">;</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>sp <span class="token operator">&lt;</span> s1<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">int</span> bits <span class="token operator">=</span> <span class="token punctuation">(</span>fromSortedBase64<span class="token punctuation">[</span>src<span class="token punctuation">[</span>sp<span class="token operator">++</span><span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">&amp;</span> <span class="token number">0x3f</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token number">18</span> <span class="token operator">|</span> <span class="token punctuation">(</span>fromSortedBase64<span class="token punctuation">[</span>src<span class="token punctuation">[</span>sp<span class="token operator">++</span><span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">&amp;</span> <span class="token number">0x3f</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token number">12</span>
+                        <span class="token operator">|</span> <span class="token punctuation">(</span>fromSortedBase64<span class="token punctuation">[</span>src<span class="token punctuation">[</span>sp<span class="token operator">++</span><span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">&amp;</span> <span class="token number">0x3f</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token number">6</span> <span class="token operator">|</span> <span class="token punctuation">(</span>fromSortedBase64<span class="token punctuation">[</span>src<span class="token punctuation">[</span>sp<span class="token operator">++</span><span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">&amp;</span> <span class="token number">0x3f</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                dst<span class="token punctuation">[</span>dp<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>bits <span class="token operator">>></span> <span class="token number">16</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                dst<span class="token punctuation">[</span>dp<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>bits <span class="token operator">>></span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                dst<span class="token punctuation">[</span>dp<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>bits<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+
+            <span class="token keyword">int</span> s2 <span class="token operator">=</span> srcPos <span class="token operator">+</span> length<span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>s1 <span class="token operator">&lt;</span> s2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// 2 or 3 leftover bytes</span>
+                <span class="token keyword">int</span> b0 <span class="token operator">=</span> <span class="token punctuation">(</span>fromSortedBase64<span class="token punctuation">[</span>src<span class="token punctuation">[</span>sp<span class="token operator">++</span><span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">&amp;</span> <span class="token number">0x3f</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token number">6</span> <span class="token operator">|</span> <span class="token punctuation">(</span>fromSortedBase64<span class="token punctuation">[</span>src<span class="token punctuation">[</span>sp<span class="token operator">++</span><span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">&amp;</span> <span class="token number">0x3f</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>sp <span class="token operator">==</span> s2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    dst<span class="token punctuation">[</span>dp<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>b0 <span class="token operator">>></span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">int</span> b1 <span class="token operator">=</span> <span class="token punctuation">(</span>b0 <span class="token operator">&lt;&lt;</span> <span class="token number">4</span><span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>fromSortedBase64<span class="token punctuation">[</span>src<span class="token punctuation">[</span>sp<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">&amp;</span> <span class="token number">0x3f</span><span class="token punctuation">)</span> <span class="token operator">>></span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    dst<span class="token punctuation">[</span>dp<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>b1 <span class="token operator">>></span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    dst<span class="token punctuation">[</span>dp<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>b1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+
+            <span class="token keyword">return</span> dp <span class="token operator">-</span> dstPos<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Sorted-Base64"><span class="toc-number">1.</span> <span class="toc-text">Sorted Base64</span></a></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Synchronization of Windows Clocks | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>Synchronization of Windows Clocks</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2020年03月14日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/Windows/">Windows</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tags" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Cloud" class='tag'>Cloud</a>
+
+  <a href="/tags/#Windows" class='tag'>Windows</a>
+
+
+            
+          </div>
+          <h1 id="Synchronization-of-Windows-Clocks"><a href="#Synchronization-of-Windows-Clocks" class="headerlink" title="Synchronization of Windows Clocks"></a>Synchronization of Windows Clocks</h1><p>Windows 可以使用 NTP 作为时间输入源，运行在虚拟机上时还可以使用 VMIC (Virtual Machine Integration Components) 时间输入源。
+从 Windows 10 1809 或 Windows Server 2019 开始，可以使用 PTP 作为时间输入源。</p>
+<ul>
+<li>PTP: %SystemRoot%\System32\ptpprov.dll</li>
+<li>NTP: %SystemRoot%\System32\w32time.dll</li>
+<li>VMIC: %SystemRoot%\System32\vmictimeprovider.dll</li>
+</ul>
+<pre class="line-numbers language-cmd"><code class="language-cmd">C:\>reg query HKLM\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\NtpClient
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\NtpServer
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\PtpClient
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\VMICTimeProvider
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Initialization"><a href="#Initialization" class="headerlink" title="Initialization"></a>Initialization</h2><p>当 Windows Time Service 不能正常工作时，可以重新注册这个服务。</p>
+<pre class="line-numbers language-cmd"><code class="language-cmd">net stop w32time
+W32tm /unregister
+W32tm /register
+net start w32time
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h2><ul>
+<li><a href="https://docs.microsoft.com/en-us/windows-server/networking/windows-time-service/windows-time-service-tools-and-settings" target="_blank" rel="noopener">Windows Time service tools and settings</a></li>
+</ul>
+<h3 id="NTP"><a href="#NTP" class="headerlink" title="NTP"></a>NTP</h3><p>常用的 Windows Time Service 的注册表配置项如下：</p>
+<pre class="line-numbers language-cmd"><code class="language-cmd">reg add HKLM\SYSTEM\CurrentControlSet\Services\W32Time\Config /t REG_DWORD /v AnnounceFlags /d 10 /f
+reg add HKLM\SYSTEM\CurrentControlSet\Services\W32Time\Config /t REG_DWORD /v EventLogFlags /d 3 /f
+reg add HKLM\SYSTEM\CurrentControlSet\Services\W32Time\Config /t REG_DWORD /v MinPollInterval /d 4 /f
+reg add HKLM\SYSTEM\CurrentControlSet\Services\W32Time\Config /t REG_DWORD /v MaxPollInterval /d 6 /f
+
+reg add HKLM\SYSTEM\CurrentControlSet\Services\W32Time\Parameters /t REG_SZ /v Type /d NTP /f
+reg add HKLM\SYSTEM\CurrentControlSet\Services\W32Time\Parameters /t REG_SZ /v NtpServer /d "time.windows.com,0x9 de.pool.ntp.org,0x9 us.pool.ntp.org,0x9 jp.pool.ntp.org,0x9" /f
+
+reg add HKLM\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\NtpClient /t REG_DWORD /v Enabled /d 1 /f
+reg add HKLM\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\NtpClient /t REG_EXPAND_SZ /v DllName /d "%SystemRoot%\System32\w32time.dll" /f
+reg add HKLM\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\NtpClient /t REG_EXPAND_SZ /v DllName /d "C:\WINDOWS\SYSTEM32\w32time.DLL" /f
+reg add HKLM\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\NtpClient /t REG_DWORD /v EventLogFlags /d 3 /f
+reg add HKLM\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\NtpClient /t REG_DWORD /v InputProvider /d 1 /f
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>也可以这样配置 NTP 服务器：</p>
+<pre class="line-numbers language-cmd"><code class="language-cmd">w32tm /config /manualpeerlist:"time.windows.com,0x9 de.pool.ntp.org,0x9 us.pool.ntp.org,0x9 jp.pool.ntp.org,0x9" /syncfromflags:manual /update
+net stop w32time && net start w32time
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="PTP"><a href="#PTP" class="headerlink" title="PTP"></a>PTP</h3><pre class="line-numbers language-cmd"><code class="language-cmd">reg add HKLM\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\PtpClient /t REG_SZ /v PtpMasters /d "10.10.10.10 10.10.10.11" /f
+reg add HKLM\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\PtpClient /t REG_DWORD /v Enabled /d 1 /f
+reg add HKLM\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\PtpClient /t REG_DWORD /v InputProvider /d 1 /f
+reg add HKLM\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\PtpClient /t REG_EXPAND_SZ /v DllName /d "%SystemRoot%\System32\ptpprov.dll" /f
+reg add HKLM\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\PtpClient /t REG_DWORD /v DelayPollInterval /d 0x3e80 /f
+reg add HKLM\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\PtpClient /t REG_DWORD /v AnnounceInterval /d 0x0fa0 /f
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Workaround-of-VM-time-out-of-sync"><a href="#Workaround-of-VM-time-out-of-sync" class="headerlink" title="Workaround of VM time out of sync"></a>Workaround of VM time out of sync</h2><pre class="line-numbers language-PowerShell"><code class="language-PowerShell">Get-VMIntegrationService -VMName DockerDesktopVM -Name "Time Synchronization" | Disable-VMIntegrationService
+Get-VMIntegrationService -VMName DockerDesktopVM -Name "Time Synchronization" | Enable-VMIntegrationService
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="Tools"><a href="#Tools" class="headerlink" title="Tools"></a>Tools</h2><h3 id="Query"><a href="#Query" class="headerlink" title="Query"></a>Query</h3><pre class="line-numbers language-cmd"><code class="language-cmd">w32tm /query /configuration
+w32tm /query /status /verbose
+w32tm /query /source
+w32tm /query /peers
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Resynchronization"><a href="#Resynchronization" class="headerlink" title="Resynchronization"></a>Resynchronization</h3><pre class="line-numbers language-cmd"><code class="language-cmd">w32tm /resync
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="Offset-measurement"><a href="#Offset-measurement" class="headerlink" title="Offset measurement"></a>Offset measurement</h3><pre class="line-numbers language-cmd"><code class="language-cmd">w32tm /stripchart /rdtsc /computer:0.pool.ntp.org /samples:5
+w32tm /stripchart /rdtsc /computer:time.windows.com /samples:5
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Synchronization-of-Windows-Clocks"><span class="toc-number">1.</span> <span class="toc-text">Synchronization of Windows Clocks</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Initialization"><span class="toc-number">1.1.</span> <span class="toc-text">Initialization</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Configuration"><span class="toc-number">1.2.</span> <span class="toc-text">Configuration</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#NTP"><span class="toc-number">1.2.1.</span> <span class="toc-text">NTP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PTP"><span class="toc-number">1.2.2.</span> <span class="toc-text">PTP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Workaround-of-VM-time-out-of-sync"><span class="toc-number">1.3.</span> <span class="toc-text">Workaround of VM time out of sync</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tools"><span class="toc-number">1.4.</span> <span class="toc-text">Tools</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Query"><span class="toc-number">1.4.1.</span> <span class="toc-text">Query</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Resynchronization"><span class="toc-number">1.4.2.</span> <span class="toc-text">Resynchronization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Offset-measurement"><span class="toc-number">1.4.3.</span> <span class="toc-text">Offset measurement</span></a></li></ol></li></ol></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

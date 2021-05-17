@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Open source mirrors | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>Open source mirrors</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2020年03月29日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/HTTP/">HTTP</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tags" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#HTTP" class='tag'>HTTP</a>
+
+
+            
+          </div>
+          <h1 id="Open-source-mirrors"><a href="#Open-source-mirrors" class="headerlink" title="Open source mirrors"></a>Open source mirrors</h1><h2 id="Mirror-lists"><a href="#Mirror-lists" class="headerlink" title="Mirror lists"></a>Mirror lists</h2><ul>
+<li><a href="https://developer.aliyun.com/mirror/" target="_blank" rel="noopener">https://developer.aliyun.com/mirror/</a></li>
+<li><a href="https://mirrors.huaweicloud.com/" target="_blank" rel="noopener">https://mirrors.huaweicloud.com/</a></li>
+<li><a href="https://mirrors.163.com/" target="_blank" rel="noopener">https://mirrors.163.com/</a></li>
+<li><a href="https://mirrors.ustc.edu.cn/" target="_blank" rel="noopener">https://mirrors.ustc.edu.cn/</a></li>
+<li><a href="https://gems.ruby-china.com/" target="_blank" rel="noopener">https://gems.ruby-china.com/</a></li>
+</ul>
+<h2 id="Operating-System"><a href="#Operating-System" class="headerlink" title="Operating System"></a>Operating System</h2><h3 id="Alpine"><a href="#Alpine" class="headerlink" title="Alpine"></a>Alpine</h3><pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># https://mirrors.huaweicloud.com/alpine/v3.11/releases/x86_64/alpine-standard-3.11.5-x86_64.iso</span>
+
+<span class="token function">cp</span> -a /etc/apk/repositories /etc/apk/repositories.bak
+<span class="token function">sed</span> -i <span class="token string">"s@http://dl-cdn.alpinelinux.org/@https://mirrors.huaweicloud.com/@g"</span> /etc/apk/repositories
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Debian"><a href="#Debian" class="headerlink" title="Debian"></a>Debian</h3><pre class="line-numbers language-ini"><code class="language-ini"># https://mirrors.huaweicloud.com/debian-cd/current/amd64/iso-cd/debian-10.3.0-amd64-netinst.iso
+# https://mirrors.huaweicloud.com/debian-cd/current/arm64/iso-cd/debian-10.3.0-arm64-netinst.iso
+# https://mirrors.huaweicloud.com/debian-cd/current/s390x/iso-cd/debian-10.3.0-s390x-netinst.iso
+
+deb https://mirrors.huaweicloud.com/debian/ buster main contrib non-free
+deb https://mirrors.huaweicloud.com/debian/ buster-updates main contrib non-free
+deb https://mirrors.huaweicloud.com/debian/ buster-proposed-updates main contrib non-free
+deb https://mirrors.huaweicloud.com/debian/ buster-backports main contrib non-free
+deb https://mirrors.huaweicloud.com/debian-security/ buster/updates main contrib non-free
+
+#deb http://mirrors.163.com/debian/ buster main contrib non-free
+#deb http://mirrors.163.com/debian/ buster-updates main contrib non-free
+#deb http://mirrors.163.com/debian/ buster-proposed-updates main contrib non-free
+#deb http://mirrors.163.com/debian/ buster-backports main contrib non-free
+#deb http://mirrors.163.com/debian-security/ buster-backports main contrib non-free
+
+#deb http://deb.debian.org/debian/ buster main contrib non-free
+#deb http://deb.debian.org/debian/ buster-updates main contrib non-free
+#deb http://deb.debian.org/debian/ buster-proposed-updates main contrib non-free
+#deb http://deb.debian.org/debian/ buster-backports main contrib non-free
+#deb http://security.debian.org/debian-security/ buster/updates main contrib non-free
+
+#deb http://deb.debian.org/debian/ testing main contrib non-free
+#deb http://deb.debian.org/debian/ testing-updates main contrib non-free
+#deb http://deb.debian.org/debian/ testing-proposed-updates main contrib non-free
+
+#deb http://deb.debian.org/debian/ unstable main contrib non-free
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h3><pre class="line-numbers language-ini"><code class="language-ini"># https://mirrors.huaweicloud.com/ubuntu-cdimage/releases/18.04/release/ubuntu-18.04.4-server-amd64.iso
+# https://mirrors.huaweicloud.com/ubuntu-cdimage/releases/18.04/release/ubuntu-18.04.4-server-arm64.iso
+# https://mirrors.huaweicloud.com/ubuntu-cdimage/releases/18.04/release/ubuntu-18.04.4-server-s390x.iso
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h2 id="Languages"><a href="#Languages" class="headerlink" title="Languages"></a>Languages</h2><h3 id="Java-amp-maven"><a href="#Java-amp-maven" class="headerlink" title="Java &amp; maven"></a>Java &amp; maven</h3><pre class="line-numbers language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mirror</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>id</span><span class="token punctuation">></span></span>huaweicloud<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>id</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mirrorOf</span><span class="token punctuation">></span></span>*<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mirrorOf</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>url</span><span class="token punctuation">></span></span>https://mirrors.huaweicloud.com/repository/maven/<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>url</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mirror</span><span class="token punctuation">></span></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Node-js-amp-npm"><a href="#Node-js-amp-npm" class="headerlink" title="Node.js &amp; npm"></a>Node.js &amp; npm</h3><pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># https://mirrors.huaweicloud.com/nodejs/latest-v12.x/</span>
+<span class="token comment" spellcheck="true"># https://mirrors.huaweicloud.com/node-sass/?C=M&amp;O=D</span>
+
+<span class="token function">npm</span> config <span class="token keyword">set</span> registry https://mirrors.huaweicloud.com/repository/npm/
+<span class="token function">npm</span> config <span class="token keyword">set</span> disturl https://mirrors.huaweicloud.com/nodejs
+<span class="token function">npm</span> config <span class="token keyword">set</span> sass_binary_site https://mirrors.huaweicloud.com/node-sass
+<span class="token function">npm</span> cache clean -f
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Python-amp-PyPI"><a href="#Python-amp-PyPI" class="headerlink" title="Python &amp; PyPI"></a>Python &amp; PyPI</h3><pre class="line-numbers language-bash"><code class="language-bash">pip <span class="token function">install</span> \
+    --trusted-host https://mirrors.huaweicloud.com \
+    -i https://mirrors.huaweicloud.com/repository/pypi/simple \
+    <span class="token operator">&lt;</span>packages<span class="token operator">></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-ini"><code class="language-ini"># ~/.pip/pip.conf
+# C:\Users\&lt;UserName>\pip\pip.ini
+<span class="token selector">[global]</span>
+<span class="token constant">index-url</span> <span class="token attr-value"><span class="token punctuation">=</span> https://mirrors.huaweicloud.com/repository/pypi/simple</span>
+<span class="token constant">trusted-host</span> <span class="token attr-value"><span class="token punctuation">=</span> mirrors.huaweicloud.com</span>
+<span class="token constant">timeout</span> <span class="token attr-value"><span class="token punctuation">=</span> 120</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Ruby-amp-RubyGems"><a href="#Ruby-amp-RubyGems" class="headerlink" title="Ruby &amp; RubyGems"></a>Ruby &amp; RubyGems</h3><pre class="line-numbers language-bash"><code class="language-bash">gem update --system
+gem sources -l
+
+gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
+gem sources -l
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Go-amp-Modules"><a href="#Go-amp-Modules" class="headerlink" title="Go &amp; Modules"></a>Go &amp; Modules</h3><pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># https://proxy.golang.org</span>
+<span class="token function">export</span> GOPROXY<span class="token operator">=</span>https://mirrors.aliyun.com/goproxy/
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Open-source-mirrors"><span class="toc-number">1.</span> <span class="toc-text">Open source mirrors</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Mirror-lists"><span class="toc-number">1.1.</span> <span class="toc-text">Mirror lists</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Operating-System"><span class="toc-number">1.2.</span> <span class="toc-text">Operating System</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Alpine"><span class="toc-number">1.2.1.</span> <span class="toc-text">Alpine</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Debian"><span class="toc-number">1.2.2.</span> <span class="toc-text">Debian</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ubuntu"><span class="toc-number">1.2.3.</span> <span class="toc-text">Ubuntu</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Languages"><span class="toc-number">1.3.</span> <span class="toc-text">Languages</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-amp-maven"><span class="toc-number">1.3.1.</span> <span class="toc-text">Java &amp; maven</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Node-js-amp-npm"><span class="toc-number">1.3.2.</span> <span class="toc-text">Node.js &amp; npm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Python-amp-PyPI"><span class="toc-number">1.3.3.</span> <span class="toc-text">Python &amp; PyPI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ruby-amp-RubyGems"><span class="toc-number">1.3.4.</span> <span class="toc-text">Ruby &amp; RubyGems</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Go-amp-Modules"><span class="toc-number">1.3.5.</span> <span class="toc-text">Go &amp; Modules</span></a></li></ol></li></ol></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

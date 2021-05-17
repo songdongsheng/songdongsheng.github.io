@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Controlling NetworkManager - nmcli | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>Controlling NetworkManager - nmcli</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2020年01月31日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/Linux/">Linux</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tag" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+
+            
+          </div>
+          <h1 id="Controlling-NetworkManager"><a href="#Controlling-NetworkManager" class="headerlink" title="Controlling NetworkManager"></a>Controlling NetworkManager</h1><h2 id="nmcli-connection-show"><a href="#nmcli-connection-show" class="headerlink" title="nmcli connection show"></a>nmcli connection show</h2><pre class="line-numbers language-bash"><code class="language-bash">$ nmcli connection show
+NAME                UUID                                  TYPE      DEVICE
+DONGSHENG-CMMC      58dba110-b6e9-4793-98cf-6f893f22de28  wifi      wlx6c5ab5a4f8a7
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h2 id="nmcli-device-show"><a href="#nmcli-device-show" class="headerlink" title="nmcli device show"></a>nmcli device show</h2><pre class="line-numbers language-bash"><code class="language-bash">$ nmcli device show wlx6c5ab5a4f8a7
+GENERAL.DEVICE:                         wlx6c5ab5a4f8a7
+GENERAL.TYPE:                           wifi
+GENERAL.HWADDR:                         6C:5A:B5:A4:F8:A7
+GENERAL.MTU:                            1500
+GENERAL.STATE:                          100 <span class="token punctuation">(</span>connected<span class="token punctuation">)</span>
+GENERAL.CONNECTION:                     DONGSHENG-CMMC
+GENERAL.CON-PATH:                       /org/freedesktop/NetworkManager/ActiveConnection/1
+IP4.ADDRESS<span class="token punctuation">[</span>1<span class="token punctuation">]</span>:                         192.168.1.11/24
+IP4.GATEWAY:                            192.168.1.1
+IP4.ROUTE<span class="token punctuation">[</span>1<span class="token punctuation">]</span>:                           dst <span class="token operator">=</span> 192.168.1.0/24, nh <span class="token operator">=</span> 0.0.0.0, mt <span class="token operator">=</span> 600
+IP4.ROUTE<span class="token punctuation">[</span>2<span class="token punctuation">]</span>:                           dst <span class="token operator">=</span> 0.0.0.0/0, nh <span class="token operator">=</span> 192.168.1.1, mt <span class="token operator">=</span> 600
+IP4.DNS<span class="token punctuation">[</span>1<span class="token punctuation">]</span>:                             192.168.1.1
+IP4.DNS<span class="token punctuation">[</span>2<span class="token punctuation">]</span>:                             114.114.114.114
+IP4.DNS<span class="token punctuation">[</span>3<span class="token punctuation">]</span>:                             8.8.8.8
+IP4.DNS<span class="token punctuation">[</span>4<span class="token punctuation">]</span>:                             8.8.4.4
+IP6.ADDRESS<span class="token punctuation">[</span>1<span class="token punctuation">]</span>:                         2409:8a55:8b8:4560:1755:efdd:ae0e:b950/64
+IP6.ADDRESS<span class="token punctuation">[</span>2<span class="token punctuation">]</span>:                         fe80::223f:a26d:9121:859d/64
+IP6.GATEWAY:                            fe80::1
+IP6.ROUTE<span class="token punctuation">[</span>1<span class="token punctuation">]</span>:                           dst <span class="token operator">=</span> fe80::/64, nh <span class="token operator">=</span> ::, mt <span class="token operator">=</span> 600
+IP6.ROUTE<span class="token punctuation">[</span>2<span class="token punctuation">]</span>:                           dst <span class="token operator">=</span> 2409:8a55:8b8:4560::/64, nh <span class="token operator">=</span> ::, mt <span class="token operator">=</span> 600
+IP6.ROUTE<span class="token punctuation">[</span>3<span class="token punctuation">]</span>:                           dst <span class="token operator">=</span> ::/0, nh <span class="token operator">=</span> fe80::1, mt <span class="token operator">=</span> 600
+IP6.ROUTE<span class="token punctuation">[</span>4<span class="token punctuation">]</span>:                           dst <span class="token operator">=</span> ff00::/8, nh <span class="token operator">=</span> ::, mt <span class="token operator">=</span> 256, table<span class="token operator">=</span>255
+IP6.DNS<span class="token punctuation">[</span>1<span class="token punctuation">]</span>:                             fe80::1
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="nmcli-connection-modify"><a href="#nmcli-connection-modify" class="headerlink" title="nmcli connection modify"></a>nmcli connection modify</h2><pre class="line-numbers language-bash"><code class="language-bash">nmcli connection <span class="token operator">|</span> <span class="token function">tail</span> -n+2 <span class="token operator">|</span> <span class="token function">grep</span> --color <span class="token string">'[0-9a-z]\{8\}-.\{28\}'</span> -o <span class="token operator">|</span> \
+<span class="token keyword">while</span> <span class="token function">read</span> UUID<span class="token punctuation">;</span> <span class="token keyword">do</span>
+    <span class="token keyword">echo</span> <span class="token variable">$UUID</span><span class="token punctuation">;</span>
+    nmcli connection show <span class="token variable">$UUID</span> <span class="token operator">|</span> <span class="token function">grep</span> -i dns<span class="token punctuation">;</span>
+    nmcli connection modify <span class="token variable">$UUID</span> ipv4.ignore-auto-dns <span class="token function">yes</span>
+    nmcli connection modify <span class="token variable">$UUID</span> ipv6.ignore-auto-dns <span class="token function">yes</span>
+    <span class="token keyword">echo</span> -e <span class="token string">'\n\n'</span><span class="token punctuation">;</span>
+<span class="token keyword">done</span>
+
+<span class="token comment" spellcheck="true"># nmcli connection modify 58dba110-b6e9-4793-98cf-6f893f22de28 ipv4.dns "192.168.1.1,114.114.114.114,8.8.8.8,8.8.4.4"</span>
+
+$ nmcli connection show 58dba110-b6e9-4793-98cf-6f893f22de28 <span class="token operator">|</span> <span class="token function">grep</span> <span class="token string">"dns"</span>
+connection.mdns:                        -1 <span class="token punctuation">(</span>default<span class="token punctuation">)</span>
+ipv4.dns:                               192.168.1.1,114.114.114.114,8.8.8.8,8.8.4.4
+ipv4.dns-search:                        --
+ipv4.dns-options:                       <span class="token string">""</span>
+ipv4.dns-priority:                      0
+ipv4.ignore-auto-dns:                   <span class="token function">yes</span>
+ipv6.dns:                               --
+ipv6.dns-search:                        --
+ipv6.dns-options:                       <span class="token string">""</span>
+ipv6.dns-priority:                      0
+ipv6.ignore-auto-dns:                   no
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Controlling-NetworkManager"><span class="toc-number">1.</span> <span class="toc-text">Controlling NetworkManager</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#nmcli-connection-show"><span class="toc-number">1.1.</span> <span class="toc-text">nmcli connection show</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nmcli-device-show"><span class="toc-number">1.2.</span> <span class="toc-text">nmcli device show</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nmcli-connection-modify"><span class="toc-number">1.3.</span> <span class="toc-text">nmcli connection modify</span></a></li></ol></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

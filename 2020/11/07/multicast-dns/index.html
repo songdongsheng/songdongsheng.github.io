@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Multicast DNS (mDNS) | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>Multicast DNS (mDNS)</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2020年11月07日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/Linux/">Linux</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tags" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+  <a href="/tags/#Operating%20system" class='tag'>Operating system</a>
+
+
+            
+          </div>
+          <h1 id="Multicast-DNS-mDNS"><a href="#Multicast-DNS-mDNS" class="headerlink" title="Multicast DNS (mDNS)"></a>Multicast DNS (mDNS)</h1><h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><ul>
+<li><a href="https://tools.ietf.org/html/rfc6762" target="_blank" rel="noopener">Multicast DNS (mDNS)</a></li>
+<li><a href="https://tools.ietf.org/html/rfc6763" target="_blank" rel="noopener">DNS-Based Service Discovery</a></li>
+<li><a href="https://tools.ietf.org/html/rfc4795" target="_blank" rel="noopener">Link-local Multicast Name Resolution (LLMNR)</a></li>
+<li><a href="https://tools.ietf.org/html/rfc7788" target="_blank" rel="noopener">Home Networking Control Protocol</a></li>
+<li><a href="https://avahi.org/" target="_blank" rel="noopener">Avahi</a></li>
+<li><a href="https://github.com/lathiat/nss-mdns" target="_blank" rel="noopener">nss-mdns</a></li>
+<li><a href="https://www.isc.org/download/" target="_blank" rel="noopener">Download ISC’s software</a></li>
+<li><a href="https://github.com/haesbaert/mdnsd" target="_blank" rel="noopener">Mdns daemon for OpenBSD</a></li>
+<li><a href="https://github.com/haesbaert/mdnsd/issues/4" target="_blank" rel="noopener">Mdns daemon not support IPv6 yet</a></li>
+<li><a href="https://www.slideshare.net/MenandMice/part-2-local-name-resolution-in-windows-networks" target="_blank" rel="noopener">Local name resolution in windows networks#11</a></li>
+<li><a href="https://www.slideshare.net/MenandMice/part-3-local-name-resolution-in-linux-freebsd-and-macosios" target="_blank" rel="noopener">Local name resolution in Linux</a></li>
+</ul>
+<p>Multicast DNS (mDNS) is a way of using familiar DNS programming interfaces, packet formats and operating semantics, in a small network where no conventional DNS server has been installed.</p>
+<p>Multicast DNS (mDNS) is a joint effort by participants of the IETF Zero Configuration Networking (zeroconf) and DNS Extensions (dnsext) working groups. The requirements are driven by the Zeroconf working group; the implementation details are a chartered work item for the DNSEXT group. Most of the people working on mDNS are active participants of both working groups.</p>
+<p>Multicast DNS (mDNS) provides the ability to perform DNS-like operations on the local link in the absence of any conventional Unicast DNS server. In addition, Multicast DNS designates a portion of the DNS namespace to be free for local use, without the need to pay any annual fee, and without the need to set up delegations or otherwise configure a conventional DNS server to answer for those names.</p>
+<p>The primary benefits of Multicast DNS are that:</p>
+<ul>
+<li>  mDNS require little or no administration or configuration to set them up</li>
+<li>  mDNS work when no infrastructure is present</li>
+<li>  mDNS work during infrastructure failures</li>
+</ul>
+<p>Avahi is a free Zero-configuration networking (zeroconf) implementation, including a system for multicast DNS/DNS-SD service discovery. It allows programs to publish and discover services and hosts running on a local network with no specific configuration.</p>
+<h3 id="Protocol-overview"><a href="#Protocol-overview" class="headerlink" title="Protocol overview"></a>Protocol overview</h3><p>When an mDNS client needs to resolve a hostname, it sends an <strong>IP multicast</strong> query message that asks the host having that name to identify itself. That target machine then multicasts a message that includes its IP address. All machines in that subnet can then use that information to update their mDNS caches. Any host can relinquish its claim to a name by sending a response packet with a <strong>time to live</strong> (TTL) equal to zero.</p>
+<p>By default, mDNS exclusively resolves hostnames ending with the <strong>.local</strong> top-level domain. This can cause problems if <strong>.local</strong> includes hosts that do not implement mDNS but that can be found via a conventional unicast DNS server. Resolving such conflicts requires network-configuration changes that mDNS was designed to avoid.</p>
+<h3 id="Packet-structure"><a href="#Packet-structure" class="headerlink" title="Packet structure"></a>Packet structure</h3><p>An mDNS message is a multicast UDP packet sent using the following addressing:</p>
+<ul>
+<li>  IPv4 address <strong>224.0.0.251</strong> or IPv6 address <strong>ff02::fb</strong></li>
+<li>  <strong>UDP</strong> port <strong>5353</strong></li>
+<li>  When using Ethernet frames, the standard IP multicast MAC address <strong>01:00:5E:00:00:FB</strong> (for IPv4) or <strong>33:33:00:00:00:FB</strong> (for IPv6)</li>
+</ul>
+<p>The payload structure is based on the <strong>unicast DNS packet format</strong>, consisting of two parts — the header and the data.</p>
+<p>The header is identical to that found in unicast DNS, as are the sub-sections in the data part: queries, answers, authoritative-nameservers, and additional records. The number of records in each sub-section matches the value of the corresponding COUNT field in the header.</p>
+<h2 id="Install-Avahi"><a href="#Install-Avahi" class="headerlink" title="Install Avahi"></a>Install Avahi</h2><pre class="line-numbers language-shell"><code class="language-shell">$ sudo apt-get install -y --no-install-recommends avahi-daemon libnss-mdns
+
+$ dig -p 5353 @ff02::fb OP-7020-01.local aaaa
+$ dig -p 5353 @224.0.0.251 OP-7020-01.local
+$ dig -p 5353 @224.0.0.251 OP-7020-01.local aaaa
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Using-Avahi"><a href="#Using-Avahi" class="headerlink" title="Using Avahi"></a>Using Avahi</h2><h3 id="Hostname-resolution"><a href="#Hostname-resolution" class="headerlink" title="Hostname resolution"></a>Hostname resolution</h3><p>Avahi provides local hostname resolution using a “hostname.local” naming scheme. To enable it, install the <strong>nss-mdns</strong> package and start <strong>avahi-daemon.service</strong>.</p>
+<p>Then, edit the file <strong>/etc/nsswitch.conf</strong> and change the <strong>hosts</strong> line to include <strong>mdns_minimal [NOTFOUND=return]</strong> before <strong>dns</strong>:</p>
+<pre class="line-numbers language-shell"><code class="language-shell">$ sudo vi /etc/nsswitch.conf
+
+# mdns_minimal: IPv6 and IPv4, may slowdowns in resolving .local hosts
+# mdns4_minimal: IPv4 only
+# mdns6_minimal: IPv6 only
+hosts:          files mdns_minimal [NOTFOUND=return] dns myhostname
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Configuring-mDNS-for-custom-TLD"><a href="#Configuring-mDNS-for-custom-TLD" class="headerlink" title="Configuring mDNS for custom TLD"></a>Configuring mDNS for custom TLD</h3><p>The mdns_minimal module handles queries for the <strong>.local</strong> TLD only. Note the <strong>[NOTFOUND=return]</strong>, which specifies that if <strong>mdns_minimal</strong> cannot find <strong>*.local</strong>, it will not continue to search for it in dns, myhostname, etc.</p>
+<p>In case you want Avahi to support other TLDs, you should:</p>
+<ul>
+<li>  replace <strong>mdns_minimal [NOTFOUND=return]</strong> with the full <strong>mdns</strong> module. There also are IPv4-only and IPv6-only modules <strong>mdns[46](_minimal)</strong></li>
+<li>  customize <strong>/etc/avahi/avahi-daemon.conf</strong> with the <strong>domain-name</strong> of your choice</li>
+<li>  whitelist Avahi custom TLDs in <strong>/etc/mdns.allow</strong></li>
+</ul>
+<h3 id="Avahi-services-discover-tools"><a href="#Avahi-services-discover-tools" class="headerlink" title="Avahi services discover tools"></a>Avahi services discover tools</h3><p>Avahi includes several utilities which help you discover the services running on a network. For example, run</p>
+<pre class="line-numbers language-shell"><code class="language-shell">$ sudo apt-get install -y --no-install-recommends avahi-utils
+$ avahi-browse --all --resolve --terminate
+$ avahi-browse --all --ignore-local --resolve --terminate
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>to discover services in your network.</p>
+<h3 id="Adding-services-to-Avahi"><a href="#Adding-services-to-Avahi" class="headerlink" title="Adding services to Avahi"></a>Adding services to Avahi</h3><p><a href="https://www.freebsd.org/cgi/man.cgi?query=avahi-daemon" target="_blank" rel="noopener">The Avahi mDNS/DNS-SD daemon</a> advertises the services whose <strong>*.service</strong> files are found in <strong>/etc/avahi/services/</strong>. Files in this directory must be readable by the <strong>avahi</strong> user/group. See <a href="https://www.freebsd.org/cgi/man.cgi?query=avahi.service" target="_blank" rel="noopener">avahi.service(5)</a> for more details.</p>
+<h3 id="Firewall"><a href="#Firewall" class="headerlink" title="Firewall"></a>Firewall</h3><p>Be sure to open <strong>UDP port 5353</strong> if you’re using a firewall.</p>
+<h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h3><p>Windows 10 may not discover services by IPv4, but IPv6 works:</p>
+<pre class="line-numbers language-powershell"><code class="language-powershell"><span class="token function">PS</span> C:\> ping <span class="token operator">-</span>6 raspberrypi<span class="token punctuation">.</span>local
+
+Pinging raspberrypi<span class="token punctuation">.</span>local <span class="token punctuation">[</span>2409:8a55:8ba:fb20:e010:9723:cb71:a0cb<span class="token punctuation">]</span> with 32 bytes of <span class="token keyword">data</span>:
+Reply <span class="token keyword">from</span> 2409:8a55:8ba:fb20:e010:9723:cb71:a0cb: time=5ms
+Reply <span class="token keyword">from</span> 2409:8a55:8ba:fb20:e010:9723:cb71:a0cb: time=9ms
+Reply <span class="token keyword">from</span> 2409:8a55:8ba:fb20:e010:9723:cb71:a0cb: time=13ms
+Reply <span class="token keyword">from</span> 2409:8a55:8ba:fb20:e010:9723:cb71:a0cb: time=4ms
+
+Ping statistics <span class="token keyword">for</span> 2409:8a55:8ba:fb20:e010:9723:cb71:a0cb:
+    Packets: Sent = 4<span class="token punctuation">,</span> Received = 4<span class="token punctuation">,</span> Lost = 0 <span class="token punctuation">(</span>0<span class="token operator">%</span> loss<span class="token punctuation">)</span><span class="token punctuation">,</span>
+Approximate round trip times in milli<span class="token operator">-</span>seconds:
+    Minimum = 4ms<span class="token punctuation">,</span> Maximum = 13ms<span class="token punctuation">,</span> Average = 7ms
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>Windows 10 handles both hostname and hostname.local identically: it simultaneously tries LLMNR for the bare hostname, NetBIOS for the bare hostname, and (optionally) mDNS for hostname.local.</p>
+<p>To activate the mDNS support, you have to Turn off the Link Local Multicast Name Resolution (LLMNR), i.e. set the <strong>EnableMulticast</strong> registry value to 0 (0: Disable LLMNR, 1: Use LLMNR):</p>
+<pre class="line-numbers language-powershell"><code class="language-powershell"><span class="token function">PS</span> C:\> netsh dnsclient show state
+<span class="token function">PS</span> C:\> resolve<span class="token operator">-</span>dnsname OP<span class="token operator">-</span>7020<span class="token operator">-</span>01<span class="token punctuation">.</span>local <span class="token operator">-</span>LlmnrOnly
+
+<span class="token function">PS</span> C:\> reg delete <span class="token string">"HKLM\Software\Policies\Microsoft\Windows NT\DNSClient"</span> <span class="token operator">/</span>v EnableMulticast <span class="token operator">/</span>f
+The operation completed successfully<span class="token punctuation">.</span>
+
+<span class="token function">PS</span> C:\> reg add <span class="token string">"HKLM\Software\Policies\Microsoft\Windows NT\DNSClient"</span> <span class="token operator">/</span>v EnableMulticast <span class="token operator">/</span>t REG_DWORD <span class="token operator">/</span>d 0 <span class="token operator">/</span>f
+The operation completed successfully<span class="token punctuation">.</span>
+
+<span class="token function">PS</span> C:\> reg query <span class="token string">"HKLM\Software\Policies\Microsoft\Windows NT\DNSClient"</span>
+
+HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows NT\DNSClient
+    EnableMulticast    REG_DWORD    0x0
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Multicast-DNS-mDNS"><span class="toc-number">1.</span> <span class="toc-text">Multicast DNS (mDNS)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Overview"><span class="toc-number">1.1.</span> <span class="toc-text">Overview</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Protocol-overview"><span class="toc-number">1.1.1.</span> <span class="toc-text">Protocol overview</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Packet-structure"><span class="toc-number">1.1.2.</span> <span class="toc-text">Packet structure</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Install-Avahi"><span class="toc-number">1.2.</span> <span class="toc-text">Install Avahi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Using-Avahi"><span class="toc-number">1.3.</span> <span class="toc-text">Using Avahi</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Hostname-resolution"><span class="toc-number">1.3.1.</span> <span class="toc-text">Hostname resolution</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Configuring-mDNS-for-custom-TLD"><span class="toc-number">1.3.2.</span> <span class="toc-text">Configuring mDNS for custom TLD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Avahi-services-discover-tools"><span class="toc-number">1.3.3.</span> <span class="toc-text">Avahi services discover tools</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Adding-services-to-Avahi"><span class="toc-number">1.3.4.</span> <span class="toc-text">Adding services to Avahi</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Firewall"><span class="toc-number">1.3.5.</span> <span class="toc-text">Firewall</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows"><span class="toc-number">1.3.6.</span> <span class="toc-text">Windows</span></a></li></ol></li></ol></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

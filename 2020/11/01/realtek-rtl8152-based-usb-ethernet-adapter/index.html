@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Realtek RTL8152 Based USB Ethernet Adapter | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>Realtek RTL8152 Based USB Ethernet Adapter</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2020年11月01日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tags" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Windows" class='tag'>Windows</a>
+
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+  <a href="/tags/#Operating%20system" class='tag'>Operating system</a>
+
+
+            
+          </div>
+          <h1 id="Realtek-RTL8152-Based-USB-Ethernet-Adapter"><a href="#Realtek-RTL8152-Based-USB-Ethernet-Adapter" class="headerlink" title="Realtek RTL8152 Based USB Ethernet Adapter"></a>Realtek RTL8152 Based USB Ethernet Adapter</h1><h2 id="dmesg"><a href="#dmesg" class="headerlink" title="dmesg"></a>dmesg</h2><pre><code># dmesg -w
+
+[ 8640.849899] usb 2-2: new high-speed USB device number 4 using xhci_hcd
+[ 8640.998148] usb 2-2: New USB device found, idVendor=214b, idProduct=7250, bcdDevice= 1.00
+[ 8640.998152] usb 2-2: New USB device strings: Mfr=0, Product=1, SerialNumber=0
+[ 8640.998154] usb 2-2: Product: USB2.0 HUB
+[ 8640.999460] hub 2-2:1.0: USB hub found
+[ 8640.999950] hub 2-2:1.0: 4 ports detected
+[ 8641.285910] usb 2-2.1: new high-speed USB device number 5 using xhci_hcd
+[ 8641.386819] usb 2-2.1: New USB device found, idVendor=0bda, idProduct=8152, bcdDevice=20.00
+[ 8641.386822] usb 2-2.1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+[ 8641.386823] usb 2-2.1: Product: USB 10/100 LAN
+[ 8641.386825] usb 2-2.1: Manufacturer: Realtek
+[ 8641.386826] usb 2-2.1: SerialNumber: 00E04C3608EC
+[ 8641.412053] usbcore: registered new interface driver r8152
+[ 8641.417333] usbcore: registered new interface driver cdc_ether
+[ 8641.502276] usb 2-2.1: reset high-speed USB device number 5 using xhci_hcd
+[ 8641.638858] r8152 2-2.1:1.0: skip request firmware
+[ 8641.666572] r8152 2-2.1:1.0 eth0: v1.11.11
+[ 8641.707491] r8152 2-2.1:1.0 enx00e04c3608ec: renamed from eth0
+</code></pre>
+<h2 id="ifconfig"><a href="#ifconfig" class="headerlink" title="ifconfig"></a>ifconfig</h2><pre><code># ifconfig enx00e04c3608ec
+enx00e04c3608ec: flags=4099&lt;UP,BROADCAST,MULTICAST&gt;  mtu 1500
+        ether 00:e0:4c:36:08:ec  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+</code></pre>
+<h2 id="ethtool"><a href="#ethtool" class="headerlink" title="ethtool"></a>ethtool</h2><pre><code># ethtool enx00e04c3608ec
+Settings for enx00e04c3608ec:
+    Supported ports: [ TP MII ]
+    Supported link modes:   10baseT/Half 10baseT/Full
+                            100baseT/Half 100baseT/Full
+    Supported pause frame use: No
+    Supports auto-negotiation: Yes
+    Supported FEC modes: Not reported
+    Advertised link modes:  10baseT/Half 10baseT/Full
+                            100baseT/Half 100baseT/Full
+    Advertised pause frame use: Symmetric Receive-only
+    Advertised auto-negotiation: Yes
+    Advertised FEC modes: Not reported
+    Speed: 10Mb/s
+    Duplex: Half
+    Port: MII
+    PHYAD: 32
+    Transceiver: internal
+    Auto-negotiation: on
+    Supports Wake-on: pumbg
+    Wake-on: g
+    Current message level: 0x00007fff (32767)
+                   drv probe link timer ifdown ifup rx_err tx_err tx_queued intr tx_done rx_status pktdata hw wol
+    Link detected: no
+</code></pre>
+<pre><code># ethtool -i enx00e04c3608ec
+driver: r8152
+version: v1.11.11
+firmware-version:
+expansion-rom-version:
+bus-info: usb-0000:00:14.0-2.1
+supports-statistics: yes
+supports-test: no
+supports-eeprom-access: no
+supports-register-dump: no
+supports-priv-flags: no
+</code></pre>
+<pre><code># ethtool -T enx00e04c3608ec
+Time stamping parameters for enx00e04c3608ec:
+Capabilities:
+    software-receive      (SOF_TIMESTAMPING_RX_SOFTWARE)
+    software-system-clock (SOF_TIMESTAMPING_SOFTWARE)
+PTP Hardware Clock: none
+Hardware Transmit Timestamp Modes: none
+Hardware Receive Filter Modes: none
+</code></pre>
+<h2 id="hwinfo"><a href="#hwinfo" class="headerlink" title="hwinfo"></a>hwinfo</h2><pre><code>  net interface: name = enx00e04c3608ec, path = /class/net/enx00e04c3608ec
+    type = 1
+    carrier = 0
+    hw_addr = 00:e0:4c:36:08:ec
+    net device: path = /devices/pci0000:00/0000:00:14.0/usb2/2-2/2-2.1/2-2.1:1.0
+    net driver: name = r8152, path = /bus/usb/drivers/r8152
+
+37: USB 00.0: 0200 Ethernet controller
+  [Created at usb.122]
+  Unique ID: WFGf.TaH2R0dMoZ8
+  Parent ID: hSuP.V+vVO9032M2
+  SysFS ID: /devices/pci0000:00/0000:00:14.0/usb2/2-2/2-2.1/2-2.1:1.0
+  SysFS BusID: 2-2.1:1.0
+  Hardware Class: network
+  Model: &quot;Realtek RTL8152 Fast Ethernet Adapter&quot;
+  Hotplug: USB
+  Vendor: usb 0x0bda &quot;Realtek Semiconductor Corp.&quot;
+  Device: usb 0x8152 &quot;RTL8152 Fast Ethernet Adapter&quot;
+  Revision: &quot;20.00&quot;
+  Serial ID: &quot;00E04C3608EC&quot;
+  Driver: &quot;r8152&quot;
+  Driver Modules: &quot;r8152&quot;
+  Device File: enx00e04c3608ec
+  Speed: 480 Mbps
+  HW Address: 00:e0:4c:36:08:ec
+  Permanent HW Address: 00:e0:4c:36:08:ec
+  Link detected: no
+  Module Alias: &quot;usb:v0BDAp8152d2000dc00dsc00dp00icFFiscFFip00in00&quot;
+  Driver Info #0:
+    Driver Status: r8152 is active
+    Driver Activation Cmd: &quot;modprobe r8152&quot;
+  Config Status: cfg=new, avail=yes, need=no, active=unknown
+  Attached to: #39 (Hub)
+
+52: None 00.0: 10701 Ethernet
+  [Created at net.126]
+  Unique ID: GeD9.ndpeucax6V1
+  Parent ID: WFGf.TaH2R0dMoZ8
+  SysFS ID: /class/net/enx00e04c3608ec
+  SysFS Device Link: /devices/pci0000:00/0000:00:14.0/usb2/2-2/2-2.1/2-2.1:1.0
+  Hardware Class: network interface
+  Model: &quot;Ethernet network interface&quot;
+  Driver: &quot;r8152&quot;
+  Driver Modules: &quot;r8152&quot;
+  Device File: enx00e04c3608ec
+  HW Address: 00:e0:4c:36:08:ec
+  Permanent HW Address: 00:e0:4c:36:08:ec
+  Link detected: no
+  Config Status: cfg=new, avail=yes, need=no, active=unknown
+  Attached to: #37 (Ethernet controller)
+</code></pre>
+<h2 id="lsusb"><a href="#lsusb" class="headerlink" title="lsusb"></a>lsusb</h2><pre class="line-numbers language-shell"><code class="language-shell"># lsusb
+Bus 001 Device 002: ID 8087:8000 Intel Corp.
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 003 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 002 Device 003: ID 0c45:64d2 Microdia Integrated Webcam
+Bus 002 Device 005: ID 0bda:8152 Realtek Semiconductor Corp. RTL8152 Fast Ethernet Adapter
+Bus 002 Device 004: ID 214b:7250  USB2.0 HUB
+Bus 002 Device 002: ID 0a12:0001 Cambridge Silicon Radio, Ltd Bluetooth Dongle (HCI mode)
+Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="usb-devices"><a href="#usb-devices" class="headerlink" title="usb-devices"></a>usb-devices</h2><pre class="line-numbers language-shell"><code class="language-shell">$ usb-devices | awk '/214b/' RS=
+T:  Bus=02 Lev=01 Prnt=01 Port=01 Cnt=02 Dev#=  4 Spd=480 MxCh= 4
+D:  Ver= 2.00 Cls=09(hub  ) Sub=00 Prot=01 MxPS=64 #Cfgs=  1
+P:  Vendor=214b ProdID=7250 Rev=01.00
+S:  Product=USB2.0 HUB
+C:  #Ifs= 1 Cfg#= 1 Atr=e0 MxPwr=100mA
+I:  If#=0x0 Alt= 0 #EPs= 1 Cls=09(hub  ) Sub=00 Prot=00 Driver=hub
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-shell"><code class="language-shell">$ usb-devices | awk '/0bda/' RS=
+T:  Bus=02 Lev=02 Prnt=04 Port=00 Cnt=01 Dev#=  5 Spd=480 MxCh= 0
+D:  Ver= 2.10 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  2
+P:  Vendor=0bda ProdID=8152 Rev=20.00
+S:  Manufacturer=Realtek
+S:  Product=USB 10/100 LAN
+S:  SerialNumber=00E04C3608EC
+C:  #Ifs= 1 Cfg#= 1 Atr=a0 MxPwr=100mA
+I:  If#=0x0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=00 Driver=r8152
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="lsusb-verbose"><a href="#lsusb-verbose" class="headerlink" title="lsusb verbose"></a>lsusb verbose</h2><pre class="line-numbers language-shell"><code class="language-shell"># lsusb -v -d 0bda:8152
+Bus 002 Device 005: ID 0bda:8152 Realtek Semiconductor Corp. RTL8152 Fast Ethernet Adapter
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               2.10
+  bDeviceClass            0
+  bDeviceSubClass         0
+  bDeviceProtocol         0
+  bMaxPacketSize0        64
+  idVendor           0x0bda Realtek Semiconductor Corp.
+  idProduct          0x8152 RTL8152 Fast Ethernet Adapter
+  bcdDevice           20.00
+  iManufacturer           1 Realtek
+  iProduct                2 USB 10/100 LAN
+  iSerial                 3 00E04C3608EC
+  bNumConfigurations      2
+  Configuration Descriptor:
+    bLength                 9
+    bDescriptorType         2
+    wTotalLength       0x0027
+    bNumInterfaces          1
+    bConfigurationValue     1
+    iConfiguration          0
+    bmAttributes         0xa0
+      (Bus Powered)
+      Remote Wakeup
+    MaxPower              100mA
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       0
+      bNumEndpoints           3
+      bInterfaceClass       255 Vendor Specific Class
+      bInterfaceSubClass    255 Vendor Specific Subclass
+      bInterfaceProtocol      0
+      iInterface              0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0200  1x 512 bytes
+        bInterval               0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x02  EP 2 OUT
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0200  1x 512 bytes
+        bInterval               0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x83  EP 3 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0002  1x 2 bytes
+        bInterval               8
+  Configuration Descriptor:
+    bLength                 9
+    bDescriptorType         2
+    wTotalLength       0x0050
+    bNumInterfaces          2
+    bConfigurationValue     2
+    iConfiguration          0
+    bmAttributes         0xa0
+      (Bus Powered)
+      Remote Wakeup
+    MaxPower              100mA
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       0
+      bNumEndpoints           1
+      bInterfaceClass         2 Communications
+      bInterfaceSubClass      6 Ethernet Networking
+      bInterfaceProtocol      0
+      iInterface              5 CDC Communications Control
+      CDC Header:
+        bcdCDC               1.10
+      CDC Union:
+        bMasterInterface        0
+        bSlaveInterface         1
+      CDC Ethernet:
+        iMacAddress                      3 00E04C3608EC
+        bmEthernetStatistics    0x00000000
+        wMaxSegmentSize               1514
+        wNumberMCFilters            0x0000
+        bNumberPowerFilters              0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x83  EP 3 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0010  1x 16 bytes
+        bInterval               8
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       0
+      bNumEndpoints           0
+      bInterfaceClass        10 CDC Data
+      bInterfaceSubClass      0
+      bInterfaceProtocol      0
+      iInterface              0
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       1
+      bNumEndpoints           2
+      bInterfaceClass        10 CDC Data
+      bInterfaceSubClass      0
+      bInterfaceProtocol      0
+      iInterface              4 Ethernet Data
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0200  1x 512 bytes
+        bInterval               0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x02  EP 2 OUT
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0200  1x 512 bytes
+        bInterval               0
+Binary Object Store Descriptor:
+  bLength                 5
+  bDescriptorType        15
+  wTotalLength       0x000c
+  bNumDeviceCaps          1
+  USB 2.0 Extension Device Capability:
+    bLength                 7
+    bDescriptorType        16
+    bDevCapabilityType      2
+    bmAttributes   0x00000002
+      HIRD Link Power Management (LPM) Supported
+can't get debug descriptor: Resource temporarily unavailable
+Device Status:     0x0000
+  (Bus Powered)
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-shell"><code class="language-shell"># lsusb -v -d 214b:7250
+Bus 002 Device 004: ID 214b:7250  USB2.0 HUB
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               2.00
+  bDeviceClass            9 Hub
+  bDeviceSubClass         0
+  bDeviceProtocol         1 Single TT
+  bMaxPacketSize0        64
+  idVendor           0x214b
+  idProduct          0x7250
+  bcdDevice            1.00
+  iManufacturer           0
+  iProduct                1 USB2.0 HUB
+  iSerial                 0
+  bNumConfigurations      1
+  Configuration Descriptor:
+    bLength                 9
+    bDescriptorType         2
+    wTotalLength       0x0019
+    bNumInterfaces          1
+    bConfigurationValue     1
+    iConfiguration          0
+    bmAttributes         0xe0
+      Self Powered
+      Remote Wakeup
+    MaxPower              100mA
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       0
+      bNumEndpoints           1
+      bInterfaceClass         9 Hub
+      bInterfaceSubClass      0
+      bInterfaceProtocol      0 Full speed (or root) hub
+      iInterface              0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0001  1x 1 bytes
+        bInterval              12
+Hub Descriptor:
+  bLength               9
+  bDescriptorType      41
+  nNbrPorts             4
+  wHubCharacteristic 0x00e0
+    Ganged power switching
+    Ganged overcurrent protection
+    TT think time 32 FS bits
+    Port indicators
+  bPwrOn2PwrGood       50 * 2 milli seconds
+  bHubContrCurrent    100 milli Ampere
+  DeviceRemovable    0x00
+  PortPwrCtrlMask    0xff
+ Hub Port Status:
+   Port 1: 0000.0503 highspeed power enable connect
+   Port 2: 0000.0100 power
+   Port 3: 0000.0100 power
+   Port 4: 0000.0100 power
+Device Qualifier (for other device speed):
+  bLength                10
+  bDescriptorType         6
+  bcdUSB               2.00
+  bDeviceClass            9 Hub
+  bDeviceSubClass         0
+  bDeviceProtocol         0 Full speed (or root) hub
+  bMaxPacketSize0        64
+  bNumConfigurations      1
+can't get debug descriptor: Resource temporarily unavailable
+Device Status:     0x0003
+  Self Powered
+  Remote Wakeup Enabled
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Realtek-RTL8152-Based-USB-Ethernet-Adapter"><span class="toc-number">1.</span> <span class="toc-text">Realtek RTL8152 Based USB Ethernet Adapter</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#dmesg"><span class="toc-number">1.1.</span> <span class="toc-text">dmesg</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ifconfig"><span class="toc-number">1.2.</span> <span class="toc-text">ifconfig</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ethtool"><span class="toc-number">1.3.</span> <span class="toc-text">ethtool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hwinfo"><span class="toc-number">1.4.</span> <span class="toc-text">hwinfo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lsusb"><span class="toc-number">1.5.</span> <span class="toc-text">lsusb</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#usb-devices"><span class="toc-number">1.6.</span> <span class="toc-text">usb-devices</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lsusb-verbose"><span class="toc-number">1.7.</span> <span class="toc-text">lsusb verbose</span></a></li></ol></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

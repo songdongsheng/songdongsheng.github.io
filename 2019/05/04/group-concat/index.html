@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>MySQL Aggregate Function GROUP_CONCAT() | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>MySQL Aggregate Function GROUP_CONCAT()</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2019年05月04日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/SQL/">SQL</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tags" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#SQL" class='tag'>SQL</a>
+
+
+            
+          </div>
+          <h1 id="Group-concat"><a href="#Group-concat" class="headerlink" title="Group concat"></a>Group concat</h1><p>The <a href="https://mariadb.com/kb/en/library/group_concat/" target="_blank" rel="noopener">MySQL GROUP_CONCAT() function</a> is an aggregate function that concatenates strings from a group into a single string with various options.</p>
+<h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">select</span> parent_name<span class="token punctuation">,</span> group_concat<span class="token punctuation">(</span>child_name<span class="token punctuation">)</span>
+<span class="token keyword">from</span> children
+<span class="token keyword">group</span> <span class="token keyword">by</span> parent_name<span class="token punctuation">;</span>
+
+<span class="token keyword">select</span> parent_name<span class="token punctuation">,</span>
+    group_concat<span class="token punctuation">(</span>child_name <span class="token keyword">order</span> <span class="token keyword">by</span> child_name <span class="token keyword">asc</span> separator <span class="token string">';'</span><span class="token punctuation">)</span>
+<span class="token keyword">from</span> children
+<span class="token keyword">group</span> <span class="token keyword">by</span> parent_name<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="PostgreSQL"><a href="#PostgreSQL" class="headerlink" title="PostgreSQL"></a>PostgreSQL</h2><pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">select</span> parent_name<span class="token punctuation">,</span>
+    array_to_string<span class="token punctuation">(</span>array_agg<span class="token punctuation">(</span>child_name<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">','</span><span class="token punctuation">)</span>
+<span class="token keyword">from</span> children
+<span class="token keyword">group</span> <span class="token keyword">by</span> parent_name<span class="token punctuation">;</span>
+
+<span class="token keyword">select</span> parent_name<span class="token punctuation">,</span>
+    array_to_string<span class="token punctuation">(</span>array_agg<span class="token punctuation">(</span>child_name <span class="token keyword">order</span> <span class="token keyword">by</span> child_name <span class="token keyword">ASC</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">','</span><span class="token punctuation">)</span>
+<span class="token keyword">from</span> children
+<span class="token keyword">group</span> <span class="token keyword">by</span> parent_name<span class="token punctuation">;</span>
+
+<span class="token keyword">SELECT</span> <span class="token number">a</span><span class="token punctuation">.</span>farm_id<span class="token punctuation">,</span>
+    string_agg<span class="token punctuation">(</span><span class="token keyword">DISTINCT</span> <span class="token number">a</span><span class="token punctuation">.</span>name<span class="token punctuation">,</span> <span class="token string">','</span><span class="token punctuation">)</span> <span class="token keyword">as</span> animals<span class="token punctuation">,</span>
+    string_agg<span class="token punctuation">(</span><span class="token keyword">DISTINCT</span> t<span class="token punctuation">.</span>name<span class="token punctuation">,</span> <span class="token string">','</span><span class="token punctuation">)</span> <span class="token keyword">as</span> tools
+<span class="token keyword">FROM</span>
+    animal <span class="token number">a</span><span class="token punctuation">,</span> tool t
+<span class="token keyword">WHERE</span> <span class="token number">a</span><span class="token punctuation">.</span>farm_id <span class="token operator">=</span> t<span class="token punctuation">.</span>farm_id
+<span class="token keyword">GROUP</span> <span class="token keyword">BY</span> <span class="token number">a</span><span class="token punctuation">.</span>farm_id<span class="token punctuation">;</span>
+
+FARM_ID    ANIMALS        TOOLS
+<span class="token number">1</span>          cow<span class="token punctuation">,</span>horse      axe<span class="token punctuation">,</span>hammer<span class="token punctuation">,</span>spade
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Oracle"><a href="#Oracle" class="headerlink" title="Oracle"></a>Oracle</h2><pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">SELECT</span> parent_name<span class="token punctuation">,</span>
+    LISTAGG<span class="token punctuation">(</span>child_name<span class="token punctuation">,</span> <span class="token string">','</span><span class="token punctuation">)</span> <span class="token keyword">WITHIN</span> <span class="token keyword">GROUP</span> <span class="token punctuation">(</span><span class="token keyword">ORDER</span> <span class="token keyword">BY</span> child_name<span class="token punctuation">)</span>
+<span class="token keyword">FROM</span> children
+<span class="token keyword">GROUP</span> <span class="token keyword">BY</span> parent_name<span class="token punctuation">;</span>
+
+<span class="token keyword">CREATE</span> <span class="token operator">OR</span> REPLACE
+<span class="token keyword">FUNCTION</span> get_comma_separated_value <span class="token punctuation">(</span>input_val <span class="token operator">in</span> number<span class="token punctuation">)</span>
+  <span class="token keyword">RETURN</span> VARCHAR2
+<span class="token operator">IS</span>
+  return_text  VARCHAR2<span class="token punctuation">(</span><span class="token number">10000</span><span class="token punctuation">)</span> :<span class="token operator">=</span> <span class="token boolean">NULL</span><span class="token punctuation">;</span>
+<span class="token keyword">BEGIN</span>
+  <span class="token keyword">FOR</span> x <span class="token operator">IN</span> <span class="token punctuation">(</span><span class="token keyword">SELECT</span> col2 <span class="token keyword">FROM</span> table_name <span class="token keyword">WHERE</span> col1 <span class="token operator">=</span> input_val<span class="token punctuation">)</span> LOOP
+    return_text :<span class="token operator">=</span> return_text <span class="token operator">||</span> <span class="token string">','</span> <span class="token operator">||</span> x<span class="token punctuation">.</span>col2 <span class="token punctuation">;</span>
+  <span class="token keyword">END</span> LOOP<span class="token punctuation">;</span>
+  <span class="token keyword">RETURN</span> LTRIM<span class="token punctuation">(</span>return_text<span class="token punctuation">,</span> <span class="token string">','</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">END</span><span class="token punctuation">;</span>
+
+<span class="token keyword">select</span> parent_name<span class="token punctuation">,</span> get_comma_separated_value<span class="token punctuation">(</span>child_name<span class="token punctuation">)</span>
+<span class="token keyword">from</span> children<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="SQLite"><a href="#SQLite" class="headerlink" title="SQLite"></a>SQLite</h2><pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">select</span> parent_name<span class="token punctuation">,</span> group_concat<span class="token punctuation">(</span>child_name<span class="token punctuation">)</span>
+<span class="token keyword">from</span> children <span class="token keyword">group</span> <span class="token keyword">by</span> parent_name<span class="token punctuation">;</span>
+
+<span class="token keyword">select</span> parent_name<span class="token punctuation">,</span> group_concat<span class="token punctuation">(</span>child_name<span class="token punctuation">,</span> <span class="token string">';'</span><span class="token punctuation">)</span>
+<span class="token keyword">from</span> children <span class="token keyword">group</span> <span class="token keyword">by</span> parent_name<span class="token punctuation">;</span>
+
+<span class="token keyword">select</span> parent_name<span class="token punctuation">,</span> group_concat<span class="token punctuation">(</span>child_name<span class="token punctuation">)</span>
+<span class="token keyword">from</span>
+  <span class="token punctuation">(</span><span class="token keyword">select</span> parent_name<span class="token punctuation">,</span> child_name <span class="token keyword">from</span> children <span class="token keyword">order</span> <span class="token keyword">by</span> child_name<span class="token punctuation">)</span>
+<span class="token keyword">group</span> <span class="token keyword">by</span> parent_name<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="HSQLDB"><a href="#HSQLDB" class="headerlink" title="HSQLDB"></a>HSQLDB</h2><pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">select</span> parent_name<span class="token punctuation">,</span> group_concat<span class="token punctuation">(</span>child_name<span class="token punctuation">)</span>
+<span class="token keyword">from</span> children
+<span class="token keyword">group</span> <span class="token keyword">by</span> parent_name<span class="token punctuation">;</span>
+
+<span class="token keyword">select</span> parent_name<span class="token punctuation">,</span>
+  group_concat<span class="token punctuation">(</span>child_name <span class="token keyword">order</span> <span class="token keyword">by</span> child_name SEPARATOR <span class="token string">';'</span><span class="token punctuation">)</span>
+<span class="token keyword">from</span> children
+<span class="token keyword">group</span> <span class="token keyword">by</span> parent_name<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Group-concat"><span class="toc-number">1.</span> <span class="toc-text">Group concat</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL"><span class="toc-number">1.1.</span> <span class="toc-text">MySQL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PostgreSQL"><span class="toc-number">1.2.</span> <span class="toc-text">PostgreSQL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Oracle"><span class="toc-number">1.3.</span> <span class="toc-text">Oracle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQLite"><span class="toc-number">1.4.</span> <span class="toc-text">SQLite</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HSQLDB"><span class="toc-number">1.5.</span> <span class="toc-text">HSQLDB</span></a></li></ol></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

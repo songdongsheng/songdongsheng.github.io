@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Moving average | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>Moving average</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2019年02月09日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/Java/">Java</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tag" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Java" class='tag'>Java</a>
+
+
+            
+          </div>
+          <h1 id="Moving-average"><a href="#Moving-average" class="headerlink" title="Moving average"></a>Moving average</h1><p>In statistics, a moving average (rolling average or running average) is a calculation to analyze data points by creating a series of averages of different subsets of the full data set. It is also called a moving mean (MM) or rolling mean and is a type of finite impulse response filter. Variations include: simple, and cumulative, or weighted forms.</p>
+<p>Given a series of numbers and a fixed subset size, the first element of the moving average is obtained by taking the average of the initial fixed subset of the number series. Then the subset is modified by “shifting forward”; that is, excluding the first number of the series and including the next value in the subset.</p>
+<p>A moving average is commonly used with time series data to smooth out short-term fluctuations and highlight longer-term trends or cycles. The threshold between short-term and long-term depends on the application, and the parameters of the moving average will be set accordingly.</p>
+<h2 id="Variations"><a href="#Variations" class="headerlink" title="Variations"></a>Variations</h2><ul>
+<li>MA:     moving average</li>
+<li>SMA:    simple moving average</li>
+<li>LWMA:   linearly weighted moving average</li>
+<li>EMA:    exponential moving average</li>
+<li>DEMA:   double exponential moving average</li>
+<li>TEMA:   triple exponential moving average</li>
+<li>DMA:    displaced moving average</li>
+</ul>
+<h2 id="Sample-coding"><a href="#Sample-coding" class="headerlink" title="Sample coding"></a>Sample coding</h2><h3 id="EMA"><a href="#EMA" class="headerlink" title="EMA"></a>EMA</h3><pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">ExponentialMovingAverage</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">double</span> alpha<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> Double oldValue<span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token function">ExponentialMovingAverage</span><span class="token punctuation">(</span><span class="token keyword">double</span> alpha<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>alpha <span class="token operator">=</span> alpha<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">double</span> <span class="token function">average</span><span class="token punctuation">(</span><span class="token keyword">double</span> value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>oldValue <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            oldValue <span class="token operator">=</span> value<span class="token punctuation">;</span>
+            <span class="token keyword">return</span> value<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">double</span> newValue <span class="token operator">=</span> oldValue <span class="token operator">+</span> alpha <span class="token operator">*</span> <span class="token punctuation">(</span>value <span class="token operator">-</span> oldValue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        oldValue <span class="token operator">=</span> newValue<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> newValue<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Time-windowed-EMA"><a href="#Time-windowed-EMA" class="headerlink" title="Time windowed EMA"></a>Time windowed EMA</h2><pre class="line-numbers language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
+ * An exponentially weighted moving average implementation that decays based on the elapsed time since the last update,
+ * approximating a time windowed moving average.
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MovingAverage</span> <span class="token punctuation">{</span>
+  <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token keyword">long</span> windowNanos<span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">// Mutable state</span>
+  <span class="token keyword">private</span> <span class="token keyword">volatile</span> <span class="token keyword">long</span> lastNanos<span class="token punctuation">;</span>
+  <span class="token keyword">private</span> <span class="token keyword">volatile</span> <span class="token keyword">double</span> average<span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * Creates a moving average of samples over a {@code window} for the {@code timeUnit}.
+   */</span>
+  <span class="token keyword">public</span> <span class="token function">MovingAverage</span><span class="token punctuation">(</span><span class="token keyword">long</span> window<span class="token punctuation">,</span> TimeUnit timeUnit<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>windowNanos <span class="token operator">=</span> timeUnit<span class="token punctuation">.</span><span class="token function">toNanos</span><span class="token punctuation">(</span>window<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * Updates the average with the {@code sample}.
+   */</span>
+  <span class="token keyword">public</span> <span class="token keyword">synchronized</span> <span class="token keyword">void</span> <span class="token function">update</span><span class="token punctuation">(</span><span class="token keyword">double</span> sample<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">long</span> now <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">nanoTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>lastNanos <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      average <span class="token operator">=</span> sample<span class="token punctuation">;</span>
+      lastNanos <span class="token operator">=</span> now<span class="token punctuation">;</span>
+      <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">long</span> elapsedNanos <span class="token operator">=</span> now <span class="token operator">-</span> lastNanos<span class="token punctuation">;</span>
+    <span class="token keyword">double</span> coeff <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">exp</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1.0</span> <span class="token operator">*</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">double</span><span class="token punctuation">)</span> elapsedNanos <span class="token operator">/</span> windowNanos<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    average <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">1.0</span> <span class="token operator">-</span> coeff<span class="token punctuation">)</span> <span class="token operator">*</span> sample <span class="token operator">+</span> coeff <span class="token operator">*</span> average<span class="token punctuation">;</span>
+    lastNanos <span class="token operator">=</span> now<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * Returns the moving average.
+   */</span>
+  <span class="token keyword">public</span> <span class="token keyword">double</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> average<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * Tick the internal moving average clock back by the {@code duration}. Useful for testing.
+   */</span>
+  <span class="token keyword">void</span> <span class="token function">tick</span><span class="token punctuation">(</span><span class="token keyword">long</span> duration<span class="token punctuation">,</span> TimeUnit timeUnit<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>lastNanos <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span>
+      lastNanos <span class="token operator">-=</span> timeUnit<span class="token punctuation">.</span><span class="token function">toNanos</span><span class="token punctuation">(</span>duration<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Moving-average"><span class="toc-number">1.</span> <span class="toc-text">Moving average</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Variations"><span class="toc-number">1.1.</span> <span class="toc-text">Variations</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sample-coding"><span class="toc-number">1.2.</span> <span class="toc-text">Sample coding</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#EMA"><span class="toc-number">1.2.1.</span> <span class="toc-text">EMA</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Time-windowed-EMA"><span class="toc-number">1.3.</span> <span class="toc-text">Time windowed EMA</span></a></li></ol></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

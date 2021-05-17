@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Prometheus Query Language | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>Prometheus Query Language</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2021年04月10日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Cloud/">Cloud</a>/ <a class="article-category-link" href="/categories/Cloud/Kubernetes/">Kubernetes</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tags" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Cloud" class='tag'>Cloud</a>
+
+  <a href="/tags/#Kubernetes" class='tag'>Kubernetes</a>
+
+
+            
+          </div>
+          <h1 id="Prometheus-Query-Language"><a href="#Prometheus-Query-Language" class="headerlink" title="Prometheus Query Language"></a>Prometheus Query Language</h1><h2 id="Querying-Prometheus-reference"><a href="#Querying-Prometheus-reference" class="headerlink" title="Querying Prometheus reference"></a>Querying Prometheus reference</h2><ul>
+<li><a href="https://prometheus.io/docs/prometheus/latest/querying/basics/" target="_blank" rel="noopener">Querying Prometheus</a></li>
+<li><a href="https://prometheus.io/docs/prometheus/latest/querying/operators/#vector-matching" target="_blank" rel="noopener">Prometheus Operators</a></li>
+<li><a href="https://prometheus.io/docs/prometheus/latest/querying/functions/" target="_blank" rel="noopener">Prometheus Functions</a></li>
+<li><a href="https://prometheus.io/docs/prometheus/latest/querying/api/" target="_blank" rel="noopener">Prometheus HTTP API</a></li>
+<li><a href="https://prometheus.io/docs/concepts/data_model/" target="_blank" rel="noopener">Prometheus data model</a></li>
+<li><a href="https://prometheus.io/docs/practices/naming/" target="_blank" rel="noopener">Prometheus metric and label naming</a></li>
+<li><a href="https://prometheus.io/docs/prometheus/latest/configuration/recording_rules/" target="_blank" rel="noopener">Prometheus Recording rules</a></li>
+<li><a href="https://prometheus.io/docs/operating/security/" target="_blank" rel="noopener">Prometheus Security Model</a></li>
+<li><a href="https://github.com/google/re2/wiki/Syntax" target="_blank" rel="noopener">Prometheus regular expressions - RE2 syntax</a></li>
+<li><a href="https://valyala.medium.com/promql-tutorial-for-beginners-9ab455142085" target="_blank" rel="noopener">PromQL tutorial for beginners and humans</a></li>
+<li><a href="https://promlabs.com/promql-cheat-sheet/" target="_blank" rel="noopener">PromQL Cheat Sheet</a></li>
+<li><a href="https://promlens.com/" target="_blank" rel="noopener">PromLens - The power tool for querying Prometheus</a></li>
+</ul>
+<h2 id="Setup-Prometheus"><a href="#Setup-Prometheus" class="headerlink" title="Setup Prometheus"></a>Setup Prometheus</h2><h3 id="The-Java-demo-code"><a href="#The-Java-demo-code" class="headerlink" title="The Java demo code"></a>The Java demo code</h3><pre class="line-numbers language-java"><code class="language-java">
+    <span class="token annotation punctuation">@Scheduled</span><span class="token punctuation">(</span>fixedDelay <span class="token operator">=</span> <span class="token number">1000</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">simulator</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> values <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">300</span><span class="token punctuation">,</span> <span class="token number">400</span><span class="token punctuation">,</span> <span class="token number">1600</span><span class="token punctuation">,</span> <span class="token number">500</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+        Tags<span class="token punctuation">[</span><span class="token punctuation">]</span> tagsList <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Tags</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span>
+            Tags<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span><span class="token string">"api"</span><span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">,</span> <span class="token string">"app"</span><span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            Tags<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span><span class="token string">"api"</span><span class="token punctuation">,</span> <span class="token string">"bdt-sbi"</span><span class="token punctuation">,</span> <span class="token string">"app"</span><span class="token punctuation">,</span> <span class="token string">"bdt"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            Tags<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span><span class="token string">"api"</span><span class="token punctuation">,</span> <span class="token string">"cp-sbi"</span><span class="token punctuation">,</span> <span class="token string">"app"</span><span class="token punctuation">,</span> <span class="token string">"cp"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            Tags<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span><span class="token string">"api"</span><span class="token punctuation">,</span> <span class="token string">"ee-sbi"</span><span class="token punctuation">,</span> <span class="token string">"app"</span><span class="token punctuation">,</span> <span class="token string">"ee"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            Tags<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span><span class="token string">"api"</span><span class="token punctuation">,</span> <span class="token string">"qos-sbi"</span><span class="token punctuation">,</span> <span class="token string">"app"</span><span class="token punctuation">,</span> <span class="token string">"qos"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            Tags<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span><span class="token string">"api"</span><span class="token punctuation">,</span> <span class="token string">"afi-sbi"</span><span class="token punctuation">,</span> <span class="token string">"app"</span><span class="token punctuation">,</span> <span class="token string">"afi"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+        Random random <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SecureRandom</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">6</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            Tags tags <span class="token operator">=</span> tagsList<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            meterRegistry<span class="token punctuation">.</span><span class="token function">counter</span><span class="token punctuation">(</span><span class="token string">"api_north_requests_recv_total"</span><span class="token punctuation">,</span> tags<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">increment</span><span class="token punctuation">(</span>values<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            meterRegistry<span class="token punctuation">.</span><span class="token function">gauge</span><span class="token punctuation">(</span><span class="token string">"connected_device_gauge"</span><span class="token punctuation">,</span> tags<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">AtomicInteger</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>values<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Timer<span class="token punctuation">.</span><span class="token function">builder</span><span class="token punctuation">(</span><span class="token string">"database_access_time"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">tags</span><span class="token punctuation">(</span>tags<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">publishPercentiles</span><span class="token punctuation">(</span><span class="token number">0.75</span><span class="token punctuation">,</span> <span class="token number">0.8</span><span class="token punctuation">,</span> <span class="token number">0.85</span><span class="token punctuation">,</span> <span class="token number">0.9</span><span class="token punctuation">,</span> <span class="token number">0.95</span><span class="token punctuation">,</span> <span class="token number">0.99</span><span class="token punctuation">,</span> <span class="token number">0.999</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">publishPercentileHistogram</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">minimumExpectedValue</span><span class="token punctuation">(</span>Duration<span class="token punctuation">.</span><span class="token function">ofMillis</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">maximumExpectedValue</span><span class="token punctuation">(</span>Duration<span class="token punctuation">.</span><span class="token function">ofSeconds</span><span class="token punctuation">(</span><span class="token number">30</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">register</span><span class="token punctuation">(</span>meterRegistry<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">record</span><span class="token punctuation">(</span>Duration<span class="token punctuation">.</span><span class="token function">ofMillis</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>random<span class="token punctuation">.</span><span class="token function">nextDouble</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> 30_000<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="prometheus-yml"><a href="#prometheus-yml" class="headerlink" title="prometheus.yml"></a>prometheus.yml</h3><pre class="line-numbers language-yaml"><code class="language-yaml"><span class="token key atrule">global</span><span class="token punctuation">:</span>
+  <span class="token key atrule">scrape_interval</span><span class="token punctuation">:</span>     15s <span class="token comment" spellcheck="true"># Set the scrape interval to every 15 seconds. Default is every 1 minute.</span>
+  <span class="token key atrule">evaluation_interval</span><span class="token punctuation">:</span> 15s <span class="token comment" spellcheck="true"># Evaluate rules every 15 seconds. The default is every 1 minute.</span>
+
+<span class="token comment" spellcheck="true"># A list of scrape configurations.</span>
+<span class="token key atrule">scrape_configs</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">job_name</span><span class="token punctuation">:</span> <span class="token string">'prometheus-localhost-9090'</span>
+    <span class="token key atrule">static_configs</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">targets</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'localhost:9090'</span><span class="token punctuation">]</span>
+
+  <span class="token punctuation">-</span> <span class="token key atrule">job_name</span><span class="token punctuation">:</span> <span class="token string">'simulator-localhost-8181'</span>
+    <span class="token key atrule">static_configs</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">targets</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'localhost:8181'</span><span class="token punctuation">]</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Start-Java-service-and-Prometheus"><a href="#Start-Java-service-and-Prometheus" class="headerlink" title="Start Java service and Prometheus"></a>Start Java service and Prometheus</h3><pre class="line-numbers language-shell"><code class="language-shell">java -jar /path/to/java/service/jar &
+
+prometheus --web.enable-admin-api \
+  --storage.tsdb.retention.time=3d \
+  --storage.tsdb.retention.size=512MB \
+  --storage.tsdb.path=data/
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Querying-Prometheus-status"><a href="#Querying-Prometheus-status" class="headerlink" title="Querying Prometheus status"></a>Querying Prometheus status</h2><h3 id="Querying-Prometheus-config"><a href="#Querying-Prometheus-config" class="headerlink" title="Querying Prometheus config"></a>Querying Prometheus config</h3><pre class="line-numbers language-shell"><code class="language-shell">$ curl -sSL http://localhost:9090/api/v1/status/config | jq .
+{
+  "status": "success",
+  "data": {
+    "yaml": "global:\n  scrape_interval: 15s\n  scrape_timeout: 10s\n  evaluation_interval: 15s\n  query_log_file: query_log.txt\nscrape_configs:\n- job_name: prometheus-localhost-9090\n  honor_timestamps: true\n  scrape_interval: 15s\n  scrape_timeout: 10s\n  metrics_path: /metrics\n  scheme: http\n  static_configs:\n  - targets:\n    - localhost:9090\n- job_name: simulator-localhost-8181\n  honor_timestamps: true\n  scrape_interval: 15s\n  scrape_timeout: 10s\n  metrics_path: /metrics\n  scheme: http\n  static_configs:\n  - targets:\n    - localhost:8181\n"
+  }
+}
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Querying-Prometheus-flags"><a href="#Querying-Prometheus-flags" class="headerlink" title="Querying Prometheus flags"></a>Querying Prometheus flags</h3><pre class="line-numbers language-shell"><code class="language-shell">$ curl -sSL http://localhost:9090/api/v1/status/flags | jq .
+{
+  "status": "success",
+  "data": {
+    "alertmanager.notification-queue-capacity": "10000",
+    "alertmanager.timeout": "",
+    "config.file": "prometheus.yml",
+    "enable-feature": "",
+    "log.format": "logfmt",
+    "log.level": "info",
+    "query.lookback-delta": "5m",
+    "query.max-concurrency": "20",
+    "query.max-samples": "50000000",
+    "query.timeout": "2m",
+    "rules.alert.for-grace-period": "10m",
+    "rules.alert.for-outage-tolerance": "1h",
+    "rules.alert.resend-delay": "1m",
+    "scrape.adjust-timestamps": "true",
+    "storage.remote.flush-deadline": "1m",
+    "storage.remote.read-concurrent-limit": "10",
+    "storage.remote.read-max-bytes-in-frame": "1048576",
+    "storage.remote.read-sample-limit": "50000000",
+    "storage.tsdb.allow-overlapping-blocks": "false",
+    "storage.tsdb.max-block-duration": "6m",
+    "storage.tsdb.min-block-duration": "2h",
+    "storage.tsdb.no-lockfile": "false",
+    "storage.tsdb.path": "data/",
+    "storage.tsdb.retention": "0s",
+    "storage.tsdb.retention.size": "0B",
+    "storage.tsdb.retention.time": "1h",
+    "storage.tsdb.wal-compression": "true",
+    "storage.tsdb.wal-segment-size": "0B",
+    "web.config.file": "",
+    "web.console.libraries": "console_libraries",
+    "web.console.templates": "consoles",
+    "web.cors.origin": ".*",
+    "web.enable-admin-api": "true",
+    "web.enable-lifecycle": "false",
+    "web.external-url": "",
+    "web.listen-address": "0.0.0.0:9090",
+    "web.max-connections": "512",
+    "web.page-title": "Prometheus Time Series Collection and Processing Server",
+    "web.read-timeout": "5m",
+    "web.route-prefix": "/",
+    "web.user-assets": ""
+  }
+}
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Querying-Prometheus-runtime-information"><a href="#Querying-Prometheus-runtime-information" class="headerlink" title="Querying Prometheus runtime information"></a>Querying Prometheus runtime information</h3><pre class="line-numbers language-shell"><code class="language-shell">$ curl -sSL http://localhost:9090/api/v1/status/runtimeinfo | jq .
+{
+  "status": "success",
+  "data": {
+    "startTime": "2021-04-10T03:11:30.8916173Z",
+    "CWD": "C:\\opt\\prometheus",
+    "reloadConfigSuccess": true,
+    "lastConfigTime": "2021-04-10T03:11:31Z",
+    "corruptionCount": 0,
+    "goroutineCount": 30,
+    "GOMAXPROCS": 8,
+    "GOGC": "",
+    "GODEBUG": "",
+    "storageRetention": "1h"
+  }
+}
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Querying-Prometheus-build-information"><a href="#Querying-Prometheus-build-information" class="headerlink" title="Querying Prometheus build information"></a>Querying Prometheus build information</h3><pre class="line-numbers language-shell"><code class="language-shell">$ curl -sSL http://localhost:9090/api/v1/status/buildinfo | jq .
+{
+  "status": "success",
+  "data": {
+    "version": "2.25.2",
+    "revision": "bda05a23ada314a0b9806a362da39b7a1a4e04c3",
+    "branch": "HEAD",
+    "buildUser": "root@de38ec01ef10",
+    "buildDate": "20210316-18:20:38",
+    "goVersion": "go1.15.10"
+  }
+}
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Querying-Prometheus-TSDB-Stats"><a href="#Querying-Prometheus-TSDB-Stats" class="headerlink" title="Querying Prometheus TSDB Stats"></a>Querying Prometheus TSDB Stats</h3><pre class="line-numbers language-shell"><code class="language-shell">$ curl -sSL http://localhost:9090/api/v1/status/tsdb | jq .
+{
+  "status": "success",
+  "data": {
+    "headStats": {
+      "numSeries": 635,
+      "numLabelPairs": 398,
+      "chunkCount": 1656,
+      "minTime": 1618024298730,
+      "maxTime": 1618030645198
+    }
+  }
+}
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Clean-tombstones-of-Prometheus"><a href="#Clean-tombstones-of-Prometheus" class="headerlink" title="Clean tombstones of Prometheus"></a>Clean tombstones of Prometheus</h3><pre class="line-numbers language-shell"><code class="language-shell">$ curl -sSL -X POST http://localhost:9090/api/v1/admin/tsdb/clean_tombstones | jq .
+{
+  "status": "error",
+  "errorType": "unavailable",
+  "error": "admin APIs disabled"
+}
+
+# prometheus --storage.tsdb.retention.time=1h --web.enable-admin-api
+$ curl -i -sSL -X POST http://localhost:9090/api/v1/admin/tsdb/clean_tombstones
+HTTP/1.1 204 No Content
+Date: Sat, 10 Apr 2021 05:03:29 GMT
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Querying-metric-metadata"><a href="#Querying-metric-metadata" class="headerlink" title="Querying metric metadata"></a>Querying metric metadata</h2><h3 id="List-metrics"><a href="#List-metrics" class="headerlink" title="List metrics"></a>List metrics</h3><pre class="line-numbers language-shell"><code class="language-shell">$ curl -sSL http://localhost:9090/api/v1/metadata?limit=3 | jq .
+{
+  "status": "success",
+  "data": {
+    "go_goroutines": [
+      {
+        "type": "gauge",
+        "help": "Number of goroutines that currently exist.",
+        "unit": ""
+      }
+    ],
+    "go_memstats_mallocs_total": [
+      {
+        "type": "counter",
+        "help": "Total number of mallocs.",
+        "unit": ""
+      }
+    ],
+    "prometheus_tsdb_head_series": [
+      {
+        "type": "gauge",
+        "help": "Total number of series in the head block.",
+        "unit": ""
+      }
+    ]
+  }
+}
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="List-metrics-jq"><a href="#List-metrics-jq" class="headerlink" title="List metrics - jq"></a>List metrics - jq</h3><pre class="line-numbers language-shell"><code class="language-shell">$ curl -sSL http://localhost:9090/api/v1/metadata | jq '.data.system_cpu_usage'
+[
+  {
+    "type": "gauge",
+    "help": "The \"recent cpu usage\" for the whole system",
+    "unit": ""
+  }
+]
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="List-metrics-keys"><a href="#List-metrics-keys" class="headerlink" title="List metrics - keys"></a>List metrics - keys</h3><pre class="line-numbers language-shell"><code class="language-shell">$ curl -sSL http://localhost:9090/api/v1/metadata | jq '.data | to_entries | .[].key' | tr -d '"'
+api_north_requests_recv_total
+connected_device_gauge
+go_gc_duration_seconds
+go_goroutines
+go_info
+go_memstats_alloc_bytes
+go_memstats_alloc_bytes_total
+go_memstats_buck_hash_sys_bytes
+go_memstats_frees_total
+go_memstats_gc_cpu_fraction
+go_memstats_gc_sys_bytes
+go_memstats_heap_alloc_bytes
+go_memstats_heap_idle_bytes
+go_memstats_heap_inuse_bytes
+go_memstats_heap_objects
+go_memstats_heap_released_bytes
+go_memstats_heap_sys_bytes
+go_memstats_last_gc_time_seconds
+go_memstats_lookups_total
+go_memstats_mallocs_total
+go_memstats_mcache_inuse_bytes
+go_memstats_mcache_sys_bytes
+go_memstats_mspan_inuse_bytes
+go_memstats_mspan_sys_bytes
+go_memstats_next_gc_bytes
+go_memstats_other_sys_bytes
+go_memstats_stack_inuse_bytes
+go_memstats_stack_sys_bytes
+go_memstats_sys_bytes
+go_threads
+http_server_requests_seconds
+http_server_requests_seconds_max
+jvm_buffer_count_buffers
+jvm_buffer_memory_used_bytes
+jvm_buffer_total_capacity_bytes
+jvm_classes_loaded_classes
+jvm_classes_unloaded_classes_total
+jvm_gc_live_data_size_bytes
+jvm_gc_max_data_size_bytes
+jvm_gc_memory_allocated_bytes_total
+jvm_gc_memory_promoted_bytes_total
+jvm_memory_committed_bytes
+jvm_memory_max_bytes
+jvm_memory_used_bytes
+jvm_threads_daemon_threads
+jvm_threads_live_threads
+jvm_threads_peak_threads
+jvm_threads_states_threads
+logback_events_total
+net_conntrack_dialer_conn_attempted_total
+net_conntrack_dialer_conn_closed_total
+net_conntrack_dialer_conn_established_total
+net_conntrack_dialer_conn_failed_total
+net_conntrack_listener_conn_accepted_total
+net_conntrack_listener_conn_closed_total
+process_cpu_seconds_total
+process_cpu_usage
+process_max_fds
+process_open_fds
+process_resident_memory_bytes
+process_start_time_seconds
+process_uptime_seconds
+process_virtual_memory_bytes
+prometheus_api_remote_read_queries
+prometheus_build_info
+prometheus_config_last_reload_success_timestamp_seconds
+prometheus_config_last_reload_successful
+prometheus_engine_queries
+prometheus_engine_queries_concurrent_max
+prometheus_engine_query_duration_seconds
+prometheus_engine_query_log_enabled
+prometheus_engine_query_log_failures_total
+prometheus_http_request_duration_seconds
+prometheus_http_requests_total
+prometheus_http_response_size_bytes
+prometheus_notifications_alertmanagers_discovered
+prometheus_notifications_dropped_total
+prometheus_notifications_queue_capacity
+prometheus_notifications_queue_length
+prometheus_remote_storage_highest_timestamp_in_seconds
+prometheus_remote_storage_samples_in_total
+prometheus_remote_storage_string_interner_zero_reference_releases_total
+prometheus_rule_evaluation_duration_seconds
+prometheus_rule_group_duration_seconds
+prometheus_sd_consul_rpc_duration_seconds
+prometheus_sd_consul_rpc_failures_total
+prometheus_sd_discovered_targets
+prometheus_sd_dns_lookup_failures_total
+prometheus_sd_dns_lookups_total
+prometheus_sd_failed_configs
+prometheus_sd_file_read_errors_total
+prometheus_sd_file_scan_duration_seconds
+prometheus_sd_kubernetes_events_total
+prometheus_sd_received_updates_total
+prometheus_sd_updates_total
+prometheus_target_interval_length_seconds
+prometheus_target_metadata_cache_bytes
+prometheus_target_metadata_cache_entries
+prometheus_target_scrape_pool_exceeded_target_limit_total
+prometheus_target_scrape_pool_reloads_failed_total
+prometheus_target_scrape_pool_reloads_total
+prometheus_target_scrape_pool_sync_total
+prometheus_target_scrape_pool_targets
+prometheus_target_scrape_pools_failed_total
+prometheus_target_scrape_pools_total
+prometheus_target_scrapes_cache_flush_forced_total
+prometheus_target_scrapes_exceeded_sample_limit_total
+prometheus_target_scrapes_sample_duplicate_timestamp_total
+prometheus_target_scrapes_sample_out_of_bounds_total
+prometheus_target_scrapes_sample_out_of_order_total
+prometheus_target_sync_length_seconds
+prometheus_template_text_expansion_failures_total
+prometheus_template_text_expansions_total
+prometheus_treecache_watcher_goroutines
+prometheus_treecache_zookeeper_failures_total
+prometheus_tsdb_blocks_loaded
+prometheus_tsdb_checkpoint_creations_failed_total
+prometheus_tsdb_checkpoint_creations_total
+prometheus_tsdb_checkpoint_deletions_failed_total
+prometheus_tsdb_checkpoint_deletions_total
+prometheus_tsdb_compaction_chunk_range_seconds
+prometheus_tsdb_compaction_chunk_samples
+prometheus_tsdb_compaction_chunk_size_bytes
+prometheus_tsdb_compaction_duration_seconds
+prometheus_tsdb_compaction_populating_block
+prometheus_tsdb_compactions_failed_total
+prometheus_tsdb_compactions_skipped_total
+prometheus_tsdb_compactions_total
+prometheus_tsdb_compactions_triggered_total
+prometheus_tsdb_data_replay_duration_seconds
+prometheus_tsdb_head_active_appenders
+prometheus_tsdb_head_chunks
+prometheus_tsdb_head_chunks_created_total
+prometheus_tsdb_head_chunks_removed_total
+prometheus_tsdb_head_gc_duration_seconds
+prometheus_tsdb_head_max_time
+prometheus_tsdb_head_max_time_seconds
+prometheus_tsdb_head_min_time
+prometheus_tsdb_head_min_time_seconds
+prometheus_tsdb_head_samples_appended_total
+prometheus_tsdb_head_series
+prometheus_tsdb_head_series_created_total
+prometheus_tsdb_head_series_not_found_total
+prometheus_tsdb_head_series_removed_total
+prometheus_tsdb_head_truncations_failed_total
+prometheus_tsdb_head_truncations_total
+prometheus_tsdb_isolation_high_watermark
+prometheus_tsdb_isolation_low_watermark
+prometheus_tsdb_lowest_timestamp
+prometheus_tsdb_lowest_timestamp_seconds
+prometheus_tsdb_mmap_chunk_corruptions_total
+prometheus_tsdb_out_of_bound_samples_total
+prometheus_tsdb_out_of_order_samples_total
+prometheus_tsdb_reloads_failures_total
+prometheus_tsdb_reloads_total
+prometheus_tsdb_retention_limit_bytes
+prometheus_tsdb_size_retentions_total
+prometheus_tsdb_storage_blocks_bytes
+prometheus_tsdb_symbol_table_size_bytes
+prometheus_tsdb_time_retentions_total
+prometheus_tsdb_tombstone_cleanup_seconds
+prometheus_tsdb_vertical_compactions_total
+prometheus_tsdb_wal_completed_pages_total
+prometheus_tsdb_wal_corruptions_total
+prometheus_tsdb_wal_fsync_duration_seconds
+prometheus_tsdb_wal_page_flushes_total
+prometheus_tsdb_wal_segment_current
+prometheus_tsdb_wal_truncate_duration_seconds
+prometheus_tsdb_wal_truncations_failed_total
+prometheus_tsdb_wal_truncations_total
+prometheus_tsdb_wal_writes_failed_total
+prometheus_web_federation_errors_total
+prometheus_web_federation_warnings_total
+promhttp_metric_handler_requests_in_flight
+promhttp_metric_handler_requests_total
+system_cpu_count
+system_cpu_usage
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="List-labels"><a href="#List-labels" class="headerlink" title="List labels"></a>List labels</h3><pre class="line-numbers language-shell"><code class="language-shell">$ curl -sSL 'http://localhost:9090/api/v1/labels' | jq .{
+  "status": "success",
+  "data": [
+    "__name__",
+    "api",
+    "app",
+    "area",
+    "branch",
+    "call",
+    "code",
+    "config",
+    "dialer_name",
+    "endpoint",
+    "event",
+    "exception",
+    "goversion",
+    "handler",
+    "id",
+    "instance",
+    "interval",
+    "job",
+    "le",
+    "level",
+    "listener_name",
+    "method",
+    "name",
+    "outcome",
+    "quantile",
+    "reason",
+    "revision",
+    "role",
+    "scrape_job",
+    "slice",
+    "state",
+    "status",
+    "uri",
+    "version"
+  ]
+}
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="List-values-of-label"><a href="#List-values-of-label" class="headerlink" title="List values of label"></a>List values of label</h3><pre class="line-numbers language-shell"><code class="language-shell">$ curl -sSL http://localhost:9090/api/v1/label/api/values | jq .
+{
+  "status": "success",
+  "data": [
+    "afi-nbi",
+    "afi-sbi",
+    "bdt-nbi",
+    "bdt-sbi",
+    "cp-nbi",
+    "cp-sbi",
+    "ee-nbi",
+    "ee-sbi",
+    "qos-nbi",
+    "qos-sbi"
+  ]
+}
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-shell"><code class="language-shell">$ curl -sSL http://localhost:9090/api/v1/label/app/values | jq .
+{
+  "status": "success",
+  "data": [
+    "afi",
+    "bdt",
+    "cp",
+    "ee",
+    "qos"
+  ]
+}
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Querying-metric-values"><a href="#Querying-metric-values" class="headerlink" title="Querying metric values"></a>Querying metric values</h2><h3 id="Simple-query"><a href="#Simple-query" class="headerlink" title="Simple query"></a>Simple query</h3><h4 id="Counter"><a href="#Counter" class="headerlink" title="Counter"></a>Counter</h4><pre class="line-numbers language-shell"><code class="language-shell">$ curl -sSL 'http://localhost:9090/api/v1/query?query=api_north_requests_recv_total' | jq .
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {
+          "__name__": "api_north_requests_recv_total",
+          "api": "afi-nbi",
+          "app": "afi",
+          "instance": "localhost:8181",
+          "job": "simulator-localhost-8181"
+        },
+        "value": [
+          1618031222.5,
+          "1380800"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "api_north_requests_recv_total",
+          "api": "bdt-nbi",
+          "app": "bdt",
+          "instance": "localhost:8181",
+          "job": "simulator-localhost-8181"
+        },
+        "value": [
+          1618031222.5,
+          "2071200"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "api_north_requests_recv_total",
+          "api": "cp-nbi",
+          "app": "cp",
+          "instance": "localhost:8181",
+          "job": "simulator-localhost-8181"
+        },
+        "value": [
+          1618031222.5,
+          "2761600"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "api_north_requests_recv_total",
+          "api": "ee-nbi",
+          "app": "ee",
+          "instance": "localhost:8181",
+          "job": "simulator-localhost-8181"
+        },
+        "value": [
+          1618031222.5,
+          "11046400"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "api_north_requests_recv_total",
+          "api": "qos-nbi",
+          "app": "qos",
+          "instance": "localhost:8181",
+          "job": "simulator-localhost-8181"
+        },
+        "value": [
+          1618031222.5,
+          "3452000"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "api_north_requests_recv_total",
+          "instance": "localhost:8181",
+          "job": "simulator-localhost-8181"
+        },
+        "value": [
+          1618031222.5,
+          "690400"
+        ]
+      }
+    ]
+  }
+}
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="Gauge"><a href="#Gauge" class="headerlink" title="Gauge"></a>Gauge</h4><pre class="line-numbers language-shell"><code class="language-shell">$ curl -sSL 'http://localhost:9090/api/v1/query?query=connected_device_gauge' | jq .
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {
+          "__name__": "connected_device_gauge",
+          "api": "afi-sbi",
+          "app": "afi",
+          "instance": "localhost:8181",
+          "job": "simulator-localhost-8181"
+        },
+        "value": [
+          1618031307.066,
+          "200"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "connected_device_gauge",
+          "api": "bdt-sbi",
+          "app": "bdt",
+          "instance": "localhost:8181",
+          "job": "simulator-localhost-8181"
+        },
+        "value": [
+          1618031307.066,
+          "300"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "connected_device_gauge",
+          "api": "cp-sbi",
+          "app": "cp",
+          "instance": "localhost:8181",
+          "job": "simulator-localhost-8181"
+        },
+        "value": [
+          1618031307.066,
+          "400"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "connected_device_gauge",
+          "api": "ee-sbi",
+          "app": "ee",
+          "instance": "localhost:8181",
+          "job": "simulator-localhost-8181"
+        },
+        "value": [
+          1618031307.066,
+          "1600"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "connected_device_gauge",
+          "api": "qos-sbi",
+          "app": "qos",
+          "instance": "localhost:8181",
+          "job": "simulator-localhost-8181"
+        },
+        "value": [
+          1618031307.066,
+          "500"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "connected_device_gauge",
+          "instance": "localhost:8181",
+          "job": "simulator-localhost-8181"
+        },
+        "value": [
+          1618031307.066,
+          "100"
+        ]
+      }
+    ]
+  }
+}
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Query-by-labels"><a href="#Query-by-labels" class="headerlink" title="Query by labels"></a>Query by labels</h3><h4 id="Query-Counter-by-labels"><a href="#Query-Counter-by-labels" class="headerlink" title="Query Counter by labels"></a>Query Counter by labels</h4><pre class="line-numbers language-shell"><code class="language-shell"># api_north_requests_recv_total{api=~"bdt-nbi|cp-nbi|ee-nbi|qos-nbi|afi-nbi"}
+$ curl -sSL 'http://localhost:9090/api/v1/query?query=api_north_requests_recv_total%7Bapi%3D~"bdt-nbi|cp-nbi|ee-nbi|qos-nbi|afi-nbi"%7D' | jq .
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {
+          "__name__": "api_north_requests_recv_total",
+          "api": "afi-nbi",
+          "app": "afi",
+          "instance": "localhost:8181",
+          "job": "simulator-localhost-8181"
+        },
+        "value": [
+          1618031396.263,
+          "19200"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "api_north_requests_recv_total",
+          "api": "bdt-nbi",
+          "app": "bdt",
+          "instance": "localhost:8181",
+          "job": "simulator-localhost-8181"
+        },
+        "value": [
+          1618031396.263,
+          "28800"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "api_north_requests_recv_total",
+          "api": "cp-nbi",
+          "app": "cp",
+          "instance": "localhost:8181",
+          "job": "simulator-localhost-8181"
+        },
+        "value": [
+          1618031396.263,
+          "38400"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "api_north_requests_recv_total",
+          "api": "ee-nbi",
+          "app": "ee",
+          "instance": "localhost:8181",
+          "job": "simulator-localhost-8181"
+        },
+        "value": [
+          1618031396.263,
+          "153600"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "api_north_requests_recv_total",
+          "api": "qos-nbi",
+          "app": "qos",
+          "instance": "localhost:8181",
+          "job": "simulator-localhost-8181"
+        },
+        "value": [
+          1618031396.263,
+          "48000"
+        ]
+      }
+    ]
+  }
+}
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="Query-Gauge-by-labels"><a href="#Query-Gauge-by-labels" class="headerlink" title="Query Gauge by labels"></a>Query Gauge by labels</h4><pre class="line-numbers language-shell"><code class="language-shell"># connected_device_gauge{api=~"bdt-sbi|cp-sbi|ee-sbi|qos-sbi|afi-sbi"}
+$ curl -sSL 'http://localhost:9090/api/v1/query?query=connected_device_gauge%7Bapi%3D~"bdt-sbi|cp-sbi|ee-sbi|qos-sbi|afi-sbi"%7D' | jq .
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {
+          "__name__": "connected_device_gauge",
+          "api": "afi-sbi",
+          "app": "afi",
+          "instance": "localhost:8181",
+          "job": "simulator-localhost-8181"
+        },
+        "value": [
+          1618031544.665,
+          "200"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "connected_device_gauge",
+          "api": "bdt-sbi",
+          "app": "bdt",
+          "instance": "localhost:8181",
+          "job": "simulator-localhost-8181"
+        },
+        "value": [
+          1618031544.665,
+          "300"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "connected_device_gauge",
+          "api": "cp-sbi",
+          "app": "cp",
+          "instance": "localhost:8181",
+          "job": "simulator-localhost-8181"
+        },
+        "value": [
+          1618031544.665,
+          "400"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "connected_device_gauge",
+          "api": "ee-sbi",
+          "app": "ee",
+          "instance": "localhost:8181",
+          "job": "simulator-localhost-8181"
+        },
+        "value": [
+          1618031544.665,
+          "1600"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "connected_device_gauge",
+          "api": "qos-sbi",
+          "app": "qos",
+          "instance": "localhost:8181",
+          "job": "simulator-localhost-8181"
+        },
+        "value": [
+          1618031544.665,
+          "500"
+        ]
+      }
+    ]
+  }
+}
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Aggregation-query"><a href="#Aggregation-query" class="headerlink" title="Aggregation query"></a>Aggregation query</h3><h4 id="Aggregation-of-Counter"><a href="#Aggregation-of-Counter" class="headerlink" title="Aggregation of Counter"></a>Aggregation of Counter</h4><pre class="line-numbers language-shell"><code class="language-shell"># sum(api_north_requests_recv_total{api=~"bdt-nbi|cp-nbi|ee-nbi|qos-nbi|afi-nbi"})
+$ curl -sSL 'http://localhost:9090/api/v1/query?query=sum(api_north_requests_recv_total%7Bapi%3D~"bdt-nbi|cp-nbi|ee-nbi|qos-nbi|afi-nbi"%7D)' | jq .
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {},
+        "value": [
+          1618031709.761,
+          "1188000"
+        ]
+      }
+    ]
+  }
+}
+
+# sum(api_north_requests_recv_total)
+$ curl -sSL 'http://localhost:9090/api/v1/query?query=sum(api_north_requests_recv_total)' | jq .
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {},
+        "value": [
+          1618031709.873,
+          "1227600"
+        ]
+      }
+    ]
+  }
+}
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="Aggregation-of-Gauge"><a href="#Aggregation-of-Gauge" class="headerlink" title="Aggregation of Gauge"></a>Aggregation of Gauge</h4><pre class="line-numbers language-shell"><code class="language-shell"># sum(connected_device_gauge{api=~"bdt-sbi|cp-sbi|ee-sbi|qos-sbi|afi-sbi"})
+$ curl -sSL 'http://localhost:9090/api/v1/query?query=sum(connected_device_gauge%7Bapi%3D~"bdt-sbi|cp-sbi|ee-sbi|qos-sbi|afi-sbi"%7D)' | jq .
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {},
+        "value": [
+          1618031937.161,
+          "3000"
+        ]
+      }
+    ]
+  }
+}
+
+# sum(connected_device_gauge)
+$ curl -sSL 'http://localhost:9090/api/v1/query?query=sum(connected_device_gauge)' | jq .
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {},
+        "value": [
+          1618031937.277,
+          "3100"
+        ]
+      }
+    ]
+  }
+}
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Rate-query-Counter"><a href="#Rate-query-Counter" class="headerlink" title="Rate query (Counter)"></a>Rate query (Counter)</h3><pre class="line-numbers language-shell"><code class="language-shell"># sum(rate(api_north_requests_recv_total{api=~"bdt-nbi|cp-nbi|ee-nbi|qos-nbi|afi-nbi"}[60s]))
+$ curl -sSL 'http://localhost:9090/api/v1/query?query=sum(rate(api_north_requests_recv_total%7Bapi%3D~"bdt-nbi|cp-nbi|ee-nbi|qos-nbi|afi-nbi"%7D%5B60s%5D))' | jq .
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {},
+        "value": [
+          1618032295.164,
+          "3000.066668148181"
+        ]
+      }
+    ]
+  }
+}
+
+# sum(rate(api_north_requests_recv_total[60s]))
+$ curl -sSL 'http://localhost:9090/api/v1/query?query=sum(rate(api_north_requests_recv_total%5B60s%5D))' | jq .
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {},
+        "value": [
+          1618032295.276,
+          "3100.0688904197873"
+        ]
+      }
+    ]
+  }
+}
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Rate-subtraction-query"><a href="#Rate-subtraction-query" class="headerlink" title="Rate subtraction query"></a>Rate subtraction query</h3><pre class="line-numbers language-shell"><code class="language-shell"># sum(rate(api_north_requests_recv_total{api="cp-nbi"}[60s])) - sum(rate(api_north_requests_recv_total{api="bdt-nbi"}[60s]))
+curl -sSL 'http://localhost:9090/api/v1/query?query=sum%28rate%28api_north_requests_recv_total%7Bapi%3D%22cp-nbi%22%7D%5B60s%5D%29%29%20-%20sum%28rate%28api_north_requests_recv_total%7Bapi%3D%22bdt-nbi%22%7D%5B60s%5D%29%29' | jq .
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {},
+        "value": [
+          1618032478.932,
+          "99.99555575307767"
+        ]
+      }
+    ]
+  }
+}
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Prometheus-Query-Language"><span class="toc-number">1.</span> <span class="toc-text">Prometheus Query Language</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Querying-Prometheus-reference"><span class="toc-number">1.1.</span> <span class="toc-text">Querying Prometheus reference</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Setup-Prometheus"><span class="toc-number">1.2.</span> <span class="toc-text">Setup Prometheus</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#The-Java-demo-code"><span class="toc-number">1.2.1.</span> <span class="toc-text">The Java demo code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#prometheus-yml"><span class="toc-number">1.2.2.</span> <span class="toc-text">prometheus.yml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Start-Java-service-and-Prometheus"><span class="toc-number">1.2.3.</span> <span class="toc-text">Start Java service and Prometheus</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Querying-Prometheus-status"><span class="toc-number">1.3.</span> <span class="toc-text">Querying Prometheus status</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Querying-Prometheus-config"><span class="toc-number">1.3.1.</span> <span class="toc-text">Querying Prometheus config</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Querying-Prometheus-flags"><span class="toc-number">1.3.2.</span> <span class="toc-text">Querying Prometheus flags</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Querying-Prometheus-runtime-information"><span class="toc-number">1.3.3.</span> <span class="toc-text">Querying Prometheus runtime information</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Querying-Prometheus-build-information"><span class="toc-number">1.3.4.</span> <span class="toc-text">Querying Prometheus build information</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Querying-Prometheus-TSDB-Stats"><span class="toc-number">1.3.5.</span> <span class="toc-text">Querying Prometheus TSDB Stats</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Clean-tombstones-of-Prometheus"><span class="toc-number">1.3.6.</span> <span class="toc-text">Clean tombstones of Prometheus</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Querying-metric-metadata"><span class="toc-number">1.4.</span> <span class="toc-text">Querying metric metadata</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#List-metrics"><span class="toc-number">1.4.1.</span> <span class="toc-text">List metrics</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#List-metrics-jq"><span class="toc-number">1.4.2.</span> <span class="toc-text">List metrics - jq</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#List-metrics-keys"><span class="toc-number">1.4.3.</span> <span class="toc-text">List metrics - keys</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#List-labels"><span class="toc-number">1.4.4.</span> <span class="toc-text">List labels</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#List-values-of-label"><span class="toc-number">1.4.5.</span> <span class="toc-text">List values of label</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Querying-metric-values"><span class="toc-number">1.5.</span> <span class="toc-text">Querying metric values</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Simple-query"><span class="toc-number">1.5.1.</span> <span class="toc-text">Simple query</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Counter"><span class="toc-number">1.5.1.1.</span> <span class="toc-text">Counter</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Gauge"><span class="toc-number">1.5.1.2.</span> <span class="toc-text">Gauge</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Query-by-labels"><span class="toc-number">1.5.2.</span> <span class="toc-text">Query by labels</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Query-Counter-by-labels"><span class="toc-number">1.5.2.1.</span> <span class="toc-text">Query Counter by labels</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Query-Gauge-by-labels"><span class="toc-number">1.5.2.2.</span> <span class="toc-text">Query Gauge by labels</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Aggregation-query"><span class="toc-number">1.5.3.</span> <span class="toc-text">Aggregation query</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Aggregation-of-Counter"><span class="toc-number">1.5.3.1.</span> <span class="toc-text">Aggregation of Counter</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Aggregation-of-Gauge"><span class="toc-number">1.5.3.2.</span> <span class="toc-text">Aggregation of Gauge</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Rate-query-Counter"><span class="toc-number">1.5.4.</span> <span class="toc-text">Rate query (Counter)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Rate-subtraction-query"><span class="toc-number">1.5.5.</span> <span class="toc-text">Rate subtraction query</span></a></li></ol></li></ol></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

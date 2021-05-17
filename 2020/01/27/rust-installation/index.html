@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Rust installation | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>Rust installation</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2020年01月27日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/Rust/">Rust</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tag" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Rust" class='tag'>Rust</a>
+
+
+            
+          </div>
+          <h1 id="Install-Rust"><a href="#Install-Rust" class="headerlink" title="Install Rust"></a>Install Rust</h1><h2 id="Rust’s-core-design-principles"><a href="#Rust’s-core-design-principles" class="headerlink" title="Rust’s core design principles"></a>Rust’s core design principles</h2><ul>
+<li>Practicality — it should be a language that can be and is used in the real world.</li>
+<li>Pragmatism — it should admit concessions to human usability and integration into systems as they exist today.</li>
+<li>Memory-safety — it must enforce memory safety, and not admit segmentation faults and other such memory-access violations.</li>
+<li>Performance — it must be in the same performance class as C++. <strong>favored run-time over compile-time</strong>.</li>
+<li>Concurrency — it must provide modern solutions to writing concurrent code.</li>
+</ul>
+<h2 id="Release-channels-and-riding-the-trains"><a href="#Release-channels-and-riding-the-trains" class="headerlink" title="Release channels and riding the trains"></a>Release channels and riding the trains</h2><p>Rust development operates on a train schedule. That is, all development is
+done on the master branch of the Rust repository. Releases follow a software
+release train model, which has been used by Cisco IOS and other software
+projects. There are three release channels for Rust:</p>
+<ul>
+<li>Nightly</li>
+<li>Beta</li>
+<li>Stable</li>
+</ul>
+<p>Every six weeks, it’s time to prepare a new release! The beta branch of the
+Rust repository branches off from the master branch used by nightly.</p>
+<p>Six weeks after the first beta was created, it’s time for a stable release!
+The stable branch is produced from the beta branch.</p>
+<p>This is called the “train model” because every six weeks, a release “leaves
+the station”.</p>
+<h3 id="Rust-stable-channel"><a href="#Rust-stable-channel" class="headerlink" title="Rust stable channel"></a>Rust stable channel</h3><pre class="line-numbers language-bash"><code class="language-bash">curl -sSLO https://static.rust-lang.org/dist/channel-rust-stable.toml.sha256
+curl -sSLO https://static.rust-lang.org/dist/channel-rust-stable.toml
+
+$ <span class="token function">cat</span> channel-rust-stable.toml <span class="token operator">|</span> <span class="token function">grep</span> x86_64-unknown-linux-gnu.tar.xz <span class="token operator">|</span> <span class="token function">awk</span> -F <span class="token string">'"'</span> <span class="token string">'{print <span class="token variable">$2</span>}'</span>
+$ <span class="token function">cat</span> channel-rust-stable.toml <span class="token operator">|</span> <span class="token function">grep</span> x86_64-pc-windows-msvc.tar.xz <span class="token operator">|</span> <span class="token function">awk</span> -F <span class="token string">'"'</span> <span class="token string">'{print <span class="token variable">$2</span>}'</span>
+
+<span class="token keyword">while</span> <span class="token function">read</span> triple rest<span class="token punctuation">;</span> <span class="token keyword">do</span>
+    <span class="token punctuation">[</span> -z <span class="token string">"<span class="token variable">$triple</span>"</span> <span class="token punctuation">]</span> <span class="token operator">||</span> <span class="token function">cat</span> channel-rust-stable.toml <span class="token operator">|</span> <span class="token function">grep</span> <span class="token variable">$triple</span>.tar.xz <span class="token operator">|</span> <span class="token function">awk</span> -F <span class="token string">'"'</span> <span class="token string">'{print <span class="token variable">$2</span>}'</span> <span class="token operator">|</span> <span class="token function">grep</span> rustc-1
+<span class="token keyword">done</span> <span class="token operator">&lt;&lt;</span> <span class="token string">EOF
+aarch64-unknown-linux-gnu
+armv7-unknown-linux-gnueabihf
+riscv64gc-unknown-linux-gnu
+s390x-unknown-linux-gnu
+x86_64-pc-windows-gnu
+x86_64-unknown-linux-gnu
+x86_64-unknown-linux-musl
+
+aarch64-apple-ios
+aarch64-linux-android
+mips64el-unknown-linux-gnuabi64
+x86_64-apple-darwin
+x86_64-pc-windows-msvc
+x86_64-unknown-freebsd
+x86_64-unknown-netbsd
+EOF</span>
+
+https://static.rust-lang.org/dist/2020-03-12/rustc-1.42.0-aarch64-unknown-linux-gnu.tar.xz
+https://static.rust-lang.org/dist/2020-03-12/rustc-1.42.0-armv7-unknown-linux-gnueabihf.tar.xz
+https://static.rust-lang.org/dist/2020-03-12/rustc-1.42.0-mips64el-unknown-linux-gnuabi64.tar.xz
+https://static.rust-lang.org/dist/2020-03-12/rustc-1.42.0-s390x-unknown-linux-gnu.tar.xz
+https://static.rust-lang.org/dist/2020-03-12/rustc-1.42.0-x86_64-apple-darwin.tar.xz
+https://static.rust-lang.org/dist/2020-03-12/rustc-1.42.0-x86_64-pc-windows-gnu.tar.xz
+https://static.rust-lang.org/dist/2020-03-12/rustc-1.42.0-x86_64-pc-windows-msvc.tar.xz
+https://static.rust-lang.org/dist/2020-03-12/rustc-1.42.0-x86_64-unknown-freebsd.tar.xz
+https://static.rust-lang.org/dist/2020-03-12/rustc-1.42.0-x86_64-unknown-linux-gnu.tar.xz
+https://static.rust-lang.org/dist/2020-03-12/rustc-1.42.0-x86_64-unknown-linux-musl.tar.xz
+https://static.rust-lang.org/dist/2020-03-12/rustc-1.42.0-x86_64-unknown-netbsd.tar.xz
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Using-rustup"><a href="#Using-rustup" class="headerlink" title="Using rustup"></a>Using rustup</h2><h3 id="Linux-user"><a href="#Linux-user" class="headerlink" title="Linux user"></a>Linux user</h3><pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \</span>
+    <span class="token operator">|</span> sh -s -- --profile minimal --default-toolchain nightly
+
+<span class="token comment" spellcheck="true"># export CARGO_HTTP_PROXY="socks5h://proxy.example.com"</span>
+<span class="token comment" spellcheck="true"># export CARGO_HOME=/opt/rust</span>
+<span class="token comment" spellcheck="true"># export CARGO_HTTP_MULTIPLEXING=true</span>
+
+$ curl --proto <span class="token string">'=https'</span> --tlsv1.2 -sSf https://sh.rustup.rs <span class="token operator">|</span> sh
+
+$ cargo <span class="token function">install</span> cargo-binutils
+$ rustup component add llvm-tools-preview
+$ cargo objdump -- -version
+$ cargo nm --bin app --release
+$ cargo nm --bin app --release -- -print-size -size-sort
+$ cargo objdump --bin app --release -- -disassemble -no-show-raw-insn
+$ cargo size --bin app --release -- -A -x
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Windows-user"><a href="#Windows-user" class="headerlink" title="Windows user"></a>Windows user</h3><p>Windows builds of rustup additionally require an installation of <a href="https://visualstudio.microsoft.com/downloads/" target="_blank" rel="noopener">Visual
+Studio 2019 or the Visual C++ Build Tools 2019</a>. For Visual Studio, make
+sure to check the “C++ tools” and “Windows 10 SDK” option</p>
+<pre class="line-numbers language-bash"><code class="language-bash">curl -sSL -o rustup-init.exe https://win.rustup.rs/
+rustup-init.exe
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="Update"><a href="#Update" class="headerlink" title="Update"></a>Update</h2><pre class="line-numbers language-bash"><code class="language-bash">rustup self update
+rustup update
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="Verify"><a href="#Verify" class="headerlink" title="Verify"></a>Verify</h2><pre class="line-numbers language-bash"><code class="language-bash">cargo --version
+rustc --version
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="Generating-a-new-project"><a href="#Generating-a-new-project" class="headerlink" title="Generating a new project"></a>Generating a new project</h2><pre class="line-numbers language-bash"><code class="language-bash">cargo new hello-rust
+<span class="token function">cd</span> hello-rust/
+cargo run
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h2 id="Working-with-nightly-Rust"><a href="#Working-with-nightly-Rust" class="headerlink" title="Working with nightly Rust"></a>Working with nightly Rust</h2><pre class="line-numbers language-bash"><code class="language-bash">rustup toolchain <span class="token function">install</span> nightly
+rustup run nightly rustc --version
+
+cargo new hello-rust
+<span class="token function">cd</span> hello-rust/
+cargo +nightly run
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Cross-compilation"><a href="#Cross-compilation" class="headerlink" title="Cross-compilation"></a>Cross-compilation</h2><pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> -y \
+    g++ \
+    g++-aarch64-linux-gnu \
+    g++-arm-linux-gnueabi \
+    g++-mingw-w64-x86-64-posix \
+    g++-riscv64-linux-gnu \
+    g++-s390x-linux-gnu \
+    musl-tools \
+    opensbi \
+    ovmf \
+    qemu-efi-aarch64 \
+    qemu-efi-arm \
+    qemu-system-arm \
+    qemu-system-misc \
+    u-boot-qemu
+
+<span class="token comment" spellcheck="true"># https://developer.arm.com/ip-products/processors/cortex-a [a7, a9, a15, a72]</span>
+<span class="token comment" spellcheck="true"># https://developer.arm.com/ip-products/processors/cortex-r [r5, r5f]</span>
+<span class="token comment" spellcheck="true"># https://developer.arm.com/ip-products/processors/cortex-m [m3/thumbv7m-none-eabi, m4/thumbv7em-none-eabi]</span>
+<span class="token comment" spellcheck="true"># https://en.wikipedia.org/wiki/Comparison_of_ARMv7-A_cores</span>
+<span class="token comment" spellcheck="true"># https://en.wikipedia.org/wiki/Comparison_of_ARMv8-A_cores</span>
+<span class="token comment" spellcheck="true"># https://en.wikipedia.org/wiki/RISC-V</span>
+<span class="token comment" spellcheck="true"># https://docs.rust-embedded.org/faq.html</span>
+
+rustup target add \
+    aarch64-unknown-linux-gnu \
+    armv7-unknown-linux-gnueabihf \
+    riscv64gc-unknown-linux-gnu \
+    s390x-unknown-linux-gnu \
+    x86_64-pc-windows-gnu \
+    x86_64-unknown-linux-gnu \
+    x86_64-unknown-linux-musl
+
+rustup target list
+
+rustc \
+    --target<span class="token operator">=</span>riscv64gc-unknown-linux-gnu \
+    -C linker<span class="token operator">=</span>riscv64-linux-gnu-gcc \
+    main.rs
+
+<span class="token function">cat</span> <span class="token operator">></span> ~/.cargo/config <span class="token operator">&lt;&lt;</span> <span class="token string">EOF
+[target.aarch64-unknown-linux-gnu]
+linker = "aarch64-linux-gnu-gcc"
+
+[target.riscv64gc-unknown-linux-gnu]
+linker = "riscv64-linux-gnu-gcc"
+
+[target.s390x-unknown-linux-gnu]
+linker = "s390x-linux-gnu-gcc"
+
+[target.x86_64-pc-windows-gnu]
+linker = "x86_64-w64-mingw32-gcc"
+
+[target.x86_64-unknown-linux-gnu]
+linker = "x86_64-linux-gnu-gcc"
+
+[target.x86_64-unknown-linux-musl]
+linker = "musl-gcc"
+
+# Cortex-A7, A9, A15
+[target.armv7-unknown-linux-gnueabihf]
+linker = "arm-linux-gnueabihf-gcc"
+
+# Cortex-M3
+[target.thumbv7m-none-eabi]
+linker = "arm-linux-gnueabi-gcc"
+
+# Cortex-M4 and Cortex-M7
+[target.thumbv7em-none-eabi]
+linker = "arm-linux-gnueabi-gcc"
+
+# Cortex-R4 and Cortex-R5
+[target.armv7r-none-eabi]
+linker = "arm-linux-gnueabi-gcc"
+
+# RV32I base instruction set with M, A and C extensions
+# XuanTie 902 (RV32EMC)
+# XuanTie 910 (RV64GCV)
+[target.riscv32imac-unknown-none-elf]
+linker = "riscv32imac-none-gcc"
+EOF</span>
+
+cargo build --target<span class="token operator">=</span>aarch64-unknown-linux-gnu
+cargo build --target<span class="token operator">=</span>armv7-unknown-linux-gnueabihf
+cargo build --target<span class="token operator">=</span>riscv64gc-unknown-linux-gnu
+cargo build --target<span class="token operator">=</span>s390x-unknown-linux-gnu
+cargo build --target<span class="token operator">=</span>x86_64-pc-windows-gnu
+cargo build --target<span class="token operator">=</span>x86_64-unknown-linux-gnu
+cargo build --target<span class="token operator">=</span>x86_64-unknown-linux-musl
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Environment-variables"><a href="#Environment-variables" class="headerlink" title="Environment variables"></a>Environment variables</h2><ul>
+<li>RUSTUP_HOME (default: ~/.rustup or %USERPROFILE%/.rustup) Sets the root rustup folder, used for storing installed toolchains and configuration options.</li>
+<li>RUSTUP_TOOLCHAIN (default: none) If set, will override the toolchain used for all rust tool invocations. A toolchain with this name should be installed, or invocations will fail.</li>
+<li>RUSTUP_DIST_SERVER (default: <a href="https://static.rust-lang.org/" target="_blank" rel="noopener">https://static.rust-lang.org</a>) Sets the root URL for downloading static resources related to Rust. You can change this to instead use a local mirror, or to test the binaries from the staging directory.</li>
+<li>RUSTUP_DIST_ROOT (default: <a href="https://static.rust-lang.org/dist" target="_blank" rel="noopener">https://static.rust-lang.org/dist</a>) Deprecated. Use RUSTUP_DIST_SERVER instead.</li>
+<li>RUSTUP_UPDATE_ROOT (default <a href="https://static.rust-lang.org/rustup" target="_blank" rel="noopener">https://static.rust-lang.org/rustup</a>) Sets the root URL for downloading self-updates.</li>
+<li>RUSTUP_IO_THREADS unstable (defaults to reported cpu count). Sets the number of threads to perform close IO in. Set to disabled to force single-threaded IO for troubleshooting, or an arbitrary number to override automatic detection.</li>
+<li>RUSTUP_TRACE_DIR unstable (default: no tracing) Enables tracing and determines the directory that traces will be written too. Traces are of the form PID.trace. Traces can be read by the Catapult project tracing viewer.</li>
+<li>RUSTUP_UNPACK_RAM unstable (default 400M, min 100M) Caps the amount of RAM rustup will use for IO tasks while unpacking.</li>
+<li>RUSTUP_NO_BACKTRACE Disables backtraces on non-panic errors even when RUST_BACKTRACE is set.</li>
+</ul>
+<h2 id="Working-with-network-proxies"><a href="#Working-with-network-proxies" class="headerlink" title="Working with network proxies"></a>Working with network proxies</h2><pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">export</span> https_proxy<span class="token operator">=</span>socks5://proxy.example.com:1080
+<span class="token function">export</span> https_proxy<span class="token operator">=</span>http://proxy.example.com:8080
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Install-Rust"><span class="toc-number">1.</span> <span class="toc-text">Install Rust</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Rust’s-core-design-principles"><span class="toc-number">1.1.</span> <span class="toc-text">Rust’s core design principles</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Release-channels-and-riding-the-trains"><span class="toc-number">1.2.</span> <span class="toc-text">Release channels and riding the trains</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Rust-stable-channel"><span class="toc-number">1.2.1.</span> <span class="toc-text">Rust stable channel</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Using-rustup"><span class="toc-number">1.3.</span> <span class="toc-text">Using rustup</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux-user"><span class="toc-number">1.3.1.</span> <span class="toc-text">Linux user</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows-user"><span class="toc-number">1.3.2.</span> <span class="toc-text">Windows user</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Update"><span class="toc-number">1.4.</span> <span class="toc-text">Update</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Verify"><span class="toc-number">1.5.</span> <span class="toc-text">Verify</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Generating-a-new-project"><span class="toc-number">1.6.</span> <span class="toc-text">Generating a new project</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Working-with-nightly-Rust"><span class="toc-number">1.7.</span> <span class="toc-text">Working with nightly Rust</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cross-compilation"><span class="toc-number">1.8.</span> <span class="toc-text">Cross-compilation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Environment-variables"><span class="toc-number">1.9.</span> <span class="toc-text">Environment variables</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Working-with-network-proxies"><span class="toc-number">1.10.</span> <span class="toc-text">Working with network proxies</span></a></li></ol></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

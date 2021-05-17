@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Cross compiling Rust for Windows MSVC target | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>Cross compiling Rust for Windows MSVC target</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2021年03月14日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/Rust/">Rust</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tags" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#Rust" class='tag'>Rust</a>
+
+
+            
+          </div>
+          <h1 id="Cross-compiling-Rust-for-Windows-MSVC-target"><a href="#Cross-compiling-Rust-for-Windows-MSVC-target" class="headerlink" title="Cross compiling Rust for Windows MSVC target"></a>Cross compiling Rust for Windows MSVC target</h1><p>Generally, We can compiling Rust applications for the Windows target <strong>x86_64-pc-windows-gnu</strong>. But for the Windows target <strong>x86_64-pc-windows-msvc</strong>, we need <strong>Wine</strong> or on the Windows host. Now, we can use <strong>lld</strong> to create the Windows target <strong>x86_64-pc-windows-gnu</strong>.</p>
+<h2 id="Copy-MSVC-libraries-to-the-Linux-host"><a href="#Copy-MSVC-libraries-to-the-Linux-host" class="headerlink" title="Copy MSVC libraries to the Linux host"></a>Copy MSVC libraries to the Linux host</h2><h3 id="The-target-directory"><a href="#The-target-directory" class="headerlink" title="The target directory"></a>The target directory</h3><pre class="line-numbers language-shell"><code class="language-shell">export RUST_MSVC_LIB_PATH=${RUSTUP_HOME:-~/.rustup}/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/x86_64-pc-windows-msvc/lib
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="Copy-VC-runtime-libraries"><a href="#Copy-VC-runtime-libraries" class="headerlink" title="Copy VC runtime libraries"></a>Copy VC runtime libraries</h3><ul>
+<li><a href="https://docs.microsoft.com/en-us/cpp/c-runtime-library/crt-library-features" target="_blank" rel="noopener">C runtime (CRT) and C++ Standard Library (STL) files</a></li>
+</ul>
+<pre class="line-numbers language-shell"><code class="language-shell"># You need adjust the source directory if needed.
+cd "/mnt/c/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Tools/MSVC/14.28.29910/lib/x64"
+cd "/mnt/c/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/14.28.29910/lib/x64"
+
+cp vcruntime.lib                    ${RUST_MSVC_LIB_PATH}/vcruntime.lib
+cp msvcrt.lib                       ${RUST_MSVC_LIB_PATH}/msvcrt.lib
+cp msvcprt.lib                      ${RUST_MSVC_LIB_PATH}/msvcprt.lib
+cp iso_stdio_wide_specifiers.lib    ${RUST_MSVC_LIB_PATH}/iso_stdio_wide_specifiers.lib
+cp libvcruntime.lib                 ${RUST_MSVC_LIB_PATH}/libvcruntime.lib
+cp libcmt.lib                       ${RUST_MSVC_LIB_PATH}/libcmt.lib
+cp libcpmt.lib                      ${RUST_MSVC_LIB_PATH}/libcpmt.lib
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Copy-UCRT-libraries"><a href="#Copy-UCRT-libraries" class="headerlink" title="Copy UCRT libraries"></a>Copy UCRT libraries</h3><ul>
+<li><a href="https://docs.microsoft.com/en-us/cpp/c-runtime-library/crt-library-features" target="_blank" rel="noopener">C runtime (CRT) and C++ Standard Library (STL) files</a></li>
+</ul>
+<pre class="line-numbers language-shell"><code class="language-shell"># You need adjust the source directory if needed.
+cd "/mnt/c/Program Files (x86)/Windows Kits/10/Lib/10.0.18362.0/ucrt/x64"
+
+cp ucrt.lib     ${RUST_MSVC_LIB_PATH}/ucrt.lib
+cp libucrt.lib  ${RUST_MSVC_LIB_PATH}/libucrt.lib
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Copy-Windows-API-libraries"><a href="#Copy-Windows-API-libraries" class="headerlink" title="Copy Windows API libraries"></a>Copy Windows API libraries</h3><pre class="line-numbers language-shell"><code class="language-shell"># You need adjust the source directory if needed.
+cd "/mnt/c/Program Files (x86)/Windows Kits/10/Lib/10.0.18362.0/um/x64"
+
+cp AdvAPI32.Lib ${RUST_MSVC_LIB_PATH}/advapi32.lib
+cp bcrypt.lib   ${RUST_MSVC_LIB_PATH}/bcrypt.lib
+cp Crypt32.Lib  ${RUST_MSVC_LIB_PATH}/crypt32.lib
+cp kernel32.Lib ${RUST_MSVC_LIB_PATH}/kernel32.lib
+cp MsWSock.Lib  ${RUST_MSVC_LIB_PATH}/mswsock.lib
+cp odbc32.lib   ${RUST_MSVC_LIB_PATH}/odbc32.lib
+cp OneCore_apiset.Lib ${RUST_MSVC_LIB_PATH}/onecore_apiset.lib
+cp OneCore.Lib  ${RUST_MSVC_LIB_PATH}/onecore.lib
+cp Psapi.Lib    ${RUST_MSVC_LIB_PATH}/psapi.lib
+cp User32.Lib   ${RUST_MSVC_LIB_PATH}/user32.lib
+cp UserEnv.Lib  ${RUST_MSVC_LIB_PATH}/userenv.lib
+cp Uuid.Lib     ${RUST_MSVC_LIB_PATH}/uuid.lib
+cp WS2_32.Lib   ${RUST_MSVC_LIB_PATH}/ws2_32.lib
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Windows-umbrella-libraries"><a href="#Windows-umbrella-libraries" class="headerlink" title="Windows umbrella libraries"></a>Windows umbrella libraries</h3><ul>
+<li><a href="https://docs.microsoft.com/en-us/windows/win32/apiindex/windows-apisets" target="_blank" rel="noopener">Windows API sets</a></li>
+<li><a href="https://docs.microsoft.com/en-us/windows/win32/apiindex/detect-api-set-availability" target="_blank" rel="noopener">Detect API set availability</a></li>
+<li><a href="https://docs.microsoft.com/en-us/windows/win32/apiindex/windows-umbrella-libraries" target="_blank" rel="noopener">Windows umbrella libraries</a></li>
+<li><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/develop/building-for-onecore" target="_blank" rel="noopener">Building for OneCore</a></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Library</th>
+<th>Scenario</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OneCore.lib</td>
+<td>All editions of Windows 7 and later, no UWP support</td>
+</tr>
+<tr>
+<td>OneCore_apiset.lib</td>
+<td>This library provides the same coverage as OneCore.lib, but uses API set direct forwarding. Note that using this library will be compatible only with the Windows 10 version as specified by the SDK verion you’re targeting, or greater.</td>
+</tr>
+<tr>
+<td>OneCoreUAP.lib</td>
+<td>Windows 7 and later, UWP editions (Desktop, IoT, HoloLens, but not Nano Server) of Windows 10</td>
+</tr>
+<tr>
+<td>OneCoreUAP_apiset.lib</td>
+<td>This library provides the same coverage as OneCoreUAP.lib, but uses the API set direct forwarding technique. Note that using this library will be compatible only with the Windows 10 version as specified by the SDK you’re targeting, or greater.</td>
+</tr>
+</tbody></table>
+<h2 id="How-we-known-which-libraries-need-to-be-copy"><a href="#How-we-known-which-libraries-need-to-be-copy" class="headerlink" title="How we known which libraries need to be copy"></a>How we known which libraries need to be copy</h2><p>During the link time, rust will report which libraries not found, just find them on Windows, and copy them to Linux.</p>
+<h3 id="Rust-linked-libraries"><a href="#Rust-linked-libraries" class="headerlink" title="Rust linked libraries"></a>Rust linked libraries</h3><ul>
+<li><a href="https://github.com/rust-lang/rust/blob/master/library/std/src/sys/windows/mod.rs" target="_blank" rel="noopener">https://github.com/rust-lang/rust/blob/master/library/std/src/sys/windows/mod.rs</a></li>
+</ul>
+<pre class="line-numbers language-rust"><code class="language-rust">        #<span class="token punctuation">[</span><span class="token function">link</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"advapi32"</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+        #<span class="token punctuation">[</span><span class="token function">link</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"ws2_32"</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+        #<span class="token punctuation">[</span><span class="token function">link</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"userenv"</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="LLVM-linked-libraries"><a href="#LLVM-linked-libraries" class="headerlink" title="LLVM linked libraries"></a>LLVM linked libraries</h3><ul>
+<li><a href="https://github.com/llvm/llvm-project/blob/main/libcxx/CMakeLists.txt" target="_blank" rel="noopener">https://github.com/llvm/llvm-project/blob/main/libcxx/CMakeLists.txt</a></li>
+</ul>
+<pre class="line-numbers language-cmake"><code class="language-cmake">        target_link_libraries(${target} PRIVATE ucrt${LIB_SUFFIX}) # Universal C runtime
+        target_link_libraries(${target} PRIVATE vcruntime${LIB_SUFFIX}) # C++ runtime
+        target_link_libraries(${target} PRIVATE msvcrt${LIB_SUFFIX}) # C runtime startup files
+        target_link_libraries(${target} PRIVATE msvcprt${LIB_SUFFIX}) # C++ standard library. Required for exception_ptr internals.
+        # Required for standards-complaint wide character formatting functions (e.g. `printfw`/`scanfw`)
+        target_link_libraries(${target} PRIVATE iso_stdio_wide_specifiers)
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Let’s-have-a-test"><a href="#Let’s-have-a-test" class="headerlink" title="Let’s have a test"></a>Let’s have a test</h2><h3 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h3><pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">cat</span> <span class="token operator">&lt;&lt;</span> EOF <span class="token operator">></span> hello-world.rs
+fn main<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    println<span class="token operator">!</span><span class="token punctuation">(</span><span class="token string">"Hello, world!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+EOF
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Use-DLL-C-runtime-library"><a href="#Use-DLL-C-runtime-library" class="headerlink" title="Use DLL C runtime library"></a>Use DLL C runtime library</h3><pre class="line-numbers language-bash"><code class="language-bash">$ rustc -C opt-level<span class="token operator">=</span>3 -C link-arg<span class="token operator">=</span><span class="token string">"-s"</span> \
+    --target<span class="token operator">=</span>x86_64-pc-windows-msvc -C linker<span class="token operator">=</span>lld-link-11 -o hello-world-windows-x86_64.exe \
+    hello-world.rs
+
+$ <span class="token function">du</span> -ks hello-world-windows-x86_64.exe
+152     hello-world-windows-x86_64.exe
+
+$ <span class="token function">file</span> hello-world-windows-x86_64.exe
+hello-world-windows-x86_64.exe: PE32+ executable <span class="token punctuation">(</span>console<span class="token punctuation">)</span> x86-64, <span class="token keyword">for</span> MS Windows
+
+$ /usr/bin/x86_64-w64-mingw32-objdump -x hello-world-windows-x86_64.exe <span class="token operator">|</span> <span class="token function">grep</span> -E <span class="token string">'^\s*DLL Name'</span>
+        DLL Name: KERNEL32.dll
+        DLL Name: VCRUNTIME140.dll
+        DLL Name: api-ms-win-crt-runtime-l1-1-0.dll
+        DLL Name: api-ms-win-crt-stdio-l1-1-0.dll
+        DLL Name: api-ms-win-crt-math-l1-1-0.dll
+        DLL Name: api-ms-win-crt-locale-l1-1-0.dll
+        DLL Name: api-ms-win-crt-heap-l1-1-0.dll
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-powershell"><code class="language-powershell"><span class="token function">PS</span> C:\> dumpbin <span class="token operator">/</span>NOLOGO <span class="token operator">/</span>DEPENDENTS hello<span class="token operator">-</span>world<span class="token operator">-</span>windows<span class="token operator">-</span>x86_64<span class="token punctuation">.</span>exe
+
+Dump of file hello<span class="token operator">-</span>world<span class="token operator">-</span>windows<span class="token operator">-</span>x86_64<span class="token punctuation">.</span>exe
+
+File <span class="token function">Type</span>: EXECUTABLE IMAGE
+
+  Image has the following dependencies:
+
+    KERNEL32<span class="token punctuation">.</span>dll
+    VCRUNTIME140<span class="token punctuation">.</span>dll
+    api<span class="token operator">-</span>ms<span class="token operator">-</span>win<span class="token operator">-</span>crt<span class="token operator">-</span>runtime<span class="token operator">-</span>l1<span class="token operator">-</span>1<span class="token operator">-</span>0<span class="token punctuation">.</span>dll
+    api<span class="token operator">-</span>ms<span class="token operator">-</span>win<span class="token operator">-</span>crt<span class="token operator">-</span>stdio<span class="token operator">-</span>l1<span class="token operator">-</span>1<span class="token operator">-</span>0<span class="token punctuation">.</span>dll
+    api<span class="token operator">-</span>ms<span class="token operator">-</span>win<span class="token operator">-</span>crt<span class="token operator">-</span>math<span class="token operator">-</span>l1<span class="token operator">-</span>1<span class="token operator">-</span>0<span class="token punctuation">.</span>dll
+    api<span class="token operator">-</span>ms<span class="token operator">-</span>win<span class="token operator">-</span>crt<span class="token operator">-</span>locale<span class="token operator">-</span>l1<span class="token operator">-</span>1<span class="token operator">-</span>0<span class="token punctuation">.</span>dll
+    api<span class="token operator">-</span>ms<span class="token operator">-</span>win<span class="token operator">-</span>crt<span class="token operator">-</span>heap<span class="token operator">-</span>l1<span class="token operator">-</span>1<span class="token operator">-</span>0<span class="token punctuation">.</span>dll
+
+  Summary
+
+        1000 <span class="token punctuation">.</span>00cfg
+        1000 <span class="token punctuation">.</span><span class="token keyword">data</span>
+        1000 <span class="token punctuation">.</span>gehcont
+        2000 <span class="token punctuation">.</span>pdata
+        8000 <span class="token punctuation">.</span>rdata
+        1000 <span class="token punctuation">.</span>reloc
+       1C000 <span class="token punctuation">.</span>text
+        1000 <span class="token punctuation">.</span>tls
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Use-static-C-runtime-library"><a href="#Use-static-C-runtime-library" class="headerlink" title="Use static C runtime library"></a>Use static C runtime library</h3><pre class="line-numbers language-bash"><code class="language-bash">$ rustc -C opt-level<span class="token operator">=</span>3 -C link-arg<span class="token operator">=</span><span class="token string">"-s"</span> -C <span class="token string">"target-feature=+crt-static"</span> \
+    --target<span class="token operator">=</span>x86_64-pc-windows-msvc -C linker<span class="token operator">=</span>lld-link-11 -o hello-world-windows-x86_64.exe \
+    hello-world.rs
+
+$ <span class="token function">du</span> -ks hello-world-windows-x86_64.exe
+244     hello-world-windows-x86_64.exe
+
+$ <span class="token function">file</span> hello-world-windows-x86_64.exe
+hello-world-windows-x86_64.exe: PE32+ executable <span class="token punctuation">(</span>console<span class="token punctuation">)</span> x86-64, <span class="token keyword">for</span> MS Windows
+
+$ /usr/bin/x86_64-w64-mingw32-objdump -x hello-world-windows-x86_64.exe <span class="token operator">|</span> <span class="token function">grep</span> -E <span class="token string">'^\s*DLL Name'</span>
+        DLL Name: KERNEL32.dll
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-powershell"><code class="language-powershell"><span class="token function">PS</span> C:\> dumpbin <span class="token operator">/</span>NOLOGO <span class="token operator">/</span>DEPENDENTS hello<span class="token operator">-</span>world<span class="token operator">-</span>windows<span class="token operator">-</span>x86_64<span class="token punctuation">.</span>exe
+
+Dump of file hello<span class="token operator">-</span>world<span class="token operator">-</span>windows<span class="token operator">-</span>x86_64<span class="token punctuation">.</span>exe
+
+File <span class="token function">Type</span>: EXECUTABLE IMAGE
+
+  Image has the following dependencies:
+
+    KERNEL32<span class="token punctuation">.</span>dll
+
+  Summary
+
+        1000 <span class="token punctuation">.</span>00cfg
+        2000 <span class="token punctuation">.</span><span class="token keyword">data</span>
+        1000 <span class="token punctuation">.</span>gehcont
+        3000 <span class="token punctuation">.</span>pdata
+       10000 <span class="token punctuation">.</span>rdata
+        1000 <span class="token punctuation">.</span>reloc
+       29000 <span class="token punctuation">.</span>text
+        1000 <span class="token punctuation">.</span>tls
+        1000 _RDATA
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Cross-compiling-Rust-for-Windows-MSVC-target"><span class="toc-number">1.</span> <span class="toc-text">Cross compiling Rust for Windows MSVC target</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Copy-MSVC-libraries-to-the-Linux-host"><span class="toc-number">1.1.</span> <span class="toc-text">Copy MSVC libraries to the Linux host</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#The-target-directory"><span class="toc-number">1.1.1.</span> <span class="toc-text">The target directory</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Copy-VC-runtime-libraries"><span class="toc-number">1.1.2.</span> <span class="toc-text">Copy VC runtime libraries</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Copy-UCRT-libraries"><span class="toc-number">1.1.3.</span> <span class="toc-text">Copy UCRT libraries</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Copy-Windows-API-libraries"><span class="toc-number">1.1.4.</span> <span class="toc-text">Copy Windows API libraries</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows-umbrella-libraries"><span class="toc-number">1.1.5.</span> <span class="toc-text">Windows umbrella libraries</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#How-we-known-which-libraries-need-to-be-copy"><span class="toc-number">1.2.</span> <span class="toc-text">How we known which libraries need to be copy</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Rust-linked-libraries"><span class="toc-number">1.2.1.</span> <span class="toc-text">Rust linked libraries</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LLVM-linked-libraries"><span class="toc-number">1.2.2.</span> <span class="toc-text">LLVM linked libraries</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Let’s-have-a-test"><span class="toc-number">1.3.</span> <span class="toc-text">Let’s have a test</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Hello-World"><span class="toc-number">1.3.1.</span> <span class="toc-text">Hello World</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Use-DLL-C-runtime-library"><span class="toc-number">1.3.2.</span> <span class="toc-text">Use DLL C runtime library</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Use-static-C-runtime-library"><span class="toc-number">1.3.3.</span> <span class="toc-text">Use static C runtime library</span></a></li></ol></li></ol></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

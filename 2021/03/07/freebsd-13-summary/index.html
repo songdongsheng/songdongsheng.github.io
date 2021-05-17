@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>FreeBSD 13 Summary | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>FreeBSD 13 Summary</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2021年03月07日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/FreeBSD/">FreeBSD</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tags" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Operating%20system" class='tag'>Operating system</a>
+
+  <a href="/tags/#FreeBSD" class='tag'>FreeBSD</a>
+
+
+            
+          </div>
+          <h1 id="FreeBSD-13-Summary"><a href="#FreeBSD-13-Summary" class="headerlink" title="FreeBSD 13 Summary"></a>FreeBSD 13 Summary</h1><h2 id="FreeBSD-Platforms"><a href="#FreeBSD-Platforms" class="headerlink" title="FreeBSD Platforms"></a>FreeBSD Platforms</h2><ul>
+<li><a href="https://www.freebsd.org/platforms/" target="_blank" rel="noopener">https://www.freebsd.org/platforms/</a></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Platform Name</th>
+<th>Platform Target</th>
+<th>Support Tier</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>64-bit x86</td>
+<td>amd64</td>
+<td>Tier 1</td>
+</tr>
+<tr>
+<td>64-bit ARMv8</td>
+<td>aarch64</td>
+<td>Tier 1</td>
+</tr>
+<tr>
+<td>32-bit ARMv6</td>
+<td>armv6</td>
+<td>Tier 2</td>
+</tr>
+<tr>
+<td>32-bit ARMv7</td>
+<td>armv7</td>
+<td>Tier 2</td>
+</tr>
+<tr>
+<td>32-bit MIPS hard-float</td>
+<td>mipshf</td>
+<td>Tier 2</td>
+</tr>
+<tr>
+<td>64-bit MIPS hard-float</td>
+<td>mips64hf</td>
+<td>Tier 2</td>
+</tr>
+<tr>
+<td>64-bit PowerPC</td>
+<td>powerpc64,powerpc64le</td>
+<td>Tier 2</td>
+</tr>
+<tr>
+<td>64-bit RISC-V</td>
+<td>riscv64</td>
+<td>Tier 2</td>
+</tr>
+</tbody></table>
+<h2 id="FreeBSD-Documentation"><a href="#FreeBSD-Documentation" class="headerlink" title="FreeBSD Documentation"></a>FreeBSD Documentation</h2><ul>
+<li><a href="https://www.freebsd.org/releng/" target="_blank" rel="noopener">FreeBSD Release Schedule</a></li>
+<li><a href="https://docs.freebsd.org/en/books/handbook/" target="_blank" rel="noopener">FreeBSD Handbook</a></li>
+<li><a href="https://docs.freebsd.org/en/books/developers-handbook/" target="_blank" rel="noopener">FreeBSD Developers’ Handbook</a></li>
+<li><a href="https://www.freebsd.org/cgi/man.cgi" target="_blank" rel="noopener">FreeBSD Manual Pages</a></li>
+<li><a href="https://docs.freebsd.org/en/articles/committers-guide/" target="_blank" rel="noopener">FreeBSD Committer’s Guide</a></li>
+<li><a href="https://docs.freebsd.org/en/books/porters-handbook/" target="_blank" rel="noopener">FreeBSD Porter’s Handbook</a></li>
+</ul>
+<h2 id="FreeBSD-Git-Infrastructure"><a href="#FreeBSD-Git-Infrastructure" class="headerlink" title="FreeBSD Git Infrastructure"></a>FreeBSD Git Infrastructure</h2><p><code>${repo} can be replaced by doc, ports and src. (*)</code></p>
+<ul>
+<li><a href="https://cgit.freebsd.org/" target="_blank" rel="noopener">FreeBSD Git repositories</a></li>
+<li><a href="https://cgit.freebsd.org/$%7Brepo%7D" target="_blank" rel="noopener">https://cgit.freebsd.org/${repo}</a></li>
+<li><a href="https://git.freebsd.org/$%7Brepo%7D.git" target="_blank" rel="noopener">https://git.freebsd.org/${repo}.git</a></li>
+</ul>
+<h2 id="FreeBSD-Download"><a href="#FreeBSD-Download" class="headerlink" title="FreeBSD Download"></a>FreeBSD Download</h2><ul>
+<li><a href="https://www.freebsd.org/releng/" target="_blank" rel="noopener">https://www.freebsd.org/releng/</a></li>
+<li><a href="https://www.freebsd.org/where/" target="_blank" rel="noopener">https://www.freebsd.org/where/</a></li>
+<li><a href="https://download.freebsd.org/ftp/releases/iso-images/" target="_blank" rel="noopener">https://download.freebsd.org/ftp/releases/iso-images/</a></li>
+<li><a href="https://download.freebsd.org/ftp/releases/VM-IMAGES/" target="_blank" rel="noopener">https://download.freebsd.org/ftp/releases/VM-IMAGES/</a></li>
+</ul>
+<pre class="line-numbers language-shell"><code class="language-shell">$ cat << EOF | https_proxy="http://proxy.example.com:8080" aria2c -c -i -
+https://download.freebsd.org/ftp/releases/ISO-IMAGES/13.0/FreeBSD-13.0-RELEASE-amd64-mini-memstick.img.xz
+https://download.freebsd.org/ftp/releases/ISO-IMAGES/13.0/FreeBSD-13.0-RELEASE-arm-armv6-RPI-B.img.xz
+https://download.freebsd.org/ftp/releases/ISO-IMAGES/13.0/FreeBSD-13.0-RELEASE-arm64-aarch64-mini-memstick.img.xz
+https://download.freebsd.org/ftp/releases/ISO-IMAGES/13.0/FreeBSD-13.0-RELEASE-arm64-aarch64-RPI.img.xz
+https://download.freebsd.org/ftp/releases/ISO-IMAGES/13.0/FreeBSD-13.0-RELEASE-riscv-riscv64-mini-memstick.img.xz
+https://download.freebsd.org/ftp/releases/VM-IMAGES/13.0-RELEASE/aarch64/Latest/FreeBSD-13.0-RELEASE-arm64-aarch64.qcow2.xz
+https://download.freebsd.org/ftp/releases/VM-IMAGES/13.0-RELEASE/amd64/Latest/FreeBSD-13.0-RELEASE-amd64.qcow2.xz
+https://download.freebsd.org/ftp/releases/VM-IMAGES/13.0-RELEASE/riscv64/Latest/FreeBSD-13.0-RELEASE-riscv-riscv64.qcow2.xz
+EOF
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="FreeBSD-Update"><a href="#FreeBSD-Update" class="headerlink" title="FreeBSD Update"></a>FreeBSD Update</h2><ul>
+<li><a href="https://www.freebsd.org/cgi/man.cgi?query=freebsd-update" target="_blank" rel="noopener">https://www.freebsd.org/cgi/man.cgi?query=freebsd-update</a></li>
+</ul>
+<pre class="line-numbers language-shell"><code class="language-shell"># Based on the currently installed world and the configuration options set,
+# fetch all available binary updates.
+$ sudo freebsd-update fetch
+
+# Install the most recently fetched updates or upgrade.
+$ sudo freebsd-update install
+
+# Fetch files necessary for upgrading to a new release.
+$ sudo freebsd-update upgrade
+
+# Install the most recently fetched updates or upgrade.
+$ sudo freebsd-update install
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Runtime-Libraries-and-API-Changes"><a href="#Runtime-Libraries-and-API-Changes" class="headerlink" title="Runtime Libraries and API Changes"></a>Runtime Libraries and API Changes</h2><ul>
+<li>Removed the <a href="https://www.freebsd.org/cgi/man.cgi?query=cap_random" target="_blank" rel="noopener">cap_random(3)</a> function as it has been superseded by <a href="https://www.freebsd.org/cgi/man.cgi?query=getrandom" target="_blank" rel="noopener">getrandom(2)</a>.</li>
+<li>New <a href="https://www.freebsd.org/cgi/man.cgi?query=aio_readv" target="_blank" rel="noopener">aio_readv(2)</a> and <a href="https://www.freebsd.org/cgi/man.cgi?query=aio_writev" target="_blank" rel="noopener">aio_writev(2)</a> system calls provide vectored analogues of <a href="https://www.freebsd.org/cgi/man.cgi?query=aio_read" target="_blank" rel="noopener">aio_read(2)</a> and <a href="https://www.freebsd.org/cgi/man.cgi?query=aio_write" target="_blank" rel="noopener">aio_write(2)</a>.</li>
+<li>powerpc64 switched to ELFv2 ABI at the same time it switched to LLVM. This brings us to a parity with modern Linux distributions. This also makes the binaries from previous FreeBSD versions incompatible with 13.0-RELEASE.</li>
+</ul>
+<h2 id="Kernel-Changes"><a href="#Kernel-Changes" class="headerlink" title="Kernel Changes"></a>Kernel Changes</h2><ul>
+<li>The GENERIC kernels for amd64 and i386 now include <a href="https://www.freebsd.org/cgi/man.cgi?query=aesni" target="_blank" rel="noopener">aesni(4)</a> to support accelerated software cryptography for <a href="https://www.freebsd.org/cgi/man.cgi?query=geli" target="_blank" rel="noopener">geli(8)</a> by default.</li>
+<li>The GENERIC kernel for aarch64 now includes <a href="https://www.freebsd.org/cgi/man.cgi?query=armv8crypto" target="_blank" rel="noopener">armv8crypto(4)</a> to support accelerated software cryptography for <a href="https://www.freebsd.org/cgi/man.cgi?query=geli" target="_blank" rel="noopener">geli(8)</a> by default. Now aarch64 supports AES-XTS and AES-GCM.</li>
+<li>Added Safe Memory Reclamation (SMR) to the kernel, a light weight variant of epoch reclamation closely coupled to <a href="https://www.freebsd.org/cgi/man.cgi?query=uma" target="_blank" rel="noopener">uma(9)</a>. This has been applied in parts of the VM subsystem and VFS layer to improve scalability on high core count systems.</li>
+<li>The suite of VirtIO device drivers now support the VirtIO V1 spec. This improves FreeBSD’s compatibility as a guest operating system with various hypervisors and emulators including the ability to run on the <a href="https://wiki.qemu.org/images/4/4e/Q35.pdf" target="_blank" rel="noopener">Q35 chipset</a> under QEMU.</li>
+<li>For <a href="https://www.freebsd.org/cgi/man.cgi?query=iscsi" target="_blank" rel="noopener">iscsi(4)</a> and <a href="https://www.freebsd.org/cgi/man.cgi?query=ctld" target="_blank" rel="noopener">ctld(8)</a>, support for specifying network QoS in the form of DiffServ Codepoints (DSCP) and Ethernet Priority Code Point (PCP) was added.</li>
+<li>The kernel now provides a default implementation for the SEEK_DATA and SEEK_HOLE ioctl(2)’s for filesystems which do not support sparse files.</li>
+<li>The NFS client and server now support NFS over TLS. The additional userland daemons are not built by default but can be enabled by building a new world that includes a KTLS-enabled OpenSSL via the WITH_OPENSSL_KTLS option.</li>
+<li>A new nfsv4_server_only variable can be set to YES in /etc/rc.conf to only enable support for NFSv4. This avoids the need to run <a href="https://www.freebsd.org/cgi/man.cgi?query=rpcbind" target="_blank" rel="noopener">rpcbind(8)</a> on an NFS server.</li>
+<li>The NFS client and server now support NFSv4.2 (RFC 7862) and Extended Attributes (RFC 8276).</li>
+<li>The ZFS implementation is now provided by OpenZFS.</li>
+<li>Updated the <a href="https://www.freebsd.org/cgi/man.cgi?query=fusefs" target="_blank" rel="noopener">fusefs(5)</a> protocol to 7.28 along with adding support for FUSE_COPY_FILE_RANGE and FUSE_LSEEK.</li>
+<li>The kernel now supports in-kernel framing and encryption of Transport Layer Security (TLS) data on TCP sockets for TLS versions 1.0 through 1.3. Transmit offload via in-kernel crypto drivers is supported for MtE cipher suites using AES-CBC as well as AEAD cipher suites using AES-GCM. Receive offload via in-kernel crypto drivers is supported for AES-GCM cipher suites for TLS 1.2. Using KTLS requires the use of a KTLS-aware userland SSL library. The OpenSSL library included in the base system does not enable KTLS support by default, but support can be enabled by building with the WITH_OPENSSL_KTLS option.</li>
+<li><a href="https://www.freebsd.org/cgi/man.cgi?query=tcp" target="_blank" rel="noopener">tcp(4)</a> now supports Proportional Rate Reduction (as described by RFC6937) to improve SACK loss recovery during burst loss and ACK thinning scenarios. This feature is enabled by default.</li>
+<li>Merged the <a href="https://www.freebsd.org/cgi/man.cgi?query=ping" target="_blank" rel="noopener">ping(8)</a> and <a href="https://www.freebsd.org/cgi/man.cgi?query=ping6" target="_blank" rel="noopener">ping6(8)</a> utilities. <a href="https://www.freebsd.org/cgi/man.cgi?query=ping" target="_blank" rel="noopener">ping(8)</a> supports both IPv4 and IPv6.</li>
+<li>The amd64 architecture now supports <strong>57-bit</strong> virtual addresses (LA57) on supported CPUs. This permits user processes to use up to** 56 bits of virtual address space**. This also includes support for <strong>five layer nested page tables</strong> used by bhyve.</li>
+<li>The 64-bit ARM architecture known as arm64 or AArch64 is promoted to Tier-1 status for FreeBSD 13.</li>
+<li>All powerpc architectures switched to LLVM and are currently mostly similar to amd64 toolchain-wise.</li>
+<li>powerpc64le (64-bit little endian port) was introduced, targeting POWER8 and newer processors.</li>
+<li>The <a href="https://www.freebsd.org/cgi/man.cgi?query=bhyve" target="_blank" rel="noopener">bhyve(8)</a> utility now supports VirtIO-9p (aka VirtFS) filesystem sharing.</li>
+</ul>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#FreeBSD-13-Summary"><span class="toc-number">1.</span> <span class="toc-text">FreeBSD 13 Summary</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#FreeBSD-Platforms"><span class="toc-number">1.1.</span> <span class="toc-text">FreeBSD Platforms</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FreeBSD-Documentation"><span class="toc-number">1.2.</span> <span class="toc-text">FreeBSD Documentation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FreeBSD-Git-Infrastructure"><span class="toc-number">1.3.</span> <span class="toc-text">FreeBSD Git Infrastructure</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FreeBSD-Download"><span class="toc-number">1.4.</span> <span class="toc-text">FreeBSD Download</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FreeBSD-Update"><span class="toc-number">1.5.</span> <span class="toc-text">FreeBSD Update</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Runtime-Libraries-and-API-Changes"><span class="toc-number">1.6.</span> <span class="toc-text">Runtime Libraries and API Changes</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kernel-Changes"><span class="toc-number">1.7.</span> <span class="toc-text">Kernel Changes</span></a></li></ol></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

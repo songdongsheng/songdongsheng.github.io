@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>OpenJDK Life Cycle | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>OpenJDK Life Cycle</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2019年08月31日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/Java/">Java</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tag" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Java" class='tag'>Java</a>
+
+
+            
+          </div>
+          <h1 id="OpenJDK-Life-Cycle"><a href="#OpenJDK-Life-Cycle" class="headerlink" title="OpenJDK Life Cycle"></a>OpenJDK Life Cycle</h1><ul>
+<li><a href="https://wiki.openjdk.java.net/display/jdk8u" target="_blank" rel="noopener">https://wiki.openjdk.java.net/display/jdk8u</a></li>
+<li><a href="https://wiki.openjdk.java.net/display/JDKUpdates/JDK11u" target="_blank" rel="noopener">https://wiki.openjdk.java.net/display/JDKUpdates/JDK11u</a></li>
+</ul>
+<h2 id="Oracle-Java-SE"><a href="#Oracle-Java-SE" class="headerlink" title="Oracle Java SE"></a>Oracle Java SE</h2><ul>
+<li><a href="https://www.oracle.com/java/technologies/java-se-support-roadmap.html" target="_blank" rel="noopener">https://www.oracle.com/java/technologies/java-se-support-roadmap.html</a></li>
+<li>Java 8, December 2030</li>
+<li>Java 11, September 2026</li>
+</ul>
+<h2 id="Azul-Zulu"><a href="#Azul-Zulu" class="headerlink" title="Azul Zulu"></a>Azul Zulu</h2><ul>
+<li><a href="https://www.azul.com/products/azul-support-roadmap/" target="_blank" rel="noopener">https://www.azul.com/products/azul-support-roadmap/</a></li>
+<li><a href="https://www.azul.com/products/zulu-community/" target="_blank" rel="noopener">https://www.azul.com/products/zulu-community/</a></li>
+<li><a href="https://www.azul.com/products/zulu-community/free-jdk-comparison-matrix/" target="_blank" rel="noopener">https://www.azul.com/products/zulu-community/free-jdk-comparison-matrix/</a></li>
+<li><a href="https://www.azul.com/downloads/zulu-community/" target="_blank" rel="noopener">https://www.azul.com/downloads/zulu-community/</a></li>
+<li>Java 8, Dec 2030</li>
+<li>Java 11, Sep 2027</li>
+<li>Java 17, Sep 2030</li>
+</ul>
+<h2 id="RedHat"><a href="#RedHat" class="headerlink" title="RedHat"></a>RedHat</h2><ul>
+<li><a href="https://access.redhat.com/articles/1299013" target="_blank" rel="noopener">https://access.redhat.com/articles/1299013</a></li>
+<li><a href="https://developers.redhat.com/products/openjdk/download/" target="_blank" rel="noopener">https://developers.redhat.com/products/openjdk/download/</a></li>
+<li>OpenJDK 8, May 2026</li>
+<li>OpenJDK 11, October 2024</li>
+</ul>
+<h2 id="AdoptOpenJDK"><a href="#AdoptOpenJDK" class="headerlink" title="AdoptOpenJDK"></a>AdoptOpenJDK</h2><ul>
+<li><a href="https://adoptopenjdk.net/support.html" target="_blank" rel="noopener">https://adoptopenjdk.net/support.html</a></li>
+<li><a href="https://adoptopenjdk.net/supported_platforms.html" target="_blank" rel="noopener">https://adoptopenjdk.net/supported_platforms.html</a></li>
+<li><a href="https://adoptopenjdk.net/releases.html" target="_blank" rel="noopener">https://adoptopenjdk.net/releases.html</a></li>
+<li>OpenJDK 8, At Least May 2026</li>
+<li>OpenJDK 11, At Least Oct 2024</li>
+</ul>
+<h2 id="Amazon-Corretto"><a href="#Amazon-Corretto" class="headerlink" title="Amazon Corretto"></a>Amazon Corretto</h2><ul>
+<li><a href="https://aws.amazon.com/corretto/faqs/#support" target="_blank" rel="noopener">https://aws.amazon.com/corretto/faqs/#support</a></li>
+<li><a href="https://github.com/corretto/corretto-8" target="_blank" rel="noopener">https://github.com/corretto/corretto-8</a></li>
+<li><a href="https://github.com/corretto/corretto-11" target="_blank" rel="noopener">https://github.com/corretto/corretto-11</a></li>
+<li>Java 8, at least June 2023</li>
+<li>Java 11, at least August 2024</li>
+</ul>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#OpenJDK-Life-Cycle"><span class="toc-number">1.</span> <span class="toc-text">OpenJDK Life Cycle</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Oracle-Java-SE"><span class="toc-number">1.1.</span> <span class="toc-text">Oracle Java SE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Azul-Zulu"><span class="toc-number">1.2.</span> <span class="toc-text">Azul Zulu</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RedHat"><span class="toc-number">1.3.</span> <span class="toc-text">RedHat</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AdoptOpenJDK"><span class="toc-number">1.4.</span> <span class="toc-text">AdoptOpenJDK</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Amazon-Corretto"><span class="toc-number">1.5.</span> <span class="toc-text">Amazon Corretto</span></a></li></ol></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

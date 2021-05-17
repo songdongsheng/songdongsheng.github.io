@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>SQL insert on conflict | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>SQL insert on conflict</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2020年01月05日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/SQL/">SQL</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tags" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#SQL" class='tag'>SQL</a>
+
+
+            
+          </div>
+          <h1 id="SQL-insert-on-conflict"><a href="#SQL-insert-on-conflict" class="headerlink" title="SQL insert on conflict"></a>SQL insert on conflict</h1><h2 id="PostgreSQL"><a href="#PostgreSQL" class="headerlink" title="PostgreSQL"></a>PostgreSQL</h2><ul>
+<li><a href="https://www.postgresql.org/docs/current/static/sql-insert.html" target="_blank" rel="noopener">https://www.postgresql.org/docs/current/static/sql-insert.html</a></li>
+</ul>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">INSERT</span> <span class="token keyword">INTO</span> MYBAAS<span class="token punctuation">(</span>ID<span class="token punctuation">,</span> TYPE_NAME<span class="token punctuation">,</span> JSON<span class="token punctuation">)</span>
+<span class="token keyword">VALUES</span><span class="token punctuation">(</span>?<span class="token punctuation">,</span> ?<span class="token punctuation">,</span> ?<span class="token punctuation">)</span>
+<span class="token keyword">ON</span> CONFLICT<span class="token punctuation">(</span>ID<span class="token punctuation">)</span> <span class="token keyword">DO</span> <span class="token keyword">UPDATE</span> <span class="token keyword">SET</span> TYPE_NAME<span class="token operator">=</span>?<span class="token punctuation">,</span> JSON<span class="token operator">=</span>?
+
+<span class="token keyword">INSERT</span> <span class="token keyword">INTO</span> MYBAAS<span class="token punctuation">(</span>ID<span class="token punctuation">,</span> TYPE_NAME<span class="token punctuation">,</span> JSON<span class="token punctuation">)</span>
+<span class="token keyword">VALUES</span><span class="token punctuation">(</span>?<span class="token punctuation">,</span> ?<span class="token punctuation">,</span> ?<span class="token punctuation">)</span>
+<span class="token keyword">ON</span> CONFLICT <span class="token keyword">DO</span> NOTHING<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="SQL-Server"><a href="#SQL-Server" class="headerlink" title="SQL Server"></a>SQL Server</h2><ul>
+<li><a href="https://docs.microsoft.com/en-us/sql/t-sql/statements/create-table-transact-sql" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/sql/t-sql/statements/create-table-transact-sql</a></li>
+</ul>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> MYBAAS <span class="token punctuation">(</span>
+        ID          <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">64</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+        TYPE_NAME   <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">64</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+        JSON        <span class="token keyword">LONGTEXT</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+        <span class="token keyword">CONSTRAINT</span> MYBAAS_PK <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span> <span class="token punctuation">(</span>ID<span class="token punctuation">)</span> <span class="token keyword">WITH</span> <span class="token punctuation">(</span>IGNORE_DUP_KEY<span class="token operator">=</span><span class="token keyword">ON</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> <span class="token keyword">IF</span> <span class="token operator">NOT</span> <span class="token keyword">EXISTS</span> PROPERTY_MAP <span class="token punctuation">(</span>
+        ID              <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">64</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+        PROPERTY_NAME   <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">64</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+        COLUMN_NAME     <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">64</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+        TYPE_NAME       <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">64</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+        <span class="token keyword">CONSTRAINT</span> PROPERTY_MAP_PK <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span> <span class="token punctuation">(</span>ID<span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">CREATE</span> <span class="token keyword">UNIQUE</span> <span class="token keyword">INDEX</span> PROPERTY_MAP_UK01
+<span class="token keyword">ON</span> PROPERTY_MAP<span class="token punctuation">(</span>PROPERTY_NAME<span class="token punctuation">)</span> <span class="token keyword">WITH</span> <span class="token punctuation">(</span>IGNORE_DUP_KEY <span class="token operator">=</span> <span class="token keyword">ON</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">CREATE</span> <span class="token keyword">UNIQUE</span> <span class="token keyword">INDEX</span> PROPERTY_MAP_UK02
+<span class="token keyword">ON</span> PROPERTY_MAP<span class="token punctuation">(</span>COLUMN_NAME<span class="token punctuation">)</span> <span class="token keyword">WITH</span> <span class="token punctuation">(</span>IGNORE_DUP_KEY <span class="token operator">=</span> <span class="token keyword">ON</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="SQLite"><a href="#SQLite" class="headerlink" title="SQLite"></a>SQLite</h2><ul>
+<li><a href="https://sqlite.org/lang_insert.html" target="_blank" rel="noopener">https://sqlite.org/lang_insert.html</a></li>
+<li><a href="https://sqlite.org/lang_conflict.html" target="_blank" rel="noopener">https://sqlite.org/lang_conflict.html</a></li>
+</ul>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">INSERT</span> <span class="token operator">OR</span> REPLACE <span class="token keyword">INTO</span> MYBAAS<span class="token punctuation">(</span>ID<span class="token punctuation">,</span> TYPE_NAME<span class="token punctuation">,</span> JSON<span class="token punctuation">)</span>
+<span class="token keyword">VALUES</span><span class="token punctuation">(</span>?<span class="token punctuation">,</span> ?<span class="token punctuation">,</span> ?<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="MariaDB-MySQL"><a href="#MariaDB-MySQL" class="headerlink" title="MariaDB/MySQL"></a>MariaDB/MySQL</h2><ul>
+<li><a href="https://mariadb.com/kb/en/library/insert-on-duplicate-key-update/" target="_blank" rel="noopener">https://mariadb.com/kb/en/library/insert-on-duplicate-key-update/</a></li>
+<li><a href="https://mariadb.com/kb/en/library/insert-ignore/" target="_blank" rel="noopener">https://mariadb.com/kb/en/library/insert-ignore/</a></li>
+<li><a href="https://mariadb.com/kb/en/library/values/" target="_blank" rel="noopener">https://mariadb.com/kb/en/library/values/</a></li>
+</ul>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">INSERT</span> <span class="token keyword">INTO</span> MYBAAS<span class="token punctuation">(</span>ID<span class="token punctuation">,</span> TYPE_NAME<span class="token punctuation">,</span> JSON<span class="token punctuation">)</span>
+<span class="token keyword">VALUES</span><span class="token punctuation">(</span>?<span class="token punctuation">,</span> ?<span class="token punctuation">,</span> ?<span class="token punctuation">)</span>
+<span class="token keyword">ON</span> <span class="token keyword">DUPLICATE KEY</span> <span class="token keyword">UPDATE</span> TYPE_NAME<span class="token operator">=</span>?<span class="token punctuation">,</span> JSON<span class="token operator">=</span>?
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h2 id="Oracle"><a href="#Oracle" class="headerlink" title="Oracle"></a>Oracle</h2><ul>
+<li><a href="https://docs.oracle.com/database/122/SQLRF/MERGE.htm" target="_blank" rel="noopener">https://docs.oracle.com/database/122/SQLRF/MERGE.htm</a></li>
+<li><a href="http://download.oracle.com/docs/cds/database/122.zip" target="_blank" rel="noopener">http://download.oracle.com/docs/cds/database/122.zip</a></li>
+</ul>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">MERGE</span> <span class="token keyword">INTO</span> MYBAAS D
+    <span class="token keyword">USING</span> <span class="token punctuation">(</span><span class="token keyword">SELECT</span> ? <span class="token keyword">AS</span> ID<span class="token punctuation">,</span> ? <span class="token keyword">AS</span> TYPE_NAME<span class="token punctuation">,</span> ? <span class="token keyword">AS</span> JSON <span class="token keyword">FROM</span> DUAL<span class="token punctuation">)</span> S
+    <span class="token keyword">ON</span> <span class="token punctuation">(</span>D<span class="token punctuation">.</span>ID <span class="token operator">=</span> S<span class="token punctuation">.</span>ID<span class="token punctuation">)</span>
+    <span class="token keyword">WHEN</span> <span class="token keyword">MATCHED</span> <span class="token keyword">THEN</span>
+        <span class="token keyword">UPDATE</span> <span class="token keyword">SET</span> D<span class="token punctuation">.</span>TYPE_NAME <span class="token operator">=</span> S<span class="token punctuation">.</span>TYPE_NAME
+    <span class="token keyword">WHEN</span> <span class="token operator">NOT</span> <span class="token keyword">MATCHED</span> <span class="token keyword">THEN</span>
+        <span class="token keyword">INSERT</span> <span class="token punctuation">(</span>D<span class="token punctuation">.</span>ID<span class="token punctuation">,</span> D<span class="token punctuation">.</span>TYPE_NAME<span class="token punctuation">,</span> D<span class="token punctuation">.</span>JSON<span class="token punctuation">)</span>
+        <span class="token keyword">VALUES</span> <span class="token punctuation">(</span>S<span class="token punctuation">.</span>ID<span class="token punctuation">,</span> S<span class="token punctuation">.</span>TYPE_NAME<span class="token punctuation">,</span> S<span class="token punctuation">.</span>JSON<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="DB2"><a href="#DB2" class="headerlink" title="DB2"></a>DB2</h2><pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">MERGE</span> <span class="token keyword">INTO</span> MYBAAS <span class="token keyword">AS</span> D
+    <span class="token keyword">USING</span> <span class="token punctuation">(</span><span class="token keyword">VALUES</span><span class="token punctuation">(</span>?<span class="token punctuation">,</span> ?<span class="token punctuation">,</span> ?<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">AS</span> S<span class="token punctuation">(</span>ID<span class="token punctuation">,</span> TYPE_NAME<span class="token punctuation">,</span> JSON<span class="token punctuation">)</span>
+    <span class="token keyword">ON</span> D<span class="token punctuation">.</span>ID <span class="token operator">=</span> S<span class="token punctuation">.</span>ID
+    <span class="token keyword">WHEN</span> <span class="token keyword">MATCHED</span> <span class="token keyword">THEN</span>
+        <span class="token keyword">UPDATE</span> <span class="token keyword">SET</span> D<span class="token punctuation">.</span>TYPE_NAME <span class="token operator">=</span> S<span class="token punctuation">.</span>TYPE_NAME<span class="token punctuation">,</span> D<span class="token punctuation">.</span>JSON <span class="token operator">=</span> S<span class="token punctuation">.</span>JSON
+    <span class="token keyword">WHEN</span> <span class="token operator">NOT</span> <span class="token keyword">MATCHED</span> <span class="token keyword">THEN</span>
+        <span class="token keyword">INSERT</span> <span class="token punctuation">(</span>ID<span class="token punctuation">,</span> TYPE_NAME<span class="token punctuation">,</span> JSON<span class="token punctuation">)</span> <span class="token keyword">VALUES</span> <span class="token punctuation">(</span>S<span class="token punctuation">.</span>ID<span class="token punctuation">,</span> S<span class="token punctuation">.</span>TYPE_NAME<span class="token punctuation">,</span> S<span class="token punctuation">.</span>JSON<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SQL-insert-on-conflict"><span class="toc-number">1.</span> <span class="toc-text">SQL insert on conflict</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#PostgreSQL"><span class="toc-number">1.1.</span> <span class="toc-text">PostgreSQL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL-Server"><span class="toc-number">1.2.</span> <span class="toc-text">SQL Server</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQLite"><span class="toc-number">1.3.</span> <span class="toc-text">SQLite</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MariaDB-MySQL"><span class="toc-number">1.4.</span> <span class="toc-text">MariaDB&#x2F;MySQL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Oracle"><span class="toc-number">1.5.</span> <span class="toc-text">Oracle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DB2"><span class="toc-number">1.6.</span> <span class="toc-text">DB2</span></a></li></ol></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Dart programming language | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>Dart programming language</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2021年04月03日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/Dart/">Dart</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tags" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#Dart" class='tag'>Dart</a>
+
+
+            
+          </div>
+          <h1 id="Dart-programming-language"><a href="#Dart-programming-language" class="headerlink" title="Dart programming language"></a>Dart programming language</h1><h2 id="Dart-overview"><a href="#Dart-overview" class="headerlink" title="Dart overview"></a>Dart overview</h2><p>Dart is a client-optimized language for developing fast apps on any platform. Its goal is to offer the most productive programming language for multi-platform development, paired with a flexible execution runtime platform for app frameworks.</p>
+<ul>
+<li>Optimized for UI</li>
+<li>Productive development</li>
+<li>Fast on all platforms</li>
+</ul>
+<h2 id="Learning-Dart"><a href="#Learning-Dart" class="headerlink" title="Learning Dart"></a>Learning Dart</h2><ul>
+<li><a href="https://dart.dev/guides/language/spec" target="_blank" rel="noopener">Dart language specification</a></li>
+<li><a href="https://api.dart.dev/" target="_blank" rel="noopener">API reference</a></li>
+<li><a href="https://dart.dev/guides/libraries" target="_blank" rel="noopener">Core libraries</a></li>
+<li><a href="https://dart.dev/guides/language/language-tour" target="_blank" rel="noopener">A tour of the Dart language</a></li>
+<li><a href="https://dart.dev/guides/libraries/library-tour" target="_blank" rel="noopener">A tour of the core libraries</a></li>
+<li><a href="https://dart.dev/guides/language/effective-dart" target="_blank" rel="noopener">Effective Dart</a></li>
+<li><a href="https://dart.dev/tools" target="_blank" rel="noopener">Tools &amp; techniques</a></li>
+<li><a href="https://dart.dev/server" target="_blank" rel="noopener">Command-line &amp; server apps</a></li>
+</ul>
+<h2 id="Get-the-Dart-SDK"><a href="#Get-the-Dart-SDK" class="headerlink" title="Get the Dart SDK"></a>Get the Dart SDK</h2><p>Stable, beta, and dev channel releases are available at URLs like the following:</p>
+<pre><code>https://storage.googleapis.com/dart-archive/channels/&lt;stable|beta|dev&gt;/release/&lt;version&gt;/sdk/dartsdk-&lt;platform&gt;-&lt;architecture&gt;-release.zip
+</code></pre>
+<ul>
+<li><a href="https://dart.dev/tools/sdk/archive" target="_blank" rel="noopener">Dart SDK archive</a></li>
+<li><a href="https://storage.googleapis.com/dart-archive/channels/stable/release/2.12.3/sdk/dartsdk-windows-x64-release.zip" target="_blank" rel="noopener">Stable channel - 2.12.3 - Windows</a></li>
+<li><a href="https://storage.googleapis.com/dart-archive/channels/stable/release/2.12.3/sdk/dartsdk-linux-x64-release.zip" target="_blank" rel="noopener">Stable channel - 2.12.3 - Linux</a></li>
+</ul>
+<h2 id="HelloWorld-dart"><a href="#HelloWorld-dart" class="headerlink" title="HelloWorld.dart"></a>HelloWorld.dart</h2><pre class="line-numbers language-dart"><code class="language-dart">$ cat <span class="token operator">&lt;&lt;</span> EOF <span class="token operator">></span> HelloWorld<span class="token punctuation">.</span>dart
+<span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">'Hello, World!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+EOF
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Dart-on-Windows"><a href="#Dart-on-Windows" class="headerlink" title="Dart on Windows"></a>Dart on Windows</h2><pre class="line-numbers language-shell-session"><code class="language-shell-session">C:\>dart run HelloWorld.dart
+Hello, World!
+
+C:\>dart compile exe -o HelloWorld.exe HelloWorld.dart
+Info: Compiling with sound null safety
+Generated: helloworld.exe
+
+C:\>helloworld.exe
+Hello, World!
+
+C:\>du -ks helloworld.exe
+4836    helloworld.exe
+
+C:\>file helloworld.exe
+helloworld.exe: PE32+ executable (console) x86-64, for MS Windows
+
+C:\>dumpbin /NOLOGO /DEPENDENTS helloworld.exe
+Dump of file helloworld.exe
+
+File Type: EXECUTABLE IMAGE
+
+  Image has the following dependencies:
+
+    IPHLPAPI.DLL
+    PSAPI.DLL
+    WS2_32.dll
+    RPCRT4.dll
+    SHLWAPI.dll
+    ADVAPI32.dll
+    SHELL32.dll
+    dbghelp.dll
+    CRYPT32.dll
+    KERNEL32.dll
+
+  Summary
+
+       41000 .data
+       16000 .pdata
+       CB000 .rdata
+        A000 .reloc
+      2AB000 .text
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Dart-on-Linux"><a href="#Dart-on-Linux" class="headerlink" title="Dart on Linux"></a>Dart on Linux</h2><pre class="line-numbers language-shell-session"><code class="language-shell-session">$ dart run HelloWorld.dart
+Hello, World!
+
+$ dart compile exe -o HelloWorld HelloWorld.dart
+Info: Compiling with sound null safety
+Generated: HelloWorld
+
+$ ./HelloWorld
+Hello, World!
+
+$ du -ks HelloWorld
+5736    HelloWorld
+
+$ file HelloWorld
+HelloWorld: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, stripped
+
+$ readelf -hld HelloWorld
+ld-linux-x86-64.so.2
+libc.so.6
+libdl.so.2
+libm.so.6
+libpthread.so.0
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Dart-programming-language"><span class="toc-number">1.</span> <span class="toc-text">Dart programming language</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Dart-overview"><span class="toc-number">1.1.</span> <span class="toc-text">Dart overview</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Learning-Dart"><span class="toc-number">1.2.</span> <span class="toc-text">Learning Dart</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Get-the-Dart-SDK"><span class="toc-number">1.3.</span> <span class="toc-text">Get the Dart SDK</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HelloWorld-dart"><span class="toc-number">1.4.</span> <span class="toc-text">HelloWorld.dart</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dart-on-Windows"><span class="toc-number">1.5.</span> <span class="toc-text">Dart on Windows</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dart-on-Linux"><span class="toc-number">1.6.</span> <span class="toc-text">Dart on Linux</span></a></li></ol></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

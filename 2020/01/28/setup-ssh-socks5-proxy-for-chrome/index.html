@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Setup SSH SOCKS5 proxy for Chrome | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>Setup SSH SOCKS5 proxy for Chrome</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2020年01月28日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/Linux/">Linux</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tag" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+
+            
+          </div>
+          <h1 id="Setup-SSH-SOCKS5-proxy-for-Chrome"><a href="#Setup-SSH-SOCKS5-proxy-for-Chrome" class="headerlink" title="Setup SSH SOCKS5 proxy for Chrome"></a>Setup SSH SOCKS5 proxy for Chrome</h1><h2 id="SSH-server-config"><a href="#SSH-server-config" class="headerlink" title="SSH server config"></a>SSH server config</h2><pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">vi</span> /etc/ssh/sshd_config
+    PermitRootLogin <span class="token function">yes</span>
+    Compression no
+    TCPKeepAlive no
+    ClientAliveInterval 15
+    ClientAliveCountMax 3
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="SSH-client-config"><a href="#SSH-client-config" class="headerlink" title="SSH client config"></a>SSH client config</h2><pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">vi</span> /etc/ssh/ssh_config
+    ConnectTimeout 5
+    Compression no
+    ExitOnForwardFailure <span class="token function">yes</span>
+    TCPKeepAlive no
+    ServerAliveInterval 12
+    ServerAliveCountMax 3
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Setup-SSH-SOCKS5-proxy"><a href="#Setup-SSH-SOCKS5-proxy" class="headerlink" title="Setup SSH SOCKS5 proxy"></a>Setup SSH SOCKS5 proxy</h2><pre class="line-numbers language-bash"><code class="language-bash"><span class="token keyword">while</span> <span class="token boolean">true</span><span class="token punctuation">;</span> <span class="token keyword">do</span>
+    <span class="token function">date</span>
+    <span class="token function">ssh</span> -4 -D 10080 -N -p 22 -o <span class="token string">"ServerAliveInterval 12"</span> root@example.com
+  <span class="token comment" spellcheck="true"># ssh -6 -D 10080 -N -p 22 -o "ServerAliveInterval 12" root@example.com</span>
+    <span class="token keyword">echo</span>
+<span class="token keyword">done</span>
+
+<span class="token comment" spellcheck="true"># -4      Forces ssh to use IPv4 addresses only.</span>
+<span class="token comment" spellcheck="true"># -6      Forces ssh to use IPv6 addresses only.</span>
+<span class="token comment" spellcheck="true"># -C      Requests compression of all data</span>
+<span class="token comment" spellcheck="true"># -p port Port to connect to on the remote host.</span>
+<span class="token comment" spellcheck="true"># -f      Requests ssh to go to background just before command execution.</span>
+<span class="token comment" spellcheck="true"># -q      Quiet mode. Causes most warning and diagnostic messages to be suppressed.</span>
+<span class="token comment" spellcheck="true"># -N      Do not execute a remote command. This is useful for just forwarding ports.</span>
+<span class="token comment" spellcheck="true"># -D [bind_address:]port Specifies a local “dynamic” application-level port forwarding.</span>
+<span class="token comment" spellcheck="true"># -L [bind_address:]port:host:hostport Specifies that connections to the given local host are to be forwarded to the given host and hostport.</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Verify-socks5-proxy"><a href="#Verify-socks5-proxy" class="headerlink" title="Verify socks5 proxy"></a>Verify socks5 proxy</h2><pre class="line-numbers language-bash"><code class="language-bash">curl --socks5 127.0.0.1:10080 https://www.google.com
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="Running-apt-get-with-proxy"><a href="#Running-apt-get-with-proxy" class="headerlink" title="Running apt-get with proxy"></a>Running apt-get with proxy</h2><p>sudo vi /etc/apt/apt.conf.d/zz-10-install</p>
+<pre class="line-numbers language-perl"><code class="language-perl">APT<span class="token punctuation">:</span><span class="token punctuation">:</span>Install<span class="token operator">-</span>Recommends <span class="token string">"0"</span><span class="token punctuation">;</span>
+APT<span class="token punctuation">:</span><span class="token punctuation">:</span>Install<span class="token operator">-</span>Suggests <span class="token string">"0"</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">#Acquire::http { Proxy "http://www.example.com:8080"; };</span>
+Acquire<span class="token punctuation">:</span><span class="token punctuation">:</span>http <span class="token punctuation">{</span> Proxy <span class="token string">"socks5h://127.0.0.1:10080"</span><span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Check-Chrome"><a href="#Check-Chrome" class="headerlink" title="Check Chrome"></a>Check Chrome</h2><pre class="line-numbers language-bash"><code class="language-bash">$ google-chrome --version
+Google Chrome 79.0.3945.130
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="Running-Chrome-with-proxy"><a href="#Running-Chrome-with-proxy" class="headerlink" title="Running Chrome with proxy"></a>Running Chrome with proxy</h2><pre class="line-numbers language-bash"><code class="language-bash">google-chrome --proxy-server<span class="token operator">=</span><span class="token string">"socks5://localhost:10080"</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="Running-Chrome-stay-incognito"><a href="#Running-Chrome-stay-incognito" class="headerlink" title="Running Chrome stay incognito"></a>Running Chrome stay incognito</h2><pre class="line-numbers language-bash"><code class="language-bash">google-chrome --incognito --proxy-server<span class="token operator">=</span><span class="token string">"socks5://localhost:10080"</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Setup-SSH-SOCKS5-proxy-for-Chrome"><span class="toc-number">1.</span> <span class="toc-text">Setup SSH SOCKS5 proxy for Chrome</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#SSH-server-config"><span class="toc-number">1.1.</span> <span class="toc-text">SSH server config</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSH-client-config"><span class="toc-number">1.2.</span> <span class="toc-text">SSH client config</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Setup-SSH-SOCKS5-proxy"><span class="toc-number">1.3.</span> <span class="toc-text">Setup SSH SOCKS5 proxy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Verify-socks5-proxy"><span class="toc-number">1.4.</span> <span class="toc-text">Verify socks5 proxy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Running-apt-get-with-proxy"><span class="toc-number">1.5.</span> <span class="toc-text">Running apt-get with proxy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Check-Chrome"><span class="toc-number">1.6.</span> <span class="toc-text">Check Chrome</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Running-Chrome-with-proxy"><span class="toc-number">1.7.</span> <span class="toc-text">Running Chrome with proxy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Running-Chrome-stay-incognito"><span class="toc-number">1.8.</span> <span class="toc-text">Running Chrome stay incognito</span></a></li></ol></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

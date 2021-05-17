@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Generate CA certificates for Java | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>Generate CA certificates for Java</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2019年11月16日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/Java/">Java</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tag" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Java" class='tag'>Java</a>
+
+
+            
+          </div>
+          <h1 id="Generate-CA-certificates-for-Java"><a href="#Generate-CA-certificates-for-Java" class="headerlink" title="Generate CA certificates for Java"></a>Generate CA certificates for Java</h1><h2 id="packages"><a href="#packages" class="headerlink" title="packages"></a>packages</h2><pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># dpkg -l | grep ca-certificates</span>
+ii  ca-certificates         20190110    all     Common CA certificates
+ii  ca-certificates-java    20190405    all     Common CA certificates <span class="token punctuation">(</span>JKS keystore<span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h2 id="generate-cacerts"><a href="#generate-cacerts" class="headerlink" title="generate cacerts"></a>generate cacerts</h2><pre class="line-numbers language-bash"><code class="language-bash">storepass<span class="token operator">=</span><span class="token string">'changeit'</span>
+JAR<span class="token operator">=</span>/usr/share/ca-certificates-java/ca-certificates-java.jar
+
+<span class="token function">rm</span> -f /etc/ssl/certs/java/cacerts
+<span class="token function">find</span> /etc/ssl/certs -name \*.pem <span class="token operator">|</span> \
+<span class="token keyword">while</span> <span class="token function">read</span> filename<span class="token punctuation">;</span> <span class="token keyword">do</span>
+    alias<span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span><span class="token function">basename</span> $filename .pem <span class="token operator">|</span> <span class="token function">tr</span> A-Z a-z <span class="token operator">|</span> <span class="token function">tr</span> -cs a-z0-9 _<span class="token variable">)</span></span>
+    alias<span class="token operator">=</span><span class="token variable">${alias%*_}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">[</span> -n <span class="token string">"<span class="token variable">$FIXOLD</span>"</span> <span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token keyword">then</span>
+        <span class="token keyword">echo</span> <span class="token string">"-<span class="token variable">${alias}</span>"</span>
+        <span class="token keyword">echo</span> <span class="token string">"-<span class="token variable">${alias}</span>_pem"</span>
+    <span class="token keyword">fi</span>
+    <span class="token keyword">echo</span> <span class="token string">"+<span class="token variable">${filename}</span>"</span>
+<span class="token keyword">done</span> <span class="token operator">|</span> \
+java -Xmx64m -jar <span class="token variable">$JAR</span> -storepass <span class="token string">"<span class="token variable">$storepass</span>"</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="results"><a href="#results" class="headerlink" title="results"></a>results</h2><pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">ls</span> -la /etc/ssl/certs/java/cacerts
+sha256sum /etc/ssl/certs/java/cacerts
+
+<span class="token comment" spellcheck="true"># ls -la /etc/ssl/certs/java/cacerts</span>
+-rw-r--r-- 1 root root 150689 2019-11-15 21:24 /etc/ssl/certs/java/cacerts
+
+<span class="token comment" spellcheck="true"># sha256sum /etc/ssl/certs/java/cacerts</span>
+0d0041de796beaecfd8a2f859e3c642839fa9d6567d6da394fed2d001076c765  /etc/ssl/certs/java/cacerts
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Generate-CA-certificates-for-Java"><span class="toc-number">1.</span> <span class="toc-text">Generate CA certificates for Java</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#packages"><span class="toc-number">1.1.</span> <span class="toc-text">packages</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#generate-cacerts"><span class="toc-number">1.2.</span> <span class="toc-text">generate cacerts</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#results"><span class="toc-number">1.3.</span> <span class="toc-text">results</span></a></li></ol></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

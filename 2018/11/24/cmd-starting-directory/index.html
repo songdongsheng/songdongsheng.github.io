@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Windows 命令行窗口的启动目录 | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>Windows 命令行窗口的启动目录</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2018年11月24日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/Windows/">Windows</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tag" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Windows" class='tag'>Windows</a>
+
+
+            
+          </div>
+          <h1 id="Windows-命令行窗口的启动目录"><a href="#Windows-命令行窗口的启动目录" class="headerlink" title="Windows 命令行窗口的启动目录"></a>Windows 命令行窗口的启动目录</h1><h2 id="菜单中的命令提示符的链接文件"><a href="#菜单中的命令提示符的链接文件" class="headerlink" title="菜单中的命令提示符的链接文件"></a>菜单中的命令提示符的链接文件</h2><h3 id="当前用户配置"><a href="#当前用户配置" class="headerlink" title="当前用户配置"></a>当前用户配置</h3><pre><code>%LOCALAPPDATA%\Microsoft\Windows\WinX\Group3\01 - Command Prompt.lnk
+%LOCALAPPDATA%\Microsoft\Windows\WinX\Group3\02 - Command Prompt.lnk
+%APPDATA%\Microsoft\Windows\Start Menu\Programs\System Tools\Command Prompt.lnk
+</code></pre>
+<h3 id="默认用户配置"><a href="#默认用户配置" class="headerlink" title="默认用户配置"></a>默认用户配置</h3><pre><code>%USERPROFILE%\..\Default\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\System Tools\Command Prompt.lnk
+%USERPROFILE%\..\Default\AppData\Local\Microsoft\Windows\WinX\Group3\01 - Command Prompt.lnk
+%USERPROFILE%\..\Default\AppData\Local\Microsoft\Windows\WinX\Group3\02 - Command Prompt.lnk
+</code></pre>
+<h2 id="修改方法"><a href="#修改方法" class="headerlink" title="修改方法"></a>修改方法</h2><p>在对应链接文件上点击右键，修改起始位置为你需要的目录即可。</p>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Windows-命令行窗口的启动目录"><span class="toc-number">1.</span> <span class="toc-text">Windows 命令行窗口的启动目录</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#菜单中的命令提示符的链接文件"><span class="toc-number">1.1.</span> <span class="toc-text">菜单中的命令提示符的链接文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#当前用户配置"><span class="toc-number">1.1.1.</span> <span class="toc-text">当前用户配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#默认用户配置"><span class="toc-number">1.1.2.</span> <span class="toc-text">默认用户配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改方法"><span class="toc-number">1.2.</span> <span class="toc-text">修改方法</span></a></li></ol></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

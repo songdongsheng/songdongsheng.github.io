@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Build BusyBox in Docker | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>Build BusyBox in Docker</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2020年04月12日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/C-C/">C/C++</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tags" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#C/C++" class='tag'>C/C++</a>
+
+
+            
+          </div>
+          <h1 id="Build-BusyBox-in-Docker"><a href="#Build-BusyBox-in-Docker" class="headerlink" title="Build BusyBox in Docker"></a>Build BusyBox in Docker</h1><h2 id="Download-BusyBox"><a href="#Download-BusyBox" class="headerlink" title="Download BusyBox"></a>Download BusyBox</h2><pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># aria2c https://busybox.net/downloads/busybox-1.31.1.tar.bz2</span>
+
+06/09 13:43:20 <span class="token punctuation">[</span>NOTICE<span class="token punctuation">]</span> Downloading 1 item<span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+
+06/09 13:43:21 <span class="token punctuation">[</span>NOTICE<span class="token punctuation">]</span> Download complete: /tmp/tmp.e6xObfyoNJ/busybox-1.31.1.tar.bz2
+
+Download Results:
+gid   <span class="token operator">|</span><span class="token function">stat</span><span class="token operator">|</span>avg speed  <span class="token operator">|</span>path/URI
+<span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span>+<span class="token operator">==</span><span class="token operator">==</span>+<span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">=</span>+<span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">=</span>
+201313<span class="token operator">|</span>OK  <span class="token operator">|</span>    12MiB/s<span class="token operator">|</span>/tmp/tmp.e6xObfyoNJ/busybox-1.31.1.tar.bz2
+
+Status Legend:
+<span class="token punctuation">(</span>OK<span class="token punctuation">)</span>:download completed.
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Build-BusyBox-by-Fedora"><a href="#Build-BusyBox-by-Fedora" class="headerlink" title="Build BusyBox by Fedora"></a>Build BusyBox by Fedora</h2><h3 id="Create-the-Container"><a href="#Create-the-Container" class="headerlink" title="Create the Container"></a>Create the Container</h3><pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># docker run --rm -it -v `pwd`:/root -w /tmp fedora:31</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="Setup-repository-mirrors"><a href="#Setup-repository-mirrors" class="headerlink" title="Setup repository mirrors"></a>Setup repository mirrors</h3><p>Only if you are happy with the my repository settings of <a href="fedora.repo">Fedora</a>.</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># rm -f /etc/yum.repos.d/*</span>
+<span class="token comment" spellcheck="true"># cp /root/fedora.repo /etc/yum.repos.d/</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="Install-packages"><a href="#Install-packages" class="headerlink" title="Install packages"></a>Install packages</h3><pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># dnf upgrade --setopt=install_weak_deps=False --best --assumeyes</span>
+<span class="token comment" spellcheck="true"># dnf install --setopt=install_weak_deps=False --best --assumeyes \</span>
+    <span class="token function">bzip2</span> <span class="token function">which</span> findutils diffutils <span class="token function">file</span> procps-ng <span class="token function">make</span> gcc
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="Build-BusyBox"><a href="#Build-BusyBox" class="headerlink" title="Build BusyBox"></a>Build BusyBox</h3><pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># tar -xjf /root/busybox-1.31.1.tar.bz2</span>
+<span class="token comment" spellcheck="true"># cd busybox-1.31.1/</span>
+
+<span class="token comment" spellcheck="true"># make defconfig</span>
+<span class="token comment" spellcheck="true"># make -j4</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Verification"><a href="#Verification" class="headerlink" title="Verification"></a>Verification</h3><pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># du -ks busybox busybox_unstripped</span>
+944     busybox
+1108    busybox_unstripped
+
+<span class="token comment" spellcheck="true"># file busybox busybox_unstripped</span>
+busybox:            ELF 64-bit LSB executable, x86-64, version 1 <span class="token punctuation">(</span>SYSV<span class="token punctuation">)</span>, dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID<span class="token punctuation">[</span>sha1<span class="token punctuation">]</span><span class="token operator">=</span>17eedba515201d32d51f6d010dab4058562cd300, <span class="token keyword">for</span> GNU/Linux 3.2.0, stripped
+busybox_unstripped: ELF 64-bit LSB executable, x86-64, version 1 <span class="token punctuation">(</span>SYSV<span class="token punctuation">)</span>, dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID<span class="token punctuation">[</span>sha1<span class="token punctuation">]</span><span class="token operator">=</span>17eedba515201d32d51f6d010dab4058562cd300, <span class="token keyword">for</span> GNU/Linux 3.2.0, not stripped
+
+<span class="token comment" spellcheck="true"># ./busybox</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Build-BusyBox-by-Ubuntu-or-Debian"><a href="#Build-BusyBox-by-Ubuntu-or-Debian" class="headerlink" title="Build BusyBox by Ubuntu or Debian"></a>Build BusyBox by Ubuntu or Debian</h2><h3 id="Create-the-Container-1"><a href="#Create-the-Container-1" class="headerlink" title="Create the Container"></a>Create the Container</h3><p>For Ubuntu:</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># docker run --rm -it -v `pwd`:/root -w /tmp ubuntu:18.04</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>For Debian:</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># docker run --rm -it -v `pwd`:/root -w /tmp debian:10</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="Setup-repository-mirrors-1"><a href="#Setup-repository-mirrors-1" class="headerlink" title="Setup repository mirrors"></a>Setup repository mirrors</h3><p>Only if you are happy with the my repository settings of <a href="sources-1804.list">Ubuntu</a> or <a href="sources-10.list">Debian</a>.</p>
+<p>For Ubuntu:</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># cp /root/sources-1804.list /etc/apt/sources.list</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>For Debian:</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># cp /root/sources-10.list /etc/apt/sources.list</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="Install-packages-1"><a href="#Install-packages-1" class="headerlink" title="Install packages"></a>Install packages</h3><pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># apt-get update &amp;&amp; apt-get dist-upgrade -y</span>
+<span class="token comment" spellcheck="true"># apt-get install -y --no-install-recommends \</span>
+    <span class="token function">bzip2</span> findutils diffutils <span class="token function">file</span> procps <span class="token function">make</span> gcc libc6-dev
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="Build-BusyBox-1"><a href="#Build-BusyBox-1" class="headerlink" title="Build BusyBox"></a>Build BusyBox</h3><pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># tar -xjf /root/busybox-1.31.1.tar.bz2</span>
+<span class="token comment" spellcheck="true"># cd busybox-1.31.1/</span>
+
+<span class="token comment" spellcheck="true"># make defconfig</span>
+<span class="token comment" spellcheck="true"># make -j4</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Verification-1"><a href="#Verification-1" class="headerlink" title="Verification"></a>Verification</h3><p>For Ubuntu:</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># du -ks busybox busybox_unstripped</span>
+1024    busybox
+1192    busybox_unstripped
+
+<span class="token comment" spellcheck="true"># file busybox busybox_unstripped</span>
+busybox:            ELF 64-bit LSB shared object, x86-64, version 1 <span class="token punctuation">(</span>SYSV<span class="token punctuation">)</span>, dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, <span class="token keyword">for</span> GNU/Linux 3.2.0, BuildID<span class="token punctuation">[</span>sha1<span class="token punctuation">]</span><span class="token operator">=</span>716c4b5f55a8fa42cc3d2935320ec949a25a628d, stripped
+busybox_unstripped: ELF 64-bit LSB shared object, x86-64, version 1 <span class="token punctuation">(</span>SYSV<span class="token punctuation">)</span>, dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, <span class="token keyword">for</span> GNU/Linux 3.2.0, BuildID<span class="token punctuation">[</span>sha1<span class="token punctuation">]</span><span class="token operator">=</span>716c4b5f55a8fa42cc3d2935320ec949a25a628d, not stripped
+
+<span class="token comment" spellcheck="true"># ./busybox</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>For Debian:</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># du -ks busybox busybox_unstripped</span>
+984     busybox
+1148    busybox_unstripped
+
+<span class="token comment" spellcheck="true"># file busybox busybox_unstripped</span>
+busybox:            ELF 64-bit LSB pie executable, x86-64, version 1 <span class="token punctuation">(</span>SYSV<span class="token punctuation">)</span>, dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, <span class="token keyword">for</span> GNU/Linux 3.2.0, BuildID<span class="token punctuation">[</span>sha1<span class="token punctuation">]</span><span class="token operator">=</span>af33517e2bf0576ee99f201ef211b3cf1a1c4d28, stripped
+busybox_unstripped: ELF 64-bit LSB pie executable, x86-64, version 1 <span class="token punctuation">(</span>SYSV<span class="token punctuation">)</span>, dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, <span class="token keyword">for</span> GNU/Linux 3.2.0, BuildID<span class="token punctuation">[</span>sha1<span class="token punctuation">]</span><span class="token operator">=</span>af33517e2bf0576ee99f201ef211b3cf1a1c4d28, not stripped
+
+<span class="token comment" spellcheck="true"># ./busybox</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Build-BusyBox-in-Docker"><span class="toc-number">1.</span> <span class="toc-text">Build BusyBox in Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Download-BusyBox"><span class="toc-number">1.1.</span> <span class="toc-text">Download BusyBox</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Build-BusyBox-by-Fedora"><span class="toc-number">1.2.</span> <span class="toc-text">Build BusyBox by Fedora</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-the-Container"><span class="toc-number">1.2.1.</span> <span class="toc-text">Create the Container</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Setup-repository-mirrors"><span class="toc-number">1.2.2.</span> <span class="toc-text">Setup repository mirrors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Install-packages"><span class="toc-number">1.2.3.</span> <span class="toc-text">Install packages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Build-BusyBox"><span class="toc-number">1.2.4.</span> <span class="toc-text">Build BusyBox</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Verification"><span class="toc-number">1.2.5.</span> <span class="toc-text">Verification</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Build-BusyBox-by-Ubuntu-or-Debian"><span class="toc-number">1.3.</span> <span class="toc-text">Build BusyBox by Ubuntu or Debian</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-the-Container-1"><span class="toc-number">1.3.1.</span> <span class="toc-text">Create the Container</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Setup-repository-mirrors-1"><span class="toc-number">1.3.2.</span> <span class="toc-text">Setup repository mirrors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Install-packages-1"><span class="toc-number">1.3.3.</span> <span class="toc-text">Install packages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Build-BusyBox-1"><span class="toc-number">1.3.4.</span> <span class="toc-text">Build BusyBox</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Verification-1"><span class="toc-number">1.3.5.</span> <span class="toc-text">Verification</span></a></li></ol></li></ol></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

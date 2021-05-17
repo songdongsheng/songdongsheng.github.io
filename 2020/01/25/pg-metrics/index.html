@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>pg metrics | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>pg metrics</h1>
+          <div class='post-meta'>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2020年01月25日</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/SQL/">SQL</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tags" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#SQL" class='tag'>SQL</a>
+
+
+            
+          </div>
+          <h1 id="pgmetrics"><a href="#pgmetrics" class="headerlink" title="pgmetrics"></a>pgmetrics</h1><ul>
+<li><a href="https://pgmetrics.io/" target="_blank" rel="noopener">https://pgmetrics.io/</a></li>
+<li><a href="https://pgmetrics.io/docs/" target="_blank" rel="noopener">https://pgmetrics.io/docs/</a></li>
+<li><a href="https://github.com/rapidloop/pgmetrics" target="_blank" rel="noopener">https://github.com/rapidloop/pgmetrics</a></li>
+</ul>
+<p>pgmetrics is an open-source, zero-dependency, single-binary tool that can collect a lot of information and statistics from a running PostgreSQL server and display it in easy-to-read text format or export it as JSON and CSV for scripting.</p>
+<ul>
+<li>Subsystem Info</li>
+<li>Database Info</li>
+<li>Table Info</li>
+<li>Log Files</li>
+<li>Easy-to-use CLI</li>
+<li>Zero Dependency</li>
+</ul>
+<h2 id="Sample-output"><a href="#Sample-output" class="headerlink" title="Sample output"></a>Sample output</h2><pre><code>pgmetrics run at: 20 Dec 2019 6:41:13 AM (now)
+
+PostgreSQL Cluster:
+    Name:                10/main
+    Server Version:      10.10
+    Server Started:      20 Dec 2019 6:32:35 AM (8 minutes ago)
+    System Identifier:   6772342791073124390
+    Timeline:            1
+    Last Checkpoint:     20 Dec 2019 6:32:15 AM (8 minutes ago)
+    Prior LSN:           0/1692308
+    REDO LSN:            0/16923B0 (168 B since Prior)
+    Checkpoint LSN:      0/16923B0 (0 B since REDO)
+    Transaction IDs:     548 to 563 (diff = 15)
+    Notification Queue:  0.0% used
+    Active Backends:     1 (max 1000)
+    Recovery Mode?       no
+
+WAL Files:
+    WAL Archiving?       no
+    +--------------------+---------------+
+    |            Setting |         Value |
+    +--------------------+---------------+
+    |          wal_level |       logical |
+    |    archive_timeout |             0 |
+    |    wal_compression |            on |
+    |       max_wal_size | 2048 (32 GiB) |
+    |       min_wal_size |  64 (1.0 GiB) |
+    | checkpoint_timeout |           600 |
+    |   full_page_writes |            on |
+    |  wal_keep_segments |             8 |
+    +--------------------+---------------+
+
+BG Writer:
+    Checkpoint Rate:     0.12 per min
+    Average Write:       8.8 KiB per checkpoint
+    Total Checkpoints:   24 sched (80.0%) + 6 req (20.0%) = 30
+    Total Write:         264 KiB, @ 17 B per sec
+    Buffers Allocated:   651 (5.1 MiB)
+    Buffers Written:     33 chkpt (100.0%) + 0 bgw (0.0%) + 0 be (0.0%)
+    Clean Scan Stops:    0
+    BE fsyncs:           0
+    Counts Since:        20 Dec 2019 2:28:52 AM (4 hours ago)
+    +------------------------------+--------------+
+    |                      Setting |        Value |
+    +------------------------------+--------------+
+    |               bgwriter_delay |     200 msec |
+    |         bgwriter_flush_after | 64 (512 KiB) |
+    |        bgwriter_lru_maxpages |          100 |
+    |      bgwriter_lru_multiplier |            2 |
+    |                   block_size |         8192 |
+    |           checkpoint_timeout |      600 sec |
+    | checkpoint_completion_target |         0.96 |
+    +------------------------------+--------------+
+
+Backends:
+    Total Backends:      1 (0.1% of max 1000)
+    Problematic:         0 waiting on locks, 0 waiting on other, 0 xact too long, 0 idle in xact
+
+Locks:
+    +------------+-------------+-------+
+    |  Lock Type | Not Granted | Total |
+    +------------+-------------+-------+
+    |   relation |           0 |     4 |
+    | virtualxid |           0 |     1 |
+    +------------+-------------+-------+
+    |            |           0 |     5 |
+    +------------+-------------+-------+
+
+Vacuum Progress:
+    No manual or auto vacuum jobs in progress.
+    +------------------------------+----------------+
+    |                      Setting |          Value |
+    +------------------------------+----------------+
+    |         maintenance_work_mem | 65536 (64 MiB) |
+    |                   autovacuum |             on |
+    | autovacuum_analyze_threshold |             50 |
+    |  autovacuum_vacuum_threshold |             50 |
+    |    autovacuum_freeze_max_age |      200000000 |
+    |       autovacuum_max_workers |              3 |
+    |           autovacuum_naptime |         60 sec |
+    |        vacuum_freeze_min_age |       50000000 |
+    |      vacuum_freeze_table_age |      150000000 |
+    +------------------------------+----------------+
+
+Roles:
+    +----------------------+-------+------+-------+-----------+----------+------------+---------+---------+--------------------------------------------------------------+
+    |                 Name | Login | Repl | Super | Creat Rol | Creat DB | Bypass RLS | Inherit | Expires |                                                    Member Of |
+    +----------------------+-------+------+-------+-----------+----------+------------+---------+---------+--------------------------------------------------------------+
+    |             postgres |   yes |  yes |   yes |       yes |      yes |        yes |     yes |         |                                                              |
+    |           pg_monitor |       |      |       |           |          |            |     yes |         | pg_read_all_settings, pg_read_all_stats, pg_stat_scan_tables |
+    | pg_read_all_settings |       |      |       |           |          |            |     yes |         |                                                              |
+    |    pg_read_all_stats |       |      |       |           |          |            |     yes |         |                                                              |
+    |  pg_stat_scan_tables |       |      |       |           |          |            |     yes |         |                                                              |
+    |    pg_signal_backend |       |      |       |           |          |            |     yes |         |                                                              |
+    |            collector |   yes |      |       |           |          |            |     yes |         |                                                              |
+    |           replicator |   yes |      |       |           |          |            |     yes |         |                                                              |
+    |                  idg |   yes |      |       |           |          |            |     yes |         |                                                              |
+    +----------------------+-------+------+-------+-----------+----------+------------+---------+---------+--------------------------------------------------------------+
+
+Tablespaces:
+    +------------+----------+----------+--------+
+    |       Name |    Owner | Location |   Size |
+    +------------+----------+----------+--------+
+    | pg_default | postgres |          | 45 MiB |
+    |  pg_global | postgres |          |        |
+    +------------+----------+----------+--------+
+
+Database #1:
+    Name:                postgres
+    Owner:               postgres
+    Tablespace:          pg_default
+    Connections:         0 (no max limit)
+    Frozen Xid Age:      16
+    Transactions:        2014 (100.0%) commits, 0 (0.0%) rollbacks
+    Cache Hits:          99.6%
+    Rows Changed:        ins 0.0%, upd 0.0%, del 0.0%
+    Total Temp:          0 B in 0 files
+    Problems:            0 deadlocks, 0 conflicts
+    Totals Since:        20 Dec 2019 2:28:53 AM (4 hours ago)
+    Size:                7.6 MiB
+
+Database #2:
+    Name:                collector
+    Owner:               collector
+    Tablespace:          pg_default
+    Connections:         0 (no max limit)
+    Frozen Xid Age:      16
+    Transactions:        0 (0.0%) commits, 0 (0.0%) rollbacks
+    Cache Hits:          0.0%
+    Rows Changed:        ins 0.0%, upd 0.0%, del 0.0%
+    Total Temp:          0 B in 0 files
+    Problems:            0 deadlocks, 0 conflicts
+    Totals Since:
+    Size:                7.5 MiB
+
+Database #3:
+    Name:                replicator
+    Owner:               replicator
+    Tablespace:          pg_default
+    Connections:         0 (no max limit)
+    Frozen Xid Age:      16
+    Transactions:        0 (0.0%) commits, 0 (0.0%) rollbacks
+    Cache Hits:          0.0%
+    Rows Changed:        ins 0.0%, upd 0.0%, del 0.0%
+    Total Temp:          0 B in 0 files
+    Problems:            0 deadlocks, 0 conflicts
+    Totals Since:
+    Size:                7.5 MiB
+
+Database #4:
+    Name:                idg
+    Owner:               idg
+    Tablespace:          pg_default
+    Connections:         1 (no max limit)
+    Frozen Xid Age:      16
+    Transactions:        604 (98.1%) commits, 12 (1.9%) rollbacks
+    Cache Hits:          98.4%
+    Rows Changed:        ins 92.0%, upd 8.0%, del 0.0%
+    Total Temp:          0 B in 0 files
+    Problems:            0 deadlocks, 0 conflicts
+    Totals Since:        20 Dec 2019 2:28:54 AM (4 hours ago)
+    Size:                7.7 MiB
+    Installed Extensions:
+      +---------+---------+------------------------------+
+      |    Name | Version |                      Comment |
+      +---------+---------+------------------------------+
+      | plpgsql |     1.0 | PL/pgSQL procedural language |
+      +---------+---------+------------------------------+
+
+Table #1 in &quot;idg&quot;:
+    Name:                idg.public.idg_state
+    Columns:             3
+    Manual Vacuums:      never
+    Manual Analyze:      never
+    Auto Vacuums:        never
+    Auto Analyze:        never
+    Post-Analyze:        0.0% est. rows modified
+    Row Estimate:        0.0% live of total 0
+    Rows Changed:        ins 0.0%, upd 0.0%, del 0.0%
+    HOT Updates:         0.0% of all updates
+    Seq Scans:           1, 0.0 rows/scan
+    Idx Scans:           0, 0.0 rows/scan
+    Cache Hits:          0.0% (idx=0.0%)
+    Size:                0 B
+    +----------------+-------+---------+-------+------------+-------+----------------+-------------------+
+    |          Index |  Type |    Size | Bloat | Cache Hits | Scans | Rows Read/Scan | Rows Fetched/Scan |
+    +----------------+-------+---------+-------+------------+-------+----------------+-------------------+
+    | idg_state_pkey | btree | 8.0 KiB |       |            |     0 |            0.0 |               0.0 |
+    +----------------+-------+---------+-------+------------+-------+----------------+-------------------+
+</code></pre>
+
+        </section>
+    </article>
+    
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#pgmetrics"><span class="toc-number">1.</span> <span class="toc-text">pgmetrics</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Sample-output"><span class="toc-number">1.1.</span> <span class="toc-text">Sample output</span></a></li></ol></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2021 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/in-view.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>
