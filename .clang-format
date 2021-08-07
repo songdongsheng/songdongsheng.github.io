@@ -1,0 +1,25 @@
+# https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+# clang-format -style=file -dump-config
+# clang-format -style="{BasedOnStyle: Google}" -dump-config
+---
+BasedOnStyle:  Google
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+BraceWrapping:
+  AfterEnum:        true
+  AfterExternBlock: true
+  AfterFunction:    true
+  AfterNamespace:   true
+  AfterStruct:      true
+  AfterUnion:       true
+BreakBeforeBraces: Linux
+ColumnLimit:     120
+IndentWidth:     4
+NamespaceIndentation: All
+ObjCBlockIndentWidth: 4
+PointerAlignment: Right
+SortIncludes: CaseInsensitive
+SpaceAfterCStyleCast: true
+SpacesInContainerLiterals: false
+TabWidth:        4
+IndentPPDirectives: AfterHash
