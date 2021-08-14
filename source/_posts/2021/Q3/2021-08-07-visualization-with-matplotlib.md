@@ -5,7 +5,7 @@ date: 2021-08-07 22:14:17
 tags:
     - Programming
     - Python
-categories: [Programming, Git]
+categories: [Programming, Python]
 permalink: visualization-with-matplotlib
 ---
 
@@ -165,7 +165,7 @@ plt.rcParams['savefig.format'] = 'svg'
 print("savefig.format: {}".format(plt.rcParams['savefig.format']))
 ```
 
-## Documentation
+## Reference
 
 + [User's Guide](https://matplotlib.org/stable/users/index.html)
 + [Matplotlib's Gallery](https://matplotlib.org/stable/gallery/index.html)

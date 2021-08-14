@@ -4,8 +4,8 @@ description: SCTP over UDP in the Linux kernel
 date: 2021-08-08 10:36:55
 tags:
     - Programming
-    - Python
-categories: [Programming, Git]
+    - C
+categories: [Programming, C]
 permalink: sctp-over-udp-in-the-linux-kernel
 ---
 
@@ -75,7 +75,7 @@ On the receiver side, the encapsulation port normally doesn’t need to be set:
 
 If you’re using SCTP and enjoying its features, like multi-homing, multi-streaming, and partial-reliability, but having issues with middleboxes, the Linux kernel now provides an easier way to get around them.
 
-## Documentation
+## Reference
 
 + [RFC 6951: UDP Encapsulation of SCTP Packets](https://datatracker.ietf.org/doc/html/rfc6951)
 + [PATCH v4 net-next 00/16 sctp: Implement RFC6951: UDP Encapsulation of SCTP](https://lore.kernel.org/netdev/cover.1603110316.git.lucien.xin@gmail.com/T/)
