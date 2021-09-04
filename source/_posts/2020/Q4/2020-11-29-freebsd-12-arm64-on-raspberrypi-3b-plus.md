@@ -347,6 +347,8 @@ If you logging remotely, **freebsd/freebsd** is mandatory, since **root** remote
 # vi /etc/ssh/sshd_config
     PermitRootLogin yes
     #PermitRootLogin prohibit-password
+    PasswordAuthentication yes
+    UseDNS no
 
 # /etc/rc.d/sshd reload
 Performing sanity check on sshd configuration.

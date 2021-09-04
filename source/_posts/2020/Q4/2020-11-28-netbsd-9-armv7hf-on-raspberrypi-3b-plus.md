@@ -613,6 +613,7 @@ machdep.synchprim_present = 32
 [     2.713874] (manufacturer 0x2d0, product 0xa9a6) at sdmmc1 function 1 not configured
 [     2.723876] (manufacturer 0x2d0, product 0xa9a6) at sdmmc1 function 2 not configured
 [     2.733877] (manufacturer 0x2d0, product 0xa9a6, standard function interface code 0x2) at sdmmc1 function 3 not configured
+````
 
 ### mounts
 
