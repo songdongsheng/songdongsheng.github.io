@@ -18,7 +18,11 @@ Generally, We can compiling Rust applications for the Windows target **x86_64-pc
 ### The target directory
 
 ```shell
+# x86_64-unknown-linux-gnu -> x86_64-pc-windows-msvc
 export RUST_MSVC_LIB_PATH=${RUSTUP_HOME:-~/.rustup}/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/x86_64-pc-windows-msvc/lib
+
+# x86_64-unknown-linux-musl -> x86_64-pc-windows-msvc
+export RUST_MSVC_LIB_PATH=${RUSTUP_HOME:-~/.rustup}/toolchains/stable-x86_64-unknown-linux-musl/lib/rustlib/x86_64-pc-windows-msvc/lib
 ```
 
 ### Copy VC runtime libraries
@@ -27,8 +31,8 @@ export RUST_MSVC_LIB_PATH=${RUSTUP_HOME:-~/.rustup}/toolchains/stable-x86_64-unk
 
 ```shell
 # You need adjust the source directory if needed.
-cd "/mnt/c/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Tools/MSVC/14.28.29910/lib/x64"
-cd "/mnt/c/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/14.28.29910/lib/x64"
+cd "/mnt/c/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Tools/MSVC/14.29.30133/lib/x64"
+cd "/mnt/c/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/14.29.30133/lib/x64"
 
 cp vcruntime.lib                    ${RUST_MSVC_LIB_PATH}/vcruntime.lib
 cp msvcrt.lib                       ${RUST_MSVC_LIB_PATH}/msvcrt.lib
@@ -45,7 +49,7 @@ cp libcpmt.lib                      ${RUST_MSVC_LIB_PATH}/libcpmt.lib
 
 ```shell
 # You need adjust the source directory if needed.
-cd "/mnt/c/Program Files (x86)/Windows Kits/10/Lib/10.0.18362.0/ucrt/x64"
+cd "/mnt/c/Program Files (x86)/Windows Kits/10/Lib/10.0.19041.0/ucrt/x64"
 
 cp ucrt.lib     ${RUST_MSVC_LIB_PATH}/ucrt.lib
 cp libucrt.lib  ${RUST_MSVC_LIB_PATH}/libucrt.lib
@@ -55,7 +59,7 @@ cp libucrt.lib  ${RUST_MSVC_LIB_PATH}/libucrt.lib
 
 ```shell
 # You need adjust the source directory if needed.
-cd "/mnt/c/Program Files (x86)/Windows Kits/10/Lib/10.0.18362.0/um/x64"
+cd "/mnt/c/Program Files (x86)/Windows Kits/10/Lib/10.0.19041.0/um/x64"
 
 cp AdvAPI32.Lib ${RUST_MSVC_LIB_PATH}/advapi32.lib
 cp bcrypt.lib   ${RUST_MSVC_LIB_PATH}/bcrypt.lib
@@ -129,7 +133,7 @@ EOF
 
 ```bash
 $ rustc -C opt-level=3 -C link-arg="-s" \
-    --target=x86_64-pc-windows-msvc -C linker=lld-link-11 -o hello-world-windows-x86_64.exe \
+    --target=x86_64-pc-windows-msvc -C linker=lld-link -o hello-world-windows-x86_64.exe \
     hello-world.rs
 
 $ du -ks hello-world-windows-x86_64.exe
@@ -181,7 +185,7 @@ File Type: EXECUTABLE IMAGE
 
 ```bash
 $ rustc -C opt-level=3 -C link-arg="-s" -C "target-feature=+crt-static" \
-    --target=x86_64-pc-windows-msvc -C linker=lld-link-11 -o hello-world-windows-x86_64.exe \
+    --target=x86_64-pc-windows-msvc -C linker=lld-link -o hello-world-windows-x86_64.exe \
     hello-world.rs
 
 $ du -ks hello-world-windows-x86_64.exe
