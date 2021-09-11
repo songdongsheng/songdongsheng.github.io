@@ -76,7 +76,7 @@ wscons=YES
 ### sshd
 
 ```bash
-root@netbsd-9:~ vi /etc/sshd/ssh_config
+root@netbsd-9:~ vi /etc/ssh/sshd_config
     PermitRootLogin yes
     PasswordAuthentication yes
     UseDNS no
@@ -120,6 +120,66 @@ pkg_delete -r jpeg
 pkgin update
 ```
 
+### cc
+
+```bash
+root@netbsd-9# cat << EOF | cc -std=c11 -march=haswell -O2 -s -o hello -x c -
+#include <stdio.h>
+int main()
+{
+    printf("Hello, World!\n");
+    return 0;
+}
+EOF
+
+root@netbsd-9# du -ks hello
+6       hello
+
+root@netbsd-9# file hello
+hello: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /usr/libexec/ld.elf_so, for NetBSD 9.2, stripped
+
+root@netbsd-9# readelf -hld hello | grep -E "NEEDED|interpreter"
+      [Requesting program interpreter: /usr/libexec/ld.elf_so]
+ 0x0000000000000001 (NEEDED)             Shared library: [libc.so.12]
+
+root@netbsd-9# ldd hello
+hello:
+        -lc.12 => /usr/lib/libc.so.12
+```
+
+### c++
+
+```bash
+root@netbsd-9# cat << EOF | c++ -std=c++17 -march=haswell -O2 -s -o hello.c++ -x c++ -
+#include <iostream>
+int main()
+{
+    std::cout << "Hello, World!" << std::endl;
+    return 0;
+}
+EOF
+
+root@netbsd-9# du -ks hello.c++
+8       hello.c++
+
+root@netbsd-9# file hello.c++
+hello.c++: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /usr/libexec/ld.elf_so, for NetBSD 9.2, stripped
+
+
+root@netbsd-9# readelf -hld hello.c++  | grep -E "NEEDED|interpreter"
+      [Requesting program interpreter: /usr/libexec/ld.elf_so]
+ 0x0000000000000001 (NEEDED)             Shared library: [libstdc++.so.9]
+ 0x0000000000000001 (NEEDED)             Shared library: [libm.so.0]
+ 0x0000000000000001 (NEEDED)             Shared library: [libc.so.12]
+
+root@netbsd-9# ldd hello.c++
+hello.c++:
+        -lstdc++.9 => /usr/lib/libstdc++.so.9
+        -lm.0 => /usr/lib/libm.so.0
+        -lc.12 => /usr/lib/libc.so.12
+        -lgcc_s.1 => /usr/lib/libgcc_s.so.1
+```
+
 ## Copy NetBSD Library Files to Linux
 
 We can copy all files under **/lib** and **/usr/lib**:
@@ -135,7 +195,10 @@ or a few of them:
 
 ```bash
 root@linux:/opt du -ms x86_64-unknown-netbsd
-8       x86_64-unknown-netbsd
+35      x86_64-unknown-netbsd/
+3       x86_64-unknown-netbsd/lib
+5       x86_64-unknown-netbsd/usr/lib
+27      x86_64-unknown-netbsd/usr/include
 
 root@linux:/opt/x86_64-unknown-netbsd $ find . ! -type d | xargs du -ks
 0       ./lib/libc.so
@@ -148,6 +211,7 @@ root@linux:/opt/x86_64-unknown-netbsd $ find . ! -type d | xargs du -ks
 92      ./lib/libpthread.so.1.4
 0       ./lib/libutil.so
 124     ./lib/libutil.so.7.24
+27380   ./usr/include
 4       ./usr/lib/crt0.o
 4       ./usr/lib/crtbegin.o
 4       ./usr/lib/crtbeginS.o
@@ -168,7 +232,7 @@ root@linux:/opt/x86_64-unknown-netbsd $ find . ! -type d | xargs du -ks
 ### Archive Library Files on NetBSD
 
 ```bash
-root@netbsd-9:~ tar --no-acls --no-xattrs -cvzf x86_64-unknown-netbsd_9.2-STABLE-rust.tar.gz \
+root@netbsd-9:~ tar --no-acls --no-xattrs --no-fflags -cvzf x86_64-unknown-netbsd_9.2-STABLE-rust.tar.gz \
     /lib/libc.so \
     /lib/libc.so.12.213 \
     /lib/libgcc_s.so \
@@ -179,6 +243,7 @@ root@netbsd-9:~ tar --no-acls --no-xattrs -cvzf x86_64-unknown-netbsd_9.2-STABLE
     /lib/libpthread.so.1.4 \
     /lib/libutil.so \
     /lib/libutil.so.7.24 \
+    /usr/include \
     /usr/lib/crt0.o \
     /usr/lib/crtbegin.o \
     /usr/lib/crtbeginS.o \
@@ -234,7 +299,7 @@ Cargo allows local configuration for a particular package as well as global conf
 + (**all parent directories**)/.cargo/config.toml
 + $CARGO_HOME/config.toml which defaults to:
   + Windows: %USERPROFILE%\.cargo\config.toml
-  + Unix: $HOME/.cargo/config.toml
+  + Unix: $HOME/.cargo/config.toml, ${CARGO_HOME:-${HOME}/.cargo}/config.toml
 
 Now we can make rust target **x86_64-unknown-netbsd** use directory **/opt/x86_64-unknown-netbsd** as **sysroot**:
 
