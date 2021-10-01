@@ -1,12 +1,11 @@
 ---
 title: Compile rsync by NDK
-description: Compile rsync by NDK
+excerpt: Compile rsync by NDK
 date: 2020-04-06 11:43:17
 tags:
   - Programming
   - C/C++
 categories: [Programming, C/C++]
-permalink: ndk-rsync-compile
 ---
 
 # Compile rsync by NDK

@@ -1,11 +1,10 @@
 ---
 title: Java 7 concurrent executors UML class diagram
-description: Java 7 concurrent executors UML class diagram
+excerpt: Java 7 concurrent executors UML class diagram
 date: 2019-07-20 19:37:23
 tags:
   - Programming
 categories: [Programming]
-permalink: java-7-concurrent-executors-uml-class-diagram
 ---
 
 # Java 7 concurrent executors UML class diagram

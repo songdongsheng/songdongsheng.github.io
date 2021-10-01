@@ -1,11 +1,10 @@
 ---
 title: Circular Dependencies in Spring
-description: Circular Dependencies in Spring
+excerpt: Circular Dependencies in Spring
 date: 2019-01-19 23:49:26
 tags:
   - Java
 categories: [Programming, Java]
-permalink: spring-circular-dependency
 ---
 
 # Circular Dependencies in Spring

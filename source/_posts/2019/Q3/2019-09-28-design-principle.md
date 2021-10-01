@@ -1,11 +1,10 @@
 ---
 title: Design Principle
-description: Design Principle
+excerpt: Design Principle
 date: 2019-09-28 10:06:07
 tags:
   - Architecture
 categories: [Architecture]
-permalink: design-principle
 ---
 
 # Design Principle

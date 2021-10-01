@@ -1,6 +1,6 @@
 ---
 title: Cross-build NetBSD Program in Linux
-description: Cross-build NetBSD Program in Linux
+excerpt: Cross-build NetBSD Program in Linux
 date: 2021-09-12 23:16:33
 tags:
   - Operating system
@@ -8,7 +8,6 @@ tags:
 categories:
   - Operating system
   - NetBSD
-permalink: cross-build-netbsd-program-in-linux
 ---
 
 # Rust on NetBSD

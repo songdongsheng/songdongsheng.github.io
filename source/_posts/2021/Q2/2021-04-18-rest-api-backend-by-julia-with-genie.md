@@ -1,12 +1,11 @@
 ---
 title: REST API backend by Julia with Genie
-description: REST API backend by Julia with Genie
+excerpt: REST API backend by Julia with Genie
 date: 2021-04-18 23:57:36
 tags:
     - Programming
     - Julia
 categories: [Programming, Julia]
-permalink: rest-api-backend-by-julia-with-genie
 ---
 
 # REST API backend by Julia with Genie

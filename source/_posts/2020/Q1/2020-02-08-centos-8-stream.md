@@ -1,11 +1,10 @@
 ---
 title: CentOS 8 Stream
-description: CentOS 8 Stream
+excerpt: CentOS 8 Stream
 date: 2020-02-08 12:31:5
 tags:
   - Linux
 categories: [Operating system, Linux]
-permalink: centos-8-stream
 ---
 
 ## Using AppStream

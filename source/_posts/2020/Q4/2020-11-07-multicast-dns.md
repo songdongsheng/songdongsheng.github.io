@@ -1,12 +1,11 @@
 ---
 title: Multicast DNS (mDNS)
-description: Multicast DNS (mDNS)
+excerpt: Multicast DNS (mDNS)
 date: 2020-11-07 13:10:21
 tags:
     - Operating system
     - Linux
 categories: [Operating system, Linux]
-permalink: multicast-dns
 ---
 
 # Multicast DNS (mDNS)

@@ -1,11 +1,10 @@
 ---
 title: Linux Kernel and GNU C Library version of common Linux distributions
-description: Linux Kernel and GNU C Library version of common Linux distributions
+excerpt: Linux Kernel and GNU C Library version of common Linux distributions
 date: 2020-02-16 17:08:09
 tags:
   - Linux
 categories: [Operating system, Linux]
-permalink: linux-distribution-kernel-glibc-version
 ---
 
 # Linux Kernel and GNU C Library version of common Linux distributions

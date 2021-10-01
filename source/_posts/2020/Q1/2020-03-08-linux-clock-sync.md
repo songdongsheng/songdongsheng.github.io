@@ -1,12 +1,11 @@
 ---
 title: Synchronization of Linux clocks
-description: Synchronization of Linux clocks
+excerpt: Synchronization of Linux clocks
 date: 2020-03-08 23:41:10
 tags:
   - Cloud
   - Linux
 categories: [Operating system, Linux]
-permalink: Linux-clock-sync
 ---
 
 # Synchronization of computer clocks by NTP and PTP

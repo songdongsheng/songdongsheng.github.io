@@ -1,11 +1,10 @@
 ---
 title: Design patterns card
-description: Design patterns card
+excerpt: Design patterns card
 date: 2019-07-13 08:52:03
 tags:
   - Architecture
 categories: [Architecture]
-permalink: design-patterns-card
 ---
 
 # Design patterns card

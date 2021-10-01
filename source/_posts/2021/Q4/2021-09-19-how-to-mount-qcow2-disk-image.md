@@ -1,6 +1,6 @@
 ---
 title: How to Mount QEMU Disk Image
-description: How to Mount QEMU Disk Image
+excerpt: How to Mount QEMU Disk Image
 date: 2021-09-19 13:32:42
 tags:
   - Operating system
@@ -8,7 +8,6 @@ tags:
 categories:
   - Operating system
   - Windows
-permalink: how-to-mount-qemu-disk-image
 ---
 
 # How to Mount QEMU Disk Image

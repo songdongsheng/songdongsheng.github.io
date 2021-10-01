@@ -1,12 +1,11 @@
 ---
 title: Cross compiling Rust and Running with QEMU or Wine
-description: Cross compiling Rust and Running with QEMU or Wine
+excerpt: Cross compiling Rust and Running with QEMU or Wine
 date: 2021-03-20 11:16:42
 tags:
     - Programming
     - Rust
 categories: [Programming, Rust]
-permalink: rust-cross-compiling-and-running
 ---
 
 # Cross compiling Rust and Running with QEMU or Wine

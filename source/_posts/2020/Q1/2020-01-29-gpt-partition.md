@@ -1,11 +1,10 @@
 ---
 title: GPT Partition
-description: GPT Partition
+excerpt: GPT Partition
 date: 2020-01-29 20:24:27
 tags:
   - Linux
 categories: [Operating system, Linux]
-permalink: gpt-partition
 ---
 
 # GPT Partition

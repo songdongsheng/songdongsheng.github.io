@@ -1,12 +1,11 @@
 ---
 title: SQL insert on conflict
-description: SQL insert on conflict
+excerpt: SQL insert on conflict
 date: 2020-01-05 20:48:13
 tags:
   - Programming
   - SQL
 categories: [Programming, SQL]
-permalink: sql-insert-on-conflict
 ---
 
 # SQL insert on conflict

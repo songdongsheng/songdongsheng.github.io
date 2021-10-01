@@ -1,11 +1,10 @@
 ---
 title: APT configuration and Preference
-description: APT configuration and Preference
+excerpt: APT configuration and Preference
 date: 2020-02-29 14:23:31
 tags:
   - Linux
 categories: [Operating system, Linux]
-permalink: apt-config-pref
 ---
 
 # APT configuration and Preference

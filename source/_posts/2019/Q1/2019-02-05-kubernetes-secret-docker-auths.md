@@ -1,11 +1,10 @@
 ---
 title: Docker authentication information in the Kubernetes secret
-description: Docker login information in the Kubernetes secret
+excerpt: Docker login information in the Kubernetes secret
 date: 2019-02-05 23:20:59
 tags:
   - Kubernetes
 categories: [Cloud, Kubernetes]
-permalink: kubernetes-secret-docker-auths
 ---
 
 # Docker authentication information in the Kubernetes secret

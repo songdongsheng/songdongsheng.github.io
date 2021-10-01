@@ -1,12 +1,11 @@
 ---
 title: Welcome to Cython
-description: Welcome to Cython
+excerpt: Welcome to Cython
 date: 2020-04-18 14:52:15
 tags:
   - Programming
   - Python
 categories: [Programming, Python]
-permalink: welcome-to-cython
 ---
 
 # Welcome to Cython

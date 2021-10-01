@@ -1,11 +1,10 @@
 ---
 title: Speed up apt installation or upgrade
-description: Speed up apt installation or upgrade
+excerpt: Speed up apt installation or upgrade
 date: 2020-02-14 19:09:49
 tags:
   - Linux
 categories: [Operating system, Linux]
-permalink: speed-up-apt-install-upgrade
 ---
 
 # Speed up apt installation or upgrade

@@ -1,12 +1,11 @@
 ---
 title: Cross compiling Rust for Windows MSVC target
-description: Cross compiling Rust for Windows MSVC target
+excerpt: Cross compiling Rust for Windows MSVC target
 date: 2021-03-14 15:51:51
 tags:
     - Programming
     - Rust
 categories: [Programming, Rust]
-permalink: rust-cross-compiling-msvc-target
 ---
 
 # Cross compiling Rust for Windows MSVC target

@@ -62,7 +62,7 @@ jobs:
           git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive
 
           npm version
-          npm install --unsafe-perm --global hexo@4.2.1
+          npm install --unsafe-perm --global hexo@6.2.0
           npm install --unsafe-perm
 
           hexo deploy || true

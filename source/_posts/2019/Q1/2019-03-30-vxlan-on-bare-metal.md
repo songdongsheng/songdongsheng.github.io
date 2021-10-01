@@ -1,12 +1,11 @@
 ---
 title: VXLAN on Bare Metal
-description: VXLAN on Bare Metal
+excerpt: VXLAN on Bare Metal
 date: 2019-03-30 13:20:10
 tags:
   - Programming
   - IP
 categories: [Programming, IP]
-permalink: vxlan-on-bare-metal
 ---
 
 # VXLAN on Bare Metal

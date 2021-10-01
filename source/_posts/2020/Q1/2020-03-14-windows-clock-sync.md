@@ -1,12 +1,11 @@
 ---
 title: Synchronization of Windows Clocks
-description: Synchronization of Windows Clocks
+excerpt: Synchronization of Windows Clocks
 date: 2020-03-14 19:01:21
 tags:
   - Cloud
   - Windows
 categories: [Operating system, Windows]
-permalink: windows-clock-sync
 ---
 
 # Synchronization of Windows Clocks

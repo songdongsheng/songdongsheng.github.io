@@ -1,11 +1,10 @@
 ---
 title: Portable Hardware Locality
-description: Portable Hardware Locality
+excerpt: Portable Hardware Locality
 date: 2019-06-23 22:25:23
 tags:
   - Linux
 categories: [Operating system, Linux]
-permalink: portable-hardware-locality
 ---
 
 # Portable Hardware Locality

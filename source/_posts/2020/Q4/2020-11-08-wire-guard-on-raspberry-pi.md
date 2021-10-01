@@ -1,12 +1,11 @@
 ---
 title: WireGuard on Raspberry Pi
-description: WireGuard on Raspberry Pi
+excerpt: WireGuard on Raspberry Pi
 date: 2020-11-08 22:41:09
 tags:
     - Operating system
     - Linux
 categories: [Operating system, Linux]
-permalink: wire-guard-on-raspberry-pi
 ---
 
 # WireGuard on Raspberry Pi

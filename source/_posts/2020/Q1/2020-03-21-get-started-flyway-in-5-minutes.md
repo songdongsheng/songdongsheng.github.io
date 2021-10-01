@@ -1,12 +1,11 @@
 ---
 title: Get Started Flyway in 5 minutes
-description: Get Started Flyway in 5 minutes
+excerpt: Get Started Flyway in 5 minutes
 date: 2020-03-21 12:46:25
 tags:
   - SQL
   - Programming
 categories: [Programming, SQL]
-permalink: get-started-flyway-in-5-minutes
 ---
 
 # Get Started Flyway in 5 minutes

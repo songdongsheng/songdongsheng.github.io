@@ -1,11 +1,10 @@
 ---
 title: Wi-Fi MAC addres Randomization
-description: Wi-Fi MAC addres Randomization
+excerpt: Wi-Fi MAC addres Randomization
 date: 2020-02-01 09:41:02
 tags:
   - Linux
 categories: [Operating system, Linux]
-permalink: wifi-rand-mac-address
 ---
 
 # Wi-Fi MAC addres Randomization

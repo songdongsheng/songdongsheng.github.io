@@ -1,11 +1,10 @@
 ---
 title: Moving average
-description: Moving average
+excerpt: Moving average
 date: 2019-02-09 10:54:09
 tags:
   - Java
 categories: [Programming, Java]
-permalink: moving-average
 ---
 
 # Moving average

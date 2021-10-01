@@ -1,11 +1,10 @@
 ---
 title: Specify a timeout using a non-blocking method
-description: Specify a timeout using a non-blocking method
+excerpt: Specify a timeout using a non-blocking method
 date: 2019-12-08 14:24:21
 tags:
   - Java
 categories: [Programming, Java]
-permalink: non-blocking-timeout
 ---
 
 # Specify a timeout using a non-blocking method

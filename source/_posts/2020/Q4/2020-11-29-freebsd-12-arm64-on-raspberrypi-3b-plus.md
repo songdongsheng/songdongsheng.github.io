@@ -1,12 +1,11 @@
 ---
 title: FreeBSD 12 arm64 on Raspberry Pi 3B+
-description: FreeBSD 12 arm64 on Raspberry Pi 3B+
+excerpt: FreeBSD 12 arm64 on Raspberry Pi 3B+
 date: 2020-11-29 12:23:41
 tags:
     - Operating system
     - FreeBSD
 categories: [Operating system, FreeBSD]
-permalink: freebsd-12-arm64-on-raspberrypi-3b-plus
 ---
 
 # FreeBSD 12 arm64 on Raspberry Pi 3B+

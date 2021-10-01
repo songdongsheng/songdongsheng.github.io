@@ -1,11 +1,10 @@
 ---
 title: How to set up a WebDAV share with Nginx
-description: How to set up a WebDAV share with Nginx
+excerpt: How to set up a WebDAV share with Nginx
 date: 2020-03-01 21:59:57
 tags:
   - Linux
 categories: [Operating system, Linux]
-permalink: nginx-webdav
 ---
 
 # How to set up a WebDAV share with Nginx

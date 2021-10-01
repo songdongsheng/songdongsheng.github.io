@@ -1,12 +1,11 @@
 ---
 title: Running Ceph inside Docker
-description: Containerize Ceph
+excerpt: Containerize Ceph
 date: 2018-12-15 22:10:48
 tags:
   - Cloud
   - Container
 categories: [Cloud, Container]
-permalink: running-ceph-inside-docker
 ---
 
 # Running Ceph inside Docker

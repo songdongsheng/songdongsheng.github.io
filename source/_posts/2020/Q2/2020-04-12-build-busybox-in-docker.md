@@ -1,12 +1,11 @@
 ---
 title: Build BusyBox in Docker
-description: Build BusyBox in Docker
+excerpt: Build BusyBox in Docker
 date: 2020-04-12 21:01:31
 tags:
   - Programming
   - C/C++
 categories: [Programming, C/C++]
-permalink: build-busybox-in-docker
 ---
 
 # Build BusyBox in Docker

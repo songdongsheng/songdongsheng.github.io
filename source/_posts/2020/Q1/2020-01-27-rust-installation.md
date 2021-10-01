@@ -1,11 +1,10 @@
 ---
 title: Rust installation
-description: Rust installation
+excerpt: Rust installation
 date: 2020-01-27 21:24:53
 tags:
   - Rust
 categories: [Programming, Rust]
-permalink: rust-installation
 ---
 
 # Install Rust

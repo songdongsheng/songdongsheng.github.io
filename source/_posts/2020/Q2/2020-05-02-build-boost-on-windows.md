@@ -1,12 +1,11 @@
 ---
 title: Build Boost on Windows
-description: Build Boost on Windows
+excerpt: Build Boost on Windows
 date: 2020-05-02 18:22:51
 tags:
   - Programming
   - C/C++
 categories: [Programming, C/C++]
-permalink: build-boost-on-windows
 ---
 
 # Build Boost on Windows

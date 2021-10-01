@@ -1,11 +1,10 @@
 ---
 title: Generate CA certificates for Java
-description: Generate CA certificates for Java
+excerpt: Generate CA certificates for Java
 date: 2019-11-16 09:19:03
 tags:
   - Java
 categories: [Programming, Java]
-permalink: java-ca-certificates
 ---
 
 # Generate CA certificates for Java

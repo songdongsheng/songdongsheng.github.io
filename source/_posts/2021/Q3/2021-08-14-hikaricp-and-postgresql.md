@@ -1,12 +1,11 @@
 ---
 title: HikariCP and PostgreSQL
-description: HikariCP and PostgreSQL
+excerpt: HikariCP and PostgreSQL
 date: 2021-08-14 10:45:29
 tags:
     - Programming
     - Java
 categories: [Programming, Java]
-permalink: hikaricp-and-postgresql
 ---
 
 # HikariCP and PostgreSQL

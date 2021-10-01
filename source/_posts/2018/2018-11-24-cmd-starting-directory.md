@@ -1,11 +1,10 @@
 ---
 title: Windows 命令行窗口的启动目录
-description: 描述 Windows 命令行窗口的启动目录的位置，以及修改方法
+excerpt: 描述 Windows 命令行窗口的启动目录的位置，以及修改方法
 date: 2018-11-24 18:46:49
 tags:
   - Windows
 categories: [Operating system, Windows]
-permalink: cmd-starting-directory
 ---
 
 # Windows 命令行窗口的启动目录

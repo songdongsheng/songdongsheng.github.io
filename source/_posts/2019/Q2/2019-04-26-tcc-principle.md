@@ -1,11 +1,10 @@
 ---
 title: TCC principle
-description: TCC principle
+excerpt: TCC principle
 date: 2019-04-26 23:22:38
 tags:
   - Architecture
 categories: [Architecture, TCC]
-permalink: tcc-principle
 ---
 
 # TCC principle

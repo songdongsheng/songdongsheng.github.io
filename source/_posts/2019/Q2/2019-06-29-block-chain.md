@@ -1,11 +1,10 @@
 ---
 title: Block Chain
-description: Block Chain
+excerpt: Block Chain
 date: 2019-06-29 08:23:09
 tags:
   - Trends
 categories: [Trends]
-permalink: block-chain
 ---
 
 # 区块链

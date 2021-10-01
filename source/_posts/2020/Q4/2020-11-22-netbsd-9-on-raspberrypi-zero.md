@@ -1,12 +1,11 @@
 ---
 title: NetBSD 9 on Raspberry Pi Zero
-description: NetBSD 9 on Raspberry Pi Zero
+excerpt: NetBSD 9 on Raspberry Pi Zero
 date: 2020-11-22 10:01:22
 tags:
     - Operating system
     - NetBSD
 categories: [Operating system, NetBSD]
-permalink: netbsd-9-on-raspberrypi-zero
 ---
 
 # NetBSD 9 on Raspberry Pi Zero

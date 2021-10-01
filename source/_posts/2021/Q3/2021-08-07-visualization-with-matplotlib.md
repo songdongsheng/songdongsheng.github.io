@@ -1,12 +1,11 @@
 ---
 title: Visualization with Matplotlib
-description: Visualization with Matplotlib
+excerpt: Visualization with Matplotlib
 date: 2021-08-07 22:14:17
 tags:
     - Programming
     - Python
 categories: [Programming, Python]
-permalink: visualization-with-matplotlib
 ---
 
 # Visualization with Matplotlib

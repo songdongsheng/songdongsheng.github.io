@@ -1,12 +1,11 @@
 ---
 title: Getting the Git Timing Right
-description: Getting the Git Timing Right
+excerpt: Getting the Git Timing Right
 date: 2021-08-01 14:13:30
 tags:
     - Programming
     - Git
 categories: [Programming, Git]
-permalink: getting-the-git-timing-right
 ---
 
 # Getting the Git Timing Right

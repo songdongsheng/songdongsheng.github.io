@@ -1,11 +1,10 @@
 ---
 title: Six ways to improve communication skills
-description: Six ways to improve communication skills
+excerpt: Six ways to improve communication skills
 date: 2019-12-28 15:10:10
 tags:
   - Trends
 categories: [Trends]
-permalink: six-ways-to-improve-communication-skills
 ---
 
 # 提高沟通交流技能的六个方法

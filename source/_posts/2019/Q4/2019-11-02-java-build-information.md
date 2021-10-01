@@ -1,11 +1,10 @@
 ---
 title: Java build information
-description: Java build information
+excerpt: Java build information
 date: 2019-11-02 14:25:32
 tags:
   - Java
 categories: [Programming, Java]
-permalink: java-build-information
 ---
 
 # Detecting build version and time at runtime

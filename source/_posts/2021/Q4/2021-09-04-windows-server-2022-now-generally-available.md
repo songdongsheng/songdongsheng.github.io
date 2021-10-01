@@ -1,6 +1,6 @@
 ---
 title: Windows Server 2022 generally available
-description: Windows Server 2022 generally available
+excerpt: Windows Server 2022 generally available
 date: 2021-09-04 22:48:51
 tags:
   - Operating system
@@ -8,7 +8,6 @@ tags:
 categories:
   - Operating system
   - Windows
-permalink: windows-server-2022-generally-available
 ---
 
 # Windows Server 2022 generally available

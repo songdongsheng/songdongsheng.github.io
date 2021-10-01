@@ -1,12 +1,11 @@
 ---
 title: NetBSD 9 aarch64 on Raspberry Pi 3B+
-description: NetBSD 9 aarch64 on Raspberry Pi 3B+
+excerpt: NetBSD 9 aarch64 on Raspberry Pi 3B+
 date: 2020-11-28 23:08:17
 tags:
     - Operating system
     - NetBSD
 categories: [Operating system, NetBSD]
-permalink: netbsd-9-aarch64-on-raspberrypi-3b-plus
 ---
 
 # NetBSD 9 aarch64 on Raspberry Pi 3B+

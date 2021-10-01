@@ -1,12 +1,11 @@
 ---
 title: Julia Data Types
-description: Julia Data Types
+excerpt: Julia Data Types
 date: 2021-04-17 08:11:15
 tags:
     - Programming
     - Julia
 categories: [Programming, Julia]
-permalink: julia-data-types
 ---
 
 # Julia Data Types

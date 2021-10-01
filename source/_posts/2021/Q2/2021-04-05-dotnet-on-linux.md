@@ -1,13 +1,12 @@
 ---
 title: .NET on Linux
-description: .NET on Linux
+excerpt: .NET on Linux
 date: 2021-04-05 23:53:39
 tags:
     - Programming
     - .NET
     - Linux
 categories: [Programming, .NET]
-permalink: dotnet-on-linux
 ---
 
 # .NET on Linux

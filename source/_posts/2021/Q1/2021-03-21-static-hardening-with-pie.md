@@ -1,13 +1,12 @@
 ---
 title: Statically Linked Executable Hardening with PIE
-description: Statically Linked Executable Hardening with PIE
+excerpt: Statically Linked Executable Hardening with PIE
 date: 2021-03-21 23:17:14
 tags:
     - Programming
     - C/C++
     - Linux
 categories: [Programming, C/C++]
-permalink: static-hardening-with-pie
 ---
 
 # Statically Linked Executable Hardening with PIE

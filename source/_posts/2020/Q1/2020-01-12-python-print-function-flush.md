@@ -1,11 +1,10 @@
 ---
 title: How to flush output of Python print function
-description: How to flush output of Python print function
+excerpt: How to flush output of Python print function
 date: 2020-01-12 23:27:26
 tags:
   - Python
 categories: [Programming, Python]
-permalink: python-print-function-flush
 ---
 
 # How to flush output of Python print function

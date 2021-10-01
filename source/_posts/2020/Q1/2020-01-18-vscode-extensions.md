@@ -1,11 +1,10 @@
 ---
 title: List and Install VSCode Extensions
-description: List and Install VSCode Extensions
+excerpt: List and Install VSCode Extensions
 date: 2020-01-18 21:34:51
 tags:
   - VSCode
 categories: [Programming, IDE]
-permalink: vscode-extensions
 ---
 
 # List and Install VSCode Extensions

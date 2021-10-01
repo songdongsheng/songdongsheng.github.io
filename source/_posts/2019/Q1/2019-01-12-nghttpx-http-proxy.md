@@ -1,12 +1,11 @@
 ---
 title: nghttpx http proxy
-description: nghttpx http proxy
+excerpt: nghttpx http proxy
 date: 2019-01-12 23:49:26
 tags:
   - Programming
   - HTTP
 categories: [Programming, HTTP]
-permalink: nghttpx-http-proxy
 ---
 
 # nghttpx http proxy

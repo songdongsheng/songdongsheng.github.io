@@ -1,12 +1,11 @@
 ---
 title: Rsync backup for Android device
-description: Rsync backup for Android device
+excerpt: Rsync backup for Android device
 date: 2020-04-11 09:58:11
 tags:
   - Programming
   - C/C++
 categories: [Programming, C/C++]
-permalink: rsync-backup-for-android-device
 ---
 
 # Rsync backup for Android device

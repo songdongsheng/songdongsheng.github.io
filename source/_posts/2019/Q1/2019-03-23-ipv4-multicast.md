@@ -1,13 +1,12 @@
 ---
 title: IPv4 Multicast technology
-description: IPv4 Multicast technology
+excerpt: IPv4 Multicast technology
 date: 2019-03-23 08:32:28
 tags:
   - Programming
   - IP
   - IPv4
 categories: [Programming, IP]
-permalink: ipv4-multicast
 ---
 
 # IPv4 组播技术

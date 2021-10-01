@@ -1,11 +1,10 @@
 ---
 title: Setup SSH SOCKS5 proxy for Chrome
-description: Setup SSH SOCKS5 proxy for Chrome
+excerpt: Setup SSH SOCKS5 proxy for Chrome
 date: 2020-01-28 22:37:32
 tags:
   - Linux
 categories: [Operating system, Linux]
-permalink: setup-ssh-socks5-proxy-for-chrome
 ---
 
 # Setup SSH SOCKS5 proxy for Chrome

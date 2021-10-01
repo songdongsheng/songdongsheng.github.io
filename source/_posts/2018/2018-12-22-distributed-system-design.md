@@ -1,11 +1,10 @@
 ---
 title: Distributed System Design
-description: Distributed System Design
+excerpt: Distributed System Design
 date: 2018-12-22 11:37:40
 tags:
   - Architecture
 categories: [Architecture]
-permalink: distributed-system-design
 ---
 
 # Distributed System Design

@@ -1,12 +1,11 @@
 ---
 title: "ASGI: Async Python Web Ecosystem"
-description: "ASGI: Async Python Web Ecosystem"
+excerpt: "ASGI: Async Python Web Ecosystem"
 date: 2020-04-25 21:39:00
 tags:
   - Programming
   - Python
 categories: [Programming, Python]
-permalink: asgi-async-python-web-ecosystem
 ---
 
 # ASGI: Async Python Web Ecosystem

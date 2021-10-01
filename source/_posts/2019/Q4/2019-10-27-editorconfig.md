@@ -1,11 +1,10 @@
 ---
 title: Editor Config
-description: Editor Config
+excerpt: Editor Config
 date: 2019-10-27 08:00:15
 tags:
   - IDE
 categories: [Programming, IDE]
-permalink: editorconfig
 ---
 
 # EditorConfig

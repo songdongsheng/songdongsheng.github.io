@@ -1,6 +1,6 @@
 ---
 title: 'Spring Native: What, Why and How'
-description: 'Spring Native: What, Why and How'
+excerpt: 'Spring Native: What, Why and How'
 date: 2021-08-15 21:52:57
 tags:
   - Programming
@@ -8,7 +8,6 @@ tags:
 categories:
   - Programming
   - Java
-permalink: spring-native-what-why-and-how
 ---
 
 # Spring Native: What, Why and How

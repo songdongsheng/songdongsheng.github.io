@@ -1,12 +1,11 @@
 ---
 title: Prometheus Query Language
-description: Prometheus Query Language
+excerpt: Prometheus Query Language
 date: 2021-04-10 16:06:43
 tags:
     - Cloud
     - Kubernetes
 categories: [Cloud, Kubernetes]
-permalink: prometheus-query-language
 ---
 
 # Prometheus Query Language

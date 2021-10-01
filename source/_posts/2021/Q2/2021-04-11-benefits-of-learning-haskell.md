@@ -1,12 +1,11 @@
 ---
 title: Benefits of Learning Haskell
-description: Benefits of Learning Haskell
+excerpt: Benefits of Learning Haskell
 date: 2021-04-11 23:26:32
 tags:
     - Programming
     - Haskell
 categories: [Programming, Haskell]
-permalink: benefits-of-learning-haskell
 ---
 
 # Benefits of Learning Haskell

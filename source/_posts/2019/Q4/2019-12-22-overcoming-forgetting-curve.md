@@ -1,11 +1,10 @@
 ---
 title: Overcoming the Forgetting Curve
-description: Overcoming the Forgetting Curve
+excerpt: Overcoming the Forgetting Curve
 date: 2019-12-22 18:06:42
 tags:
   - Trends
 categories: [Trends]
-permalink: overcoming-forgetting-curve
 ---
 
 # Overcoming the Forgetting Curve

@@ -1,12 +1,11 @@
 ---
 title: Quickly generate certificates by OpenSSL
-description: Quickly generate certificates by OpenSSL
+excerpt: Quickly generate certificates by OpenSSL
 date: 2020-05-01 21:39:00
 tags:
   - Programming
   - C/C++
 categories: [Programming, C/C++]
-permalink: quickly-generate-certificates-by-openssl
 ---
 
 # Quickly generate certificates by OpenSSL

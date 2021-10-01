@@ -1,11 +1,10 @@
 ---
 title: Systemd's Journal Size
-description: Systemd's Journal Size
+excerpt: Systemd's Journal Size
 date: 2019-08-03 23:57:19
 tags:
   - Linux
 categories: [Operating system, Linux]
-permalink: systemd-journal-size
 ---
 
 # Systemd's Journal Size

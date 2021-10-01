@@ -1,12 +1,11 @@
 ---
 title: 常见的 Windows 启动程序位置
-description: 如何从常见的 Windows 启动程序位置找到并且删除项目，或者增加启动程序
+excerpt: 如何从常见的 Windows 启动程序位置找到并且删除项目，或者增加启动程序
 date: 2018-11-25 18:46:49
 tags:
   - Programming
   - Windows
 categories: [Operating system, Windows]
-permalink: windows-boot-startup
 ---
 
 # 常见的 Windows 启动程序位置

@@ -1,11 +1,10 @@
 ---
 title: Eight tips for business negotiation
-description: Eight tips for business negotiation
+excerpt: Eight tips for business negotiation
 date: 2019-08-18 15:21:07
 tags:
   - Trends
 categories: [Trends]
-permalink: eight-tips-for-business-negotiation
 ---
 
 # 商务谈判的八条技巧

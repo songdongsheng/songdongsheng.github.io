@@ -1,11 +1,10 @@
 ---
 title: REST API Error Handling Best Practices
-description: REST API Error Handling Best Practices
+excerpt: REST API Error Handling Best Practices
 date: 2019-09-21 13:28:17
 tags:
   - REST
 categories: [Programming, API]
-permalink: rest-api-errors
 ---
 
 # REST API Error Handling Best Practices

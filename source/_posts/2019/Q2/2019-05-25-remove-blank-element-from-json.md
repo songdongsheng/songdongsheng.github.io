@@ -1,11 +1,10 @@
 ---
 title: Remove blank element from json
-description: Remove blank (null or empty) element from json via jq
+excerpt: Remove blank (null or empty) element from json via jq
 date: 2019-05-25 23:54:57
 tags:
   - JSON
 categories: [Programming, JSON]
-permalink: remove-blank-element-from-json
 ---
 
 # Remove blank element from json

@@ -1,11 +1,10 @@
 ---
 title: nftables load balancer
-description: nftables load balancer
+excerpt: nftables load balancer
 date: 2020-02-09 18:15:39
 tags:
   - Linux
 categories: [Operating system, Linux]
-permalink: nftables-load-balancer
 ---
 
 # nftables load balancer

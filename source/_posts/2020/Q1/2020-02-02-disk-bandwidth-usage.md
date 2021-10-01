@@ -1,11 +1,10 @@
 ---
 title: Disk bandwidth utilization
-description: Disk bandwidth utilization
+excerpt: Disk bandwidth utilization
 date: 2020-02-02 18:50:18
 tags:
   - Linux
 categories: [Operating system, Linux]
-permalink: disk-bandwidth-usage
 ---
 
 # Disk bandwidth utilization

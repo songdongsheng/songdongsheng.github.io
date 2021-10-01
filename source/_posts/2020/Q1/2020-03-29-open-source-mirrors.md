@@ -1,12 +1,11 @@
 ---
 title: Open source mirrors
-description: Open source mirrors
+excerpt: Open source mirrors
 date: 2020-03-29 16:30:07
 tags:
   - Programming
   - HTTP
 categories: [Programming, HTTP]
-permalink: open-source-mirrors
 ---
 
 # Open source mirrors

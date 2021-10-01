@@ -1,13 +1,12 @@
 ---
 title: Realtek RTL8761B based Bluetooth adapter
-description: Realtek RTL8761B based Bluetooth adapter
+excerpt: Realtek RTL8761B based Bluetooth adapter
 date: 2020-11-15 22:11:51
 tags:
     - Operating system
     - Linux
     - Windows
 categories: [Operating system]
-permalink: realtek-rtl8761b-based-bluetooth-adapter
 ---
 
 # Realtek RTL8761B based Bluetooth adapter

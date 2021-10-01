@@ -1,13 +1,12 @@
 ---
 title: 并发编程概述
-description: 并发编程领域可以抽象成三个核心问题：分工、同步和互斥
+excerpt: 并发编程领域可以抽象成三个核心问题：分工、同步和互斥
 date: 2018-11-17 18:46:49
 tags:
   - Programming
   - Java
   - Concurrent
 categories: [Programming, Java]
-permalink: concurrent-programming
 ---
 
 # 并发编程

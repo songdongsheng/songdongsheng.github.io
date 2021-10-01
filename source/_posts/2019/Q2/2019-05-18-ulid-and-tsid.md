@@ -1,11 +1,10 @@
 ---
 title: ULID and TSID
-description: universally unique lexicographically sortable identifier (ULID), trend sorted identifier generator (TSID)
+excerpt: universally unique lexicographically sortable identifier (ULID), trend sorted identifier generator (TSID)
 date: 2019-05-18 15:22:19
 tags:
   - Java
 categories: [Programming, Java]
-permalink: ulid-and-tsid
 ---
 
 # ULID and TSID

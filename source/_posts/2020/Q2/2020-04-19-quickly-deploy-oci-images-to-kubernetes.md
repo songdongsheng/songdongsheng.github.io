@@ -1,11 +1,10 @@
 ---
 title: Quickly deploy OCI images to Kubernetes
-description: Quickly deploy OCI images to Kubernetes
+excerpt: Quickly deploy OCI images to Kubernetes
 date: 2020-04-19 09:32:27
 tags:
   - Kubernetes
 categories: [Cloud, Kubernetes]
-permalink: quickly-deploy-oci-images-to-kubernetes
 ---
 
 # Quickly deploy OCI images to Kubernetes

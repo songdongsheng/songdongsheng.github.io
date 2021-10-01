@@ -1,12 +1,11 @@
 ---
 title: 为 Hadoop 编译 Linux 和 Windows 本机程序
-description: 为 Hadoop 编译 Linux 和 Windows 本机程序
+excerpt: 为 Hadoop 编译 Linux 和 Windows 本机程序
 date: 2018-11-11 19:19:10
 tags:
   - Cloud
   - Hadoop
 categories: [Cloud, Hadoop]
-permalink: hadoop-native-zh
 ---
 
 # 概述

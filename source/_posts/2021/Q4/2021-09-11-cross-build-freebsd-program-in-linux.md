@@ -1,6 +1,6 @@
 ---
 title: Cross-build FreeBSD Program in Linux
-description: Cross-build FreeBSD Program in Linux
+excerpt: Cross-build FreeBSD Program in Linux
 date: 2021-09-11 11:28:47
 tags:
   - Operating system
@@ -8,7 +8,6 @@ tags:
 categories:
   - Operating system
   - FreeBSD
-permalink: cross-build-freebsd-program-in-linux
 ---
 
 # Rust on FreeBSD

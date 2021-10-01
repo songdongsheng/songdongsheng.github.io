@@ -1,11 +1,10 @@
 ---
 title: 4+1 Architectural View Model
-description: 4+1 Architectural View Model
+excerpt: 4+1 Architectural View Model
 date: 2019-02-04 23:20:59
 tags:
   - Architecture
 categories: [Architecture]
-permalink: 4+1_architectural_view_model
 ---
 
 # 4+1 Architectural View Model

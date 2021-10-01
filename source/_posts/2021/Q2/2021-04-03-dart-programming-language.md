@@ -1,12 +1,11 @@
 ---
 title: Dart programming language
-description: Dart programming language
+excerpt: Dart programming language
 date: 2021-04-03 22:00:31
 tags:
     - Programming
     - Dart
 categories: [Programming, Dart]
-permalink: dart-programming-language
 ---
 
 # Dart programming language

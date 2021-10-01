@@ -1,11 +1,10 @@
 ---
 title: The Schema of Azure Event Grid
-description: The Schema of Azure Event Grid
+excerpt: The Schema of Azure Event Grid
 date: 2019-06-08 14:44:12
 tags:
   - Cloud
 categories: [Cloud]
-permalink: schema-of-azure-event-grid
 ---
 
 # The Schema of Azure Event Grid

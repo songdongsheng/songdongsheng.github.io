@@ -1,12 +1,11 @@
 ---
 title: SCTP over UDP in the Linux kernel
-description: SCTP over UDP in the Linux kernel
+excerpt: SCTP over UDP in the Linux kernel
 date: 2021-08-08 10:36:55
 tags:
     - Programming
     - C
 categories: [Programming, C]
-permalink: sctp-over-udp-in-the-linux-kernel
 ---
 
 # SCTP over UDP in the Linux kernel

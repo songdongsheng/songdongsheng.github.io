@@ -1,12 +1,11 @@
 ---
 title: SDXC card SD64G on Raspberry Pi
-description: SDXC card SD64G on Raspberry Pi
+excerpt: SDXC card SD64G on Raspberry Pi
 date: 2020-09-12 17:12:41
 tags:
     - Operating system
     - Linux
 categories: [Operating system]
-permalink: sdxc-card-sd64g-on-raspberry-pi
 ---
 
 # SDXC card SD64G on Raspberry Pi

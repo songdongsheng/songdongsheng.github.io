@@ -1,12 +1,11 @@
 ---
 title: MySQL Aggregate Function GROUP_CONCAT()
-description: MySQL Aggregate Function GROUP_CONCAT()
+excerpt: MySQL Aggregate Function GROUP_CONCAT()
 date: 2019-05-04 14:00:31
 tags:
   - Programming
   - SQL
 categories: [Programming, SQL]
-permalink: group-concat
 ---
 
 # Group concat

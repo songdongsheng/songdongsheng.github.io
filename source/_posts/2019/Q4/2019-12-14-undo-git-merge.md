@@ -1,11 +1,10 @@
 ---
 title: Undo a Git merge that hasn't been pushed yet
-description: Undo a Git merge that hasn't been pushed yet
+excerpt: Undo a Git merge that hasn't been pushed yet
 date: 2019-12-14 22:07:34
 tags:
   - Git
 categories: [Programming, Git]
-permalink: undo-git-merge
 ---
 
 # Undo a Git merge that hasn't been pushed yet

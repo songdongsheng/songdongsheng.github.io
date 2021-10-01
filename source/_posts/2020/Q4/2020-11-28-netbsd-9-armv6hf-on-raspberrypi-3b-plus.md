@@ -1,12 +1,11 @@
 ---
 title: NetBSD 9 armv6hf on Raspberry Pi 3B+
-description: NetBSD 9 armv6hf on Raspberry Pi 3B+
+excerpt: NetBSD 9 armv6hf on Raspberry Pi 3B+
 date: 2020-11-28 14:01:59
 tags:
     - Operating system
     - NetBSD
 categories: [Operating system, NetBSD]
-permalink: netbsd-9-armv6hf-on-raspberrypi-3b-plus
 ---
 
 # NetBSD 9 armv6hf on Raspberry Pi 3B+

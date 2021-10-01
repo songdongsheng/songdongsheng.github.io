@@ -1,11 +1,10 @@
 ---
 title: 未来20年的12个趋势
-description: 未来20年的12个趋势，哪些行业正处于红利期，所有生意的本质是什么？
+excerpt: 未来20年的12个趋势，哪些行业正处于红利期，所有生意的本质是什么？
 date: 2018-12-01 18:46:49
 tags:
   - Trends
 categories: [Trends, Industry]
-permalink: 12-trends-industry
 ---
 
 # 未来20年的12个趋势

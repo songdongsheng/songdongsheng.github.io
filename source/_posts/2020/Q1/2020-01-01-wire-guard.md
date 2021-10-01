@@ -1,11 +1,10 @@
 ---
 title: WireGuard - Next Generation Network Tunnel
-description: WireGuard - Next Generation Network Tunnel
+excerpt: WireGuard - Next Generation Network Tunnel
 date: 2020-01-01 23:16:22
 tags:
     - IP
 categories: [Programming, IP]
-permalink: wire-guard
 ---
 
 # WireGuard

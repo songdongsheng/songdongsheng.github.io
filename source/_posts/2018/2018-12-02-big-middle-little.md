@@ -1,11 +1,10 @@
 ---
 title: DynamIQ - From big.LITTLE to big.Middle.LITTLE
-description: big.LITTLE 技术作为 DynamIQ 的一部分，从而可以形成更复杂的异构处理技术
+excerpt: big.LITTLE 技术作为 DynamIQ 的一部分，从而可以形成更复杂的异构处理技术
 date: 2018-12-02 18:46:49
 tags:
   - Arm
 categories: [Processor, Arm]
-permalink: big-middle-little
 ---
 
 # DynamIQ big.LITTLE 简介

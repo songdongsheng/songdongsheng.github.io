@@ -1,13 +1,12 @@
 ---
 title: Manually generate the Java root certificate
-description: Manually generate the Java root certificate
+excerpt: Manually generate the Java root certificate
 date: 2018-12-30 15:29:17
 tags:
   - Programming
   - Java
   - Security
 categories: [Programming, Java]
-permalink: manually-generate-java-root-certificate
 ---
 
 # Manually generate the Java root certificate

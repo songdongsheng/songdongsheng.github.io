@@ -1,12 +1,11 @@
 ---
 title: Microservices Architecture Principles
-description: Microservices Architecture Principles
+excerpt: Microservices Architecture Principles
 date: 2021-03-28 18:05:52
 tags:
     - Architecture
     - Principle
 categories: [Architecture, Principle]
-permalink: msa-principles
 ---
 
 # Microservices Architecture Principles

@@ -1,11 +1,10 @@
 ---
 title: Drop Linux Cache
-description: Drop Linux Cache
+excerpt: Drop Linux Cache
 date: 2019-06-15 22:50:08
 tags:
   - Linux
 categories: [Operating system, Linux]
-permalink: drop-linux-cache
 ---
 
 # Drop Linux Cache

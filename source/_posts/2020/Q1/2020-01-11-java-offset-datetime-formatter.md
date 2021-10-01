@@ -1,11 +1,10 @@
 ---
 title: Java Offset DateTime Formatter
-description: Java Offset DateTime Formatter
+excerpt: Java Offset DateTime Formatter
 date: 2020-01-11 22:17:27
 tags:
   - Java
 categories: [Programming, Java]
-permalink: java-offset-datetime-formatter
 ---
 
 # Java Offset DateTime Formatter

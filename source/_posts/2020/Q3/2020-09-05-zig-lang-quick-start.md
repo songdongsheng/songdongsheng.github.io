@@ -1,6 +1,6 @@
 ---
 title: Zig Programming Language Quick Start
-description: Zig Programming Language Quick Start
+excerpt: Zig Programming Language Quick Start
 date: 2020-09-05 21:49:41
 tags:
     - Programming
@@ -8,7 +8,6 @@ tags:
     - Linux
     - Windows
 categories: [Programming, Zig]
-permalink: zig-lang-quick-start
 ---
 
 # Zig Programming Language Quick Start

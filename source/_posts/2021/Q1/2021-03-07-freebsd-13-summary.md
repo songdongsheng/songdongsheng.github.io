@@ -1,12 +1,11 @@
 ---
 title: FreeBSD 13 Summary
-description: FreeBSD 13 Summary
+excerpt: FreeBSD 13 Summary
 date: 2021-03-07 11:45:21
 tags:
     - Operating system
     - FreeBSD
 categories: [Operating system, FreeBSD]
-permalink: freebsd-13-summary
 ---
 
 # FreeBSD 13 Summary

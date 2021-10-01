@@ -1,11 +1,10 @@
 ---
 title: ANSI Escape Sequences Colors
-description: ANSI Escape Sequences Colors
+excerpt: ANSI Escape Sequences Colors
 date: 2019-01-26 23:49:26
 tags:
   - Linux
 categories: [Operating system, Linux]
-permalink: ansi-escape-sequence-color
 ---
 
 # ANSI Escape Sequences Colors

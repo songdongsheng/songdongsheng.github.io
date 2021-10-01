@@ -1,12 +1,11 @@
 ---
 title: Kubernetes API Reference
-description: Distributed System Design
+excerpt: Distributed System Design
 date: 2019-01-01 09:57:04
 tags:
   - Cloud
   - Kubernetes
 categories: [Cloud, Kubernetes]
-permalink: kubernetes-api-reference
 ---
 
 # Kubernetes API Reference

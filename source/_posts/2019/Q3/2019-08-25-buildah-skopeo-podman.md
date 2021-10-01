@@ -1,11 +1,10 @@
 ---
 title: Buildah, Skopeo and Podman
-description: Buildah, Skopeo and Podman
+excerpt: Buildah, Skopeo and Podman
 date: 2019-08-25 19:19:09
 tags:
   - Container
 categories: [Cloud, Container]
-permalink: buildah-skopeo-podman
 ---
 
 # Buildah, Skopeo and Podman

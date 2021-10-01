@@ -1,11 +1,10 @@
 ---
 title: Linux Desktop Entry
-description: Linux Desktop Entry
+excerpt: Linux Desktop Entry
 date: 2020-01-26 11:19:25
 tags:
   - Linux
 categories: [Operating system, Linux]
-permalink: linux-desktop-entry
 ---
 
 # Linux Desktop Entry

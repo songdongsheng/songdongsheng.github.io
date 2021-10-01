@@ -1,12 +1,11 @@
 ---
 title: SOLID Principles
-description: SOLID Principles
+excerpt: SOLID Principles
 date: 2021-03-27 16:04:07
 tags:
     - Architecture
     - Principle
 categories: [Architecture, Principle]
-permalink: solid-principles
 ---
 
 # SOLID Principles

@@ -1,13 +1,12 @@
 ---
 title: Running a Container With a Non Root User
-description: Running a Container With a Non Root User
+excerpt: Running a Container With a Non Root User
 date: 2020-02-27 23:27:51
 tags:
   - Cloud
   - Container
   - Linux
 categories: [Cloud, Container]
-permalink: running-container-non-root-user
 ---
 
 # Running a Container With a Non Root User

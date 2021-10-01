@@ -1,12 +1,11 @@
 ---
 title: .NET Core Life Cycle
-description: .NET Core Life Cycle
+excerpt: .NET Core Life Cycle
 date: 2020-03-22 12:46:25
 tags:
   - Programming
   - .NET
 categories: [Programming, .NET]
-permalink: dotnet-core-life-cycle
 ---
 
 # .NET Core Life Cycle

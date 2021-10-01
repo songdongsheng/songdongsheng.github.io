@@ -1,11 +1,10 @@
 ---
 title: USB Bluetooth Adaper
-description: USB Bluetooth Adaper
+excerpt: USB Bluetooth Adaper
 date: 2020-02-25 23:27:51
 tags:
   - Trends
 categories: [Trends]
-permalink: usb-bluetooth-adapter
 ---
 
 # USB Bluetooth Adaper

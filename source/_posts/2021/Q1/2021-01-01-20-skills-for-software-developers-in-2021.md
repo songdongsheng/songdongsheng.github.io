@@ -1,12 +1,11 @@
 ---
 title: 20 Must-Have Skills for Software Developers in 2021
-description: 20 Must-Have Skills for Software Developers in 2021
+excerpt: 20 Must-Have Skills for Software Developers in 2021
 date: 2021-01-01 09:04:10
 tags:
     - Trends
     - Industry
 categories: [Trends, Industry]
-permalink: 20-skills-for-software-developers-in-2021
 ---
 
 # 20 Must-Have Skills for Software Developers in 2021

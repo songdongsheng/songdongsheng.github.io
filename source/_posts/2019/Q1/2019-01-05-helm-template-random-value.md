@@ -1,12 +1,11 @@
 ---
 title: Helm Template random value
-description: Helm Template random value
+excerpt: Helm Template random value
 date: 2019-01-05 21:37:08
 tags:
   - Cloud
   - Kubernetes
 categories: [Cloud, Kubernetes]
-permalink: helm-template-random-value
 ---
 
 # Helm Template random value

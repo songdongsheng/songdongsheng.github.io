@@ -1,11 +1,10 @@
 ---
 title: How to reverse a list of words in a shell string?
-description: How to reverse a list of words in a shell string?
+excerpt: How to reverse a list of words in a shell string?
 date: 2019-11-30 20:03:42
 tags:
   - Linux
 categories: [Operating system, Linux]
-permalink: reverse-words-shell
 ---
 
 # How to reverse a list of words in a shell string?

@@ -1,13 +1,12 @@
 ---
 title: Containers for development
-description: Containers for development
+excerpt: Containers for development
 date: 2020-03-07 10:24:32
 tags:
   - Cloud
   - Container
   - Linux
 categories: [Cloud, Container]
-permalink: containers-for-development
 ---
 
 # Containers for development

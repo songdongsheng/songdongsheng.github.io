@@ -1,12 +1,11 @@
 ---
 title: RBAC principle
-description: RBAC principle
+excerpt: RBAC principle
 date: 2019-04-05 09:21:11
 tags:
   - Architecture
   - RBAC
 categories: [Architecture, RBAC]
-permalink: rbac-principle
 ---
 
 # RBAC principle

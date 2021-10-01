@@ -1,11 +1,10 @@
 ---
 title: Systemd analyze
-description: Systemd analyze
+excerpt: Systemd analyze
 date: 2019-11-09 15:18:23
 tags:
   - Linux
 categories: [Operating system, Linux]
-permalink: systemd-analyze
 ---
 
 # Systemd analyze

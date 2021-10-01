@@ -1,11 +1,10 @@
 ---
 title: 自我管理
-description: 自我管理
+excerpt: 自我管理
 date: 2019-03-16 09:51:47
 tags:
   - Trends
 categories: [Trends, Management]
-permalink: self-management
 ---
 
 # 自我管理

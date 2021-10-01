@@ -1,6 +1,6 @@
 ---
 title: Nested virtualization
-description: Nested virtualization
+excerpt: Nested virtualization
 date: 2021-09-20 10:24:30
 tags:
   - Operating system
@@ -8,7 +8,6 @@ tags:
 categories:
   - Operating system
   - Linux
-permalink: nested-virtualization
 ---
 
 # Nested virtualization

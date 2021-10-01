@@ -1,12 +1,11 @@
 ---
 title: Time of Haskell
-description: Time of Haskell
+excerpt: Time of Haskell
 date: 2021-04-04 11:18:47
 tags:
     - Programming
     - Haskell
 categories: [Programming, Haskell]
-permalink: time-of-haskell
 ---
 
 # Time of Haskell

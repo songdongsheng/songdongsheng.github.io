@@ -1,12 +1,11 @@
 ---
 title: SSH Proxy and Forwarding
-description: SSH Proxy and Forwarding
+excerpt: SSH Proxy and Forwarding
 date: 2020-05-03 15:38:17
 tags:
   - Operating system
   - Linux
 categories: [Operating system, Linux]
-permalink: ssh-proxy-and-forwarding
 ---
 
 # SSH Proxy and Forwarding

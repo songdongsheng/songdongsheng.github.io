@@ -1,11 +1,10 @@
 ---
 title: Lean management
-description: Lean management
+excerpt: Lean management
 date: 2019-02-23 19:27:18
 tags:
   - Trends
 categories: [Trends, Lean]
-permalink: lean-management
 ---
 
 # 精益管理

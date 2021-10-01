@@ -1,12 +1,11 @@
 ---
 title: Performance of ZooKeeper Lock
-description: Performance of ZooKeeper Lock
+excerpt: Performance of ZooKeeper Lock
 date: 2020-03-28 21:33:23
 tags:
   - Programming
   - Java
 categories: [Programming, Java]
-permalink: performance-of-zookeeper-lock
 ---
 
 # Performance of ZooKeeper Lock

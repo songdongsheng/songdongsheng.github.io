@@ -1,13 +1,12 @@
 ---
 title: Realtek RTL8152 Based USB Ethernet Adapter
-description: Realtek RTL8152 Based USB Ethernet Adapter
+excerpt: Realtek RTL8152 Based USB Ethernet Adapter
 date: 2020-11-01 12:16:54
 tags:
     - Operating system
     - Linux
     - Windows
 categories: [Operating system]
-permalink: realtek-rtl8152-based-usb-ethernet-adapter
 ---
 
 # Realtek RTL8152 Based USB Ethernet Adapter

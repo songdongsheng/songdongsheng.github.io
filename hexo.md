@@ -261,7 +261,7 @@
     git config --global --replace-all safe.directory /root
     git submodule update --init --force --remote --recursive
 
-    npm install --unsafe-perm --global hexo@4.2.1 && npm list --global
+    npm install --unsafe-perm --global hexo@6.2.0 && npm list --global
     npm install --unsafe-perm && hexo generate
 
     # https://github.com/sass/node-sass/releases/tag/v4.14.1 Linux 64-bit with Unsupported runtime

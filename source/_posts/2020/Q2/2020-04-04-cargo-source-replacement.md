@@ -1,12 +1,11 @@
 ---
 title: Cargo Source Replacement
-description: Cargo Source Replacement
+excerpt: Cargo Source Replacement
 date: 2020-04-04 16:30:07
 tags:
   - Programming
   - Rust
 categories: [Programming, Rust]
-permalink: cargo-source-replacement
 ---
 
 # Cargo Source Replacement

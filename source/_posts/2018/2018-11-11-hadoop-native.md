@@ -1,12 +1,11 @@
 ---
 title: Hadoop Native
-description: Hadoop Native for Linux and Windows
+excerpt: Hadoop Native for Linux and Windows
 date: 2018-11-11 14:48:33
 tags:
   - Cloud
   - Hadoop
 categories: [Cloud, Hadoop]
-permalink: hadoop-native
 ---
 # Linux kernel 3.10 or later
 ## setup

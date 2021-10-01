@@ -1,11 +1,10 @@
 ---
 title: Life cycle of common Linux distributions
-description: Life cycle of common Linux distributions
+excerpt: Life cycle of common Linux distributions
 date: 2020-02-15 19:09:49
 tags:
   - Linux
 categories: [Operating system, Linux]
-permalink: linux-distribution-lifecycle
 ---
 
 # Life cycle of common Linux distributions

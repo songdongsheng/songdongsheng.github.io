@@ -1,6 +1,6 @@
 ---
 title: Linux Home and End Keys
-description: Linux Home and End Keys
+excerpt: Linux Home and End Keys
 date: 2021-09-25 23:26:33
 tags:
   - Operating system
@@ -8,7 +8,6 @@ tags:
 categories:
   - Operating system
   - Linux
-permalink: linux-home-and-end-keys
 ---
 
 # Linux Home and End Keys

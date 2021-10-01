@@ -1,12 +1,11 @@
 ---
 title: pg metrics
-description: pg metrics
+excerpt: pg metrics
 date: 2020-01-25 17:26:41
 tags:
   - Programming
   - SQL
 categories: [Programming, SQL]
-permalink: pg-metrics
 ---
 
 # pgmetrics

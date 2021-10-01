@@ -1,13 +1,12 @@
 ---
 title: Vultr API Quickstart
-description: Vultr API Quickstart
+excerpt: Vultr API Quickstart
 date: 2020-03-15 20:16:51
 tags:
   - Cloud
   - REST
   - Programming
 categories: [Programming, API]
-permalink: vultr-api-quickstart
 ---
 
 # Vultr API Quickstart

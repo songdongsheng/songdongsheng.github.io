@@ -1,12 +1,11 @@
 ---
 title: NDK console program
-description: NDK console program
+excerpt: NDK console program
 date: 2020-04-05 23:02:24
 tags:
   - Programming
   - C/C++
 categories: [Programming, C/C++]
-permalink: ndk-console-program
 ---
 
 # NDK console program

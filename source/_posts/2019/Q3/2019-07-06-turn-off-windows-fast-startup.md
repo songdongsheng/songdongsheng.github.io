@@ -1,11 +1,10 @@
 ---
 title: Turn Off Windows Fast Startup
-description: Turn Off Windows Fast Startup
+excerpt: Turn Off Windows Fast Startup
 date: 2019-07-06 18:43:57
 tags:
   - Windows
 categories: [Operating system, Windows]
-permalink: turn-off-windows-fast-startup
 ---
 
 # Turn Off Windows Fast Startup
