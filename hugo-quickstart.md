@@ -1,18 +1,17 @@
 1. Download & install Hugo
 
 ```shell
-$ aria2c https://github.com/gohugoio/hugo/releases/download/v0.79.0/hugo_0.79.0_Linux-64bit.tar.gz
-
-$ tar -xvzf hugo_0.79.0_Linux-64bit.tar.gz
+$ curl -sL https://github.com/gohugoio/hugo/releases/download/v0.99.1/hugo_extended_0.99.1_Linux-64bit.tar.gz | tar -xvzf -
+$ curl -sL https://github.com/gohugoio/hugo/releases/download/v0.99.1/hugo_extended_0.99.1_Windows-64bit.zip | bsdtar -xvf -
 LICENSE
 README.md
 hugo
 
-$ rm -f hugo_0.79.0_Linux-64bit.tar.gz LICENSE README.md
+$ rm -f LICENSE README.md
 $ sudo mv hugo /usr/bin/
 $ hugo version
-Hugo Static Site Generator v0.79.0-1415EFDC linux/amd64 BuildDate: 2020-11-27T09:09:02Z
-
+hugo v0.99.1-d524067382e60ce2a2248c3133a1b3af206b6ef1+extended windows/amd64 BuildDate=2022-05-18T11:18:14Z VendorInfo=gohugoio
+hugo v0.99.1-d524067382e60ce2a2248c3133a1b3af206b6ef1+extended linux/amd64 BuildDate=2022-05-18T11:18:14Z VendorInfo=gohugoio
 ```
 
 2. Create a new site
@@ -28,8 +27,38 @@ $ hugo new site quickstart
 ```shell
 $ cd ${SITE_DIR}/quickstart
 $ git init
-$ git submodule add https://github.com/CaiJimmy/hugo-theme-stack.git themes/stack
+
+$ git submodule add -b master https://github.com/zhaohuabing/hugo-theme-cleanwhite.git themes/cleanwhite
+$ echo 'theme = "cleanwhite"' >> config.toml
+
+$ git submodule add -b master https://github.com/kimcc/hugo-theme-noteworthy.git themes/noteworthy
+$ echo 'theme = "noteworthy"' >> config.toml
+
+$ git submodule add -b master https://github.com/CaiJimmy/hugo-theme-stack.git themes/stack
 $ echo 'theme = "stack"' >> config.toml
+
+$ git submodule add -b master https://github.com/cofess/hexo-theme-pure.git themes/pure
+$ echo 'theme = "pure"' >> config.toml
+
+$ git submodule add -b main https://github.com/dataCobra/hugo-vitae.git themes/vitae
+$ echo 'theme = "vitae"' >> config.toml
+
+$ git submodule add -b master https://github.com/taikii/whiteplain.git themes/whiteplain
+$ echo 'theme = "whiteplain"' >> config.toml
+```
+
+```
+$ cat config.toml
+
+languageCode = 'en-us'
+title = 'My New Hugo Site'
+
+#theme = "cleanwhite"
+#theme = "noteworthy"
+#theme = "pure"
+#theme = "stack"
+#theme = "vitae"
+theme = "whiteplain"
 ```
 
 4. Add some content

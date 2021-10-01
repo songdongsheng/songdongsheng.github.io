@@ -1,5 +1,5 @@
 ---
-title: Edito Config
+title: Editor Config
 description: Editor Config
 date: 2019-10-27 08:00:15
 tags:

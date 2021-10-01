@@ -34,7 +34,7 @@
     git clone -b hexo git@github.com:songdongsheng/songdongsheng.github.io.git
     cd songdongsheng.github.io
 
-    git submodule update --init --recursive
+    git submodule update --init --force --remote --recursive
 
 ## 安装与更新 npm 包
 
@@ -155,14 +155,54 @@
 
 ### 下载主题
 
-    git submodule add --force https://github.com/lewis-geek/hexo-theme-Aath themes/aath
-    git submodule add --force https://github.com/chaooo/hexo-theme-BlueLake themes/BlueLake
-    git submodule add --force https://github.com/theme-next/hexo-theme-next themes/next
-    git submodule add --force https://github.com/pinggod/hexo-theme-apollo  themes/apollo
-    git submodule add --force https://github.com/yanm1ng/hexo-theme-vexo    themes/vexo
+    # https://hexo.io/zh-cn/docs/
+    # https://hexo.io/themes/
+
+    # http://git-scm.com/docs/git-submodule
+    git submodule add --force --depth 12 -b master https://github.com/YenYuHsuan/hexo-theme-beantech themes/beantech
+    git submodule add --force --depth 12 -b master https://github.com/chaooo/hexo-theme-BlueLake themes/BlueLake
+    git submodule add --force --depth 12 -b main   https://github.com/nexmoe/hexo-theme-yet-the-books.git themes/books
+    git submodule add --force --depth 12 -b master https://github.com/littlewin-wang/hexo-theme-casual themes/casual
+    git submodule add --force --depth 12 -b master https://github.com/wd/hexo-fabric.git themes/fabric
+    git submodule add --force --depth 12 -b master https://github.com/iTimeTraveler/hexo-theme-hiero.git themes/hiero
+    git submodule add --force --depth 12 -b master https://github.com/iTimeTraveler/hexo-theme-hipaper themes/hipaper
+    git submodule add --force --depth 12 -b master https://github.com/first19326/hexo-liveforcode themes/liveforcode
+    git submodule add --force --depth 12 -b master https://github.com/miccall/hexo-theme-Mic_Theme themes/mic
+    git submodule add --force --depth 12 -b master https://github.com/theme-next/hexo-theme-next themes/next
+    git submodule add --force --depth 12 -b master https://github.com/sabrinaluo/hexo-theme-replica themes/replica
+    git submodule add --force --depth 12 -b master https://github.com/SumiMakito/hexo-theme-typography themes/typography
+    git submodule add --force --depth 12 -b master https://github.com/fooying/hexo-theme-xoxo-plus themes/xoxo-plus
+
+    :set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
+    :set tabstop=8
+    :set shiftwidth=8
+    :set expandtab
+    :set retab
+
+    $ du -ms themes/*
+    1       themes/aath
+    15      themes/beantech
+    2       themes/BlueLake
+    4       themes/books
+    1       themes/casual
+    1       themes/fabric
+    4       themes/hiero
+    4       themes/hipaper
+    98      themes/liveforcode
+    6       themes/mic
+    2       themes/next
+    1       themes/replica
+    4       themes/typography
+    1       themes/xoxo-plus
+
+    # This repository has been archived by the owner. It is now read-only.
+    git submodule add --force -b develop https://github.com/lewis-geek/hexo-theme-Aath themes/aath
+    git submodule add --force -b master https://github.com/pinggod/hexo-theme-apollo  themes/apollo
+    git submodule deinit  --force themes/aath
+    git submodule deinit  --force themes/apollo
 
     git submodule status
-    git submodule update --init --recursive
+    git submodule update --init --force --remote --recursive
 
     git submodule deinit -f themes/apollo
     git rm -f themes/apollo
@@ -194,3 +234,45 @@
     # dig www.songdongsheng.info +nostats +nocomments +nocmd
 
     hexo deploy
+
+## 基于容器构建
+
+    podman run --rm -it -h hexo-builder -v `pwd`:/root -w /root -p 4000:4000 \
+        --pull always ubuntu:20.04
+
+    podman run --rm -it -h hexo-builder -v `pwd`:/root -w /root -p 4000:4000 \
+        --pull always songdongsheng.info/library/ubuntu:20.04
+
+    apt-get update && apt-get dist-upgrade -y && \
+    apt-get install -y --no-install-recommends ca-certificates curl git g++ libsass-dev vim-tiny xz-utils
+
+    NODE_DIST_FILE=$(curl -sL https://nodejs.org/dist/latest-v14.x/SHASUMS256.txt.asc  | grep node-.*-linux-x64.tar.xz | awk '{print $2}' | head -1)
+    mkdir -p /opt/node-14 && curl -sL https://nodejs.org/dist/latest-v14.x/${NODE_DIST_FILE} | tar -xvJf - -C /opt/node-14 --strip-components=1
+
+    groupadd -g 1200 dongsheng || addgroup -g 1200 dongsheng
+    useradd -g dongsheng -G wheel -u 1200 -s /bin/bash -m dongsheng || useradd -g dongsheng -G sudo -u 1200 -s /bin/bash -m dongsheng || (adduser -G dongsheng -u 1200 -D -s /bin/sh dongsheng && addgroup dongsheng wheel)
+
+    export PATH=/opt/node-14/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+    node --version
+    npm --version
+    npm version
+
+    git config --global --replace-all safe.directory /root
+    git submodule update --init --force --remote --recursive
+
+    npm install --unsafe-perm --global hexo@4.2.1 && npm list --global
+    npm install --unsafe-perm && hexo generate
+
+    # https://github.com/sass/node-sass/releases/tag/v4.14.1 Linux 64-bit with Unsupported runtime
+    hexo server
+
+    hexo generate
+    hexo deploy
+
+    npm install -g npm
+    hexo init songdongsheng.one
+
+
+    # https://mermaid-js.github.io/
+    npm install -g hexo-cli mermaid-cli

@@ -8,7 +8,7 @@ subtitle:
 description:
 keywords:
 author: 宋冬生
-language: zh-CN
+language: zh
 timezone: Asia/Shanghai
 
 # URL
@@ -16,7 +16,6 @@ timezone: Asia/Shanghai
 url: https://songdongsheng.github.io
 root: /
 permalink: :year/:month/:day/:title/
-permalink_defaults:
 
 # Directory
 source_dir: source
@@ -26,16 +25,15 @@ archive_dir: archives
 category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
-skip_render:
 
 # Writing
-new_post_name: :title.md # File name of new posts
+new_post_name: :year/:year-:month-:day-:title.md # File name of new posts
 default_layout: post
 titlecase: false # Transform title into titlecase
 external_link: true # Open external links in new tab
 filename_case: 0
 render_drafts: false
-post_asset_folder: true
+post_asset_folder: false
 relative_link: false
 future: true
 
@@ -44,16 +42,15 @@ marked:
   gfm: true
   breaks: false
 
-# https://hexo.io/docs/tag-plugins.html
+# https://hexo.io/docs/syntax-highlight#Highlight-js
 highlight:
-  enable: false
+  enable: true
   auto_detect: false
-  line_number: false
-# https://github.com/ele828/hexo-prism-plugin
-prism_plugin:
-  mode: 'preprocess'
-  theme: 'default'
-  line_number: true
+
+# https://hexo.io/docs/syntax-highlight#PrismJS
+prismjs:
+  enable: false
+  preprocess: true
 
 # https://plantuml.com/zh/sitemap-language-specification
 # https://github.com/miao1007/hexo-filter-plantuml
@@ -90,7 +87,9 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
+
 theme: aath
+#theme: next
 
 # Hexo Beautify
 beautify:

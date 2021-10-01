@@ -319,10 +319,11 @@ EOF
 
 # ld.lld: error: duplicate symbol: __lll_lock_wait_private
 $ rm -f HelloWorld HelloWorld.hi HelloWorld.o && \
-    ghc HelloWorld.hs -O2 -optl-s -optc-static -optl-static
+    ghc HelloWorld.hs -O2 -optl -s -optl -static \
+        -optl -Wl,--allow-multiple-definition
 
 $ rm -f HelloWorld HelloWorld.hi HelloWorld.o && \
-    ghc HelloWorld.hs -O2 -optl-s
+    ghc HelloWorld.hs -O2 -optl -s
 
 $ ./HelloWorld
 Hello, World !
@@ -879,9 +880,10 @@ $ ldd HelloWorld
         libpthread.so.0 => /lib64/libpthread.so.0 (0x00007f69d59a2000)
         /lib64/ld-linux-x86-64.so.2 (0x00007f69d6956000)
 
-# # /usr/bin/ld.bfd: error: multiple definition of `__lll_lock_wait_private'
+# /usr/bin/ld.bfd: error: multiple definition of `__lll_lock_wait_private'
 $ rm -f HelloWorld HelloWorld.hi HelloWorld.o && \
-    ghc HelloWorld.hs -O2 -optl-s -optc-static -optl-static
+    ghc HelloWorld.hs -O2 -optl -s -optl -static \
+        -optl -Wl,--allow-multiple-definition
 
 $ du -ms /opt/ghc-8.10 /opt/ghc-8.10/*
 2081    /opt/ghc-8.10
@@ -974,7 +976,8 @@ $ ldd HelloWorld
 
 # # /usr/bin/ld.bfd: error: multiple definition of `__lll_lock_wait_private'
 $ rm -f HelloWorld HelloWorld.hi HelloWorld.o && \
-    ghc HelloWorld.hs -O2 -optl-s -optc-static -optl-static
+    ghc HelloWorld.hs -O2 -optl -s -optl -static \
+        -optl -Wl,--allow-multiple-definition
 
 $ du -ms /opt/ghc-8.10 /opt/ghc-8.10/*
 2091    /opt/ghc-8.10

@@ -1,10 +1,11 @@
-# https://help.github.com/en/actions/automating-your-workflow-with-github-actions/authenticating-with-the-github_token
-# https://help.github.com/en/actions/automating-your-workflow-with-github-actions/caching-dependencies-to-speed-up-workflows
-# https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets
-# https://help.github.com/en/actions/automating-your-workflow-with-github-actions/software-installed-on-github-hosted-runners
-# https://help.github.com/en/actions/automating-your-workflow-with-github-actions/using-environment-variables
-# https://help.github.com/en/actions/automating-your-workflow-with-github-actions/virtual-environments-for-github-hosted-runners
-# https://github.com/actions/virtual-environments/blob/master/images/linux/Ubuntu2004-README.md
+# https://docs.github.com/en/actions/security-guides/automatic-token-authentication
+# https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows
+# https://docs.github.com/en/actions/security-guides/encrypted-secrets
+# https://docs.github.com/en/actions/learn-github-actions/environment-variables
+# https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners
+# https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-Readme.md
+# https://github.com/actions/virtual-environments/blob/main/images/macos/macos-12-Readme.md
+# https://github.com/actions/virtual-environments/blob/main/images/win/Windows2022-Readme.md
 # https://github.com/marketplace?type=actions
 # https://github.com/actions/checkout
 # https://github.com/actions/setup-java
@@ -21,7 +22,15 @@ jobs:
   deploy:
     runs-on: ubuntu-20.04
     steps:
-      - name: apt
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+
+      - name: apt-get
         run: |
           # dpkg -l
           sudo apt-get update
@@ -30,17 +39,7 @@ jobs:
           # sudo DEBIAN_FRONTEND=noninteractive ACCEPT_EULA=Y apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" --allow-downgrades --allow-remove-essential --allow-change-held-packages dist-upgrade
           sudo apt-get install -y --no-install-recommends ca-certificates curl git g++ xz-utils libsass-dev
 
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '14.x'
-
-      - uses: actions/checkout@v2
-        with:
-          clean: true
-          lfs: false
-          persist-credentials: true
-
-      - name: shell
+      - name: hexo deploy
         env:
           GITHUB_TOKEN: ${{ github.token }}
           MY_TOKEN: ${{ secrets.MY_TOKEN }}
@@ -65,6 +64,5 @@ jobs:
           npm version
           npm install --unsafe-perm --global hexo@4.2.1
           npm install --unsafe-perm
-          # npm list
 
           hexo deploy || true
