@@ -32,27 +32,28 @@ Debian 6                   | 2011-02        | 2.11.3        |                   
 RHEL/CentOS 6              | 2010-11        | 2.12          | vsyscall=emulate    | 2.6.32
 Debian 7                   | 2013-05        | 2.13          | vsyscall=emulate    | 3.2
 Ubuntu 12.04               | 2012-04        | 2.15          | 4.6.3               | 3.2
-RHEL/CentOS 7              | 2014-06        | 2.17          | 4.8.5               | 3.10
+***RHEL/CentOS 7***        | **2014-06**    | **2.17**      | 4.8.5               | 3.10
 Ubuntu 14.04               | 2014-04        | 2.19          | 4.9.3               | 3.13
+SLE 12                     | 2014-10        | 2.19 -> 2.22  | 4.8.3 -> 11.3       | [3.12 -> 4.12](https://www.suse.com/lifecycle/)
 Debian 8                   | 2015-04        | 2.19          | 4.9.2               | 3.16
-SLE 12                     | 2014-10        | 2.22 (SP1)    | 6.2 (SP3), 8.2 (SP5)| 3.12, 4.4, 4.12
 Ubuntu 16.04               | 2016-04        | 2.23          | 6.0                 | 4.4
 Debian 9                   | 2017-06        | 2.24          | 6.3                 | 4.9
-SLE 15                     | 2018-07        | 2.26          | 7.3.1 -> 9.2.1      | 4.12, 5.3 (SP2)
+SLE 15                     | 2018-07        | 2.26 -> 2.31  | 7.3.1 -> 11.3       | [4.12 -> 5.14](https://www.suse.com/lifecycle/)
 Ubuntu 18.04               | 2018-04        | 2.27          | 8.4                 | 4.15
-***RHEL/CentOS/Alma 8***   | 2019-05        | 2.28          | **8.5**             | 4.18
+***RHEL/CentOS/Alma 8***   | **2019-05**    | **2.28**      | 8.5                 | 4.18
 Debian 10                  | 2019-07        | 2.28          | 8.3                 | 4.19
-openEuler 20.03            | 2020-03        | 2.28          | 7.3                 | 4.19
+***openEuler 20.03***      | **2020-03**    | **2.28**      | **7.3**             | 4.19
 Ubuntu 20.04               | 2020-04        | 2.31          | 10.3                | 5.4
 SLE 15 SP3                 | 2021-06        | 2.31          | 11.2, 11.3 (SP4)    | 5.3, 5.14 (SP4)
-***Debian 11***            | 2021-08        | 2.31          | **10.2**            | 5.10
+***Debian 11***            | **2021-08**    | **2.31**      | **10.2**            | 5.10
 Fedora 35                  | 2021-11        | 2.34          | 11.3                | 5.14
-***openEuler 22.03***      | 2022-03        | 2.34          | **10.3**            | 5.10
-RHEL/CentOS/Alma 9         | 2022-05        | 2.34          | 11.2                | 5.14
+***openEuler 22.03***      | **2022-03**    | **2.34**      | **10.3**            | 5.10
+***RHEL/CentOS/Alma 9***   | **2022-05**    | **2.34**      | 11.2                | 5.14
 Ubuntu 22.04               | 2022-04        | 2.35          | 12.0                | 5.15
 Fedora 36                  | 2022-05        | 2.35          | 12.1                | 5.16
 ***openEuler 22.09***      | 2022-09        | 2.35          | **10.3**            | 5.10
-[SUSE Adaptable Linux Platform (ALP)](https://download.opensuse.org/repositories/SUSE:/ALP/) | ????-?? | 2.36 | 12.1 | 5.17
+***Debian 12***            | 2023-06 ???    | [2.36](https://tracker.debian.org/pkg/glibc) | [12.2](https://gcc.gnu.org/develop.html) | [6.0 ???](https://tracker.debian.org/pkg/linux)
+[SUSE Adaptable Linux Platform (ALP)](https://download.opensuse.org/repositories/SUSE:/ALP/) | ????-?? | 2.36 | 12.1 ??? | [5.19 ???](https://download.opensuse.org/repositories/SUSE:/ALP/standard/x86_64/)
 Alpine 3.16                | 2022-05        | musl [1.2.3](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.16-stable/main/musl/APKBUILD) | libgcc 11.2 | [5.15](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.16-stable/main/linux-lts/APKBUILD)
 
 ## docker images
