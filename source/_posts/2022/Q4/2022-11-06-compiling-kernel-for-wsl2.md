@@ -23,11 +23,11 @@ WSL 2 not only loads a native Linux Kernel, the image of the Linux Kernel is in 
 ## Preparation
 
 ### Start build container
-docker pull debian:testing
+
 ```bash
 sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
 sudo podman run --rm -it --pull always -h debian-testing \
-    -w /root -v $(mktemp -d):/root \
+    -w /root -v $(pwd):/xyz \
     -e "PATH=/usr/sbin:/usr/bin:/sbin:/bin" \
     -e NO_PROXY="localhost,::1/128,f000::/4,127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16" \
     docker.io/library/debian:testing
@@ -36,7 +36,6 @@ echo "precedence ::ffff:0:0/96  100" >> /etc/gai.conf; \
 apt-get update && apt-get dist-upgrade -y && \
 apt-get install -y whiptail && \
 apt-get install -y bc bison build-essential curl dwarves file flex \
-    gcc-multilib-i686-linux-gnu gcc-multilib-x86-64-linux-gnux32 \
     git less libelf-dev libncurses-dev libssl-dev procps \
     python3 python3-pip python3-psutil python3-virtualenv \
     vim-tiny zstd
@@ -63,15 +62,12 @@ linux-msft-wsl-5.15.74.2
 ### Use Stable Linux Kernel
 
 ```bash
+rm -fr ~/Linux-6.1/Microsoft && mkdir -p $_ && cd $_/..
+curl -sSL https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.8.tar.xz | tar --strip-components=1 -xJ -f -
+curl -sSL -o Microsoft/config-wsl https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-5.15.y/Microsoft/config-wsl
 
-rm -fr ~/Linux-6.0/Microsoft && mkdir -p $_ && cd $_/..
-
-curl -sL https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.0.7.tar.xz | tar --strip-components=1 -xJ -f -
-
-curl -sL -o Microsoft/config-wsl https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-5.15.y/Microsoft/config-wsl
-
-# du -ms .
-1417    .
+# du -ms
+1435    .
 ```
 
 ## Make Configure
@@ -84,9 +80,17 @@ cat << EOF >> Microsoft/config-wsl
 # Processor type and features/vsyscall table for legacy applications/Emulate execution only
 CONFIG_LEGACY_VSYSCALL_XONLY=y
 
-CONFIG_MODULE_COMPRESS_ZSTD=y
+# Compile-time checks and compiler options
+# BTF: .tmp_vmlinux.btf: pahole (pahole) is not available
+# BTF = BPF Type Format, Use BTF in BPF rograms
+# http://vger.kernel.org/~acme/perf/btf-perf-pahole-lsfmm-san-juan-2019/
+# CONFIG_DEBUG_INFO_BTF is not set
+# CONFIG_DEBUG_INFO_NONE=y
+
 CONFIG_CRYPTO_ZSTD=y
 CONFIG_KERNEL_ZSTD=y
+CONFIG_MODULE_COMPRESS_ZSTD=y
+CONFIG_SQUASHFS_ZSTD=y
 
 # Enable the block layer/ Partition Types/Advanced partition selection
 CONFIG_BSD_DISKLABEL=y
@@ -95,7 +99,6 @@ CONFIG_BSD_DISKLABEL=y
 CONFIG_ECRYPT_FS=y
 CONFIG_HFSPLUS_FS=y
 CONFIG_HFS_FS=y
-CONFIG_SYSV_FS=y
 CONFIG_UFS_FS=y
 CONFIG_UFS_FS_WRITE=y
 
@@ -146,18 +149,19 @@ time make KCONFIG_CONFIG=Microsoft/config-wsl -j8 tarxz-pkg
 ```bash
 # time make KCONFIG_CONFIG=Microsoft/config-wsl -j8 bzImage
 ...
-real    25m24.142s
-user    162m35.150s
-sys     18m56.508s
-
-# du -ks arch/x86/boot/bzImage
-12604   arch/x86/boot/bzImage
-
-# cp arch/x86/boot/bzImage ~/vmlinuz-6.0.7-WSL2
-# cp vmlinuz-6.0.7-WSL2 /mnt/c/Users/<seuUser>/
+real    29m29.063s
+user    171m39.765s
+sys     19m43.272s
 
 # du -ms .
-5381    .
+5528    .
+
+# du -ks arch/x86/boot/bzImage
+13520   arch/x86/boot/bzImage
+13960   arch/x86/boot/bzImage
+
+# cp arch/x86/boot/bzImage ~/vmlinuz-6.1.8-WSL2
+# cp vmlinuz-6.1.8-WSL2 /mnt/c/Users/<seuUser>/
 
 time make KCONFIG_CONFIG=Microsoft/config-wsl -j8 modules
 time make KCONFIG_CONFIG=Microsoft/config-wsl -j8 tarxz-pkg
@@ -171,7 +175,8 @@ time make KCONFIG_CONFIG=Microsoft/config-wsl -j8 tarxz-pkg
 [wsl2]
 # An absolute Windows path to a custom Linux kernel
 # kernel=C:\\Users\\<seuUser>\\vmlinuz-5.15.74.2-WSL2-msft
-# kernel=C:\\Users\\<seuUser>\\vmlinuz-6.0.7-WSL2
+# kernel=C:\\Users\\<seuUser>\\vmlinuz-6.0.19-WSL2
+# kernel=C:\\Users\\<seuUser>\\vmlinuz-6.1.8-WSL2
 # 50% of total memory on Windows or 8GB, whichever is less
 # memory=8GB
 # Sets additional kernel parameters, in this case enabling older Linux base images such as Centos 6
@@ -179,12 +184,11 @@ time make KCONFIG_CONFIG=Microsoft/config-wsl -j8 tarxz-pkg
 # kernelCommandLine = vsyscall=emulate systemd.unified_cgroup_hierarchy=1 cgroup_no_v1=named
 ```
 
-### WSL2 Linux Kernel
-
 ## Restart WSL2
 
 ```bash
-wsl -l -v
+wsl --version
+wsl --list --verbose
 wsl --shutdown
 wsl
 ```
@@ -198,9 +202,9 @@ wsl
 Linux version 5.15.74.2-microsoft-standard-WSL2+ (root@debian-testing) (gcc (Debian 12.2.0-3) 12.2.0, GNU ld (GNU Binutils for Debian) 2.39) #1 SMP Sat Nov 5 13:19:06 UTC 2022
 ```
 
-### Stable  Linux Kernel
+### Stable Linux Kernel
 
 ```bash
 # cat /proc/version
-Linux version 6.0.7-microsoft-standard-WSL2 (root@debian-testing) (gcc (Debian 12.2.0-3) 12.2.0, GNU ld (GNU Binutils for Debian) 2.39) #1 SMP PREEMPT_DYNAMIC Sat Nov 5 13:50:57 UTC 2022
+Linux version 6.1.8-microsoft-standard-WSL2 (root@debian-testing) (gcc (SUSE Linux) 11.3.0, GNU ld (GNU Binutils; SUSE Linux Enterprise 15) 2.39.0.20220810-150100.7.40) #1 SMP PREEMPT_DYNAMIC Wed Jan 25 23:17:47 CST 2023
 ```

@@ -11,13 +11,10 @@ categories: [Operating system, Linux]
 
 ## Alpine Linux Lifecycle
 - https://alpinelinux.org/releases/
-- v3.10, [2019-06-19, 2021-05-01]
-- v3.11, [2019-12-19, 2021-11-01]
-- v3.12, [2020-05-29, 2022-05-01]
-- v3.13, [2021-01-14, 2022-11-01]
 - v3.14, [2021-06-15, 2023-05-01]
 - v3.15, [2021-11-24, 2023-11-01]
 - v3.16, [2022-05-23, 2024-05-23]
+- v3.17, [2022-11-22, 2024-11-22]
 
 ## SUSE Linux Enterprise Server Lifecycle
 - https://www.suse.com/lifecycle/
@@ -25,7 +22,7 @@ categories: [Operating system, Linux]
 - SLES 15, [2018-07-16, 2028-07-31, 2031-07-31]
 
 ## Red Hat Enterprise Linux Lifecycle
-- https://access.redhat.com/support/policy/updates/errata/
+- https://access.redhat.com/support/policy/updates/errata
 - RHEL 7, [2014-06-10, 2020-08-06, 2024-06-30]
 - RHEL 8, [2019-05-07, 2024-05-31, 2029-05-31]
 - RHEL 9, [2022-05-18, 2027-05-31, 2032-05-31]
