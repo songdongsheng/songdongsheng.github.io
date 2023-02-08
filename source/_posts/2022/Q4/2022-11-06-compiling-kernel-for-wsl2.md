@@ -9,7 +9,6 @@ tags:
 categories:
   - Operating system
   - Linux
-  - Windows
 ---
 
 # Compiling the Linux Kernel for WSL2
