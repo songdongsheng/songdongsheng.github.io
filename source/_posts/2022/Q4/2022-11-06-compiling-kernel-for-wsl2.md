@@ -62,7 +62,7 @@ linux-msft-wsl-5.15.74.2
 
 ```bash
 rm -fr ~/Linux-6.1/Microsoft && mkdir -p $_ && cd $_/..
-curl -sSL https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.8.tar.xz | tar --strip-components=1 -xJ -f -
+curl -sSL https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.12.tar.xz | tar --strip-components=1 -xJ -f -
 curl -sSL -o Microsoft/config-wsl https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-5.15.y/Microsoft/config-wsl
 
 # du -ms
@@ -148,19 +148,22 @@ time make KCONFIG_CONFIG=Microsoft/config-wsl -j8 tarxz-pkg
 ```bash
 # time make KCONFIG_CONFIG=Microsoft/config-wsl -j8 bzImage
 ...
-real    29m29.063s
-user    171m39.765s
-sys     19m43.272s
+Kernel: arch/x86/boot/bzImage is ready  (#1)
+
+real    25m38.821s
+user    172m59.625s
+sys     17m15.973s
 
 # du -ms .
-5528    .
+4702    .
 
 # du -ks arch/x86/boot/bzImage
-13520   arch/x86/boot/bzImage
-13960   arch/x86/boot/bzImage
+11204   arch/x86/boot/bzImage
 
-# cp arch/x86/boot/bzImage ~/vmlinuz-6.1.8-WSL2
-# cp vmlinuz-6.1.8-WSL2 /mnt/c/Users/<seuUser>/
+# cp arch/x86/boot/bzImage ~/vmlinuz-6.1.12-WSL2
+# cp arch/x86/boot/bzImage /mnt/c/Users/<seuUser>/vmlinuz-6.1.12-WSL2
+# cp Microsoft/config-wsl /mnt/c/Users/<seuUser>/vmlinuz-6.1.12-WSL2.config
+# vi /mnt/c/Users/<seuUser>/.wslconfig
 
 time make KCONFIG_CONFIG=Microsoft/config-wsl -j8 modules
 time make KCONFIG_CONFIG=Microsoft/config-wsl -j8 tarxz-pkg
@@ -175,7 +178,7 @@ time make KCONFIG_CONFIG=Microsoft/config-wsl -j8 tarxz-pkg
 # An absolute Windows path to a custom Linux kernel
 # kernel=C:\\Users\\<seuUser>\\vmlinuz-5.15.74.2-WSL2-msft
 # kernel=C:\\Users\\<seuUser>\\vmlinuz-6.0.19-WSL2
-# kernel=C:\\Users\\<seuUser>\\vmlinuz-6.1.8-WSL2
+# kernel=C:\\Users\\<seuUser>\\vmlinuz-6.1.12-WSL2
 # 50% of total memory on Windows or 8GB, whichever is less
 # memory=8GB
 # Sets additional kernel parameters, in this case enabling older Linux base images such as Centos 6
@@ -205,5 +208,5 @@ Linux version 5.15.74.2-microsoft-standard-WSL2+ (root@debian-testing) (gcc (Deb
 
 ```bash
 # cat /proc/version
-Linux version 6.1.8-microsoft-standard-WSL2 (root@debian-testing) (gcc (SUSE Linux) 11.3.0, GNU ld (GNU Binutils; SUSE Linux Enterprise 15) 2.39.0.20220810-150100.7.40) #1 SMP PREEMPT_DYNAMIC Wed Jan 25 23:17:47 CST 2023
+Linux version 6.1.12-microsoft-standard-WSL2 (dongsheng@CN-00124803) (gcc (SUSE Linux) 12.2.1 20220830 [revision e927d1cf141f221c5a32574bde0913307e140984], GNU ld (GNU Binutils; SUSE Linux Enterprise 15) 2.39.0.20220810-150100.7.40) #1 SMP PREEMPT_DYNAMIC Wed Feb 15 11:20:14 CST 2023
 ```
