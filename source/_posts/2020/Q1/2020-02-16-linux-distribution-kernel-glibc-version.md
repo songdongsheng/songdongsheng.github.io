@@ -32,33 +32,37 @@ Debian 6                | 2011-02       | 2.11.3        |                   | 2.
 RHEL 6                  | 2010-11       | 2.12 (**vsyscall=emulate**) |     | 2.6.32
 Debian 7                | 2013-05       | 2.13 (**vsyscall=emulate**) |     | 3.2
 Ubuntu 12.04            | 2012-04       | 2.15          | 4.6.3             | 3.2
-**RHEL 7**              | 2014-06       | **2.17**      | 4.8.5 -> 12.1     | **3.10**
+**RHEL 7**              | 2014-06       | **2.17**      | 4.8.5 -> 12.1     | 3.10
 Ubuntu 14.04            | 2014-04       | 2.19          | 4.9.3             | 3.13
 **SLE 12**              | 2014-10       | 2.19 -> **2.22 (SP2)** | 4.8.3 -> 12.2 | [3.12 -> 4.12](https://www.suse.com/lifecycle/)
 Debian 8                | 2015-04       | 2.19          | 4.9.2             | 3.16
 Ubuntu 16.04            | 2016-04       | 2.23          | 4.9.3             | 4.4
-Debian 9                | 2017-06       | 2.24          | **6.3**           | 4.9
-SLE 15                  | 2018-07       | 2.26 -> 2.31 (SP3) | **7.3** -> **12.2** | [4.12 -> 5.14](https://www.suse.com/lifecycle/)
-**Ubuntu 18.04**        | **2018-04**   | **2.27**      | **8.4**           | **4.15**
+Debian 9                | 2017-06       | 2.24          | 6.3               | 4.9
+**Amazon Linux 2 LTS**  | 2018-06       | **2.26**      | 7.3 -> 10.4       | 4.14
+SLE 15                  | 2018-07       | 2.26 -> 2.31 (SP3) | 7.3 -> 12.2  | [4.12 -> 5.14](https://www.suse.com/lifecycle/)
+Ubuntu 18.04            | 2018-04       | 2.27          | 8.4               | 4.15
 RHEL 8                  | 2019-05       | 2.28          | 8.5 -> 12.1       | 4.18
 Debian 10               | 2019-07       | 2.28          | 8.3               | 4.19
 openEuler 20.03         | 2020-03       | 2.28          | 7.3               | 4.19
 Ubuntu 20.04            | 2020-04       | 2.31          | 10.3              | 5.4
-SLE 15 SP3              | 2021-06       | 2.31          | 10.2, 11.2 (SP4)  | 5.3, 5.14 (SP4)
-**openSUSE Leap 15.4**  | 2022-06       | **2.31**      | 12.2              | 5.14
+SLE 15 SP3              | 2021-06       | 2.31          | 10.2              | 5.3, 5.14 (SP4)
+openSUSE Leap 15.4      | 2022-06       | 2.31          | 12.2              | 5.14
 **Debian 11**           | 2021-08       | **2.31**      | 10.2              | 5.10
 openEuler 22.03         | 2022-03       | 2.34          | 10.3 -> 12.2      | 5.10
-RHEL 9                  | 2022-05       | 2.34          | 11.3 -> 12.1      | 5.14
+**RHEL 9**              | 2022-05       | **2.34**      | 11.3 -> 12.1      | 5.14
+Amazon Linux 2023       | 2023-03       | 2.34          | 11.3              | 6.1
+CBL-Mariner 2.0         | 2022-05       | 2.35          | 11.2              | 5.15
 Ubuntu 22.04            | 2022-04       | 2.35          | 12.1              | 5.15
-openEuler 22.09         | 2022-09       | 2.35          | 10.3 -> 12.1      | 5.10
 Fedora 37               | 2022-11       | 2.36          | 12.2              | 6.0
-**Debian 12**           | 2023-06 ???   | [2.36](https://tracker.debian.org/pkg/glibc) | [12.2](https://packages.debian.org/bookworm/libgcc-s1) | [6.1](https://tracker.debian.org/pkg/linux)
-**openSUSE Tumbleweed** | Rolling       | 2.36          | 13.0              | 6.1
-[SUSE Adaptable Linux Platform (ALP)](https://download.opensuse.org/repositories/SUSE:/ALP/) | ????-?? | 2.36 ??? | 12.2 ??? | [6.1 ???](https://download.opensuse.org/repositories/SUSE:/ALP/standard/x86_64/)
+Debian 12               | ***2023-06*** | [2.36](https://tracker.debian.org/pkg/glibc) | [12.2](https://packages.debian.org/bookworm/libgcc-s1) | [6.1](https://tracker.debian.org/pkg/linux)
+[SUSE Adaptable Linux Platform (ALP)](https://download.opensuse.org/repositories/SUSE:/ALP/) | ***2023-10*** | 2.36 | 12.2 | [6.1](https://download.opensuse.org/repositories/SUSE:/ALP/standard/x86_64/)
+Fedora 38               | 2023-04       | 2.37          | 13.0              | 6.2
+[**openSUSE Tumbleweed**](https://download.opensuse.org/tumbleweed/repo/oss/x86_64/) | ***Rolling*** | 2.37 | 13.0 | 6.3
 Alpine 3.15             | [2021-11](https://alpinelinux.org/releases/) | musl [1.2.2](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.15-stable/main/musl/APKBUILD) | [libgcc 10.3](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.15-stable/main/gcc/APKBUILD) | [5.15](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.15-stable/main/linux-lts/APKBUILD)
 Alpine 3.16             | [2022-05](https://alpinelinux.org/releases/) | musl [1.2.3](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.16-stable/main/musl/APKBUILD) | [libgcc 11.2](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.16-stable/main/gcc/APKBUILD) | [5.15](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.16-stable/main/linux-lts/APKBUILD)
 Alpine 3.17             | [2022-11](https://alpinelinux.org/releases/) | musl [1.2.3](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.17-stable/main/musl/APKBUILD) | [libgcc 12.2](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.17-stable/main/gcc/APKBUILD) | [5.15](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.17-stable/main/linux-lts/APKBUILD)
-Alpine 3.18             | [2023-05 ???](https://alpinelinux.org/releases/) | musl [1.2.3](https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/musl/APKBUILD) | [libgcc 12.2](https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/gcc/APKBUILD) | [6.1](https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/linux-lts/APKBUILD)
+Alpine 3.18             | [2023-05](https://alpinelinux.org/releases/) | musl [1.2.4](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.18-stable/main/musl/APKBUILD) | [libgcc 12.2](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.18-stable/main/gcc/APKBUILD) | [6.1](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.18-stable/main/linux-lts/APKBUILD)
+Alpine 3.19             | [***2023-11***](https://alpinelinux.org/releases/) | musl [1.2.4](https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/musl/APKBUILD) | [libgcc 13.1](https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/gcc/APKBUILD) | [6.1](https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/linux-lts/APKBUILD)
 
 ## libgcc versions
 
@@ -74,7 +78,7 @@ The following GCC versions add new functions to **libgcc** ([`libgcc/libgcc-std.
 
 ```bash
 # shopt -s checkwinsize
-# echo "Lines: $LINES, Columns: $(tput cols)"
+# echo "Lines: $(tput lines), Columns: $(tput cols)"
 # echo "Lines: $LINES, Columns: $COLUMNS"
 Lines: 30, Columns: 96
 
@@ -93,7 +97,11 @@ docker.io/songdongsheng/openeuler                   22.03       e2c2b88bb007  6 
 ghcr.io/oracle/oraclelinux                          7           258c049720a7  17 hours ago  271 MB
 ghcr.io/oracle/oraclelinux                          8           15d3782e65b8  17 hours ago  237 MB
 ghcr.io/oracle/oraclelinux                          9           6d4f5c87c123  17 hours ago  234 MB
+mcr.microsoft.com/cbl-mariner/base/core             2.0         4ec990a6bc0d  39 hours ago  68.4 MB
+public.ecr.aws/amazonlinux/amazonlinux              2           20b4c80b1755  4 days ago    172 MB
+public.ecr.aws/amazonlinux/amazonlinux              2023        eef352c7a904  3 days ago    149 MB
 quay.io/fedora/fedora                               37          19c0ae4dd222  7 weeks ago   190 MB
+quay.io/fedora/fedora                               38          c9bfca6d0ac2  8 days ago    196 MB
 registry.access.redhat.com/ubi7                     latest      f0c1470d8cb2  11 days ago   217 MB
 registry.access.redhat.com/ubi7-minimal             latest      0f3e1be52c0b  11 days ago   84.8 MB
 registry.access.redhat.com/ubi8                     latest      6a2ef33ab97f  3 weeks ago   214 MB
@@ -111,7 +119,7 @@ registry.access.redhat.com/ubi9/openjdk-11-runtime  latest      bde7a6c813fb  10
 registry.access.redhat.com/ubi9/openjdk-17          latest      f3368e202a72  10 days ago   404 MB
 registry.access.redhat.com/ubi9/openjdk-17-runtime  latest      aeb5671874f4  10 days ago   366 MB
 registry.opensuse.org/opensuse/leap                 15.4        ce2ffde521dc  2 weeks ago   116 MB
-registry.opensuse.org/opensuse/tumbleweed           latest      09f887d66299  26 hours ago  102 MB
+registry.opensuse.org/opensuse/tumbleweed           latest      c2a77db6cf5d  33 hours ago  106 MB
 registry.suse.com/bci/bci-base                      15.4        a357b1e79e7e  43 hours ago  122 MB
 registry.suse.com/bci/bci-busybox                   15.4        6a88b3a3c425  2 weeks ago   14.5 MB
 registry.suse.com/bci/bci-micro                     15.4        07d9e5464374  2 weeks ago   25.8 MB

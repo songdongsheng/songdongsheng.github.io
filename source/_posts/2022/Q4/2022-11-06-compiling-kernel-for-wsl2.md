@@ -43,30 +43,29 @@ apt-get install -y bc bison build-essential curl dwarves file flex \
 ### Use WSL2 Linux Kernel
 
 ```bash
-# time git clone --depth 100 -b linux-msft-wsl-5.15.y https://github.com/microsoft/WSL2-Linux-Kernel.git
+# time git clone --depth 100 -b linux-msft-wsl-6.1.y https://github.com/microsoft/WSL2-Linux-Kernel.git
 ...
-real    4m30.254s
-user    3m2.417s
-sys     0m26.460s
+real    6m37.565s
+user    2m27.991s
+sys     0m24.168s
 
 # du -ms WSL2-Linux-Kernel/
-1699    WSL2-Linux-Kernel/
+2033    WSL2-Linux-Kernel/
 
 # cd WSL2-Linux-Kernel/ && git describe --tags
-rolling-lts/wsl/5.15.68.1
-linux-msft-wsl-5.15.74.2
+linux-msft-wsl-6.1.21.1
 ```
 
 
 ### Use Stable Linux Kernel
 
 ```bash
-rm -fr ~/Linux-6.1/Microsoft && mkdir -p $_ && cd $_/..
-curl -sSL https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.12.tar.xz | tar --strip-components=1 -xJ -f -
-curl -sSL -o Microsoft/config-wsl https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-5.15.y/Microsoft/config-wsl
+rm -fr ~/Linux-6.2/Microsoft && mkdir -p $_ && cd $_/..
+curl -sSL https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.3.2.tar.xz | tar --strip-components=1 -xJ -f -
+curl -sSL -o Microsoft/config-wsl https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.1.y/arch/x86/configs/config-wsl
 
 # du -ms
-1435    .
+1453    .
 ```
 
 ## Make Configure
@@ -86,6 +85,9 @@ CONFIG_LEGACY_VSYSCALL_XONLY=y
 # CONFIG_DEBUG_INFO_BTF is not set
 # CONFIG_DEBUG_INFO_NONE=y
 
+CONFIG_PREEMPT_DYNAMIC=y
+CONFIG_PREEMPT_RCU=y
+
 CONFIG_CRYPTO_ZSTD=y
 CONFIG_KERNEL_ZSTD=y
 CONFIG_MODULE_COMPRESS_ZSTD=y
@@ -102,19 +104,21 @@ CONFIG_UFS_FS=y
 CONFIG_UFS_FS_WRITE=y
 
 # Device Drivers/Block devices
+CONFIG_ZRAM=y
 CONFIG_BLK_DEV_NBD=y
+CONFIG_ATA_OVER_ETH=y
 CONFIG_BLK_DEV_RBD=y
+CONFIG_BLK_DEV_UBLK=y
 
 # File systems/Network File Systems
-CONFIG_NFS_V4=y
-CONFIG_NFS_V4_1=y
 CONFIG_NFS_V4_2=y
+CONFIG_NFS_V4_2_READ_PLUS=y
 EOF
 ```
 
 ```bash
 scripts/config --file Microsoft/config-wsl --disable SYSTEM_REVOCATION_KEYS
-scripts/config --file Microsoft/config-wsl --disable SYSTEM_TRUSTED_KEYS
+scripts/config --file Microsoft/config-wsl --disable SYSTEM_TRUSTED_KEYRING
 
 make KCONFIG_CONFIG=Microsoft/config-wsl menuconfig
 ```
@@ -126,18 +130,21 @@ make KCONFIG_CONFIG=Microsoft/config-wsl menuconfig
 ```bash
 # time make KCONFIG_CONFIG=Microsoft/config-wsl -j8 bzImage
 ...
-real    21m21.836s
-user    136m32.000s
-sys     13m32.470s
+real    14m56.307s
+user    109m13.656s
+sys     10m57.302s
 
 # du -ks arch/x86/boot/bzImage
-12148   arch/x86/boot/bzImage
+11344   arch/x86/boot/bzImage
 
-# cp arch/x86/boot/bzImage ~/vmlinuz-5.15.74.2-WSL2-msft
-# cp vmlinuz-5.15.74.2-WSL2-msft /mnt/c/Users/<seuUser>/
+# cp arch/x86/boot/bzImage ~/vmlinuz-6.1.21.1-WSL2-msft
+# cp vmlinuz-6.1.21.1-WSL2-msft /mnt/c/Users/<seuUser>/
 
 # du -ms .
 5675    .
+
+# cp arch/x86/boot/bzImage /mnt/c/Users/<seuUser>/vmlinuz-6.1.21.1-WSL2
+# cp Microsoft/config-wsl /mnt/c/Users/<seuUser>/vmlinuz-6.1.21.1-WSL2.config
 
 time make KCONFIG_CONFIG=Microsoft/config-wsl -j8 modules
 time make KCONFIG_CONFIG=Microsoft/config-wsl -j8 tarxz-pkg
@@ -150,19 +157,19 @@ time make KCONFIG_CONFIG=Microsoft/config-wsl -j8 tarxz-pkg
 ...
 Kernel: arch/x86/boot/bzImage is ready  (#1)
 
-real    25m38.821s
-user    172m59.625s
-sys     17m15.973s
+real    11m43.670s
+user    86m58.481s
+sys     7m57.750s
 
 # du -ms .
-4702    .
+4763    .
 
 # du -ks arch/x86/boot/bzImage
-11204   arch/x86/boot/bzImage
+12768   arch/x86/boot/bzImage
 
-# cp arch/x86/boot/bzImage ~/vmlinuz-6.1.12-WSL2
-# cp arch/x86/boot/bzImage /mnt/c/Users/<seuUser>/vmlinuz-6.1.12-WSL2
-# cp Microsoft/config-wsl /mnt/c/Users/<seuUser>/vmlinuz-6.1.12-WSL2.config
+# cp arch/x86/boot/bzImage ~/vmlinuz-6.3.2-WSL2
+# cp arch/x86/boot/bzImage /mnt/c/Users/<seuUser>/vmlinuz-6.3.2-WSL2
+# cp Microsoft/config-wsl /mnt/c/Users/<seuUser>/vmlinuz-6.3.2-WSL2.config
 # vi /mnt/c/Users/<seuUser>/.wslconfig
 
 time make KCONFIG_CONFIG=Microsoft/config-wsl -j8 modules
@@ -176,9 +183,9 @@ time make KCONFIG_CONFIG=Microsoft/config-wsl -j8 tarxz-pkg
 ```bash
 [wsl2]
 # An absolute Windows path to a custom Linux kernel
-# kernel=C:\\Users\\<seuUser>\\vmlinuz-5.15.74.2-WSL2-msft
-# kernel=C:\\Users\\<seuUser>\\vmlinuz-6.0.19-WSL2
-# kernel=C:\\Users\\<seuUser>\\vmlinuz-6.1.12-WSL2
+# kernel=C:\\Users\\<seuUser>\\vmlinuz-6.1.21.1-WSL2-msft
+# kernel=C:\\Users\\<seuUser>\\vmlinuz-6.2.11-WSL2
+# kernel=C:\\Users\\<seuUser>\\vmlinuz-6.3.2-WSL2
 # 50% of total memory on Windows or 8GB, whichever is less
 # memory=8GB
 # Sets additional kernel parameters, in this case enabling older Linux base images such as Centos 6
@@ -201,12 +208,13 @@ wsl
 
 ```bash
 # cat /proc/version
-Linux version 5.15.74.2-microsoft-standard-WSL2+ (root@debian-testing) (gcc (Debian 12.2.0-3) 12.2.0, GNU ld (GNU Binutils for Debian) 2.39) #1 SMP Sat Nov 5 13:19:06 UTC 2022
+Linux version 6.1.21.1-microsoft-standard-WSL2+ (root@debian-testing) (gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40) #1 SMP Fri Apr 14 16:30:28 UTC 2023
 ```
 
 ### Stable Linux Kernel
 
 ```bash
 # cat /proc/version
-Linux version 6.1.12-microsoft-standard-WSL2 (dongsheng@CN-00124803) (gcc (SUSE Linux) 12.2.1 20220830 [revision e927d1cf141f221c5a32574bde0913307e140984], GNU ld (GNU Binutils; SUSE Linux Enterprise 15) 2.39.0.20220810-150100.7.40) #1 SMP PREEMPT_DYNAMIC Wed Feb 15 11:20:14 CST 2023
+Linux version 6.2.11-microsoft-standard-WSL2 (root@debian-testing) (gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40) #1 SMP PREEMPT_DYNAMIC Fri Apr 14 14:53:28 UTC 2023
+Linux version 6.3.2-microsoft-standard-WSL2 (root@debian-testing) (gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40) #1 SMP PREEMPT_DYNAMIC Mon May 15 04:22:52 UTC 2023
 ```
