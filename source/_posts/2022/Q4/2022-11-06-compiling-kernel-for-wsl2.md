@@ -29,7 +29,7 @@ sudo podman run --rm -it --pull always -h debian-testing \
     -w /root -v $(pwd):/xyz \
     -e "PATH=/usr/sbin:/usr/bin:/sbin:/bin" \
     -e NO_PROXY="localhost,::1/128,f000::/4,127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16" \
-    docker.io/library/debian:testing
+    public.ecr.aws/docker/library/debian:stable
 
 echo "precedence ::ffff:0:0/96  100" >> /etc/gai.conf; \
 apt-get update && apt-get dist-upgrade -y && \
@@ -60,8 +60,8 @@ linux-msft-wsl-6.1.21.1
 ### Use Stable Linux Kernel
 
 ```bash
-rm -fr ~/Linux-6.2/Microsoft && mkdir -p $_ && cd $_/..
-curl -sSL https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.3.2.tar.xz | tar --strip-components=1 -xJ -f -
+rm -fr ~/Linux-6.6/Microsoft && mkdir -p $_ && cd $_/..
+curl -sSL https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.6.10.tar.xz | tar --strip-components=1 -xJ -f -
 curl -sSL -o Microsoft/config-wsl https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.1.y/arch/x86/configs/config-wsl
 
 # du -ms
@@ -167,9 +167,8 @@ sys     7m57.750s
 # du -ks arch/x86/boot/bzImage
 12768   arch/x86/boot/bzImage
 
-# cp arch/x86/boot/bzImage ~/vmlinuz-6.3.2-WSL2
-# cp arch/x86/boot/bzImage /mnt/c/Users/<seuUser>/vmlinuz-6.3.2-WSL2
-# cp Microsoft/config-wsl /mnt/c/Users/<seuUser>/vmlinuz-6.3.2-WSL2.config
+# cp arch/x86/boot/bzImage /mnt/c/Users/<seuUser>/vmlinuz-6.6.10-WSL2
+# cp Microsoft/config-wsl /mnt/c/Users/<seuUser>/vmlinuz-6.6.10-WSL2.config
 # vi /mnt/c/Users/<seuUser>/.wslconfig
 
 time make KCONFIG_CONFIG=Microsoft/config-wsl -j8 modules
@@ -184,8 +183,7 @@ time make KCONFIG_CONFIG=Microsoft/config-wsl -j8 tarxz-pkg
 [wsl2]
 # An absolute Windows path to a custom Linux kernel
 # kernel=C:\\Users\\<seuUser>\\vmlinuz-6.1.21.1-WSL2-msft
-# kernel=C:\\Users\\<seuUser>\\vmlinuz-6.2.11-WSL2
-# kernel=C:\\Users\\<seuUser>\\vmlinuz-6.3.2-WSL2
+# kernel=C:\\Users\\<seuUser>\\vmlinuz-6.6.10-WSL2
 # 50% of total memory on Windows or 8GB, whichever is less
 # memory=8GB
 # Sets additional kernel parameters, in this case enabling older Linux base images such as Centos 6
