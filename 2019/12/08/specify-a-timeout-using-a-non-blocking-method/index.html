@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Specify a timeout using a non-blocking method | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Specify a timeout using a non-blocking method
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2019/12/08</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/Java/">Java</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tag"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Java" class='tag'>Java</a>
+
+
+          
+        </div>
+        <h1 id="Specify-a-timeout-using-a-non-blocking-method"><a href="#Specify-a-timeout-using-a-non-blocking-method" class="headerlink" title="Specify a timeout using a non-blocking method"></a>Specify a timeout using a non-blocking method</h1><h2 id="Java-8"><a href="#Java-8" class="headerlink" title="Java 8"></a>Java 8</h2><p>A simple implementation of timeoutAfter is as follows where delayer is an instance of a ScheduledThreadPoolExecutor:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;T&gt; CompletableFuture&lt;T&gt; <span class="title function_">timeoutAfter</span><span class="params">(<span class="type">long</span> timeout, TimeUnit unit)</span> &#123;</span><br><span class="line">    CompletableFuture&lt;T&gt; result = <span class="keyword">new</span> <span class="title class_">CompletableFuture</span>&lt;T&gt;();</span><br><span class="line">    delayer.schedule(() -&gt; result.completeExceptionally(<span class="keyword">new</span> <span class="title class_">TimeoutException</span>()), timeout, unit);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Timeout mechanism</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CompletableFuture.supplyAsync(() -&gt; findBestPrice(<span class="string">&quot;LDN - NYC&quot;</span>), executorService)</span><br><span class="line">    .thenCombine(CompletableFuture.supplyAsync(() -&gt; queryExchangeRateFor(<span class="string">&quot;GBP&quot;</span>)), <span class="built_in">this</span>::convert)</span><br><span class="line">    .acceptEither(timeoutAfter(<span class="number">1</span>, TimeUnit.SECONDS), amount -&gt; System.out.println(<span class="string">&quot;The price is: &quot;</span> + amount + <span class="string">&quot;GBP&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<h2 id="Java-9-or-later"><a href="#Java-9-or-later" class="headerlink" title="Java 9 or later"></a>Java 9 or later</h2><p>Java 9’s CompletableFuture introduces several new methods amongst which are orTimeout and completeOnTimeOut that provide built-in support for dealing with timeouts.</p>
+<p>The method orTimeout has the following signature:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> CompletableFuture&lt;T&gt; <span class="title function_">orTimeout</span><span class="params">(<span class="type">long</span> timeout, TimeUnit unit)</span>;</span><br><span class="line"><span class="keyword">public</span> CompletableFuture&lt;T&gt; <span class="title function_">completeOnTimeout</span><span class="params">(T value, <span class="type">long</span> timeout, TimeUnit unit)</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">CompletableFuture.supplyAsync(() -&gt; findBestPrice(<span class="string">&quot;LDN - NYC&quot;</span>), executorService)</span><br><span class="line">    .thenCombine(CompletableFuture.supplyAsync(() -&gt; queryExchangeRateFor(<span class="string">&quot;GBP&quot;</span>)), <span class="built_in">this</span>::convert)</span><br><span class="line">    .orTimeout(<span class="number">1</span>, TimeUnit.SECONDS)</span><br><span class="line">    .whenComplete((amount, error) -&gt; &#123;</span><br><span class="line">        <span class="keyword">if</span> (error == <span class="literal">null</span>) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;The price is: &quot;</span> + amount + <span class="string">&quot;GBP&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;Sorry, we could not return you a result&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">CompletableFuture.supplyAsync(() -&gt; findBestPrice(<span class="string">&quot;LDN - NYC&quot;</span>), executorService)</span><br><span class="line">    .thenCombine(CompletableFuture.supplyAsync(() -&gt; queryExchangeRateFor(<span class="string">&quot;GBP&quot;</span>)), <span class="built_in">this</span>::convert)</span><br><span class="line">    .completeOnTimeout(DEFAULT_PRICE, <span class="number">1</span>, TimeUnit.SECONDS)</span><br><span class="line">    .thenAccept(amount -&gt; &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;The price is: &quot;</span> + amount + <span class="string">&quot;GBP&quot;</span>);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Specify-a-timeout-using-a-non-blocking-method"><span class="toc-number">1.</span> <span class="toc-text">Specify a timeout using a non-blocking method</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-8"><span class="toc-number">1.1.</span> <span class="toc-text">Java 8</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-9-or-later"><span class="toc-number">1.2.</span> <span class="toc-text">Java 9 or later</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

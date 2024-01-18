@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>pg metrics | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          pg metrics
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/01/25</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/SQL/">SQL</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#SQL" class='tag'>SQL</a>
+
+
+          
+        </div>
+        <h1 id="pgmetrics"><a href="#pgmetrics" class="headerlink" title="pgmetrics"></a>pgmetrics</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://pgmetrics.io/">https://pgmetrics.io/</a></li>
+<li><a target="_blank" rel="noopener" href="https://pgmetrics.io/docs/">https://pgmetrics.io/docs/</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/rapidloop/pgmetrics">https://github.com/rapidloop/pgmetrics</a></li>
+</ul>
+<p>pgmetrics is an open-source, zero-dependency, single-binary tool that can collect a lot of information and statistics from a running PostgreSQL server and display it in easy-to-read text format or export it as JSON and CSV for scripting.</p>
+<ul>
+<li>Subsystem Info</li>
+<li>Database Info</li>
+<li>Table Info</li>
+<li>Log Files</li>
+<li>Easy-to-use CLI</li>
+<li>Zero Dependency</li>
+</ul>
+<h2 id="Sample-output"><a href="#Sample-output" class="headerlink" title="Sample output"></a>Sample output</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br></pre></td><td class="code"><pre><span class="line">pgmetrics run at: 20 Dec 2019 6:41:13 AM (now)</span><br><span class="line"></span><br><span class="line">PostgreSQL Cluster:</span><br><span class="line">    Name:                10/main</span><br><span class="line">    Server Version:      10.10</span><br><span class="line">    Server Started:      20 Dec 2019 6:32:35 AM (8 minutes ago)</span><br><span class="line">    System Identifier:   6772342791073124390</span><br><span class="line">    Timeline:            1</span><br><span class="line">    Last Checkpoint:     20 Dec 2019 6:32:15 AM (8 minutes ago)</span><br><span class="line">    Prior LSN:           0/1692308</span><br><span class="line">    REDO LSN:            0/16923B0 (168 B since Prior)</span><br><span class="line">    Checkpoint LSN:      0/16923B0 (0 B since REDO)</span><br><span class="line">    Transaction IDs:     548 to 563 (diff = 15)</span><br><span class="line">    Notification Queue:  0.0% used</span><br><span class="line">    Active Backends:     1 (max 1000)</span><br><span class="line">    Recovery Mode?       no</span><br><span class="line"></span><br><span class="line">WAL Files:</span><br><span class="line">    WAL Archiving?       no</span><br><span class="line">    +--------------------+---------------+</span><br><span class="line">    |            Setting |         Value |</span><br><span class="line">    +--------------------+---------------+</span><br><span class="line">    |          wal_level |       logical |</span><br><span class="line">    |    archive_timeout |             0 |</span><br><span class="line">    |    wal_compression |            on |</span><br><span class="line">    |       max_wal_size | 2048 (32 GiB) |</span><br><span class="line">    |       min_wal_size |  64 (1.0 GiB) |</span><br><span class="line">    | checkpoint_timeout |           600 |</span><br><span class="line">    |   full_page_writes |            on |</span><br><span class="line">    |  wal_keep_segments |             8 |</span><br><span class="line">    +--------------------+---------------+</span><br><span class="line"></span><br><span class="line">BG Writer:</span><br><span class="line">    Checkpoint Rate:     0.12 per min</span><br><span class="line">    Average Write:       8.8 KiB per checkpoint</span><br><span class="line">    Total Checkpoints:   24 sched (80.0%) + 6 req (20.0%) = 30</span><br><span class="line">    Total Write:         264 KiB, @ 17 B per sec</span><br><span class="line">    Buffers Allocated:   651 (5.1 MiB)</span><br><span class="line">    Buffers Written:     33 chkpt (100.0%) + 0 bgw (0.0%) + 0 be (0.0%)</span><br><span class="line">    Clean Scan Stops:    0</span><br><span class="line">    BE fsyncs:           0</span><br><span class="line">    Counts Since:        20 Dec 2019 2:28:52 AM (4 hours ago)</span><br><span class="line">    +------------------------------+--------------+</span><br><span class="line">    |                      Setting |        Value |</span><br><span class="line">    +------------------------------+--------------+</span><br><span class="line">    |               bgwriter_delay |     200 msec |</span><br><span class="line">    |         bgwriter_flush_after | 64 (512 KiB) |</span><br><span class="line">    |        bgwriter_lru_maxpages |          100 |</span><br><span class="line">    |      bgwriter_lru_multiplier |            2 |</span><br><span class="line">    |                   block_size |         8192 |</span><br><span class="line">    |           checkpoint_timeout |      600 sec |</span><br><span class="line">    | checkpoint_completion_target |         0.96 |</span><br><span class="line">    +------------------------------+--------------+</span><br><span class="line"></span><br><span class="line">Backends:</span><br><span class="line">    Total Backends:      1 (0.1% of max 1000)</span><br><span class="line">    Problematic:         0 waiting on locks, 0 waiting on other, 0 xact too long, 0 idle in xact</span><br><span class="line"></span><br><span class="line">Locks:</span><br><span class="line">    +------------+-------------+-------+</span><br><span class="line">    |  Lock Type | Not Granted | Total |</span><br><span class="line">    +------------+-------------+-------+</span><br><span class="line">    |   relation |           0 |     4 |</span><br><span class="line">    | virtualxid |           0 |     1 |</span><br><span class="line">    +------------+-------------+-------+</span><br><span class="line">    |            |           0 |     5 |</span><br><span class="line">    +------------+-------------+-------+</span><br><span class="line"></span><br><span class="line">Vacuum Progress:</span><br><span class="line">    No manual or auto vacuum jobs in progress.</span><br><span class="line">    +------------------------------+----------------+</span><br><span class="line">    |                      Setting |          Value |</span><br><span class="line">    +------------------------------+----------------+</span><br><span class="line">    |         maintenance_work_mem | 65536 (64 MiB) |</span><br><span class="line">    |                   autovacuum |             on |</span><br><span class="line">    | autovacuum_analyze_threshold |             50 |</span><br><span class="line">    |  autovacuum_vacuum_threshold |             50 |</span><br><span class="line">    |    autovacuum_freeze_max_age |      200000000 |</span><br><span class="line">    |       autovacuum_max_workers |              3 |</span><br><span class="line">    |           autovacuum_naptime |         60 sec |</span><br><span class="line">    |        vacuum_freeze_min_age |       50000000 |</span><br><span class="line">    |      vacuum_freeze_table_age |      150000000 |</span><br><span class="line">    +------------------------------+----------------+</span><br><span class="line"></span><br><span class="line">Roles:</span><br><span class="line">    +----------------------+-------+------+-------+-----------+----------+------------+---------+---------+--------------------------------------------------------------+</span><br><span class="line">    |                 Name | Login | Repl | Super | Creat Rol | Creat DB | Bypass RLS | Inherit | Expires |                                                    Member Of |</span><br><span class="line">    +----------------------+-------+------+-------+-----------+----------+------------+---------+---------+--------------------------------------------------------------+</span><br><span class="line">    |             postgres |   yes |  yes |   yes |       yes |      yes |        yes |     yes |         |                                                              |</span><br><span class="line">    |           pg_monitor |       |      |       |           |          |            |     yes |         | pg_read_all_settings, pg_read_all_stats, pg_stat_scan_tables |</span><br><span class="line">    | pg_read_all_settings |       |      |       |           |          |            |     yes |         |                                                              |</span><br><span class="line">    |    pg_read_all_stats |       |      |       |           |          |            |     yes |         |                                                              |</span><br><span class="line">    |  pg_stat_scan_tables |       |      |       |           |          |            |     yes |         |                                                              |</span><br><span class="line">    |    pg_signal_backend |       |      |       |           |          |            |     yes |         |                                                              |</span><br><span class="line">    |            collector |   yes |      |       |           |          |            |     yes |         |                                                              |</span><br><span class="line">    |           replicator |   yes |      |       |           |          |            |     yes |         |                                                              |</span><br><span class="line">    |                  idg |   yes |      |       |           |          |            |     yes |         |                                                              |</span><br><span class="line">    +----------------------+-------+------+-------+-----------+----------+------------+---------+---------+--------------------------------------------------------------+</span><br><span class="line"></span><br><span class="line">Tablespaces:</span><br><span class="line">    +------------+----------+----------+--------+</span><br><span class="line">    |       Name |    Owner | Location |   Size |</span><br><span class="line">    +------------+----------+----------+--------+</span><br><span class="line">    | pg_default | postgres |          | 45 MiB |</span><br><span class="line">    |  pg_global | postgres |          |        |</span><br><span class="line">    +------------+----------+----------+--------+</span><br><span class="line"></span><br><span class="line">Database #1:</span><br><span class="line">    Name:                postgres</span><br><span class="line">    Owner:               postgres</span><br><span class="line">    Tablespace:          pg_default</span><br><span class="line">    Connections:         0 (no max limit)</span><br><span class="line">    Frozen Xid Age:      16</span><br><span class="line">    Transactions:        2014 (100.0%) commits, 0 (0.0%) rollbacks</span><br><span class="line">    Cache Hits:          99.6%</span><br><span class="line">    Rows Changed:        ins 0.0%, upd 0.0%, del 0.0%</span><br><span class="line">    Total Temp:          0 B in 0 files</span><br><span class="line">    Problems:            0 deadlocks, 0 conflicts</span><br><span class="line">    Totals Since:        20 Dec 2019 2:28:53 AM (4 hours ago)</span><br><span class="line">    Size:                7.6 MiB</span><br><span class="line"></span><br><span class="line">Database #2:</span><br><span class="line">    Name:                collector</span><br><span class="line">    Owner:               collector</span><br><span class="line">    Tablespace:          pg_default</span><br><span class="line">    Connections:         0 (no max limit)</span><br><span class="line">    Frozen Xid Age:      16</span><br><span class="line">    Transactions:        0 (0.0%) commits, 0 (0.0%) rollbacks</span><br><span class="line">    Cache Hits:          0.0%</span><br><span class="line">    Rows Changed:        ins 0.0%, upd 0.0%, del 0.0%</span><br><span class="line">    Total Temp:          0 B in 0 files</span><br><span class="line">    Problems:            0 deadlocks, 0 conflicts</span><br><span class="line">    Totals Since:</span><br><span class="line">    Size:                7.5 MiB</span><br><span class="line"></span><br><span class="line">Database #3:</span><br><span class="line">    Name:                replicator</span><br><span class="line">    Owner:               replicator</span><br><span class="line">    Tablespace:          pg_default</span><br><span class="line">    Connections:         0 (no max limit)</span><br><span class="line">    Frozen Xid Age:      16</span><br><span class="line">    Transactions:        0 (0.0%) commits, 0 (0.0%) rollbacks</span><br><span class="line">    Cache Hits:          0.0%</span><br><span class="line">    Rows Changed:        ins 0.0%, upd 0.0%, del 0.0%</span><br><span class="line">    Total Temp:          0 B in 0 files</span><br><span class="line">    Problems:            0 deadlocks, 0 conflicts</span><br><span class="line">    Totals Since:</span><br><span class="line">    Size:                7.5 MiB</span><br><span class="line"></span><br><span class="line">Database #4:</span><br><span class="line">    Name:                idg</span><br><span class="line">    Owner:               idg</span><br><span class="line">    Tablespace:          pg_default</span><br><span class="line">    Connections:         1 (no max limit)</span><br><span class="line">    Frozen Xid Age:      16</span><br><span class="line">    Transactions:        604 (98.1%) commits, 12 (1.9%) rollbacks</span><br><span class="line">    Cache Hits:          98.4%</span><br><span class="line">    Rows Changed:        ins 92.0%, upd 8.0%, del 0.0%</span><br><span class="line">    Total Temp:          0 B in 0 files</span><br><span class="line">    Problems:            0 deadlocks, 0 conflicts</span><br><span class="line">    Totals Since:        20 Dec 2019 2:28:54 AM (4 hours ago)</span><br><span class="line">    Size:                7.7 MiB</span><br><span class="line">    Installed Extensions:</span><br><span class="line">      +---------+---------+------------------------------+</span><br><span class="line">      |    Name | Version |                      Comment |</span><br><span class="line">      +---------+---------+------------------------------+</span><br><span class="line">      | plpgsql |     1.0 | PL/pgSQL procedural language |</span><br><span class="line">      +---------+---------+------------------------------+</span><br><span class="line"></span><br><span class="line">Table #1 in &quot;idg&quot;:</span><br><span class="line">    Name:                idg.public.idg_state</span><br><span class="line">    Columns:             3</span><br><span class="line">    Manual Vacuums:      never</span><br><span class="line">    Manual Analyze:      never</span><br><span class="line">    Auto Vacuums:        never</span><br><span class="line">    Auto Analyze:        never</span><br><span class="line">    Post-Analyze:        0.0% est. rows modified</span><br><span class="line">    Row Estimate:        0.0% live of total 0</span><br><span class="line">    Rows Changed:        ins 0.0%, upd 0.0%, del 0.0%</span><br><span class="line">    HOT Updates:         0.0% of all updates</span><br><span class="line">    Seq Scans:           1, 0.0 rows/scan</span><br><span class="line">    Idx Scans:           0, 0.0 rows/scan</span><br><span class="line">    Cache Hits:          0.0% (idx=0.0%)</span><br><span class="line">    Size:                0 B</span><br><span class="line">    +----------------+-------+---------+-------+------------+-------+----------------+-------------------+</span><br><span class="line">    |          Index |  Type |    Size | Bloat | Cache Hits | Scans | Rows Read/Scan | Rows Fetched/Scan |</span><br><span class="line">    +----------------+-------+---------+-------+------------+-------+----------------+-------------------+</span><br><span class="line">    | idg_state_pkey | btree | 8.0 KiB |       |            |     0 |            0.0 |               0.0 |</span><br><span class="line">    +----------------+-------+---------+-------+------------+-------+----------------+-------------------+</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#pgmetrics"><span class="toc-number">1.</span> <span class="toc-text">pgmetrics</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Sample-output"><span class="toc-number">1.1.</span> <span class="toc-text">Sample output</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

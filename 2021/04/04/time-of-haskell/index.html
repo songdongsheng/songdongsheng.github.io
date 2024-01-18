@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Time of Haskell | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Time of Haskell
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2021/04/04</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/Haskell/">Haskell</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#Haskell" class='tag'>Haskell</a>
+
+
+          
+        </div>
+        <h1 id="Time-of-Haskell"><a href="#Time-of-Haskell" class="headerlink" title="Time of Haskell"></a>Time of Haskell</h1><p>Handling timezones correctly, along with the distinction between timestamps and calendar dates is an endless source of bugs. Being precise about which <em>exact type</em> of time data your program takes in and spits out can completely obviate that problem.</p>
+<p>The de-facto standard date and time library in Haskell, <a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/time">time</a>, however, can be a little obtuse to get started with. Here’s a cheatsheet for the most common use cases for the time library.</p>
+<h2 id="Importing-and-using-time-library"><a href="#Importing-and-using-time-library" class="headerlink" title="Importing and using time library"></a>Importing and using time library</h2><p>Add to your <em>package.yam</em>l file:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">dependencies:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">time</span></span><br></pre></td></tr></table></figure>
+
+<p>In modules where you need to work with date&#x2F;time data:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">import</span> <span class="string">Data.Time</span></span><br></pre></td></tr></table></figure>
+
+<p>In GHCi:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">Prelude&gt; </span><span class="language-bash">import Data.Time</span></span><br></pre></td></tr></table></figure>
+
+<p>The <strong>primitive</strong> type in the time library is <a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/time/docs/Data-Time-Clock.html#t:UTCTime">UTCTime</a>. If you need to do anything involving the current time, it will most likely involve some conversion from&#x2F;to this type. As the name suggests, it’s a timestamp in the UTC timezone.</p>
+<h2 id="Get-time-resolution"><a href="#Get-time-resolution" class="headerlink" title="Get time resolution"></a>Get time resolution</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">Prelude&gt; </span><span class="language-bash">import Data.Time</span></span><br><span class="line">Prelude Data.Time&gt; getTime_resolution</span><br><span class="line">0.0000001s</span><br></pre></td></tr></table></figure>
+
+<h2 id="Getting-the-POSIX-time"><a href="#Getting-the-POSIX-time" class="headerlink" title="Getting the POSIX time"></a>Getting the POSIX time</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">Prelude&gt; </span><span class="language-bash">import Data.Time.Clock.POSIX</span></span><br><span class="line">Prelude Data.Time.Clock.POSIX&gt; getPOSIXTime</span><br><span class="line">1628354752.8489337s</span><br></pre></td></tr></table></figure>
+
+<h2 id="Getting-the-current-time"><a href="#Getting-the-current-time" class="headerlink" title="Getting the current time"></a>Getting the current time</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">Prelude&gt; </span><span class="language-bash">import Data.Time</span></span><br><span class="line"></span><br><span class="line">Prelude Data.Time&gt; getCurrentTime</span><br><span class="line">2021-04-03 16:22:38.674402 UTC</span><br></pre></td></tr></table></figure>
+
+<h2 id="Getting-the-system-time"><a href="#Getting-the-system-time" class="headerlink" title="Getting the system time"></a>Getting the system time</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">Prelude&gt; </span><span class="language-bash">import Data.Time.Clock.System</span></span><br><span class="line">Prelude Data.Time.Clock.System&gt; getSystemTime</span><br><span class="line">MkSystemTime &#123;systemSeconds = 1628354836, systemNanoseconds = 564557100&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Working-with-time"><a href="#Working-with-time" class="headerlink" title="Working with time"></a>Working with time</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">Prelude&gt; </span><span class="language-bash">import Data.Time</span></span><br><span class="line">Prelude Data.Time&gt; fromGregorian 2020 2 31</span><br><span class="line">2020-02-29</span><br><span class="line"></span><br><span class="line">Prelude Data.Time&gt; fromGregorianValid 2020 2 31</span><br><span class="line">Nothing</span><br><span class="line"></span><br><span class="line">Prelude Data.Time&gt; fromGregorianValid 2019 10 7</span><br><span class="line">Just 2019-10-07</span><br><span class="line"></span><br><span class="line">Prelude Data.Time&gt; start &lt;- getCurrentTime</span><br><span class="line">Prelude Data.Time&gt; now &lt;- getCurrentTime</span><br><span class="line">Prelude Data.Time&gt; diffUTCTime now start</span><br><span class="line">6.6531334s</span><br><span class="line"></span><br><span class="line">Prelude Data.Time&gt; now</span><br><span class="line">2021-04-03 16:37:51.7175715 UTC</span><br><span class="line">Prelude Data.Time&gt; addUTCTime 5 now</span><br><span class="line">2021-04-03 16:37:56.7175715 UTC</span><br></pre></td></tr></table></figure>
+
+<h2 id="Formatting-dates-and-times"><a href="#Formatting-dates-and-times" class="headerlink" title="Formatting dates and times"></a>Formatting dates and times</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">Prelude&gt; </span><span class="language-bash">import Data.Time</span></span><br><span class="line">Prelude Data.Time&gt; now &lt;- getCurrentTime</span><br><span class="line">Prelude Data.Time&gt; now</span><br><span class="line">2021-04-03 16:32:43.4961349 UTC</span><br><span class="line">Prelude Data.Time&gt; formatTime defaultTimeLocale &quot;%_Y-%m-%dT%H:%M:%S.%q%z&quot; now</span><br><span class="line">&quot;2021-04-03T16:32:43.496134900000+0000&quot;</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Time-of-Haskell"><span class="toc-number">1.</span> <span class="toc-text">Time of Haskell</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Importing-and-using-time-library"><span class="toc-number">1.1.</span> <span class="toc-text">Importing and using time library</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Get-time-resolution"><span class="toc-number">1.2.</span> <span class="toc-text">Get time resolution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Getting-the-POSIX-time"><span class="toc-number">1.3.</span> <span class="toc-text">Getting the POSIX time</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Getting-the-current-time"><span class="toc-number">1.4.</span> <span class="toc-text">Getting the current time</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Getting-the-system-time"><span class="toc-number">1.5.</span> <span class="toc-text">Getting the system time</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Working-with-time"><span class="toc-number">1.6.</span> <span class="toc-text">Working with time</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Formatting-dates-and-times"><span class="toc-number">1.7.</span> <span class="toc-text">Formatting dates and times</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

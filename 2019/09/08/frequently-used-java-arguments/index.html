@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Frequently used Java arguments | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Frequently used Java arguments
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2019/09/08</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/Java/">Java</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tag"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Java" class='tag'>Java</a>
+
+
+          
+        </div>
+        <h1 id="Frequently-used-Java-arguments"><a href="#Frequently-used-Java-arguments" class="headerlink" title="Frequently used Java arguments"></a>Frequently used Java arguments</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/8/docs/technotes/tools/unix/java.html">https://docs.oracle.com/javase/8/docs/technotes/tools/unix/java.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.oracle.com/en/java/javase/11/tools/java.html">https://docs.oracle.com/en/java/javase/11/tools/java.html</a></li>
+</ul>
+<h2 id="Language-and-encoding"><a href="#Language-and-encoding" class="headerlink" title="Language and encoding"></a>Language and encoding</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-Duser.language=en \</span><br><span class="line">-Duser.country=US \</span><br><span class="line">-Dfile.encoding=UTF-8 \</span><br></pre></td></tr></table></figure>
+
+<h2 id="Memory"><a href="#Memory" class="headerlink" title="Memory"></a>Memory</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-Xms1024M \</span><br><span class="line">-Xmx1024M \</span><br><span class="line">-Xss2M \</span><br><span class="line">-XX:+UseLargePages \</span><br><span class="line">-XX:+AlwaysPreTouch \</span><br><span class="line">-XX:+PrintCommandLineFlags \</span><br><span class="line">-XX:+HeapDumpOnOutOfMemoryError \</span><br><span class="line">-XX:HeapDumpPath=/var/log/java_heapdump_%p.hprof \</span><br></pre></td></tr></table></figure>
+
+<h2 id="Container-support"><a href="#Container-support" class="headerlink" title="Container support"></a>Container support</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-XX:+PrintContainerInfo \</span><br><span class="line">-XX:+UseContainerSupport \</span><br><span class="line">-XX:MinRAMPercentage=25 \</span><br><span class="line">-XX:MaxRAMPercentage=75 \</span><br><span class="line">-XX:+UseLargePages \</span><br><span class="line">-XX:+AlwaysPreTouch \</span><br><span class="line">-XX:+PrintCommandLineFlags \</span><br><span class="line">-XX:+HeapDumpOnOutOfMemoryError \</span><br><span class="line">-XX:HeapDumpPath=/var/log/java_heapdump_%p.hprof \</span><br></pre></td></tr></table></figure>
+
+<h2 id="JMX"><a href="#JMX" class="headerlink" title="JMX"></a>JMX</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-Djava.rmi.server.hostname=&lt;external IP&gt; \</span><br><span class="line">-Dcom.sun.management.jmxremote \</span><br><span class="line">-Dcom.sun.management.jmxremote.local.only=<span class="literal">false</span> \</span><br><span class="line">-Dcom.sun.management.jmxremote.ssl=<span class="literal">false</span> \</span><br><span class="line">-Dcom.sun.management.jmxremote.authenticate=<span class="literal">false</span> \</span><br><span class="line">-Dcom.sun.management.jmxremote.port=18983 \</span><br><span class="line">-Dcom.sun.management.jmxremote.rmi.port=18983 \</span><br></pre></td></tr></table></figure>
+
+<h2 id="GC"><a href="#GC" class="headerlink" title="GC"></a>GC</h2><h3 id="GC-log"><a href="#GC-log" class="headerlink" title="GC log"></a>GC log</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-Xloggc:logs/gc.log \</span><br><span class="line">-verbose:gc \</span><br><span class="line">-XX:+DisableExplicitGC \</span><br><span class="line">-XX:+PrintGCDetails \</span><br><span class="line">-XX:+PrintGCDateStamps \</span><br><span class="line">-XX:+PrintGCTimeStamps \</span><br><span class="line">-XX:+UseGCLogFileRotation \</span><br><span class="line">-XX:NumberOfGCLogFiles=2 \</span><br><span class="line">-XX:GCLogFileSize=64M \</span><br></pre></td></tr></table></figure>
+
+<h3 id="ParallelGC"><a href="#ParallelGC" class="headerlink" title="ParallelGC"></a>ParallelGC</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-XX:+UseParallelGC \</span><br><span class="line">-XX:+UseParallelOldGC \</span><br></pre></td></tr></table></figure>
+
+<h3 id="ConcMarkSweepGC"><a href="#ConcMarkSweepGC" class="headerlink" title="ConcMarkSweepGC"></a>ConcMarkSweepGC</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-XX:+UseConcMarkSweepGC \</span><br><span class="line">-XX:+UseParNewGC \</span><br><span class="line">-XX:+CMSParallelRemarkEnabled \</span><br><span class="line">-XX:+CMSClassUnloadingEnabled \</span><br></pre></td></tr></table></figure>
+
+<h3 id="G1GC"><a href="#G1GC" class="headerlink" title="G1GC"></a>G1GC</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-XX:+UseG1GC \</span><br><span class="line">-XX:MaxGCPauseMillis=250 \</span><br></pre></td></tr></table></figure>
+
+<h2 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Djava.awt.headless=<span class="literal">true</span> \</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Frequently-used-Java-arguments"><span class="toc-number">1.</span> <span class="toc-text">Frequently used Java arguments</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Language-and-encoding"><span class="toc-number">1.1.</span> <span class="toc-text">Language and encoding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Memory"><span class="toc-number">1.2.</span> <span class="toc-text">Memory</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Container-support"><span class="toc-number">1.3.</span> <span class="toc-text">Container support</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JMX"><span class="toc-number">1.4.</span> <span class="toc-text">JMX</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GC"><span class="toc-number">1.5.</span> <span class="toc-text">GC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#GC-log"><span class="toc-number">1.5.1.</span> <span class="toc-text">GC log</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ParallelGC"><span class="toc-number">1.5.2.</span> <span class="toc-text">ParallelGC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ConcMarkSweepGC"><span class="toc-number">1.5.3.</span> <span class="toc-text">ConcMarkSweepGC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#G1GC"><span class="toc-number">1.5.4.</span> <span class="toc-text">G1GC</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Misc"><span class="toc-number">1.6.</span> <span class="toc-text">Misc</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

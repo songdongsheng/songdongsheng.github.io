@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>TCC principle | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          TCC principle
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2019/04/26</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Architecture/">Architecture</a>/ <a class="article-category-link" href="/categories/Architecture/TCC/">TCC</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tag"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Architecture" class='tag'>Architecture</a>
+
+
+          
+        </div>
+        <h1 id="TCC-principle"><a href="#TCC-principle" class="headerlink" title="TCC principle"></a>TCC principle</h1><h2 id="In-a-nutshell"><a href="#In-a-nutshell" class="headerlink" title="In a nutshell"></a>In a nutshell</h2><ol>
+<li><p>Try: 尝试执行业务</p>
+<ul>
+<li>完成所有业务检查(一致性)</li>
+<li>预留必须业务资源(准隔离性)</li>
+<li>Autonomous Timeout and Cancel</li>
+</ul>
+</li>
+<li><p>Confirm: 确认执行业务</p>
+<ul>
+<li>真正执行业务</li>
+<li>不作任何业务检查</li>
+<li>只使用 Try 阶段预留的业务资源</li>
+<li>操作满足幂等性</li>
+</ul>
+</li>
+<li><p>Cancel: 取消执行业务</p>
+<ul>
+<li>释放 Try 阶段预留的业务资源</li>
+<li>操作满足幂等性</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">TccService</span>&lt;P <span class="keyword">extends</span> <span class="title class_">TccRequest</span>&lt;R&gt;, R <span class="keyword">extends</span> <span class="title class_">Serializable</span>&gt; &#123;</span><br><span class="line">    R <span class="title function_">doTry</span><span class="params">(P param)</span>;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">doConfirm</span><span class="params">(P param)</span>;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">doCancel</span><span class="params">(P param)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Participant"><a href="#Participant" class="headerlink" title="Participant"></a>Participant</h2><ol>
+<li><p>Try: ParticipantLink</p>
+ <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;participantLink&quot;</span><span class="punctuation">:</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;uri&quot;</span><span class="punctuation">:</span><span class="string">&quot;http://www.example.com/v1/tcc/tx/782973177474060290&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;expires&quot;</span><span class="punctuation">:</span><span class="string">&quot;2017-10-24T10:20:12Z&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Confirm</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PUT /v1/tcc/tx/782973177474060290 HTTP/1.1</span><br><span class="line">Host: www.example.com</span><br><span class="line">Accept: application/tcc</span><br><span class="line"></span><br><span class="line">HTTP/1.1 204 No Content</span><br><span class="line">HTTP/1.1 404 Not Found</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Cancel</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">DELETE /v1/tcc/tx/782973177474060290 HTTP/1.1</span><br><span class="line">Host: www.example.com</span><br><span class="line">Accept: application/tcc</span><br><span class="line"></span><br><span class="line">HTTP/1.1 204 No Content</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>URL</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">^/v1/tcc/bo/&#123;type&#125;       POST</span><br><span class="line">^/v1/tcc/bo/&#123;type&#125;/&#123;id&#125;  PATCH|PUT|DELETE</span><br><span class="line">^/v1/tcc/tx/&#123;txid&#125;       PUT to confirm, DELETE to cancel</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="Coordinator"><a href="#Coordinator" class="headerlink" title="Coordinator"></a>Coordinator</h2><ol>
+<li><p>Confirm all participants when asked to do so.</p>
+</li>
+<li><p>Recover after failures during the confirmation phase.</p>
+</li>
+<li><p>Allow cancellation of all participants when asked to do so.</p>
+</li>
+<li><p>URL</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">^/v1/tcc/dtc/confirm     PUT to confirm</span><br><span class="line">^/v1/tcc/dtc/cancel      DELETE to cancel</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#TCC-principle"><span class="toc-number">1.</span> <span class="toc-text">TCC principle</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#In-a-nutshell"><span class="toc-number">1.1.</span> <span class="toc-text">In a nutshell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Participant"><span class="toc-number">1.2.</span> <span class="toc-text">Participant</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Coordinator"><span class="toc-number">1.3.</span> <span class="toc-text">Coordinator</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

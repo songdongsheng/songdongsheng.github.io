@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Fused Multiply-Add (FMA) | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Fused Multiply-Add (FMA)
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2021/10/01</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/Linux/">Linux</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+  <a href="/tags/#Operating%20system" class='tag'>Operating system</a>
+
+
+          
+        </div>
+        <h1 id="Fused-Multiply-Add-FMA"><a href="#Fused-Multiply-Add-FMA" class="headerlink" title="Fused Multiply-Add (FMA)"></a>Fused Multiply-Add (FMA)</h1><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>In computing, especially digital signal processing, the multiply-add operation is a common step that computes the product of two numbers and adds that product to an accumulator. The hardware unit that performs the operation is known as a multiplier–accumulator, this operation modifies an accumulator a:</p>
+<pre><code>  a ← a + ( b × c )
+</code></pre>
+<p>When done with floating point numbers, it might be performed with two roundings (typical in many DSPs), or with a single rounding. When performed with a single rounding, it is called a fused multiply–add (<strong>FMA</strong>).</p>
+<h2 id="In-floating-point-arithmetic"><a href="#In-floating-point-arithmetic" class="headerlink" title="In floating-point arithmetic"></a>In floating-point arithmetic</h2><p>When done with integers, the operation is typically exact (computed modulo some power of two). However, floating-point numbers have only a certain amount of mathematical precision. That is, digital floating-point arithmetic is generally not associative or distributive. Therefore, it makes a difference to the result whether the multiply–add is performed with two roundings, or in one operation with a single rounding (a fused multiply–add). <strong>IEEE 754-2008</strong> specifies that it must be performed with one rounding, yielding a more accurate result.</p>
+<h2 id="Fused-multiply–add"><a href="#Fused-multiply–add" class="headerlink" title="Fused multiply–add"></a>Fused multiply–add</h2><p>A fused multiply–add (FMA or fmadd) is a floating-point multiply–add operation performed in one step, with a single rounding. That is, where an unfused multiply–add would compute the product b × c, round it to N significant bits, add the result to a, and round back to N significant bits, a fused multiply–add would compute the entire expression a + (b × c) to its full precision before rounding the final result down to N significant bits.</p>
+<p>A fast FMA can speed up and improve the accuracy of many computations that involve the accumulation of products:</p>
+<ul>
+<li>Dot product</li>
+<li>Matrix multiplication</li>
+<li>Polynomial evaluation (e.g., with Horner’s rule)</li>
+<li>Newton’s method for evaluating functions (from the inverse function)</li>
+<li>Convolutions and artificial neural networks</li>
+<li>Multiplication in double-double arithmetic</li>
+</ul>
+<p>Fused multiply–add can usually be relied on to give more accurate results. However, William Kahan has pointed out that it can give problems if used unthinkingly.</p>
+<p>When implemented inside a microprocessor, an FMA can be faster than a multiply operation followed by an add.</p>
+<p>Another benefit of including this instruction is that it allows an efficient software implementation of division and square root operations, thus eliminating the need for dedicated hardware for those operations.</p>
+<h2 id="Support"><a href="#Support" class="headerlink" title="Support"></a>Support</h2><p>The FMA operation is included in <strong>IEEE 754-2008</strong>. The 1999 standard of the C programming language supports the FMA operation through the <code>fma()</code> standard math library function, and standard <strong>pragmas</strong> (<code>#pragma STDC FP_CONTRACT</code>) controlling optimizations based on FMA.</p>
+<p>The fused multiply–add operation was introduced as “multiply–add fused” in the <strong>IBM POWER1</strong> (1990) processor, but has been added to numerous other processors since then.</p>
+<ul>
+<li>x86 processors with FMA3 and&#x2F;or FMA4 instruction set</li>
+<li>ARM processors with VFPv4 and&#x2F;or NEONv2</li>
+<li>MIPS processors</li>
+<li>IBM z&#x2F;Architecture</li>
+<li>GPUs and GPGPU boards</li>
+<li>Vector Processors</li>
+</ul>
+<h2 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h2><h3 id="Test-program"><a href="#Test-program" class="headerlink" title="Test program"></a>Test program</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">madd_i</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b, <span class="type">int</span> c)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a * b + c;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">float</span> <span class="title function_">madd_s</span><span class="params">(<span class="type">float</span> a, <span class="type">float</span> b, <span class="type">float</span> c)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a * b + c;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">double</span> <span class="title function_">madd_d</span><span class="params">(<span class="type">double</span> a, <span class="type">double</span> b, <span class="type">double</span> c)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a * b + c;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">msub_i</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b, <span class="type">int</span> c)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a * b - c;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">float</span> <span class="title function_">msub_s</span><span class="params">(<span class="type">float</span> a, <span class="type">float</span> b, <span class="type">float</span> c)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a * b - c;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">double</span> <span class="title function_">msub_d</span><span class="params">(<span class="type">double</span> a, <span class="type">double</span> b, <span class="type">double</span> c)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a * b - c;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ARMv8-A"><a href="#ARMv8-A" class="headerlink" title="ARMv8-A"></a>ARMv8-A</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">aarch64-linux-gnu-gcc -O2 -S -o - test.c</span><br><span class="line"></span><br><span class="line">aarch64-linux-gnu-gcc -O2 -Ofast -c test.c &amp;&amp; \</span><br><span class="line">aarch64-linux-gnu-objdump -Cw --visualize-jumps -d -S -t test.o</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">0000000000000000 &lt;madd_i&gt;:</span><br><span class="line">   0:   1b010800        madd    w0, w0, w1, w2</span><br><span class="line">   4:   d65f03c0        ret</span><br><span class="line"></span><br><span class="line">0000000000000010 &lt;madd_s&gt;:</span><br><span class="line">  10:   1f010800        fmadd   s0, s0, s1, s2</span><br><span class="line">  14:   d65f03c0        ret</span><br><span class="line"></span><br><span class="line">0000000000000020 &lt;madd_d&gt;:</span><br><span class="line">  20:   1f410800        fmadd   d0, d0, d1, d2</span><br><span class="line">  24:   d65f03c0        ret</span><br><span class="line"></span><br><span class="line">0000000000000030 &lt;msub_i&gt;:</span><br><span class="line">  30:   1b017c00        mul     w0, w0, w1</span><br><span class="line">  34:   4b020000        sub     w0, w0, w2</span><br><span class="line">  38:   d65f03c0        ret</span><br><span class="line"></span><br><span class="line">0000000000000040 &lt;msub_s&gt;:</span><br><span class="line">  40:   1f218800        fnmsub  s0, s0, s1, s2</span><br><span class="line">  44:   d65f03c0        ret</span><br><span class="line"></span><br><span class="line">0000000000000050 &lt;msub_d&gt;:</span><br><span class="line">  50:   1f618800        fnmsub  d0, d0, d1, d2</span><br><span class="line">  54:   d65f03c0        ret</span><br></pre></td></tr></table></figure>
+
+<h3 id="ARMv7-A"><a href="#ARMv7-A" class="headerlink" title="ARMv7-A"></a>ARMv7-A</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">arm-linux-gnueabi-gcc -march=armv7-a+neon-vfpv4 -mfloat-abi=hard -O2 -S -o - test.c</span><br><span class="line"></span><br><span class="line">arm-linux-gnueabi-gcc -march=armv7-a+neon-vfpv4 -mfloat-abi=hard -Ofast -c test.c &amp;&amp; \</span><br><span class="line">arm-linux-gnueabi-objdump -Cw --visualize-jumps -d -S -t test.o</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">00000000 &lt;madd_i&gt;:</span><br><span class="line">   0:   e0202091        mla     r0, r1, r0, r2</span><br><span class="line">   4:   e12fff1e        bx      lr</span><br><span class="line"></span><br><span class="line">00000008 &lt;madd_s&gt;:</span><br><span class="line">   8:   eea01a20        vfma.f32    s2, s0, s1</span><br><span class="line">   c:   eeb00a41        vmov.f32    s0, s2</span><br><span class="line">  10:   e12fff1e        bx          lr</span><br><span class="line"></span><br><span class="line">00000014 &lt;madd_d&gt;:</span><br><span class="line">  14:   eea02b01        vfma.f64    d2, d0, d1</span><br><span class="line">  18:   eeb00b42        vmov.f64    d0, d2</span><br><span class="line">  1c:   e12fff1e        bx          lr</span><br><span class="line"></span><br><span class="line">00000020 &lt;msub_i&gt;:</span><br><span class="line">  20:   e0000091        mul     r0, r1, r0</span><br><span class="line">  24:   e0400002        sub     r0, r0, r2</span><br><span class="line">  28:   e12fff1e        bx      lr</span><br><span class="line"></span><br><span class="line">0000002c &lt;msub_s&gt;:</span><br><span class="line">  2c:   ee901a20        vfnms.f32   s2, s0, s1</span><br><span class="line">  30:   eeb00a41        vmov.f32    s0, s2</span><br><span class="line">  34:   e12fff1e        bx          lr</span><br><span class="line"></span><br><span class="line">00000038 &lt;msub_d&gt;:</span><br><span class="line">  38:   ee902b01        vfnms.f64   d2, d0, d1</span><br><span class="line">  3c:   eeb00b42        vmov.f64    d0, d2</span><br><span class="line">  40:   e12fff1e        bx          lr</span><br></pre></td></tr></table></figure>
+
+<h3 id="ARMv6"><a href="#ARMv6" class="headerlink" title="ARMv6"></a>ARMv6</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">arm-linux-gnueabi-gcc -march=armv6kz -mfloat-abi=hard -mfpu=vfpv2 -O2 -S -o - test.c</span><br><span class="line"></span><br><span class="line">arm-linux-gnueabi-gcc -march=armv6kz -mfloat-abi=hard -mfpu=vfpv2 -Ofast -c test.c &amp;&amp; \</span><br><span class="line">arm-linux-gnueabi-objdump -Cw --visualize-jumps -d -S -t test.o</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">00000000 &lt;madd_i&gt;:</span><br><span class="line">   0:   e0202091        mla     r0, r1, r0, r2</span><br><span class="line">   4:   e12fff1e        bx      lr</span><br><span class="line"></span><br><span class="line">00000008 &lt;madd_s&gt;:</span><br><span class="line">   8:   ee001a20        vmla.f32    s2, s0, s1</span><br><span class="line">   c:   eeb00a41        vmov.f32    s0, s2</span><br><span class="line">  10:   e12fff1e        bx          lr</span><br><span class="line"></span><br><span class="line">00000014 &lt;madd_d&gt;:</span><br><span class="line">  14:   ee002b01        vmla.f64    d2, d0, d1</span><br><span class="line">  18:   eeb00b42        vmov.f64    d0, d2</span><br><span class="line">  1c:   e12fff1e        bx          lr</span><br><span class="line"></span><br><span class="line">00000020 &lt;msub_i&gt;:</span><br><span class="line">  20:   e0000091        mul     r0, r1, r0</span><br><span class="line">  24:   e0400002        sub     r0, r0, r2</span><br><span class="line">  28:   e12fff1e        bx      lr</span><br><span class="line"></span><br><span class="line">0000002c &lt;msub_s&gt;:</span><br><span class="line">  2c:   ee101a20        vnmls.f32   s2, s0, s1</span><br><span class="line">  30:   eeb00a41        vmov.f32    s0, s2</span><br><span class="line">  34:   e12fff1e        bx          lr</span><br><span class="line"></span><br><span class="line">00000038 &lt;msub_d&gt;:</span><br><span class="line">  38:   ee102b01        vnmls.f64   d2, d0, d1</span><br><span class="line">  3c:   eeb00b42        vmov.f64    d0, d2</span><br><span class="line">  40:   e12fff1e        bx          lr</span><br></pre></td></tr></table></figure>
+
+<h3 id="MIPS64"><a href="#MIPS64" class="headerlink" title="MIPS64"></a>MIPS64</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mips64el-linux-gnuabi64-gcc -march=mips64r2 -O2 -S -o - test.c</span><br><span class="line"></span><br><span class="line">mips64el-linux-gnuabi64-gcc -march=mips64r2 -Ofast -c test.c &amp;&amp; \</span><br><span class="line">mips64el-linux-gnuabi64-objdump -Cw --visualize-jumps -d -S -t test.o</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">0000000000000000 &lt;madd_i&gt;:</span><br><span class="line">   0:   /-&gt; 70851802    mul     v1,a0,a1</span><br><span class="line">   4:   \-- 03e00008    jr      ra</span><br><span class="line">   8:       00661021    addu    v0,v1,a2</span><br><span class="line"></span><br><span class="line">0000000000000010 &lt;madd_s&gt;:</span><br><span class="line">  10:   460d6002        mul.s   $f0,$f12,$f13</span><br><span class="line">  14:   03e00008        jr      ra</span><br><span class="line">  18:   460e0000        add.s   $f0,$f0,$f14</span><br><span class="line"></span><br><span class="line">0000000000000020 &lt;madd_d&gt;:</span><br><span class="line">  20:   462d6002        mul.d   $f0,$f12,$f13</span><br><span class="line">  24:   03e00008        jr      ra</span><br><span class="line">  28:   462e0000        add.d   $f0,$f0,$f14</span><br><span class="line"></span><br><span class="line">0000000000000030 &lt;msub_i&gt;:</span><br><span class="line">  30:   70852002        mul     a0,a0,a1</span><br><span class="line">  34:   03e00008        jr      ra</span><br><span class="line">  38:   00861023        subu    v0,a0,a2</span><br><span class="line"></span><br><span class="line">0000000000000040 &lt;msub_s&gt;:</span><br><span class="line">  40:   460d6002        mul.s   $f0,$f12,$f13</span><br><span class="line">  44:   03e00008        jr      ra</span><br><span class="line">  48:   460e0001        sub.s   $f0,$f0,$f14</span><br><span class="line"></span><br><span class="line">0000000000000050 &lt;msub_d&gt;:</span><br><span class="line">  50:   462d6002        mul.d   $f0,$f12,$f13</span><br><span class="line">  54:   03e00008        jr      ra</span><br><span class="line">  58:   462e0001        sub.d   $f0,$f0,$f14</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"># mips64el-linux-gnuabi64-gcc -march=mips64r6 -Ofast -s --freestanding -nostdlib -static -o mips64 mips64.S</span><br><span class="line"># mips64el-linux-gnuabi64-objdump -Cw --visualize-jumps -d -S -t mips64</span><br><span class="line"># qemu-mips64el-static mips64</span><br><span class="line"></span><br><span class="line">#include &lt;regdef.h&gt;</span><br><span class="line">#include &lt;asm/unistd.h&gt;</span><br><span class="line"></span><br><span class="line">.data</span><br><span class="line">hello_string: .ascii &quot;Hello World!\n&quot;</span><br><span class="line">hello_string_length: .quad . - hello_string</span><br><span class="line"></span><br><span class="line">.text</span><br><span class="line">.global __start</span><br><span class="line">__start:</span><br><span class="line">        bal 1f</span><br><span class="line">1:</span><br><span class="line">        .cpsetup ra, zero, 1b</span><br><span class="line"></span><br><span class="line">        dli a0, 1</span><br><span class="line">        dla a1, hello_string</span><br><span class="line">        ld a2, hello_string_length</span><br><span class="line">        dli v0, __NR_write</span><br><span class="line">        syscall</span><br><span class="line"></span><br><span class="line">        move a0, zero</span><br><span class="line">        dli v0, __NR_exit</span><br><span class="line">        syscall</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ qemu-mips64el-static mips64</span><br><span class="line">Hello World!</span><br><span class="line"></span><br><span class="line">$ mips64el-linux-gnuabi64-objdump -Cw --visualize-jumps -d -S -t mips64</span><br><span class="line">0000000120000190 &lt;__start&gt;:</span><br><span class="line">   120000190:   /-- 04110001    bal     120000198 &lt;__start+0x8&gt;</span><br><span class="line">   120000194:   |   00000000    nop</span><br><span class="line">   120000198:   \-&gt; 03800025    move    zero,gp</span><br><span class="line">   12000019c:       3c1c0002    lui     gp,0x2</span><br><span class="line">   1200001a0:       279c8048    addiu   gp,gp,-32696</span><br><span class="line">   1200001a4:       039fe02d    daddu   gp,gp,ra</span><br><span class="line">   1200001a8:       24040001    li      a0,1</span><br><span class="line">   1200001ac:       df858020    ld      a1,-32736(gp)</span><br><span class="line">   1200001b0:       df868028    ld      a2,-32728(gp)</span><br><span class="line">   1200001b4:       dcc601e0    ld      a2,480(a2)</span><br><span class="line">   1200001b8:       24021389    li      v0,5001</span><br><span class="line">   1200001bc:       0000000c    syscall</span><br><span class="line">   1200001c0:       00002025    move    a0,zero</span><br><span class="line">   1200001c4:       240213c2    li      v0,5058</span><br><span class="line">   1200001c8:       0000000c    syscall</span><br><span class="line">   1200001cc:       00000000    nop</span><br></pre></td></tr></table></figure>
+
+<h3 id="PowerPC"><a href="#PowerPC" class="headerlink" title="PowerPC"></a>PowerPC</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">powerpc64le-linux-gnu-gcc -mcpu=power8 -O2 -S -o - test.c</span><br><span class="line"></span><br><span class="line">powerpc64le-linux-gnu-gcc -mcpu=power8 -Ofast -c test.c &amp;&amp; \</span><br><span class="line">powerpc64le-linux-gnu-objdump -Cw --visualize-jumps -d -S -t test.o</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">0000000000000000 &lt;madd_i&gt;:</span><br><span class="line">   0:   d6 21 63 7c     mullw   r3,r3,r4</span><br><span class="line">   4:   14 2a 63 7c     add     r3,r3,r5</span><br><span class="line">   8:   b4 07 63 7c     extsw   r3,r3</span><br><span class="line">   c:   20 00 80 4e     blr</span><br><span class="line"></span><br><span class="line">0000000000000020 &lt;madd_s&gt;:</span><br><span class="line">  20:   ba 18 21 ec     fmadds  f1,f1,f2,f3</span><br><span class="line">  24:   20 00 80 4e     blr</span><br><span class="line"></span><br><span class="line">0000000000000040 &lt;madd_d&gt;:</span><br><span class="line">  40:   ba 18 21 fc     fmadd   f1,f1,f2,f3</span><br><span class="line">  44:   20 00 80 4e     blr</span><br><span class="line"></span><br><span class="line">0000000000000060 &lt;msub_i&gt;:</span><br><span class="line">  60:   d6 21 63 7c     mullw   r3,r3,r4</span><br><span class="line">  64:   50 18 65 7c     subf    r3,r5,r3</span><br><span class="line">  68:   b4 07 63 7c     extsw   r3,r3</span><br><span class="line">  6c:   20 00 80 4e     blr</span><br><span class="line"></span><br><span class="line">0000000000000080 &lt;msub_s&gt;:</span><br><span class="line">  80:   b8 18 21 ec     fmsubs  f1,f1,f2,f3</span><br><span class="line">  84:   20 00 80 4e     blr</span><br><span class="line"></span><br><span class="line">00000000000000a0 &lt;msub_d&gt;:</span><br><span class="line">  a0:   b8 18 21 fc     fmsub   f1,f1,f2,f3</span><br><span class="line">  a4:   20 00 80 4e     blr</span><br></pre></td></tr></table></figure>
+
+<h3 id="RISC-V"><a href="#RISC-V" class="headerlink" title="RISC-V"></a>RISC-V</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">riscv64-linux-gnu-gcc -march=rv64gc -mabi=lp64d -O2 -S -o - test.c</span><br><span class="line"></span><br><span class="line">riscv64-linux-gnu-gcc -march=rv64gc -mabi=lp64d -Ofast -c test.c</span><br><span class="line">riscv64-linux-gnu-objdump -Cw --visualize-jumps -d -S -t test.o</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">0000000000000000 &lt;madd_i&gt;:</span><br><span class="line">   0:   /-&gt; 02b5053b            mulw    a0,a0,a1</span><br><span class="line">   4:   |   9d31                addw    a0,a0,a2</span><br><span class="line">   6:   \-- 8082                ret</span><br><span class="line"></span><br><span class="line">0000000000000008 &lt;madd_s&gt;:</span><br><span class="line">   8:   60b57543                fmadd.s fa0,fa0,fa1,fa2</span><br><span class="line">   c:   8082                    ret</span><br><span class="line"></span><br><span class="line">000000000000000e &lt;madd_d&gt;:</span><br><span class="line">   e:   62b57543                fmadd.d fa0,fa0,fa1,fa2</span><br><span class="line">  12:   8082                    ret</span><br><span class="line"></span><br><span class="line">0000000000000014 &lt;msub_i&gt;:</span><br><span class="line">  14:   02b5053b                mulw    a0,a0,a1</span><br><span class="line">  18:   9d11                    subw    a0,a0,a2</span><br><span class="line">  1a:   8082                    ret</span><br><span class="line"></span><br><span class="line">000000000000001c &lt;msub_s&gt;:</span><br><span class="line">  1c:   60b57547                fmsub.s fa0,fa0,fa1,fa2</span><br><span class="line">  20:   8082                    ret</span><br><span class="line"></span><br><span class="line">0000000000000022 &lt;msub_d&gt;:</span><br><span class="line">  22:   62b57547                fmsub.d fa0,fa0,fa1,fa2</span><br><span class="line">  26:   8082                    ret</span><br></pre></td></tr></table></figure>
+
+<h3 id="x86-64"><a href="#x86-64" class="headerlink" title="x86_64"></a>x86_64</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x86_64-linux-gnu-gcc -march=x86-64-v3 -masm=intel -O2 -S -o - test.c</span><br><span class="line"></span><br><span class="line">x86_64-linux-gnu-gcc -march=x86-64-v3 -Ofast -c test.c &amp;&amp; \</span><br><span class="line">x86_64-linux-gnu-objdump -Cw --visualize-jumps -d -M intel -S -t test.o</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">0000000000000000 &lt;madd_i&gt;:</span><br><span class="line">   0:   0f af fe                imul   edi,esi</span><br><span class="line">   3:   8d 04 17                lea    eax,[rdi+rdx*1]</span><br><span class="line">   6:   c3                      ret</span><br><span class="line"></span><br><span class="line">0000000000000010 &lt;madd_s&gt;:</span><br><span class="line">  10:   c4 e2 69 99 c1          vfmadd132ss xmm0,xmm2,xmm1</span><br><span class="line">  15:   c3                      ret</span><br><span class="line"></span><br><span class="line">0000000000000020 &lt;madd_d&gt;:</span><br><span class="line">  20:   c4 e2 e9 99 c1          vfmadd132sd xmm0,xmm2,xmm1</span><br><span class="line">  25:   c3                      ret</span><br><span class="line"></span><br><span class="line">0000000000000030 &lt;msub_i&gt;:</span><br><span class="line">  30:   0f af fe                imul   edi,esi</span><br><span class="line">  33:   89 f8                   mov    eax,edi</span><br><span class="line">  35:   29 d0                   sub    eax,edx</span><br><span class="line">  37:   c3                      ret</span><br><span class="line"></span><br><span class="line">0000000000000040 &lt;msub_s&gt;:</span><br><span class="line">  40:   c4 e2 69 9b c1          vfmsub132ss xmm0,xmm2,xmm1</span><br><span class="line">  45:   c3                      ret</span><br><span class="line"></span><br><span class="line">0000000000000050 &lt;msub_d&gt;:</span><br><span class="line">  50:   c4 e2 e9 9b c1          vfmsub132sd xmm0,xmm2,xmm1</span><br><span class="line">  55:   c3                      ret</span><br></pre></td></tr></table></figure>
+
+<h3 id="z-x2F-Architecture"><a href="#z-x2F-Architecture" class="headerlink" title="z&#x2F;Architecture"></a>z&#x2F;Architecture</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s390x-linux-gnu-gcc -march=z13 -O2 -S -o - test.c</span><br><span class="line"></span><br><span class="line">s390x-linux-gnu-gcc -march=z13 -Ofast -c test.c &amp;&amp; \</span><br><span class="line">s390x-linux-gnu-objdump -Cw --visualize-jumps -d -S -t test.o</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">0000000000000000 &lt;madd_i&gt;:</span><br><span class="line">   0:   b2 52 00 23             msr     %r2,%r3</span><br><span class="line">   4:   1a 24                   ar      %r2,%r4</span><br><span class="line">   6:   b9 14 00 22             lgfr    %r2,%r2</span><br><span class="line">   a:   07 fe                   br      %r14</span><br><span class="line"></span><br><span class="line">0000000000000010 &lt;madd_s&gt;:</span><br><span class="line">  10:   b3 0e 40 02             maebr   %f4,%f0,%f2</span><br><span class="line">  14:   28 04                   ldr     %f0,%f4</span><br><span class="line">  16:   07 fe                   br      %r14</span><br><span class="line"></span><br><span class="line">0000000000000020 &lt;madd_d&gt;:</span><br><span class="line">  20:   e7 00 23 08 40 8f       wfmadb  %v0,%v0,%v2,%v4</span><br><span class="line">  26:   07 fe                   br      %r14</span><br><span class="line"></span><br><span class="line">0000000000000030 &lt;msub_i&gt;:</span><br><span class="line">  30:   b2 52 00 23             msr     %r2,%r3</span><br><span class="line">  34:   1b 24                   sr      %r2,%r4</span><br><span class="line">  36:   b9 14 00 22             lgfr    %r2,%r2</span><br><span class="line">  3a:   07 fe                   br      %r14</span><br><span class="line"></span><br><span class="line">0000000000000040 &lt;msub_s&gt;:</span><br><span class="line">  40:   b3 0f 40 02             msebr   %f4,%f0,%f2</span><br><span class="line">  44:   28 04                   ldr     %f0,%f4</span><br><span class="line">  46:   07 fe                   br      %r14</span><br><span class="line"></span><br><span class="line">0000000000000050 &lt;msub_d&gt;:</span><br><span class="line">  50:   e7 00 23 08 40 8e       wfmsdb  %v0,%v0,%v2,%v4</span><br><span class="line">  56:   07 fe                   br      %r14</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Fused-Multiply-Add-FMA"><span class="toc-number">1.</span> <span class="toc-text">Fused Multiply-Add (FMA)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-number">1.1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#In-floating-point-arithmetic"><span class="toc-number">1.2.</span> <span class="toc-text">In floating-point arithmetic</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Fused-multiply%E2%80%93add"><span class="toc-number">1.3.</span> <span class="toc-text">Fused multiply–add</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Support"><span class="toc-number">1.4.</span> <span class="toc-text">Support</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Usage"><span class="toc-number">1.5.</span> <span class="toc-text">Usage</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Test-program"><span class="toc-number">1.5.1.</span> <span class="toc-text">Test program</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ARMv8-A"><span class="toc-number">1.5.2.</span> <span class="toc-text">ARMv8-A</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ARMv7-A"><span class="toc-number">1.5.3.</span> <span class="toc-text">ARMv7-A</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ARMv6"><span class="toc-number">1.5.4.</span> <span class="toc-text">ARMv6</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MIPS64"><span class="toc-number">1.5.5.</span> <span class="toc-text">MIPS64</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PowerPC"><span class="toc-number">1.5.6.</span> <span class="toc-text">PowerPC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RISC-V"><span class="toc-number">1.5.7.</span> <span class="toc-text">RISC-V</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#x86-64"><span class="toc-number">1.5.8.</span> <span class="toc-text">x86_64</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#z-x2F-Architecture"><span class="toc-number">1.5.9.</span> <span class="toc-text">z&#x2F;Architecture</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>
