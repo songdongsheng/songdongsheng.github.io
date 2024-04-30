@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Statically Linked Executable Hardening with PIE | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Statically Linked Executable Hardening with PIE
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2021/03/21</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/C-C/">C/C++</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+  <a href="/tags/#C/C++" class='tag'>C/C++</a>
+
+
+          
+        </div>
+        <h1 id="Statically-Linked-Executable-Hardening-with-PIE"><a href="#Statically-Linked-Executable-Hardening-with-PIE" class="headerlink" title="Statically Linked Executable Hardening with PIE"></a>Statically Linked Executable Hardening with PIE</h1><h2 id="In-a-nutshell"><a href="#In-a-nutshell" class="headerlink" title="In a nutshell"></a>In a nutshell</h2><table>
+<thead>
+<tr>
+<th>Target triplets</th>
+<th>static-pie</th>
+<th>pie</th>
+<th>Linux</th>
+<th>glibc</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>aarch64-linux-gnu-gcc</td>
+<td>OK</td>
+<td>OK</td>
+<td>Linux 3.7</td>
+<td>GLIBC_2.17</td>
+</tr>
+<tr>
+<td>arm-linux-gnueabihf-gcc</td>
+<td>rcrt1.o</td>
+<td>OK</td>
+<td>Linux 3.2</td>
+<td>GLIBC_2.4</td>
+</tr>
+<tr>
+<td>mips64-linux-gnuabi64-gcc</td>
+<td>rcrt1.o</td>
+<td>OK</td>
+<td>Linux 3.2</td>
+<td>GLIBC_2.2</td>
+</tr>
+<tr>
+<td>mipsisa64r6-linux-gnuabi64-gcc</td>
+<td>rcrt1.o</td>
+<td>OK</td>
+<td>Linux 4.5</td>
+<td>GLIBC_2.2</td>
+</tr>
+<tr>
+<td>riscv64-linux-gnu-gcc</td>
+<td>rcrt1.o</td>
+<td>OK</td>
+<td>Linux 4.15</td>
+<td>GLIBC_2.27</td>
+</tr>
+<tr>
+<td>s390x-linux-gnu-gcc</td>
+<td>rcrt1.o</td>
+<td>OK</td>
+<td>Linux 3.2</td>
+<td>GLIBC_2.2</td>
+</tr>
+<tr>
+<td>x86_64-linux-gnu-gcc</td>
+<td>OK</td>
+<td>OK</td>
+<td>Linux 3.2</td>
+<td>GLIBC_2.2.5</td>
+</tr>
+</tbody></table>
+<h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cat</span> &lt;&lt; <span class="string">EOF &gt; HelloWorld.c</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">include &lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    printf(&quot;Hello, World!\n&quot;);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h2 id="Static-PIE-Generation"><a href="#Static-PIE-Generation" class="headerlink" title="Static PIE Generation"></a>Static PIE Generation</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">export</span> HARDENING_FLAGS=<span class="string">&quot; -D_FORTIFY_SOURCE=2 -D_GLIBCXX_ASSERTIONS -Wall -Wextra -Wformat=2 -Wdate-time -Werror=format-security -Wstack-protector -fasynchronous-unwind-tables -fexceptions -fstack-protector-strong -fstack-clash-protection -pedantic -z defs -z noexecstack -z now -z relro -z text -fPIE&quot;</span></span><br><span class="line"></span><br><span class="line">$ x86_64-linux-gnu-gcc -O2 -march=haswell -mavx2 -std=c11 <span class="variable">$&#123;HARDENING_FLAGS&#125;</span> -pie -s -o HelloWorld HelloWorld.c</span><br><span class="line"></span><br><span class="line">$ x86_64-linux-gnu-gcc -O2 -march=haswell -mavx2 -std=c11 <span class="variable">$&#123;HARDENING_FLAGS&#125;</span> --static-pie -s -o HelloWorld HelloWorld.c</span><br><span class="line"></span><br><span class="line">$ file HelloWorld</span><br><span class="line">HelloWorld: ELF 64-bit LSB pie executable, UCB RISC-V, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-riscv64-lp64d.so.1, BuildID[sha1]=b9f6b891213352dc1595c34538bc6974dd59465d, <span class="keyword">for</span> GNU/Linux 4.15.0, stripped</span><br><span class="line"></span><br><span class="line">$ file HelloWorld</span><br><span class="line">HelloWorld: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, BuildID[sha1]=4aa140be9886b18dc6e8cfe969f0c62221dd5ddb, <span class="keyword">for</span> GNU/Linux 3.2.0, stripped</span><br><span class="line"></span><br><span class="line">$ file HelloWorld</span><br><span class="line">HelloWorld: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=ce5c70eefd3813ae25cbb405af8399d689b469ac, <span class="keyword">for</span> GNU/Linux 3.2.0, stripped</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$ readelf -dl HelloWorld | grep -E <span class="string">&quot;Shared library:|program interpreter:&quot;</span></span><br><span class="line">      [Requesting program interpreter: /lib64/ld-linux-x86-64.so.2]</span><br><span class="line"> 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]</span><br><span class="line"></span><br><span class="line">$ objdump -x HelloWorld | grep -C 1 GLIBC</span><br><span class="line"></span><br><span class="line">  required from libc.so.6:</span><br><span class="line">    0x06969187 0x00 02 GLIBC_2.27</span><br><span class="line"></span><br><span class="line">$ objdump -j .dynstr -s HelloWorld</span><br><span class="line"></span><br><span class="line">HelloWorld:     file format elf64-little</span><br><span class="line"></span><br><span class="line">Contents of section .dynstr:</span><br><span class="line"> 0388 00707574 73005f5f 6378615f 66696e61  .puts.__cxa_fina</span><br><span class="line"> 0398 6c697a65 005f5f6c 6962635f 73746172  lize.__libc_star</span><br><span class="line"> 03a8 745f6d61 696e006c 6962632e 736f2e36  t_main.libc.so.6</span><br><span class="line"> 03b8 00474c49 42435f32 2e323700 5f49544d  .GLIBC_2.27._ITM</span><br><span class="line"> 03c8 5f646572 65676973 74657254 4d436c6f  _deregisterTMClo</span><br><span class="line"> 03d8 6e655461 626c6500 5f49544d 5f726567  neTable._ITM_reg</span><br><span class="line"> 03e8 69737465 72544d43 6c6f6e65 5461626c  isterTMCloneTabl</span><br><span class="line"> 03f8 6500                                 e.</span><br><span class="line"></span><br><span class="line">$ readelf --dyn-syms HelloWorld</span><br><span class="line"></span><br><span class="line">Symbol table <span class="string">&#x27;.dynsym&#x27;</span> contains 8 entries:</span><br><span class="line">   Num:    Value          Size Type    Bind   Vis      Ndx Name</span><br><span class="line">     0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND</span><br><span class="line">     1: 0000000000000560     0 SECTION LOCAL  DEFAULT   12</span><br><span class="line">     2: 0000000000000000     0 NOTYPE  WEAK   DEFAULT  UND _ITM_deregisterT[...]</span><br><span class="line">     3: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND _[...]@GLIBC_2.27 (2)</span><br><span class="line">     4: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND puts@GLIBC_2.27 (2)</span><br><span class="line">     5: 0000000000000000     0 FUNC    WEAK   DEFAULT  UND _[...]@GLIBC_2.27 (2)</span><br><span class="line">     6: 0000000000000000     0 NOTYPE  WEAK   DEFAULT  UND _ITM_registerTMC[...]</span><br><span class="line">     7: 0000000000000624    32 FUNC    GLOBAL DEFAULT   12 main</span><br></pre></td></tr></table></figure>
+
+<h2 id="Notes-on-Build-Hardening"><a href="#Notes-on-Build-Hardening" class="headerlink" title="Notes on Build Hardening"></a>Notes on Build Hardening</h2><h3 id="Stack-guards"><a href="#Stack-guards" class="headerlink" title="Stack guards"></a>Stack guards</h3><p>To enable this stack protection, code is compiled with the option <strong>-fstack-protector</strong>. This looks for functions that have typical buffers, inserting the guard&#x2F;canary on the stack when the function is entered, and then verifying the value hasn’t been overwritten before exit.</p>
+<h3 id="ASLR"><a href="#ASLR" class="headerlink" title="ASLR"></a>ASLR</h3><p>When a buffer-overflow is exploited, a hacker will overwrite values pointing to specific locations in memory. That’s because locations, the layout of memory, are predictable. It’s a detail that programmers don’t know when they write the code, but something hackers can reverse-engineer when trying to figure how to exploit code.</p>
+<p>Obviously a useful mitigation step would be to randomize the layout of memory, so nothing is in a predictable location. This is known as <strong>address space layout randomization</strong> or <strong>ASLR</strong>.</p>
+<p>The word layout comes from the fact that the when a program runs, it’ll consist of several segments of memory. The basic list of segments are:</p>
+<ul>
+<li>the executable code</li>
+<li>static values (like strings)</li>
+<li>global variables</li>
+<li>libraries</li>
+<li>heap (growable)</li>
+<li>stack (growable)</li>
+<li>mmap()&#x2F;VirtualAlloc() (random location)</li>
+</ul>
+<p>The problem for executable code is that for ASLR to work, it must be made position independent. Historically, when code would call a function, it would jump to the fixed location in memory where that function was know to be located, thus it was dependent on the position in memory.</p>
+<p>To fix this, code can be changed to jump to relative positions instead, where the code jumps at an offset from wherever it was jumping from.</p>
+<p>To  enable this on the compiler, the flag <strong>-fPIE</strong> (position independent executable) is used. Or, if building just a library and not a full executable program, the flag <strong>-fPIC</strong> (position independent code) is used.</p>
+<p>Then, when linking a program composed of compiled files and libraries, the flag <strong>-pie</strong> or <strong>–static-pie</strong> is used. In other words, use <strong>-fPIE -pie</strong> when compiling executables, and <strong>-fPIC</strong> when compiling for libraries.</p>
+<p>When compiled this way, exploits will no longer be able to jump directly into known locations for code.</p>
+<h3 id="RELRO"><a href="#RELRO" class="headerlink" title="RELRO"></a>RELRO</h3><p>Modern systems have dynamic&#x2F;shared libraries. Most of the code of a typical program consists of standard libraries. As mentioned above, the GNU standard library glibc is 8-megabytes in size. Linking that into every one of hundreds of programs means gigabytes of disk space may be needed to store all the executables. It’s better to have a single file on the disk, libglibc.so, that all programs can share it.</p>
+<p>The problem is that every program will load libraries into random locations. Therefore, code cannot jump to functions in the library, either with a fixed or relative address. To solve this, what position independent code does is jump to an entry in a table, relative to its own position. That table will then have the fixed location of the real function that it’ll jump to. When a library is loaded, that table is filled in with the correct values.</p>
+<p>The problem is that hacker exploits can also write to that table. Therefore, what you need to do is make that table read-only after it’s been filled in. That’s done with the “relro” flag, meaning “relocation read-only”. An additional flag, “now”, must be set to force this behavior at program startup, rather than waiting until later.</p>
+<p>When passed to the linker, these flags would be “**-z relro -z now<strong>“. However, we usually call the linker directly from the compiler, and pass the flags through. This is done in gcc by doing “</strong>-Wl,-z,relro -Wl,-z,now**“.</p>
+<h3 id="Non-executable-stack"><a href="#Non-executable-stack" class="headerlink" title="Non-executable stack"></a>Non-executable stack</h3><p>Exploiting a stack buffer overflow has three steps:</p>
+<ul>
+<li>figure out where the stack is located (mitigated by ASLR)</li>
+<li>overwrite the stack frame control structure (mitigated by stack guards)</li>
+<li>execute code in the  buffer</li>
+</ul>
+<p>We can mitigate the third step by preventing code from executing from stack buffers. The stack contains data, not code, so this shouldn’t be a problem. In much the same way that we can mark memory regions as read-only, we can mark them no-execute. This should be the default, of course, but as the paper above points out, there are some cases where code is actually placed on the stack.</p>
+<p>This open can be set with <strong>-Wl,-z,noexecstack</strong>, when compiling both the executable and the libraries. This is the default, so you shouldn’t need to do anything special. However, as the paper points out, there are things that get in the way of this if you aren’t careful. The setting is more what you’d call “guidelines” than actual “rules”. Despite setting this flag, building software may result in an executable stack.</p>
+<h3 id="FORTIFY-SOURCE"><a href="#FORTIFY-SOURCE" class="headerlink" title="FORTIFY_SOURCE"></a>FORTIFY_SOURCE</h3><p>One reason for so many buffer-overflow bugs is that the standard functions that copy buffers have no ability to verify whether they’ve gone past the end of a buffer. A common recommendation for code is to replace those inherently unsafe functions with safer alternatives that include length checks. For example the notoriously unsafe function <strong>strcpy()</strong> can be replaced with <strong>strlcpy()</strong>, which adds a length check.</p>
+<p>Instead of editing the code, the GNU compiler can do this automatically. This is done with the build option <strong>-O2 -D_FORTIFY_SOURCE&#x3D;2</strong>.</p>
+<p>This is only a partial solution. The compiler can’t always figure out the size of the buffer being copied into, and thus will leave the code untouched. Only when the compiler can figure things out does it make the change.</p>
+<h3 id="Format-string-bugs"><a href="#Format-string-bugs" class="headerlink" title="Format string bugs"></a>Format string bugs</h3><p>Because this post is about build hardening, I want to mention format-string bugs. This is a common  bug in old code that can be caught by adding warnings for it in the build options, namely: <code>-Wformat=2 -Wformat-security -Werror=format-security</code></p>
+<h3 id="Warnings-and-static-analysis"><a href="#Warnings-and-static-analysis" class="headerlink" title="Warnings and static analysis"></a>Warnings and static analysis</h3><p>When building code, the compiler will generate warnings about confusion, possible bugs, or bad style. The compiler has a default set of warnings. Robust code is compiled with the <strong>-Wall</strong>, meaning “all” warnings, though it actually doesn’t enable all of them. Paranoid code uses the <strong>-Wextra</strong> warnings to include those not included with <strong>-Wall</strong>. There is also the <strong>-pedantic</strong> or <strong>-Wpedantic</strong> flag, which warns on C compatibility issues.</p>
+<p>All of these warnings can be converted into errors, which prevents the software from building, using the <strong>-Werror</strong> flag. As shown above, this can also be used with individual error names to make only some warnings into errors.</p>
+<h3 id="Optimization-level"><a href="#Optimization-level" class="headerlink" title="Optimization level"></a>Optimization level</h3><p>Compilers can optimize code, looking for common patterns, to make it go faster. You can set your desired optimization level.</p>
+<p>Some things, namely the <strong>FORTIFY_SOURCE</strong> feature, don’t work without optimization enabled. That’s why in the above example, <strong>-O2</strong> is specified, to set optimization level <strong>2</strong>.</p>
+<p>Higher levels aren’t recommended. For one thing, this doesn’t make code faster on modern, complex processors. The advanced processors you have in your desktop&#x2F;mobile-phone themselves do extensive optimization. What they want is small code size that fits within cache. The <strong>-O3 level make code bigger</strong>, which is good for older, simpler processors, but is bad for modern, advanced processors.</p>
+<p>In addition, the aggressive settings of <strong>-O3 have lead to security problems over “undefined behavior”</strong>. Even <strong>-O2 is a little suspect</strong>, with some guides suggesting the <strong>proper optimization is -O1</strong>. However, some optimizations are actually more secure than no optimizations, so for the security paranoid, <strong>-O1 should be considered the minimum</strong>.</p>
+<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>If you are building code using gcc on Linux, here are the options&#x2F;flags you should use: <code>-Wall -Wformat -Wformat-security -Werror=format-security -fstack-protector -pie -fPIE -D_FORTIFY_SOURCE=2 -O2 -z defs -z noexecstack -z now -z relro -z text</code></p>
+<p>If you are more paranoid, these options would be: <code>-O2 -D_FORTIFY_SOURCE=2 -Wall -Wextra -Wformat=2 -Wformat-security -Wstack-protector -Wdate-time -Werror -pedantic -fstack-protector-all -fstack-clash-protection -fPIE -pie -z defs -z noexecstack -z now -z relro -z text</code></p>
+<h2 id="Hardening-Check"><a href="#Hardening-Check" class="headerlink" title="Hardening Check"></a>Hardening Check</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">hardening-check HelloWorld</span></span><br><span class="line">HelloWorld:</span><br><span class="line"> Position Independent Executable: yes</span><br><span class="line"> Stack protected: yes</span><br><span class="line"> Fortify Source functions: unknown, no protectable libc functions used</span><br><span class="line"> Read-only relocations: yes</span><br><span class="line"> Immediate binding: yes</span><br><span class="line"> Stack clash protection: unknown, no -fstack-clash-protection instructions found</span><br><span class="line"> Control flow integrity: no, not found!</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Statically-Linked-Executable-Hardening-with-PIE"><span class="toc-number">1.</span> <span class="toc-text">Statically Linked Executable Hardening with PIE</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#In-a-nutshell"><span class="toc-number">1.1.</span> <span class="toc-text">In a nutshell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hello-World"><span class="toc-number">1.2.</span> <span class="toc-text">Hello World</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Static-PIE-Generation"><span class="toc-number">1.3.</span> <span class="toc-text">Static PIE Generation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Notes-on-Build-Hardening"><span class="toc-number">1.4.</span> <span class="toc-text">Notes on Build Hardening</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Stack-guards"><span class="toc-number">1.4.1.</span> <span class="toc-text">Stack guards</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ASLR"><span class="toc-number">1.4.2.</span> <span class="toc-text">ASLR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RELRO"><span class="toc-number">1.4.3.</span> <span class="toc-text">RELRO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Non-executable-stack"><span class="toc-number">1.4.4.</span> <span class="toc-text">Non-executable stack</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FORTIFY-SOURCE"><span class="toc-number">1.4.5.</span> <span class="toc-text">FORTIFY_SOURCE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Format-string-bugs"><span class="toc-number">1.4.6.</span> <span class="toc-text">Format string bugs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Warnings-and-static-analysis"><span class="toc-number">1.4.7.</span> <span class="toc-text">Warnings and static analysis</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Optimization-level"><span class="toc-number">1.4.8.</span> <span class="toc-text">Optimization level</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Summary"><span class="toc-number">1.4.9.</span> <span class="toc-text">Summary</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hardening-Check"><span class="toc-number">1.5.</span> <span class="toc-text">Hardening Check</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

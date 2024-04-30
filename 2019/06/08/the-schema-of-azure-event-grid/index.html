@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>The Schema of Azure Event Grid | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          The Schema of Azure Event Grid
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2019/06/08</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Cloud/">Cloud</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tag"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Cloud" class='tag'>Cloud</a>
+
+
+          
+        </div>
+        <h1 id="The-Schema-of-Azure-Event-Grid"><a href="#The-Schema-of-Azure-Event-Grid" class="headerlink" title="The Schema of Azure Event Grid"></a>The Schema of Azure Event Grid</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/azure/event-grid/event-schema">https://docs.microsoft.com/en-us/azure/event-grid/event-schema</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/azure/event-grid/subscription-creation-schema">https://docs.microsoft.com/en-us/azure/event-grid/subscription-creation-schema</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Azure/azure-rest-api-specs/tree/master/specification/eventgrid/data-plane">https://github.com/Azure/azure-rest-api-specs/tree/master/specification/eventgrid/data-plane</a></li>
+<li><a target="_blank" rel="noopener" href="https://eventstore.org/">https://eventstore.org</a></li>
+</ul>
+<h2 id="Schemas"><a href="#Schemas" class="headerlink" title="Schemas"></a>Schemas</h2><h3 id="Event-Schema"><a href="#Event-Schema" class="headerlink" title="Event Schema"></a>Event Schema</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">[</span></span><br><span class="line">  <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;topic&quot;</span><span class="punctuation">:</span> string<span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;subject&quot;</span><span class="punctuation">:</span> string<span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> string<span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;eventType&quot;</span><span class="punctuation">:</span> string<span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;eventTime&quot;</span><span class="punctuation">:</span> string<span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;data&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">      object-unique-to-each-publisher</span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;dataVersion&quot;</span><span class="punctuation">:</span> string<span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;metadataVersion&quot;</span><span class="punctuation">:</span> string</span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="subscription-schema"><a href="#subscription-schema" class="headerlink" title="subscription schema"></a>subscription schema</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;destination&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;endpointType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;webhook&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;endpointUrl&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://example.azurewebsites.net/api/HttpTriggerCSharp1?code=VXbGWce53l48Mt8wuotr0GPmyJ/nDT4hgdFj9DpBiRt38qqnnm5OFg==&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;filter&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;includedEventTypes&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span> <span class="string">&quot;blobCreated&quot;</span><span class="punctuation">,</span> <span class="string">&quot;blobDeleted&quot;</span> <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;subjectBeginsWith&quot;</span><span class="punctuation">:</span> <span class="string">&quot;blobServices/default/containers/mycontainer/log&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;subjectEndsWith&quot;</span><span class="punctuation">:</span> <span class="string">&quot;.jpg&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;subjectIsCaseSensitive&quot;</span><span class="punctuation">:</span> <span class="string">&quot;true&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Events"><a href="#Events" class="headerlink" title="Events"></a>Events</h2><h3 id="Azure-Blob-storage-event"><a href="#Azure-Blob-storage-event" class="headerlink" title="Azure Blob storage event"></a>Azure Blob storage event</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">[</span></span><br><span class="line">  <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;topic&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/subscriptions/&#123;subscription-id&#125;/resourceGroups/Storage/providers/Microsoft.Storage/storageAccounts/xstoretestaccount&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;subject&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/blobServices/default/containers/oc2d2817345i200097container/blobs/oc2d2817345i20002296blob&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;eventType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Microsoft.Storage.BlobCreated&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;eventTime&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2017-06-26T18:41:00.9584103Z&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;831e1650-001e-001b-66ab-eeb76e069631&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;data&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;api&quot;</span><span class="punctuation">:</span> <span class="string">&quot;PutBlockList&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;clientRequestId&quot;</span><span class="punctuation">:</span> <span class="string">&quot;6d79dbfb-0e37-4fc4-981f-442c9ca65760&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;requestId&quot;</span><span class="punctuation">:</span> <span class="string">&quot;831e1650-001e-001b-66ab-eeb76e000000&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;eTag&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0x8D4BCC2E4835CD0&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;contentType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;application/octet-stream&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;contentLength&quot;</span><span class="punctuation">:</span> <span class="number">524288</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;blobType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;BlockBlob&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://oc2d2817345i60006.blob.core.windows.net/oc2d2817345i200097container/oc2d2817345i20002296blob&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;sequencer&quot;</span><span class="punctuation">:</span> <span class="string">&quot;00000000000004420000000000028963&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;storageDiagnostics&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;batchId&quot;</span><span class="punctuation">:</span> <span class="string">&quot;b68529f3-68cd-4744-baa4-3c0498ec19f0&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;dataVersion&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;metadataVersion&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#The-Schema-of-Azure-Event-Grid"><span class="toc-number">1.</span> <span class="toc-text">The Schema of Azure Event Grid</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Schemas"><span class="toc-number">1.1.</span> <span class="toc-text">Schemas</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Event-Schema"><span class="toc-number">1.1.1.</span> <span class="toc-text">Event Schema</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#subscription-schema"><span class="toc-number">1.1.2.</span> <span class="toc-text">subscription schema</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Events"><span class="toc-number">1.2.</span> <span class="toc-text">Events</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Azure-Blob-storage-event"><span class="toc-number">1.2.1.</span> <span class="toc-text">Azure Blob storage event</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Moving average | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Moving average
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2019/02/09</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/Java/">Java</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tag"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Java" class='tag'>Java</a>
+
+
+          
+        </div>
+        <h1 id="Moving-average"><a href="#Moving-average" class="headerlink" title="Moving average"></a>Moving average</h1><p>In statistics, a moving average (rolling average or running average) is a calculation to analyze data points by creating a series of averages of different subsets of the full data set. It is also called a moving mean (MM) or rolling mean and is a type of finite impulse response filter. Variations include: simple, and cumulative, or weighted forms.</p>
+<p>Given a series of numbers and a fixed subset size, the first element of the moving average is obtained by taking the average of the initial fixed subset of the number series. Then the subset is modified by “shifting forward”; that is, excluding the first number of the series and including the next value in the subset.</p>
+<p>A moving average is commonly used with time series data to smooth out short-term fluctuations and highlight longer-term trends or cycles. The threshold between short-term and long-term depends on the application, and the parameters of the moving average will be set accordingly.</p>
+<h2 id="Variations"><a href="#Variations" class="headerlink" title="Variations"></a>Variations</h2><ul>
+<li>MA:     moving average</li>
+<li>SMA:    simple moving average</li>
+<li>LWMA:   linearly weighted moving average</li>
+<li>EMA:    exponential moving average</li>
+<li>DEMA:   double exponential moving average</li>
+<li>TEMA:   triple exponential moving average</li>
+<li>DMA:    displaced moving average</li>
+</ul>
+<h2 id="Sample-coding"><a href="#Sample-coding" class="headerlink" title="Sample coding"></a>Sample coding</h2><h3 id="EMA"><a href="#EMA" class="headerlink" title="EMA"></a>EMA</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ExponentialMovingAverage</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">double</span> alpha;</span><br><span class="line">    <span class="keyword">private</span> Double oldValue;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ExponentialMovingAverage</span><span class="params">(<span class="type">double</span> alpha)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.alpha = alpha;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">average</span><span class="params">(<span class="type">double</span> value)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (oldValue == <span class="literal">null</span>) &#123;</span><br><span class="line">            oldValue = value;</span><br><span class="line">            <span class="keyword">return</span> value;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">double</span> <span class="variable">newValue</span> <span class="operator">=</span> oldValue + alpha * (value - oldValue);</span><br><span class="line">        oldValue = newValue;</span><br><span class="line">        <span class="keyword">return</span> newValue;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Time-windowed-EMA"><a href="#Time-windowed-EMA" class="headerlink" title="Time windowed EMA"></a>Time windowed EMA</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * An exponentially weighted moving average implementation that decays based on the elapsed time since the last update,</span></span><br><span class="line"><span class="comment"> * approximating a time windowed moving average.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MovingAverage</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">long</span> windowNanos;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Mutable state</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="type">long</span> lastNanos;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="type">double</span> average;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Creates a moving average of samples over a &#123;<span class="doctag">@code</span> window&#125; for the &#123;<span class="doctag">@code</span> timeUnit&#125;.</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">MovingAverage</span><span class="params">(<span class="type">long</span> window, TimeUnit timeUnit)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.windowNanos = timeUnit.toNanos(window);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Updates the average with the &#123;<span class="doctag">@code</span> sample&#125;.</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title function_">update</span><span class="params">(<span class="type">double</span> sample)</span> &#123;</span><br><span class="line">    <span class="type">long</span> <span class="variable">now</span> <span class="operator">=</span> System.nanoTime();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (lastNanos == <span class="number">0</span>) &#123;</span><br><span class="line">      average = sample;</span><br><span class="line">      lastNanos = now;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">long</span> <span class="variable">elapsedNanos</span> <span class="operator">=</span> now - lastNanos;</span><br><span class="line">    <span class="type">double</span> <span class="variable">coeff</span> <span class="operator">=</span> Math.exp(-<span class="number">1.0</span> * ((<span class="type">double</span>) elapsedNanos / windowNanos));</span><br><span class="line">    average = (<span class="number">1.0</span> - coeff) * sample + coeff * average;</span><br><span class="line">    lastNanos = now;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Returns the moving average.</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">get</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> average;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Tick the internal moving average clock back by the &#123;<span class="doctag">@code</span> duration&#125;. Useful for testing.</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">tick</span><span class="params">(<span class="type">long</span> duration, TimeUnit timeUnit)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (lastNanos != <span class="number">0</span>)</span><br><span class="line">      lastNanos -= timeUnit.toNanos(duration);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Moving-average"><span class="toc-number">1.</span> <span class="toc-text">Moving average</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Variations"><span class="toc-number">1.1.</span> <span class="toc-text">Variations</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sample-coding"><span class="toc-number">1.2.</span> <span class="toc-text">Sample coding</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#EMA"><span class="toc-number">1.2.1.</span> <span class="toc-text">EMA</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Time-windowed-EMA"><span class="toc-number">1.3.</span> <span class="toc-text">Time windowed EMA</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

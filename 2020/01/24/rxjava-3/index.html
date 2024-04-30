@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>RxJava 3 | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          RxJava 3
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/01/24</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/Java/">Java</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tag"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Java" class='tag'>Java</a>
+
+
+          
+        </div>
+        <h1 id="RxJava-3"><a href="#RxJava-3" class="headerlink" title="RxJava 3"></a>RxJava 3</h1><p>RxJava 3 components now live under io.reactivex.rxjava3 and the base classes and interfaces live under io.reactivex.rxjava3.core</p>
+<ul>
+<li>single dependency: Reactive-Streams</li>
+<li>Java 8+ (Android desugar friendly)</li>
+<li>Java 8 lambda-friendly API</li>
+<li>fixed API mistakes and many limits of RxJava 2</li>
+<li>intended to be a replacement for RxJava 2 with relatively few binary incompatible changes</li>
+<li>non-opinionated about the source of concurrency (threads, pools, event loops, fibers, actors, etc.)</li>
+<li>async or synchronous execution</li>
+<li>virtual time and schedulers for parameterized concurrency</li>
+<li>test and diagnostic support via test schedulers, test consumers and plugin hooks</li>
+</ul>
+<h2 id="Base-classes"><a href="#Base-classes" class="headerlink" title="Base classes"></a>Base classes</h2><p>RxJava 3 features several base classes you can discover operators on:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Flowable.html">io.reactivex.rxjava3.core.Flowable</a>: 0..N flows, supporting Reactive-Streams and backpressure</li>
+<li><a target="_blank" rel="noopener" href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Observable.html">io.reactivex.rxjava3.core.Observable</a>: 0..N flows, no backpressure,</li>
+<li><a target="_blank" rel="noopener" href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Single.html">io.reactivex.rxjava3.core.Single</a>: a flow of exactly 1 item or an error,</li>
+<li><a target="_blank" rel="noopener" href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Completable.html">io.reactivex.rxjava3.core.Completable</a>: a flow without items but only a completion or error signal,</li>
+<li><a target="_blank" rel="noopener" href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Maybe.html">io.reactivex.rxjava3.core.Maybe</a>: a flow with no items, exactly one item or an error.</li>
+</ul>
+<h2 id="Dataflows"><a href="#Dataflows" class="headerlink" title="Dataflows"></a>Dataflows</h2><p>The dataflows in RxJava consist of a source, zero or more intermediate steps followed by a data consumer or combinator step (where the step is responsible to consume the dataflow by some means):</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">source.operator1().operator2().operator3().subscribe(consumer);</span><br><span class="line"></span><br><span class="line">source.flatMap(value -&gt; source.operator1().operator2().operator3());</span><br></pre></td></tr></table></figure>
+
+<h2 id="Backpressure"><a href="#Backpressure" class="headerlink" title="Backpressure"></a>Backpressure</h2><p>When the dataflow runs through asynchronous steps, each step may perform different things with different speed. To avoid overwhelming such steps, which usually would manifest itself as increased memory usage due to temporary buffering or the need for <strong>skipping&#x2F;dropping</strong> data, so-called <strong>backpressure</strong> is applied, which is a form of flow control where the steps can express how many items are they ready to process. This allows constraining the memory usage of the dataflows in situations where there is generally no way for a step to know how many items the upstream will send to it.</p>
+<p>In RxJava, the dedicated <strong>Flowable</strong> class is designated to support backpressure and Observable is dedicated to the non-backpressured operations (short sequences, GUI interactions, etc.). The other types, Single, Maybe and Completable don’t support backpressure nor should they; there is always room to store one item temporarily.</p>
+<h2 id="Simple-background-computation"><a href="#Simple-background-computation" class="headerlink" title="Simple background computation"></a>Simple background computation</h2><p>One of the common use cases for RxJava is to run some computation, network request on a background thread and show the results (or error) on the UI thread:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> io.reactivex.rxjava3.schedulers.Schedulers;</span><br><span class="line"></span><br><span class="line">Flowable.fromCallable(() -&gt; &#123;</span><br><span class="line">    Thread.sleep(<span class="number">1000</span>); <span class="comment">//  imitate expensive computation</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Done&quot;</span>;</span><br><span class="line">&#125;)</span><br><span class="line">  .subscribeOn(Schedulers.io())</span><br><span class="line">  .observeOn(Schedulers.single())</span><br><span class="line">  .subscribe(System.out::println, Throwable::printStackTrace);</span><br><span class="line"></span><br><span class="line">Thread.sleep(<span class="number">2000</span>); <span class="comment">// &lt;--- wait for the flow to finish</span></span><br></pre></td></tr></table></figure>
+
+<p>This style of chaining methods is called a fluent API which resembles the builder pattern. However, RxJava’s reactive types are immutable; each of the method calls returns a new Flowable with added behavior. To illustrate, the example can be rewritten as follows:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Flowable&lt;String&gt; source = Flowable.fromCallable(() -&gt; &#123;</span><br><span class="line">    Thread.sleep(<span class="number">1000</span>); <span class="comment">//  imitate expensive computation</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Done&quot;</span>;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">Flowable&lt;String&gt; runBackground = source.subscribeOn(Schedulers.io());</span><br><span class="line"></span><br><span class="line">Flowable&lt;String&gt; showForeground = runBackground.observeOn(Schedulers.single());</span><br><span class="line"></span><br><span class="line">showForeground.subscribe(System.out::println, Throwable::printStackTrace);</span><br><span class="line"></span><br><span class="line">Thread.sleep(<span class="number">2000</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Typically, you can move computations or blocking IO to some other thread via subscribeOn. Once the data is ready, you can make sure they get processed on the foreground or GUI thread via observeOn.</p>
+<h2 id="Schedulers"><a href="#Schedulers" class="headerlink" title="Schedulers"></a>Schedulers</h2><p>RxJava operators don’t work with Threads or ExecutorServices directly but with so-called Schedulers that abstract away sources of concurrency behind a uniform API. RxJava 3 features several standard schedulers accessible via Schedulers utility class.</p>
+<ul>
+<li><strong>Schedulers.computation()</strong>: Run computation intensive work on a fixed number of dedicated threads in the background. Most asynchronous operators use this as their default Scheduler.</li>
+<li><strong>Schedulers.io()</strong>: Run I&#x2F;O-like or blocking operations on a dynamically changing set of threads.</li>
+<li><strong>Schedulers.single()</strong>: Run work on a single thread in a sequential and FIFO manner.</li>
+<li><strong>Schedulers.trampoline()</strong>: Run work in a sequential and FIFO manner in one of the participating threads, usually for testing purposes.</li>
+</ul>
+<p>These are available on all JVM platforms but some specific platforms, such as Android, have their own typical Schedulers defined: <strong>AndroidSchedulers.mainThread()</strong>, <strong>SwingScheduler.instance()</strong> or <strong>JavaFXSchedulers.gui()</strong>.</p>
+<p>In addition, there is an option to wrap an existing Executor (and its subtypes such as ExecutorService) into a Scheduler via Schedulers.from(Executor). This can be used, for example, to have a larger but still fixed pool of threads (unlike computation() and io() respectively).</p>
+<h2 id="Parallel-processing"><a href="#Parallel-processing" class="headerlink" title="Parallel processing"></a>Parallel processing</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Flowable.range(<span class="number">1</span>, <span class="number">10</span>)</span><br><span class="line">  .parallel()</span><br><span class="line">  .runOn(Schedulers.computation())</span><br><span class="line">  .map(v -&gt; v * v)</span><br><span class="line">  .sequential()</span><br><span class="line">  .blockingSubscribe(System.out::println);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Continuations"><a href="#Continuations" class="headerlink" title="Continuations"></a>Continuations</h2><p>Sometimes, when an item has become available, one would like to perform some dependent computations on it. This is sometimes called continuations and, depending on what should happen and what types are involved, may involve various operators to accomplish.</p>
+<h3 id="Dependent"><a href="#Dependent" class="headerlink" title="Dependent"></a>Dependent</h3><p>The most typical scenario is to given a value, invoke another service, await and continue with its result:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">service.apiCall()</span><br><span class="line">.flatMap(value -&gt; service.anotherApiCall(value))</span><br><span class="line">.flatMap(next -&gt; service.finalCall(next))</span><br></pre></td></tr></table></figure>
+
+<h3 id="Non-dependent"><a href="#Non-dependent" class="headerlink" title="Non-dependent"></a>Non-dependent</h3><p>In other scenarios, the result(s) of the first source&#x2F;dataflow is irrelevant and one would like to continue with a quasi independent another source. Here, flatMap works as well:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Observable</span> <span class="variable">continued</span> <span class="operator">=</span> sourceObservable.flatMapSingle(ignored -&gt; someSingleSource)</span><br><span class="line">continued.map(v -&gt; v.toString())</span><br><span class="line">  .subscribe(System.out::println, Throwable::printStackTrace);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Deferred-dependent"><a href="#Deferred-dependent" class="headerlink" title="Deferred-dependent"></a>Deferred-dependent</h2><p>Sometimes, there is an implicit data dependency between the previous sequence and the new sequence that, for some reason, was not flowing through the “regular channels”.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">AtomicInteger</span> <span class="variable">count</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AtomicInteger</span>();</span><br><span class="line">Observable.range(<span class="number">1</span>, <span class="number">10</span>)</span><br><span class="line">  .doOnNext(ignored -&gt; count.incrementAndGet())</span><br><span class="line">  .ignoreElements()</span><br><span class="line">  .andThen(Single.defer(() -&gt; Single.just(count.get())))</span><br><span class="line">  .subscribe(System.out::println);</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RxJava-3"><span class="toc-number">1.</span> <span class="toc-text">RxJava 3</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Base-classes"><span class="toc-number">1.1.</span> <span class="toc-text">Base classes</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dataflows"><span class="toc-number">1.2.</span> <span class="toc-text">Dataflows</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Backpressure"><span class="toc-number">1.3.</span> <span class="toc-text">Backpressure</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Simple-background-computation"><span class="toc-number">1.4.</span> <span class="toc-text">Simple background computation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Schedulers"><span class="toc-number">1.5.</span> <span class="toc-text">Schedulers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Parallel-processing"><span class="toc-number">1.6.</span> <span class="toc-text">Parallel processing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Continuations"><span class="toc-number">1.7.</span> <span class="toc-text">Continuations</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Dependent"><span class="toc-number">1.7.1.</span> <span class="toc-text">Dependent</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Non-dependent"><span class="toc-number">1.7.2.</span> <span class="toc-text">Non-dependent</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Deferred-dependent"><span class="toc-number">1.8.</span> <span class="toc-text">Deferred-dependent</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>
