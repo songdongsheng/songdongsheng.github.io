@@ -51,15 +51,14 @@ Amazon Linux 2023       | 2023-03       | 2.34          | 11.4              | 6.
 CBL-Mariner 2.0         | 2022-05       | 2.35          | 11.2              | 5.15
 Ubuntu 22.04            | 2022-04       | 2.35          | 12.1              | 5.15
 Debian 12               | 2023-06       | [2.36](https://tracker.debian.org/pkg/glibc) | [12.2](https://packages.debian.org/bookworm/libgcc-s1) | [6.1](https://tracker.debian.org/pkg/linux)
-Fedora 37               | 2022-11       | 2.36          | 12.3              | 6.5
-Fedora 38               | 2023-04       | 2.37          | 13.2              | 6.8
-Fedora 39               | 2023-11       | 2.38          | 13.2              | 6.8
+openEuler 24.04         | 2024-06       | 2.38          | 12.3              | 6.6
 SLE 15 SP6              | 2024-06       | 2.38          | 13.3              | 6.4
 **Ubuntu 24.04**        | 2024-04       | **2.39**      | 14.0              | 6.8
-Fedora 40               | 2024-04       | 2.39          | 14.0              | 6.8
-Debian 13               | ***2025-06*** | [2.41 ?](https://tracker.debian.org/pkg/glibc) | [15.2 ?](https://packages.debian.org/trixie/libgcc-s1) | [6.12 ?](https://tracker.debian.org/pkg/linux)
+Fedora 40               | 2024-04       | 2.39          | 14.1              | 6.9
+Debian 13               | ***2025-06*** | [2.40 ?](https://tracker.debian.org/pkg/glibc) | [14.2 ?](https://packages.debian.org/trixie/libgcc-s1) | [6.12 ?](https://tracker.debian.org/pkg/linux)
+RHEL 10                 | ***2025-08*** | [2.40 ?](https://composes.stream.centos.org/stream-10/production/latest-CentOS-Stream/compose/BaseOS/x86_64/os/Packages/) | [14.2 ?](https://composes.stream.centos.org/stream-10/production/latest-CentOS-Stream/compose/BaseOS/x86_64/os/Packages/) | [6.12 ?](https://composes.stream.centos.org/stream-10/production/latest-CentOS-Stream/compose/BaseOS/x86_64/os/Packages/)
 [SUSE Adaptable Linux Platform (ALP)](https://download.opensuse.org/repositories/SUSE:/ALP/) | ***2025-??*** | 2.39 ? | 14.0 ? | 6.8 ?
-[**openSUSE Tumbleweed**](https://download.opensuse.org/tumbleweed/repo/oss/x86_64/) | ***Rolling*** | 2.39 ? | 14.0 ? | 6.8 ?
+[**openSUSE Tumbleweed**](https://download.opensuse.org/tumbleweed/repo/oss/x86_64/) | ***Rolling*** | 2.39 ? | 14.1 ? | 6.9 ?
 Alpine 3.18             | [2023-05](https://alpinelinux.org/releases/) | musl [1.2.4](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.18-stable/main/musl/APKBUILD) | [libgcc 12.2](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.18-stable/main/gcc/APKBUILD) | [6.1](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.18-stable/main/linux-lts/APKBUILD)
 Alpine 3.19             | [2023-12](https://alpinelinux.org/releases/) | musl [1.2.4](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.19-stable/main/musl/APKBUILD) | [libgcc 13.2](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.19-stable/main/gcc/APKBUILD) | [6.6](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.19-stable/main/linux-lts/APKBUILD)
 Alpine 3.20             | [2024-05](https://alpinelinux.org/releases/) | musl [1.2.5](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.20-stable/main/musl/APKBUILD) | [libgcc 13.2](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.20-stable/main/gcc/APKBUILD) | [6.6](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.20-stable/main/linux-lts/APKBUILD)
