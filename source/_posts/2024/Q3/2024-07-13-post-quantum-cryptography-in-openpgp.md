@@ -201,6 +201,7 @@ The current state of OpenPGP's PGC implementation is quite exciting, considering
 - https://csrc.nist.gov/pubs/fips/203/ipd
 - https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.203.ipd.pdf
 - https://github.com/nccgroup/fips203
+- https://dev.gnupg.org/source/gnupg/browse/master/NEWS
 - https://dev.gnupg.org/T6815
 - https://dev.gnupg.org/T7189
 - https://lists.gnupg.org/pipermail/gnupg-announce/2024q3/000484.html
