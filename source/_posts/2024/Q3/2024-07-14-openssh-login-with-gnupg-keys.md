@@ -200,6 +200,13 @@ $ ssh <user>@example.com
 
 Enter the password we provided when generating the **OpenPGP** key, and we are logged in to the remote **OpenSSH** server.
 
+```bash
+Using username "root".
+Authenticating with public key "(none)" from agent
+```
+
+Careful people will notice that the successful login message contains a strange public key identifier **"(none)"**. This is because gpg does not generate a comment for the public key. For more information, see [T2760 - Populate comment field when exporting authentication key for SSH](https://dev.gnupg.org/T2760).
+
 ## Mapping of OpenPGP Keys and SSH Fingerprints
 
 Sometimes we have many keys available for SSH login, and we may not be able to find the **OpenPGP key** corresponding to the **SSH fingerprint**. In this case, the following script is very useful:
