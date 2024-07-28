@@ -32,37 +32,46 @@ RHEL 6                  | 2010-11       | 2.12          | 4.4.7             | 2.
 Debian 7                | 2013-05       | 2.13          | 4.7.2             | 3.2
 Ubuntu 12.04            | 2012-04       | 2.15          | 4.6.3             | 3.2
 **RHEL 7**              | 2014-06       | **2.17**      | 4.8.5             | 3.10
+**AnolisOS 7.9**        | 2022-02       | **2.17**      | 4.8.5             | 3.10 -> 4.19
 Ubuntu 14.04            | 2014-04       | 2.19          | 4.9.3             | 3.13
 SLE 12                  | 2014-10       | 2.19 -> 2.22  | 4.8.3 -> 13.2     | [3.12 -> 4.12](https://www.suse.com/lifecycle/)
 Debian 8                | 2015-04       | 2.19          | 4.9.2             | 3.16
-Ubuntu 16.04            | 2016-04       | 2.23          | 4.9.3             | 4.4
+Ubuntu 16.04            | 2016-04       | 2.23          | 5.4.0             | 4.4
 Debian 9                | 2017-06       | 2.24          | 6.3               | 4.9
 Amazon Linux 2 LTS      | 2018-06       | 2.26          | 7.3               | 4.14
-SLE 15                  | 2018-07       | 2.26 -> 2.31  | 7.3 -> 13.2       | [4.12 -> 5.14](https://www.suse.com/lifecycle/)
-**Ubuntu 18.04**        | 2018-04       | **2.27**      | 8.4               | 4.15
-RHEL 8                  | 2019-05       | 2.28          | 8.5               | 4.18
+SLE 15                  | 2018-07       | 2.26          | 7.3               | [4.12](https://www.suse.com/lifecycle/)
+Ubuntu 18.04            | 2018-04       | 2.27          | 8.4               | 4.15
+**RHEL 8**              | 2019-05       | **2.28**      | 8.5               | 4.18
+**AnolisOS 8.9**        | 2024-04       | **2.28**      | 8.5               | 4.18 -> 5.10
+OpenCloudOS 8.10        | 2024-10       | 2.28          | 8.5               | 5.4
 Debian 10               | 2019-07       | 2.28          | 8.3               | 4.19
 openEuler 20.03         | 2020-03       | 2.28          | 7.3               | 4.19
-Ubuntu 20.04            | 2020-04       | 2.31          | 10.3              | 5.4
+Ubuntu 20.04            | 2020-04       | 2.31          | 10.5              | 5.4
+SLE 15 SP3              | 2021-06       | 2.31          | 10.2              | 5.3
 **Debian 11**           | 2021-08       | **2.31**      | 10.2              | 5.10
+SLE 15 SP4              | 2022-06       | 2.31          | 11.2              | [5.14](https://www.suse.com/lifecycle/#suse-linux-enterprise-server-15)
 openEuler 22.03         | 2022-03       | 2.34          | 10.3              | 5.10
-**RHEL 9**              | 2022-05       | **2.34**      | 11.4              | 5.14
+RHEL 9                  | 2022-05       | 2.34          | 11.4 -> 11.5      | 5.14
 Amazon Linux 2023       | 2023-03       | 2.34          | 11.4              | 6.1
 CBL-Mariner 2.0         | 2022-05       | 2.35          | 11.2              | 5.15
-Ubuntu 22.04            | 2022-04       | 2.35          | 12.1              | 5.15
+Ubuntu 22.04            | 2022-04       | 2.35          | 12.3              | 5.15
 Debian 12               | 2023-06       | [2.36](https://tracker.debian.org/pkg/glibc) | [12.2](https://packages.debian.org/bookworm/libgcc-s1) | [6.1](https://tracker.debian.org/pkg/linux)
-openEuler 24.04         | 2024-06       | 2.38          | 12.3              | 6.6
+AnolisOS 23.1           | 2024-05       | 2.38          | 12.3              | 6.6
+**OpenCloudOS 9.2**     | 2024-05       | **2.38**      | 12.3              | 6.6
+openEuler 24.03         | 2024-06       | 2.38          | 12.3              | 6.6
 SLE 15 SP6              | 2024-06       | 2.38          | 13.3              | 6.4
-**Ubuntu 24.04**        | 2024-04       | **2.39**      | 14.0              | 6.8
+Ubuntu 24.04            | 2024-04       | 2.39          | 14.0              | 6.8
 Fedora 40               | 2024-04       | 2.39          | 14.1              | 6.9
+[CentOS Stream 10](https://mirror.stream.centos.org/10-stream/BaseOS/x86_64/os/Packages/) | 2024-12       | 2.39          | 14.2              | 6.12
+Ubuntu 24.10            | 2024-10       | 2.40          | 14.2              | 6.11
 Debian 13               | ***2025-06*** | [2.40 ?](https://tracker.debian.org/pkg/glibc) | [14.2 ?](https://packages.debian.org/trixie/libgcc-s1) | [6.12 ?](https://tracker.debian.org/pkg/linux)
 RHEL 10                 | ***2025-08*** | [2.40 ?](https://composes.stream.centos.org/stream-10/production/latest-CentOS-Stream/compose/BaseOS/x86_64/os/Packages/) | [14.2 ?](https://composes.stream.centos.org/stream-10/production/latest-CentOS-Stream/compose/BaseOS/x86_64/os/Packages/) | [6.12 ?](https://composes.stream.centos.org/stream-10/production/latest-CentOS-Stream/compose/BaseOS/x86_64/os/Packages/)
-[SUSE Adaptable Linux Platform (ALP)](https://download.opensuse.org/repositories/SUSE:/ALP/) | ***2025-??*** | 2.39 ? | 14.0 ? | 6.8 ?
-[**openSUSE Tumbleweed**](https://download.opensuse.org/tumbleweed/repo/oss/x86_64/) | ***Rolling*** | 2.39 ? | 14.1 ? | 6.9 ?
+[**openSUSE Tumbleweed**](https://download.opensuse.org/tumbleweed/repo/oss/x86_64/) | ***Rolling*** | 2.40 ? | 14.2 ? | 6.11 ?
 Alpine 3.18             | [2023-05](https://alpinelinux.org/releases/) | musl [1.2.4](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.18-stable/main/musl/APKBUILD) | [libgcc 12.2](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.18-stable/main/gcc/APKBUILD) | [6.1](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.18-stable/main/linux-lts/APKBUILD)
 Alpine 3.19             | [2023-12](https://alpinelinux.org/releases/) | musl [1.2.4](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.19-stable/main/musl/APKBUILD) | [libgcc 13.2](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.19-stable/main/gcc/APKBUILD) | [6.6](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.19-stable/main/linux-lts/APKBUILD)
 Alpine 3.20             | [2024-05](https://alpinelinux.org/releases/) | musl [1.2.5](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.20-stable/main/musl/APKBUILD) | [libgcc 13.2](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.20-stable/main/gcc/APKBUILD) | [6.6](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.20-stable/main/linux-lts/APKBUILD)
-Alpine edge             | [***2024-11***](https://alpinelinux.org/releases/) | musl [1.2.5](https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/musl/APKBUILD) | [libgcc 13.2](https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/gcc/APKBUILD) | [6.6](https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/linux-lts/APKBUILD)
+Alpine 3.21             | [2024-12](https://alpinelinux.org/releases/) | musl [1.2.5](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.21-stable/main/musl/APKBUILD) | [libgcc 14.2](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.21-stable/main/gcc/APKBUILD) | [6.12](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.21-stable/main/linux-lts/APKBUILD)
+Alpine edge             | [2025-05](https://alpinelinux.org/releases/) | musl [1.2.5](https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/musl/APKBUILD) | [libgcc 14.2](https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/gcc/APKBUILD) | [6.12](https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/linux-lts/APKBUILD)
 
 ## libgcc versions
 
@@ -94,7 +103,12 @@ docker.io/library/debian                            11          5c8936e57a38  2 
 docker.io/library/debian                            testing     556061af5f11  2 weeks ago   121 MB
 docker.io/library/ubuntu                            20.04       d5447fc01ae6  7 weeks ago   75.2 MB
 docker.io/library/ubuntu                            22.04       6b7dfa7e8fdb  7 weeks ago   80.3 MB
+docker.io/songdongsheng/anolisos                    7           856d891a4d7d  2 days ago    181 MB
+docker.io/songdongsheng/anolisos                    8           b39daaa5a422  2 days ago    129 MB
 docker.io/songdongsheng/openeuler                   22.03       e2c2b88bb007  6 days ago    160 MB
+docker.io/songdongsheng/openeuler                   24.03       fcd7328d3b91  3 months ago  167 MB
+docker.io/songdongsheng/opencloudos                 8           43f03fc1c7af  2 weeks ago   142 MB
+docker.io/songdongsheng/opencloudos                 9           8d77637ceb8c  3 weeks ago   153 MB
 ghcr.io/oracle/oraclelinux                          7           258c049720a7  17 hours ago  271 MB
 ghcr.io/oracle/oraclelinux                          8           15d3782e65b8  17 hours ago  237 MB
 ghcr.io/oracle/oraclelinux                          9           6d4f5c87c123  17 hours ago  234 MB

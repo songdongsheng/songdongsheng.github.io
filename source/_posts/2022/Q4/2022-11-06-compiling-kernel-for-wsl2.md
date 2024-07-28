@@ -35,8 +35,8 @@ sudo podman run --rm -it --pull always -h debian-stable \
 echo "precedence ::ffff:0:0/96  100" >> /etc/gai.conf; \
 apt-get update && apt-get dist-upgrade -y && \
 apt-get install -y whiptail && \
-apt-get install -y bc bison build-essential curl dwarves file flex \
-    git less libelf-dev libncurses-dev libssl-dev procps \
+apt-get install -y bc bison build-essential cpio curl dwarves file flex \
+    git kmod less libelf-dev libncurses-dev libssl-dev procps \
     python3 python3-pip python3-psutil python3-virtualenv \
     vim-tiny zstd
 ```
@@ -96,6 +96,9 @@ CONFIG_KVM_AMD=y
 CONFIG_TLS=y
 CONFIG_IP_SCTP=y
 
+CONFIG_BRIDGE=y
+CONFIG_BRIDGE_NETFILTER=y
+
 CONFIG_CRYPTO_ZSTD=y
 CONFIG_KERNEL_ZSTD=y
 CONFIG_MODULE_COMPRESS_ZSTD=y
@@ -120,6 +123,11 @@ CONFIG_HFSPLUS_FS=y
 CONFIG_UFS_FS=y
 CONFIG_UFS_FS_WRITE=y
 
+CONFIG_OVERLAY_FS=y
+CONFIG_OVERLAY_FS_INDEX=y
+CONFIG_OVERLAY_FS_METACOPY=y
+CONFIG_OVERLAY_FS_XINO_AUTO=y
+
 # File systems/Network File Systems
 CONFIG_CIFS=y
 CONFIG_NFS_DISABLE_UDP_SUPPORT=y
@@ -132,6 +140,27 @@ CONFIG_SUNRPC_GSS=y
 CONFIG_RPCSEC_GSS_KRB5=y
 CONFIG_RPCSEC_GSS_KRB5_ENCTYPES_AES_SHA2=y
 EOF
+```
+
+PS: podman requires the following kernel modules
+
+```bash
+# lsmod | grep -E '^xt_|^ip' | LC_ALL=en_US.UTF-8 sort
+ip6_tables             32768  2 ip6table_filter,ip6table_nat
+ip6table_filter        12288  0
+ip6table_nat           12288  0
+ip_tables              32768  2 iptable_filter,iptable_nat
+iptable_filter         12288  1
+iptable_nat            12288  1
+xt_addrtype            12288  2
+xt_comment             12288  3
+xt_conntrack           12288  1
+xt_mark                12288  1
+xt_MASQUERADE          16384  4
+xt_tcpudp              16384  0
+wireguard             118784  0
+ip6_udp_tunnel         16384  1 wireguard
+udp_tunnel             32768  1 wireguard
 ```
 
 ```bash
@@ -158,11 +187,14 @@ sys     17m11.616s
 # du -ms .
 6024    .
 
+time make KCONFIG_CONFIG=arch/x86/configs/config-wsl -j8 install
+
 # cp arch/x86/boot/bzImage /mnt/c/Users/<seuUser>/vmlinuz-6.6.36.3-WSL2
 # cp arch/x86/configs/config-wsl /mnt/c/Users/<seuUser>/vmlinuz-6.6.36.3-WSL2.config
 # vi /mnt/c/Users/<seuUser>/.wslconfig
 
 time make KCONFIG_CONFIG=arch/x86/configs/config-wsl -j8 modules
+time make KCONFIG_CONFIG=arch/x86/configs/config-wsl -j8 modules_install
 time make KCONFIG_CONFIG=arch/x86/configs/config-wsl -j8 tarxz-pkg
 ```
 
@@ -183,12 +215,26 @@ sys     12m48.108s
 # du -ks arch/x86/boot/bzImage
 13992   arch/x86/boot/bzImage
 
-# cp arch/x86/boot/bzImage /mnt/c/Users/<seuUser>/vmlinuz-6.9.10-WSL2
-# cp arch/x86/configs/config-wsl  /mnt/c/Users/<seuUser>/vmlinuz-6.9.10-WSL2.config
+time make KCONFIG_CONFIG=arch/x86/configs/config-wsl -j8 install
+
+# cp arch/x86/boot/bzImage /mnt/c/Users/<seuUser>/vmlinux-6.11.9-microsoft-standard-WSL2
+# cp arch/x86/configs/config-wsl  /mnt/c/Users/<seuUser>/vmlinux-6.11.9-microsoft-standard-WSL2.config
 # vi /mnt/c/Users/<seuUser>/.wslconfig
 
-time make KCONFIG_CONFIG=arch/x86/configs/config-wsl -j8 modules
-time make KCONFIG_CONFIG=arch/x86/configs/config-wsl -j8 tarxz-pkg
+# time make KCONFIG_CONFIG=arch/x86/configs/config-wsl -j8 modules
+real    24m17.114s
+user    177m49.046s
+sys     21m29.028s
+
+time make KCONFIG_CONFIG=arch/x86/configs/config-wsl -j8 modules_install
+
+# time make KCONFIG_CONFIG=arch/x86/configs/config-wsl -j8 tarxz-pkg
+real    7m53.369s
+user    8m46.499s
+sys     0m30.752s
+
+# du -ms linux-6.11.9-microsoft-standard-WSL2-x86.tar.xz
+708     linux-6.11.9-microsoft-standard-WSL2-x86.tar.xz
 ```
 
 ## Update %UserProfile%\.wslconfig
