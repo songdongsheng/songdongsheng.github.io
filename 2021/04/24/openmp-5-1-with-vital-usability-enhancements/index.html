@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>OpenMP 5.1 with Vital Usability Enhancements | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          OpenMP 5.1 with Vital Usability Enhancements
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2021/04/24</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/C-C/">C/C++</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#C/C++" class='tag'>C/C++</a>
+
+
+          
+        </div>
+        <h1 id="OpenMP-5-1-with-Vital-Usability-Enhancements"><a href="#OpenMP-5-1-with-Vital-Usability-Enhancements" class="headerlink" title="OpenMP 5.1 with Vital Usability Enhancements"></a>OpenMP 5.1 with Vital Usability Enhancements</h1><h2 id="About-OpenMP"><a href="#About-OpenMP" class="headerlink" title="About OpenMP"></a>About OpenMP</h2><p>The mission of the OpenMP Architecture Review Board (ARB) is to standardize directive-based multi-language high-level parallelism that is performant, productive and portable. Jointly defined by a group of major computer hardware and software vendors, and users, the OpenMP API is a portable, scalable model that gives parallel programmers a simple and flexible interface for developing parallel applications for platforms ranging from embedded systems and accelerator devices to multicore systems and shared-memory systems. The OpenMP ARB owns the OpenMP brand, oversees the OpenMP specification and produces and approves new versions of the specification.</p>
+<h2 id="OpenMP-5-1-introduction"><a href="#OpenMP-5-1-introduction" class="headerlink" title="OpenMP 5.1 introduction"></a>OpenMP 5.1 introduction</h2><p>The OpenMP® Architecture Review Board (ARB) has released Version 5.1 of the OpenMP API. With this release of the standard, OpenMP strengthens its handling of accelerator devices, allows improved optimization and supports the latest versions of C, C++ and Fortran.</p>
+<blockquote>
+<p>OpenMP 5.1 represents the culmination of the past two years of work within the OpenMP Language Committee,” said Bronis R. de Supinski, the LC Chair. “While the primary focus has been enhancements, clarifications and corrections to the 5.0 specification, we have added several useful new features, such as support for interoperability with lower level APIs like CUDA and HIP.</p>
+</blockquote>
+<h2 id="New-Features"><a href="#New-Features" class="headerlink" title="New Features"></a>New Features</h2><p>Version 5.1 of the OpenMP specification was jointly developed by the OpenMP ARB, a group of major computer hardware and software vendors, as well as users throughout the OpenMP community. The updated specification includes the following key additions:</p>
+<ul>
+<li>Improvements in accelerator device interactions:<ul>
+<li>The interop construct, which enables interoperability with non-OpenMP device execution contexts, provides support for interactions with native device interfaces (e.g., for CUDA streams, HIP or OpenCL);</li>
+<li>Function pointers can now be mapped to a device or accelerator; and</li>
+<li>Device-specific environment variables have been added.</li>
+</ul>
+</li>
+<li>Providing more information to the compiler to allow improved optimization:<ul>
+<li>The assume directive gives the implementation additional information about the way a program uses OpenMP, which allows additional optimizations to be safely applied by compilers, or safe OpenMP subsets to be implemented; and</li>
+<li>Loop transformation directives have been introduced, starting with the tile directive, which can improve data locality, and the unroll directive, which fully or partially unrolls a loop.</li>
+</ul>
+</li>
+<li>Filtering of execution by thread<ul>
+<li>The masked directive can restrict execution of a code region to a subset of the threads.</li>
+</ul>
+</li>
+<li>Allowing the user to generate compile-time errors and warnings:<ul>
+<li>A new error directive has been added.</li>
+</ul>
+</li>
+<li>Improvements in modern C++ usage of OpenMP:<ul>
+<li>Instead of the traditional pragma form, C++ attribute syntax can be used to specify OpenMP directives, which simplifies their integration with templates; and</li>
+<li>Full support for C11, C18, C++11, C++14, C++17 and C++20: Programs written in these languages can now be parallelized with OpenMP.</li>
+</ul>
+</li>
+<li>Improvements in the support for Fortran:<ul>
+<li>Fortran 2008 is now fully supported and initial support for Fortran 2018 has been added.</li>
+</ul>
+</li>
+<li>Easier declaration of environment-specific functions:<ul>
+<li>Multiple functions can now be included in a single declare variant construct, and code can be more closely tailored to a specific environment.</li>
+</ul>
+</li>
+</ul>
+<h2 id="Implementations"><a href="#Implementations" class="headerlink" title="Implementations"></a>Implementations</h2><p>Major vendors and open source compilers have implemented parts of the OpenMP 5 specification in their products. LLVM, GCC, AMD, Intel, HPE, NVIDIA, Mentor Graphics to name just a few. In addition, debugging and performance tools are being extended with OpenMP 5 features.</p>
+<h2 id="Demo-code"><a href="#Demo-code" class="headerlink" title="Demo code"></a>Demo code</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * gcc -O2 -mavx2 -std=c11 -fopenmp openmp-demo.c -lgomp -o openmp-demo</span></span><br><span class="line"><span class="comment"> * cl /O2 /arch:AVX2 /std:c11 /openmp openmp-demo.c</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;omp.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> tid;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Fork a team of threads giving them their own copies of variables */</span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp parallel private(tid)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/* Obtain thread number */</span></span><br><span class="line">        tid = omp_get_thread_num();</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Hello World from thread = %d\n&quot;</span>, tid);</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* Only master thread does this */</span></span><br><span class="line">        <span class="keyword">if</span> (tid == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;Number of threads = %d\n&quot;</span>, omp_get_num_threads());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125; <span class="comment">/* All threads join master thread and disband */</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">./openmp-demo</span></span><br><span class="line">Hello World from thread = 0</span><br><span class="line">Number of threads = 8</span><br><span class="line">Hello World from thread = 2</span><br><span class="line">Hello World from thread = 5</span><br><span class="line">Hello World from thread = 7</span><br><span class="line">Hello World from thread = 1</span><br><span class="line">Hello World from thread = 3</span><br><span class="line">Hello World from thread = 4</span><br><span class="line">Hello World from thread = 6</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">C:\&gt;.\openmp-demo</span><br><span class="line">Hello World from thread = 1</span><br><span class="line">Hello World from thread = 0</span><br><span class="line">Number of threads = 8</span><br><span class="line">Hello World from thread = 6</span><br><span class="line">Hello World from thread = 4</span><br><span class="line">Hello World from thread = 2</span><br><span class="line">Hello World from thread = 3</span><br><span class="line">Hello World from thread = 7</span><br><span class="line">Hello World from thread = 5</span><br></pre></td></tr></table></figure>
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.openmp.org/specifications/">OpenMP Specifications</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.openmp.org/spec-html/5.1/openmp.html">OpenMP 5.1 Specification - HTML</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.openmp.org/wp-content/uploads/OpenMP-API-Specification-5-1.pdf">OpenMP 5.1 Specification - PDF</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.openmp.org/wp-content/uploads/OpenMPRefCard-5.1-web.pdf">OpenMP API 5.1 Reference Guide</a></li>
+<li><a target="_blank" rel="noopener" href="https://gcc.gnu.org/onlinedocs/gcc/Option-Summary.html">GCC Option Summary</a></li>
+<li><a target="_blank" rel="noopener" href="https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html">GCC x86 Options</a></li>
+<li><a target="_blank" rel="noopener" href="https://gcc.gnu.org/onlinedocs/libgomp/">GNU Offloading and Multi Processing Runtime Library</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/cpp/build/reference/c-cpp-building-reference">https://docs.microsoft.com/en-us/cpp/build/reference/c-cpp-building-reference</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/cpp/parallel/openmp/openmp-in-visual-cpp">https://docs.microsoft.com/en-us/cpp/parallel/openmp/openmp-in-visual-cpp</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/cpp/parallel/openmp/reference/openmp-directives">https://docs.microsoft.com/en-us/cpp/parallel/openmp/reference/openmp-directives</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/cpp/parallel/parallel-programming-in-visual-cpp">https://docs.microsoft.com/en-us/cpp/parallel/parallel-programming-in-visual-cpp</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/cpp/parallel/amp/cpp-amp-cpp-accelerated-massive-parallelism">https://docs.microsoft.com/en-us/cpp/parallel/amp/cpp-amp-cpp-accelerated-massive-parallelism</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/cpp/parallel/concrt/migrating-from-openmp-to-the-concurrency-runtime">https://docs.microsoft.com/en-us/cpp/parallel/concrt/migrating-from-openmp-to-the-concurrency-runtime</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/cpp/parallel/concrt/concurrency-runtime">https://docs.microsoft.com/en-us/cpp/parallel/concrt/concurrency-runtime</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/cpp/parallel/concrt/parallel-patterns-library-ppl">https://docs.microsoft.com/en-us/cpp/parallel/concrt/parallel-patterns-library-ppl</a></li>
+</ul>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#OpenMP-5-1-with-Vital-Usability-Enhancements"><span class="toc-number">1.</span> <span class="toc-text">OpenMP 5.1 with Vital Usability Enhancements</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#About-OpenMP"><span class="toc-number">1.1.</span> <span class="toc-text">About OpenMP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenMP-5-1-introduction"><span class="toc-number">1.2.</span> <span class="toc-text">OpenMP 5.1 introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#New-Features"><span class="toc-number">1.3.</span> <span class="toc-text">New Features</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Implementations"><span class="toc-number">1.4.</span> <span class="toc-text">Implementations</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Demo-code"><span class="toc-number">1.5.</span> <span class="toc-text">Demo code</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">1.6.</span> <span class="toc-text">Reference</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

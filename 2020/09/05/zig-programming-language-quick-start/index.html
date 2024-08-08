@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Zig Programming Language Quick Start | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Zig Programming Language Quick Start
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/09/05</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/Zig/">Zig</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#Windows" class='tag'>Windows</a>
+
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+  <a href="/tags/#Zig" class='tag'>Zig</a>
+
+
+          
+        </div>
+        <h1 id="Zig-Programming-Language-Quick-Start"><a href="#Zig-Programming-Language-Quick-Start" class="headerlink" title="Zig Programming Language Quick Start"></a>Zig Programming Language Quick Start</h1><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Zig is a general-purpose programming language and toolchain for maintaining <strong>robust</strong>, <strong>optimal</strong>, and <strong>reusable</strong> software.</p>
+<ul>
+<li><strong>Robust</strong> - behavior is correct even for edge cases such as out of memory.</li>
+<li><strong>Optimal</strong> - write programs the best way they can behave and perform.</li>
+<li><strong>Reusable</strong> - the same code works in many environments which have different constraints.</li>
+<li><strong>Maintainable</strong> - precisely communicate intent to the compiler and other programmers. The language imposes a low overhead to reading code and is resilient to changing requirements and environments.</li>
+</ul>
+<h2 id="Support-Table"><a href="#Support-Table" class="headerlink" title="Support Table"></a>Support Table</h2><h3 id="WebAssembly-Support"><a href="#WebAssembly-Support" class="headerlink" title="WebAssembly Support"></a>WebAssembly Support</h3><table>
+<thead>
+<tr>
+<th>&amp;nbsp;</th>
+<th>free standing</th>
+<th>emscripten</th>
+<th>WASI</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>wasm32</td>
+<td>Tier 2</td>
+<td>Tier 3</td>
+<td>Tier 2</td>
+</tr>
+<tr>
+<td>wasm64</td>
+<td>Tier 4</td>
+<td>Tier 4</td>
+<td>Tier 4</td>
+</tr>
+</tbody></table>
+<h3 id="Tier-System"><a href="#Tier-System" class="headerlink" title="Tier System"></a>Tier System</h3><p>Zig uses a Tier System to communicate the level of support for different targets.</p>
+<table>
+<thead>
+<tr>
+<th>&amp;nbsp;</th>
+<th>free standing</th>
+<th>Linux 3.16+</th>
+<th>macOS 10.13+</th>
+<th>Windows 8.1+</th>
+<th>FreeBSD 12.0+</th>
+<th>NetBSD 8.0+</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>x86_64</td>
+<td>Tier 1</td>
+<td>Tier 1</td>
+<td>Tier 2</td>
+<td>Tier 2</td>
+<td>Tier 2</td>
+<td>Tier 2</td>
+</tr>
+<tr>
+<td>arm64</td>
+<td>Tier 1</td>
+<td>Tier 2</td>
+<td>N&#x2F;A</td>
+<td>Tier 3</td>
+<td>Tier 3</td>
+<td>Tier 3</td>
+</tr>
+<tr>
+<td>arm32</td>
+<td>Tier 1</td>
+<td>Tier 2</td>
+<td>N&#x2F;A</td>
+<td>Tier 3</td>
+<td>Tier 3</td>
+<td>Tier 3</td>
+</tr>
+<tr>
+<td>mips32 LE</td>
+<td>Tier 1</td>
+<td>Tier 2</td>
+<td>N&#x2F;A</td>
+<td>N&#x2F;A</td>
+<td>Tier 3</td>
+<td>Tier 3</td>
+</tr>
+<tr>
+<td>mips64</td>
+<td>Tier 3</td>
+<td>Tier 3</td>
+<td>N&#x2F;A</td>
+<td>N&#x2F;A</td>
+<td>Tier 3</td>
+<td>Tier 3</td>
+</tr>
+<tr>
+<td>riscv64</td>
+<td>Tier 1</td>
+<td>Tier 2</td>
+<td>N&#x2F;A</td>
+<td>N&#x2F;A</td>
+<td>Tier 3</td>
+<td>Tier 3</td>
+</tr>
+<tr>
+<td>bpf</td>
+<td>Tier 3</td>
+<td>Tier 3</td>
+<td>N&#x2F;A</td>
+<td>N&#x2F;A</td>
+<td>Tier 3</td>
+<td>Tier 3</td>
+</tr>
+<tr>
+<td>s390x</td>
+<td>Tier 3</td>
+<td>Tier 3</td>
+<td>N&#x2F;A</td>
+<td>N&#x2F;A</td>
+<td>Tier 3</td>
+<td>Tier 3</td>
+</tr>
+<tr>
+<td>powerpc64</td>
+<td>Tier 3</td>
+<td>Tier 3</td>
+<td>Tier 4</td>
+<td>N&#x2F;A</td>
+<td>Tier 3</td>
+<td>Tier 3</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+</tbody></table>
+<h2 id="Documentation-amp-Download"><a href="#Documentation-amp-Download" class="headerlink" title="Documentation &amp; Download"></a>Documentation &amp; Download</h2><h3 id="Documentation"><a href="#Documentation" class="headerlink" title="Documentation"></a>Documentation</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://ziglang.org/download/">Download &amp; Documentation</a></li>
+<li><a target="_blank" rel="noopener" href="https://ziglang.org/documentation/master/">Language Reference</a></li>
+<li><a target="_blank" rel="noopener" href="https://ziglang.org/documentation/0.7.0/std/">Standard Library Documentation</a></li>
+</ul>
+<h3 id="Download"><a href="#Download" class="headerlink" title="Download"></a>Download</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://ziglang.org/download/0.7.0/zig-freebsd-x86_64-0.7.0.tar.xz">zig-freebsd-x86_64</a></li>
+<li><a target="_blank" rel="noopener" href="https://ziglang.org/download/0.7.0/zig-linux-aarch64-0.7.0.tar.xz">zig-linux-aarch64</a></li>
+<li><a target="_blank" rel="noopener" href="https://ziglang.org/download/0.7.0/zig-linux-armv7a-0.7.0.tar.xz">zig-linux-armv7a</a></li>
+<li><a target="_blank" rel="noopener" href="https://ziglang.org/download/0.7.0/zig-linux-riscv64-0.7.0.tar.xz">zig-linux-riscv64</a></li>
+<li><a target="_blank" rel="noopener" href="https://ziglang.org/download/0.7.0/zig-linux-x86_64-0.7.0.tar.xz">zig-linux-x86_64</a></li>
+<li><a target="_blank" rel="noopener" href="https://ziglang.org/download/0.7.0/zig-windows-x86_64-0.7.0.zip">zig-windows-x86_64</a></li>
+</ul>
+<h2 id="Targets"><a href="#Targets" class="headerlink" title="Targets"></a>Targets</h2><p>Zig supports generating code for all targets that LLVM supports.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ zig targets</span><br><span class="line"></span><br><span class="line">$ llc --version</span><br><span class="line">$ llc -march=x86-64 -mattr=<span class="built_in">help</span></span><br><span class="line">$ llc -march=riscv64 -mattr=<span class="built_in">help</span></span><br><span class="line">$ llc -march=aarch64 -mattr=<span class="built_in">help</span></span><br><span class="line">$ llc -march=mips -mattr=<span class="built_in">help</span></span><br><span class="line">$ llc -march=arm -mattr=<span class="built_in">help</span></span><br><span class="line">$ llc -march=wasm32 -mattr=<span class="built_in">help</span></span><br><span class="line">$ llc -march=ppc64le -mattr=<span class="built_in">help</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> &lt;&lt; <span class="string">EOF &gt; HelloWorld.zig</span></span><br><span class="line"><span class="string">const std = @import(&quot;std&quot;);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">pub fn main() !void &#123;</span></span><br><span class="line"><span class="string">    const stdout = std.io.getStdOut().writer();</span></span><br><span class="line"><span class="string">    try stdout.print(&quot;Hello, &#123;&#125;!\n&quot;, .&#123;&quot;world&quot;&#125;);</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="wasm32-wasi"><a href="#wasm32-wasi" class="headerlink" title="wasm32-wasi"></a>wasm32-wasi</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># https://github.com/wasmerio/wasmer</span></span><br><span class="line"><span class="comment"># https://github.com/bytecodealliance/wasmtime</span></span><br><span class="line">$ zig build-exe -target wasm32-wasi -O ReleaseSmall --strip HelloWorld.zig &amp;&amp; wasmer HelloWorld.wasm &amp;&amp; wasmtime HelloWorld.wasm</span><br><span class="line">Hello, world!</span><br><span class="line">Hello, world!</span><br><span class="line">$ file HelloWorld.wasm &amp;&amp; <span class="built_in">du</span> -ks HelloWorld.wasm</span><br><span class="line">HelloWorld.wasm: WebAssembly (wasm) binary module version 0x1 (MVP)</span><br><span class="line">4       HelloWorld.wasm</span><br></pre></td></tr></table></figure>
+
+<h3 id="x86-64-linux-gnu"><a href="#x86-64-linux-gnu" class="headerlink" title="x86_64-linux-gnu"></a>x86_64-linux-gnu</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ zig build-exe HelloWorld.zig</span><br><span class="line">$ ./HelloWorld</span><br><span class="line">Hello, world!</span><br><span class="line">$ <span class="built_in">du</span> -ks HelloWorld</span><br><span class="line">832     HelloWorld</span><br><span class="line">$ file HelloWorld</span><br><span class="line">HelloWorld: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, with debug_info, not stripped</span><br><span class="line"></span><br><span class="line">$ zig build-exe -target x86_64-linux-gnu -mcpu core_avx2 -O ReleaseSmall -fPIC --strip HelloWorld.zig &amp;&amp; ./HelloWorld</span><br><span class="line">Hello, world!</span><br><span class="line">$ file HelloWorld &amp;&amp; <span class="built_in">du</span> -ks HelloWorld</span><br><span class="line">HelloWorld: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, not stripped</span><br><span class="line">8       HelloWorld</span><br></pre></td></tr></table></figure>
+
+<h3 id="mips-linux-gnu"><a href="#mips-linux-gnu" class="headerlink" title="mips-linux-gnu"></a>mips-linux-gnu</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ zig build-exe -target mips-linux-gnu -mcpu mips32r2 -O ReleaseSmall --strip HelloWorld.zig &amp;&amp; qemu-mips-static HelloWorld</span><br><span class="line">$ file HelloWorld &amp;&amp; <span class="built_in">du</span> -ks HelloWorld</span><br><span class="line">HelloWorld: ELF 32-bit MSB executable, MIPS, MIPS32 rel2 version 1 (SYSV), statically linked, not stripped</span><br><span class="line">12      HelloWorld</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$ zig build-exe -target mips-linux-gnu -mcpu mips32r6 -O ReleaseSmall --strip HelloWorld.zig &amp;&amp; qemu-mips-static ./HelloWorld</span><br><span class="line">$ file HelloWorld &amp;&amp; <span class="built_in">du</span> -ks HelloWorld</span><br><span class="line">HelloWorld: ELF 32-bit MSB executable, MIPS, MIPS32 rel6 version 1 (SYSV), statically linked, not stripped</span><br><span class="line">12      HelloWorld</span><br></pre></td></tr></table></figure>
+
+<h3 id="arm-linux-gnueabihf"><a href="#arm-linux-gnueabihf" class="headerlink" title="arm-linux-gnueabihf"></a>arm-linux-gnueabihf</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ zig build-exe -target arm-linux-gnueabihf -mcpu arm1176jzf_s -O ReleaseSafe HelloWorld.zig  &amp;&amp; qemu-arm-static ./HelloWorld</span><br><span class="line">$ file HelloWorld &amp;&amp; <span class="built_in">du</span> -ks HelloWorld</span><br><span class="line">HelloWorld: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), statically linked, with debug_info, not stripped</span><br><span class="line">780     HelloWorld</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$ zig build-exe -target arm-linux-gnueabihf  -mcpu cortex_a7 -O ReleaseSafe  HelloWorld.zig  &amp;&amp; qemu-arm-static ./HelloWorld</span><br><span class="line">$ file HelloWorld &amp;&amp; <span class="built_in">du</span> -ks HelloWorld</span><br><span class="line">HelloWorld: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), statically linked, with debug_info, not stripped</span><br><span class="line">772     HelloWorld</span><br></pre></td></tr></table></figure>
+
+<h3 id="aarch64-linux-gnu"><a href="#aarch64-linux-gnu" class="headerlink" title="aarch64-linux-gnu"></a>aarch64-linux-gnu</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ zig build-exe -target aarch64-linux-gnu -mcpu cortex_a72 -O ReleaseSafe -fPIC  HelloWorld.zig &amp;&amp; qemu-aarch64-static HelloWorld</span><br><span class="line">Hello, world!</span><br><span class="line">$ file HelloWorld &amp;&amp; <span class="built_in">du</span> -ks HelloWorld</span><br><span class="line">HelloWorld: ELF 64-bit LSB executable, ARM aarch64, version 1 (SYSV), statically linked, with debug_info, not stripped</span><br><span class="line">596     HelloWorld</span><br></pre></td></tr></table></figure>
+
+<h3 id="powerpc64le-linux-gnu"><a href="#powerpc64le-linux-gnu" class="headerlink" title="powerpc64le-linux-gnu"></a>powerpc64le-linux-gnu</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ zig build-exe -target powerpc64le-linux-gnu -mcpu pwr9 -O ReleaseSafe -fPIC HelloWorld.zig &amp;&amp; qemu-ppc64le-static HelloWorld</span><br><span class="line">Hello, world!</span><br><span class="line">$ file HelloWorld &amp;&amp; <span class="built_in">du</span> -ks HelloWorld</span><br><span class="line">HelloWorld: ELF 64-bit LSB executable, 64-bit PowerPC or cisco 7500, version 1 (SYSV), statically linked, with debug_info, not stripped</span><br><span class="line">632     HelloWorld</span><br></pre></td></tr></table></figure>
+
+<h3 id="riscv64-linux-gnu"><a href="#riscv64-linux-gnu" class="headerlink" title="riscv64-linux-gnu"></a>riscv64-linux-gnu</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ zig build-exe -target riscv64-linux-gnu -O ReleaseSafe HelloWorld.zig &amp;&amp; qemu-riscv64-static HelloWorld</span><br><span class="line">Hello, world!</span><br><span class="line">$ file HelloWorld &amp;&amp; <span class="built_in">du</span> -ks HelloWorld</span><br><span class="line">HelloWorld: ELF 64-bit LSB executable, UCB RISC-V, version 1 (SYSV), statically linked, with debug_info, not stripped</span><br><span class="line">728     HelloWorld</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Zig-Programming-Language-Quick-Start"><span class="toc-number">1.</span> <span class="toc-text">Zig Programming Language Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-number">1.1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Support-Table"><span class="toc-number">1.2.</span> <span class="toc-text">Support Table</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#WebAssembly-Support"><span class="toc-number">1.2.1.</span> <span class="toc-text">WebAssembly Support</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Tier-System"><span class="toc-number">1.2.2.</span> <span class="toc-text">Tier System</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Documentation-amp-Download"><span class="toc-number">1.3.</span> <span class="toc-text">Documentation &amp; Download</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Documentation"><span class="toc-number">1.3.1.</span> <span class="toc-text">Documentation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Download"><span class="toc-number">1.3.2.</span> <span class="toc-text">Download</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Targets"><span class="toc-number">1.4.</span> <span class="toc-text">Targets</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hello-World"><span class="toc-number">1.5.</span> <span class="toc-text">Hello World</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#wasm32-wasi"><span class="toc-number">1.5.1.</span> <span class="toc-text">wasm32-wasi</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#x86-64-linux-gnu"><span class="toc-number">1.5.2.</span> <span class="toc-text">x86_64-linux-gnu</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mips-linux-gnu"><span class="toc-number">1.5.3.</span> <span class="toc-text">mips-linux-gnu</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#arm-linux-gnueabihf"><span class="toc-number">1.5.4.</span> <span class="toc-text">arm-linux-gnueabihf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#aarch64-linux-gnu"><span class="toc-number">1.5.5.</span> <span class="toc-text">aarch64-linux-gnu</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#powerpc64le-linux-gnu"><span class="toc-number">1.5.6.</span> <span class="toc-text">powerpc64le-linux-gnu</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#riscv64-linux-gnu"><span class="toc-number">1.5.7.</span> <span class="toc-text">riscv64-linux-gnu</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

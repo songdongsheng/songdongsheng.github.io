@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Rsync backup for Android device | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Rsync backup for Android device
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/04/11</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/C-C/">C/C++</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#C/C++" class='tag'>C/C++</a>
+
+
+          
+        </div>
+        <h1 id="Rsync-backup-for-Android-device"><a href="#Rsync-backup-for-Android-device" class="headerlink" title="Rsync backup for Android device"></a>Rsync backup for Android device</h1><p>After <a href="/2020/04/06/ndk-rsync-compile/">compile rsync by NDK</a>, we can do rsync backup for Android device.</p>
+<h2 id="Debian-Linux-preparation"><a href="#Debian-Linux-preparation" class="headerlink" title="Debian Linux preparation"></a>Debian Linux preparation</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get update &amp;&amp; <span class="built_in">sudo</span> apt-get dist-upgrade --no-install-recommends -y &amp;&amp; \</span><br><span class="line">    <span class="built_in">sudo</span> apt-get install --no-install-recommends -y android-tools-adb rsync</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="Android-device-preparation"><a href="#Android-device-preparation" class="headerlink" title="Android device preparation"></a>Android device preparation</h2><ol>
+<li>Enter “Developer Mode”</li>
+<li>Enable “USB Debugging”</li>
+<li>Plug in your Android device via USB cable to your backup target machine</li>
+<li>Allows “USB debugging” on the Android device</li>
+<li>Root is recommended. You can run rsync process as normal user, but would be restricted in the files are permitted to read from your Android device.</li>
+</ol>
+<h2 id="Environmental-verification"><a href="#Environmental-verification" class="headerlink" title="Environmental verification"></a>Environmental verification</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">$ dmesg -w</span><br><span class="line">[90130.442467] usb 2-12: new high-speed USB device number 18 using xhci_hcd</span><br><span class="line">[90130.464457] usb 2-12: New USB device found, idVendor=2717, idProduct=ff48, bcdDevice= 3.18</span><br><span class="line">[90130.464462] usb 2-12: New USB device strings: Mfr=1, Product=2, SerialNumber=3</span><br><span class="line">[90130.464465] usb 2-12: Product: MI 5</span><br><span class="line">[90130.464467] usb 2-12: Manufacturer: Xiaomi</span><br><span class="line">[90130.464469] usb 2-12: SerialNumber: 19975a8b</span><br><span class="line">[90132.762782] usb 2-12: USB disconnect, device number 18</span><br><span class="line"></span><br><span class="line">$ lsusb | grep Xiaomi</span><br><span class="line">Bus 002 Device 021: ID 2717:ff48 Xiaomi Inc. Mi/Redmi series (MTP + ADB)</span><br><span class="line"></span><br><span class="line">$ adb devices</span><br><span class="line">List of devices attached</span><br><span class="line">* daemon not running; starting now at tcp:5037</span><br><span class="line">* daemon started successfully</span><br><span class="line">19975a8b	device</span><br><span class="line"></span><br><span class="line">$ adb shell <span class="built_in">df</span> -h</span><br><span class="line">Filesystem       Size  Used Avail Use% Mounted on</span><br><span class="line">rootfs           1.2G  6.1M  1.2G   1% /</span><br><span class="line">tmpfs            1.2G  732K  1.2G   1% /dev</span><br><span class="line">/dev/block/dm-0  2.8G  2.6G  190M  94% /system</span><br><span class="line">tmpfs            1.2G     0  1.2G   0% /mnt</span><br><span class="line">none             1.2G     0  1.2G   0% /sys/fs/cgroup</span><br><span class="line">/dev/block/sde38 806M  480M  310M  61% /cust</span><br><span class="line">/dev/block/sda12  27M  1.4M   25M   6% /persist</span><br><span class="line">/dev/block/sda13 248M  204K  243M   1% /cache</span><br><span class="line">/dev/block/sde32  12M  4.1M  7.3M  36% /dsp</span><br><span class="line">/dev/block/sde35 192M   98M   94M  51% /firmware</span><br><span class="line">/dev/block/sde26 1.0G  112K  1.0G   1% /bt_firmware</span><br><span class="line">/dev/block/dm-1   54G   43G   11G  80% /data</span><br><span class="line">/data/media       54G   43G   11G  80% /storage/emulated</span><br><span class="line"></span><br><span class="line">/sdcard -&gt; /storage/self/primary</span><br><span class="line">storage/self/primary -&gt; /mnt/user/0/primary</span><br><span class="line">/mnt/user/0/primary -&gt; /storage/emulated/0</span><br></pre></td></tr></table></figure>
+
+<h2 id="Backup-preparation"><a href="#Backup-preparation" class="headerlink" title="Backup preparation"></a>Backup preparation</h2><h3 id="Push-rsync-to-Android-device"><a href="#Push-rsync-to-Android-device" class="headerlink" title="Push rsync to Android device"></a>Push rsync to Android device</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adb push rsync-3.1.3.aarch64-android /data/local/tmp/rsync</span><br><span class="line">adb shell <span class="built_in">chmod</span> 755 /data/local/tmp/rsync</span><br><span class="line">adb shell /data/local/tmp/rsync --version</span><br></pre></td></tr></table></figure>
+
+<p>Please use the correct <a href="/2020/04/06/ndk-rsync-compile/">rsync binary</a> for the Android device. If you got error messages like the following during backup:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/system/bin/sh: /data/local/tmp/rsync: not executable: 64-bit ELF file</span><br></pre></td></tr></table></figure>
+
+<p>or</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rsync: safe_read failed to <span class="built_in">read</span> 1 bytes [Receiver]: Connection reset by peer (104)</span><br><span class="line">rsync error: error <span class="keyword">in</span> rsync protocol data stream (code 12) at io.c(285) [Receiver=3.1.3]</span><br></pre></td></tr></table></figure>
+
+<p>Then you must have chosen the wrong rsync binary.</p>
+<h3 id="Push-rsyncd-conf-to-Android-device"><a href="#Push-rsyncd-conf-to-Android-device" class="headerlink" title="Push rsyncd.conf to Android device"></a>Push rsyncd.conf to Android device</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell <span class="string">&#x27;exec &gt; /data/local/tmp/rsyncd.conf &amp;&amp; echo address = 127.0.0.1 &amp;&amp; echo port = 1873 &amp;&amp; echo &quot;[root]&quot; &amp;&amp; echo path = / &amp;&amp; echo use chroot = false &amp;&amp; echo read only = false&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>or</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> &lt;&lt; <span class="string">EOF &gt; rsyncd.conf</span></span><br><span class="line"><span class="string">address = 127.0.0.1</span></span><br><span class="line"><span class="string">port = 1873</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[root]</span></span><br><span class="line"><span class="string">path = /</span></span><br><span class="line"><span class="string">chroot = false</span></span><br><span class="line"><span class="string">read only = false</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># If Android device rooted</span></span><br><span class="line"><span class="string">#uid = root</span></span><br><span class="line"><span class="string">#gid = root</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line">adb push rsyncd.conf /data/local/tmp/rsyncd.conf</span><br></pre></td></tr></table></figure>
+
+<h3 id="Open-up-a-shell-on-Android-device"><a href="#Open-up-a-shell-on-Android-device" class="headerlink" title="Open up a shell on Android device"></a>Open up a shell on Android device</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">adb -s A5RNW18316011440 shell</span><br><span class="line"></span><br><span class="line"><span class="comment"># If Android device rooted</span></span><br><span class="line"><span class="comment"># su -</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Run-the-rsync-server-process-on-Android-device"><a href="#Run-the-rsync-server-process-on-Android-device" class="headerlink" title="Run the rsync server process on Android device"></a>Run the rsync server process on Android device</h3><p>If Android device rooted:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb -s A5RNW18316011440 shell su - -c <span class="string">&quot;/data/local/tmp/rsync --daemon --no-detach --config=/data/local/tmp/rsyncd.conf --log-file=/proc/self/fd/2&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>Otherwise:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adb shell <span class="string">&#x27;/data/local/tmp/rsync --daemon --no-detach --config=/data/local/tmp/rsyncd.conf --log-file=/proc/self/fd/2&#x27;</span></span><br><span class="line"><span class="comment"># adb shell &#x27;/data/local/tmp/rsync --daemon --config=/data/local/tmp/rsyncd.conf &amp;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Forward-the-target-machine-tcp-port-to-Android-device"><a href="#Forward-the-target-machine-tcp-port-to-Android-device" class="headerlink" title="Forward the target machine tcp port to Android device"></a>Forward the target machine tcp port to Android device</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb forward tcp:1873 tcp:1873</span><br></pre></td></tr></table></figure>
+
+<h2 id="Backup-files-from-Android-device-to-target-machine"><a href="#Backup-files-from-Android-device-to-target-machine" class="headerlink" title="Backup files from Android device to target machine"></a>Backup files from Android device to target machine</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ rsync -vrt --progress --stats \</span><br><span class="line">    rsync://localhost:1873/root/ \</span><br><span class="line">    ~/xiaomi-backup/</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Rsync-backup-for-Android-device"><span class="toc-number">1.</span> <span class="toc-text">Rsync backup for Android device</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Debian-Linux-preparation"><span class="toc-number">1.1.</span> <span class="toc-text">Debian Linux preparation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Android-device-preparation"><span class="toc-number">1.2.</span> <span class="toc-text">Android device preparation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Environmental-verification"><span class="toc-number">1.3.</span> <span class="toc-text">Environmental verification</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Backup-preparation"><span class="toc-number">1.4.</span> <span class="toc-text">Backup preparation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Push-rsync-to-Android-device"><span class="toc-number">1.4.1.</span> <span class="toc-text">Push rsync to Android device</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Push-rsyncd-conf-to-Android-device"><span class="toc-number">1.4.2.</span> <span class="toc-text">Push rsyncd.conf to Android device</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Open-up-a-shell-on-Android-device"><span class="toc-number">1.4.3.</span> <span class="toc-text">Open up a shell on Android device</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-the-rsync-server-process-on-Android-device"><span class="toc-number">1.4.4.</span> <span class="toc-text">Run the rsync server process on Android device</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Forward-the-target-machine-tcp-port-to-Android-device"><span class="toc-number">1.4.5.</span> <span class="toc-text">Forward the target machine tcp port to Android device</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Backup-files-from-Android-device-to-target-machine"><span class="toc-number">1.5.</span> <span class="toc-text">Backup files from Android device to target machine</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

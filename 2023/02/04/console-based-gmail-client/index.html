@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Console Based Gmail Client | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Console Based Gmail Client
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2023/02/04</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Windows" class='tag'>Windows</a>
+
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+
+          
+        </div>
+        <h1 id="Console-Based-Gmail-Client"><a href="#Console-Based-Gmail-Client" class="headerlink" title="Console Based Gmail Client"></a>Console Based Gmail Client</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://billauer.co.il/blog/2022/10/git-send-email-with-oauth2-gmail/">https://billauer.co.il/blog/2022/10/git-send-email-with-oauth2-gmail/</a></li>
+<li><a target="_blank" rel="noopener" href="https://mmogilvi.users.sourceforge.net/software/oauthbearer.html">https://mmogilvi.users.sourceforge.net/software/oauthbearer.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/title/mutt">https://wiki.archlinux.org/title/mutt</a></li>
+<li><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/title/OfflineIMAP">https://wiki.archlinux.org/title/OfflineIMAP</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.mutt.org/doc/manual/">http://www.mutt.org/doc/manual/</a></li>
+</ul>
+<h2 id="Incoming-Mail-IMAP-Server"><a href="#Incoming-Mail-IMAP-Server" class="headerlink" title="Incoming Mail (IMAP) Server"></a>Incoming Mail (IMAP) Server</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">imap.gmail.com</span><br><span class="line">Requires SSL: Yes</span><br><span class="line">Port: 993</span><br></pre></td></tr></table></figure>
+
+<h2 id="Outgoing-Mail-SMTP-Server"><a href="#Outgoing-Mail-SMTP-Server" class="headerlink" title="Outgoing Mail (SMTP) Server"></a>Outgoing Mail (SMTP) Server</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">smtp.gmail.com</span><br><span class="line">Requires SSL: Yes</span><br><span class="line">Port for SSL: 465</span><br><span class="line">Requires TLS: Yes</span><br><span class="line">Port for TLS/STARTTLS: 587</span><br><span class="line">Requires Authentication: Yes</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">openssl s_client -connect smtp.gmail.com:465 -crlf</span><br><span class="line">openssl s_client -connect smtp.gmail.com:587 -crlf -starttls smtp</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"># msmtp -S --host=smtp.gmail.com --port=465 --tls=on --tls-starttls=off</span><br><span class="line"># msmtp -S --host=smtp.gmail.com --port=587 --tls=on --tls-starttls=on</span><br><span class="line">SMTP server at smtp.gmail.com (bi-in-f109.1e100.net [2607:f8b0:4004:c08::6d]), port 587:</span><br><span class="line">    smtp.gmail.com ESMTP 16-20020a05620a041000b007201df7ff47sm11422373qkp.45 - gsmtp</span><br><span class="line">TLS session parameters:</span><br><span class="line">    (TLS1.3)-(ECDHE-X25519)-(ECDSA-SECP256R1-SHA256)-(AES-256-GCM)</span><br><span class="line">TLS certificate information:</span><br><span class="line">    Subject:</span><br><span class="line">        CN=smtp.gmail.com</span><br><span class="line">    Issuer:</span><br><span class="line">        C=US,O=Google Trust Services LLC,CN=GTS CA 1C3</span><br><span class="line">    Validity:</span><br><span class="line">        Activation time: Mon 09 Jan 2023 04:18:39 PM CST</span><br><span class="line">        Expiration time: Mon 03 Apr 2023 04:18:38 PM CST</span><br><span class="line">    Fingerprints:</span><br><span class="line">        SHA256: 46:22:44:D3:E5:6D:94:A5:CE:18:AE:DB:E2:30:05:82:B5:18:0D:10:3C:B3:53:B2:DC:3D:AD:1F:A2:1A:43:97</span><br><span class="line">        SHA1 (deprecated): 23:D7:F1:24:51:BE:47:68:6D:2A:2C:28:37:A8:8E:1A:53:41:F9:70</span><br><span class="line">Capabilities:</span><br><span class="line">    SIZE 35882577:</span><br><span class="line">        Maximum message size is 35882577 bytes = 34.22 MiB</span><br><span class="line">    PIPELINING:</span><br><span class="line">        Support for command grouping for faster transmission</span><br><span class="line">    STARTTLS:</span><br><span class="line">        Support for TLS encryption via the STARTTLS command</span><br><span class="line">    AUTH:</span><br><span class="line">        Supported authentication methods:</span><br><span class="line">        PLAIN LOGIN OAUTHBEARER XOAUTH2</span><br></pre></td></tr></table></figure>
+
+<h2 id="Mail-Transfer-Agent-MTA"><a href="#Mail-Transfer-Agent-MTA" class="headerlink" title="Mail Transfer Agent (MTA)"></a>Mail Transfer Agent (MTA)</h2><h3 id="dma"><a href="#dma" class="headerlink" title="dma"></a>dma</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/dma/auth.conf</span><br><span class="line">    me@gmail.com|smtp.gmail.com:PaSsWorD</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/dma/dma.conf</span><br><span class="line">    AUTHPATH /etc/dma/auth.conf</span><br><span class="line">    SECURETRANSFER</span><br><span class="line">    SMARTHOST smtp.gmail.com</span><br><span class="line">    PORT 465</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/dma/dma.conf</span><br><span class="line">    AUTHPATH /etc/dma/auth.conf</span><br><span class="line">    SECURETRANSFER</span><br><span class="line">    SMARTHOST smtp.gmail.com</span><br><span class="line">    PORT 587</span><br><span class="line">    STARTTLS</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt; EOF | dma -D it@gmail.com</span><br><span class="line">From: me &lt;me@gmail.com&gt;</span><br><span class="line">To: it &lt;it@gmail.com&gt;</span><br><span class="line">Subject: title</span><br><span class="line">Content-Type: text/plain; charset=&quot;UTF-8&quot;</span><br><span class="line"></span><br><span class="line">Hi,</span><br><span class="line"></span><br><span class="line">Sent from dma #1.</span><br><span class="line"></span><br><span class="line">Thanks,</span><br><span class="line">me</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h3 id="msmtp"><a href="#msmtp" class="headerlink" title="msmtp"></a>msmtp</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">vi ~/.msmtprc</span><br><span class="line"></span><br><span class="line">account default</span><br><span class="line">auth on</span><br><span class="line">tls on</span><br><span class="line">logfile ~/.msmtp.log</span><br><span class="line"></span><br><span class="line">host smtp.gmail.com</span><br><span class="line">from me@gmail.com</span><br><span class="line"></span><br><span class="line">user me@gmail.com</span><br><span class="line">password PaSsWorD</span><br><span class="line"># gpg -vv --encrypt -o ~/.msmtp-password.gpg -r me@gmail.com -</span><br><span class="line"># gpg -c -vv --cipher-algo AES256 -o ~/.msmtp-password.gpg -</span><br><span class="line"># passwordeval gpg --no-tty -q -d ~/.msmtp-password.gpg</span><br><span class="line"></span><br><span class="line"># port 465</span><br><span class="line"># tls_starttls off</span><br><span class="line"></span><br><span class="line">port 587</span><br><span class="line">tls_starttls on</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt; EOF | msmtp -v it@gmail.com</span><br><span class="line">From: me &lt;me@gmail.com&gt;</span><br><span class="line">To: me &lt;it@gmail.com&gt;</span><br><span class="line">Subject: title</span><br><span class="line">Content-Type: text/plain; charset=&quot;UTF-8&quot;</span><br><span class="line"></span><br><span class="line">Hi,</span><br><span class="line"></span><br><span class="line">Sent from msmtp #1.</span><br><span class="line"></span><br><span class="line">Thanks,</span><br><span class="line">me</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h3 id="ssmtp"><a href="#ssmtp" class="headerlink" title="ssmtp"></a>ssmtp</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/ssmtp/revaliases</span><br><span class="line"></span><br><span class="line"># Format:       local_account:outgoing_address:mailhub</span><br><span class="line">root:me@gmail.com:smtp.gmail.com:465</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/ssmtp/ssmtp.conf</span><br><span class="line">chmod 0666 /etc/ssmtp/ssmtp.conf</span><br><span class="line"></span><br><span class="line">FromLineOverride yes</span><br><span class="line">Mailhub smtp.gmail.com:465</span><br><span class="line">UseTLS=YES</span><br><span class="line">#Mailhub smtp.gmail.com:587</span><br><span class="line">#UseSTARTTLS=YES</span><br><span class="line">AuthMethod=LOGIN</span><br><span class="line">AuthUser=me@gmail.com</span><br><span class="line">AuthPass=PaSsWorD</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt; EOF | ssmtp -v it@gmail.com</span><br><span class="line">From: me &lt;me@gmail.com&gt;</span><br><span class="line">To: me &lt;it@gmail.com&gt;</span><br><span class="line">Subject: title</span><br><span class="line">Content-Type: text/plain; charset=&quot;UTF-8&quot;</span><br><span class="line"></span><br><span class="line">Hi,</span><br><span class="line"></span><br><span class="line">Sent from ssmtp #1.</span><br><span class="line"></span><br><span class="line">Thanks,</span><br><span class="line">me</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h2 id="Mail-Delivery-Agent-MDA"><a href="#Mail-Delivery-Agent-MDA" class="headerlink" title="Mail Delivery Agent (MDA)"></a>Mail Delivery Agent (MDA)</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.fetchmail.info/">2023-01-28, fetchmail 6.4.36</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/getmail6/getmail6">2023-01-21, getmail 6.18.12</a></li>
+</ul>
+<h3 id="fetchmail"><a href="#fetchmail" class="headerlink" title="fetchmail"></a>fetchmail</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PATH=/usr/bin:/usr/ucb:/bin:/usr/local/bin:.</span><br><span class="line">MAILDIR=$HOME/Mail      # You&#x27;d better make sure it exists</span><br><span class="line">DEFAULT=$MAILDIR/mbox</span><br><span class="line">LOGFILE=$MAILDIR/log</span><br><span class="line">LOCKFILE=$HOME/.lock</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">touch ~/.fetchmailrc &amp;&amp; chmod 600 $_</span><br><span class="line"></span><br><span class="line">vi ~/.fetchmail.rc</span><br><span class="line"></span><br><span class="line">poll imap.gmail.com service 993 protocol IMAP</span><br><span class="line">    username &quot;me@gmail.com&quot;</span><br><span class="line">    password &quot;PaSsWorD&quot;</span><br><span class="line">    options ssl sslproto TLS1.2+</span><br><span class="line">    mimedecode keep fetchlimit 100</span><br><span class="line">    mda &quot;/usr/bin/procmail -f %F -d %T&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/etc/default/fetchmail</span><br><span class="line">/etc/init.d/fetchmail</span><br><span class="line">/etc/logcheck/ignore.d.server/fetchmail</span><br><span class="line">/etc/logcheck/ignore.d.workstation/fetchmail</span><br><span class="line">/etc/ppp/ip-down.d/fetchmail</span><br><span class="line">/etc/ppp/ip-up.d/fetchmail</span><br><span class="line">/etc/resolvconf/update-libc.d/fetchmail</span><br><span class="line">/usr/lib/systemd/user/fetchmail.service</span><br><span class="line">/usr/share/doc/fetchmail/examples/fetchmailrc.example</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fetchmail -f ~/.fetchmail.rc --verbose</span><br></pre></td></tr></table></figure>
+
+<h2 id="Mail-User-Agent-MUA"><a href="#Mail-User-Agent-MUA" class="headerlink" title="Mail User Agent (MUA)"></a>Mail User Agent (MUA)</h2><h3 id="mutt"><a href="#mutt" class="headerlink" title="mutt"></a>mutt</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">vi ~/.muttrc</span><br><span class="line"></span><br><span class="line">set my_user = &quot;me@gmail.com&quot;</span><br><span class="line"># gpg -vv --encrypt -o ~/.mutt-password.gpg -r me@gmail.com -</span><br><span class="line"># gpg -c -vv --cipher-algo AES256 -o ~/.mutt-password.gpg -</span><br><span class="line"># set my_pass = &quot;PaSsWorD&quot;</span><br><span class="line">source &quot;gpg -dq $HOME/.mutt-password.gpg |&quot;</span><br><span class="line"></span><br><span class="line">set realname = &quot;me&quot;</span><br><span class="line"># set signature=&quot;path/to/sig/file&quot; # ~/.signature</span><br><span class="line">set from = $my_user</span><br><span class="line">set use_from = yes</span><br><span class="line">set send_charset=&quot;utf-8&quot;</span><br><span class="line">set sort = threads</span><br><span class="line"></span><br><span class="line">set mbox_type=Maildir</span><br><span class="line">set date_format=&quot;%y-%m-%d %T&quot;</span><br><span class="line">set index_format=&quot;%2C | %Z [%d] %-30.30F (%-4.4c) %s&quot;</span><br><span class="line"></span><br><span class="line"># type ‘c’ to change to another folder</span><br><span class="line">set folder = imaps://imap.gmail.com/</span><br><span class="line">set spoolfile = +INBOX</span><br><span class="line">set postponed = +[Gmail]/Drafts</span><br><span class="line">set trash = &quot;+[Gmail]/Trash&quot;</span><br><span class="line"># Gmail automatically saves sent e-mail to +[Gmail]/Sent, so we do not want duplicates.</span><br><span class="line"># set record = +[Gmail]/Sent</span><br><span class="line">unset record</span><br><span class="line">set imap_user=$my_user</span><br><span class="line">set imap_pass=$my_pass</span><br><span class="line">set imap_check_subscribed</span><br><span class="line">set imap_keepalive = 300</span><br><span class="line">unset imap_passive</span><br><span class="line">set mail_check = 60</span><br><span class="line"></span><br><span class="line">set smtp_url=smtps://$my_user:$my_pass@smtp.gmail.com</span><br><span class="line"></span><br><span class="line"># set sendmail=&quot;/usr/bin/msmtp&quot;</span><br><span class="line"># set sendmail=&quot;/usr/sbin/dma&quot;</span><br><span class="line"># set sendmail=&quot;/usr/sbin/ssmtp&quot;</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Console-Based-Gmail-Client"><span class="toc-number">1.</span> <span class="toc-text">Console Based Gmail Client</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Incoming-Mail-IMAP-Server"><span class="toc-number">1.1.</span> <span class="toc-text">Incoming Mail (IMAP) Server</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Outgoing-Mail-SMTP-Server"><span class="toc-number">1.2.</span> <span class="toc-text">Outgoing Mail (SMTP) Server</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mail-Transfer-Agent-MTA"><span class="toc-number">1.3.</span> <span class="toc-text">Mail Transfer Agent (MTA)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#dma"><span class="toc-number">1.3.1.</span> <span class="toc-text">dma</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#msmtp"><span class="toc-number">1.3.2.</span> <span class="toc-text">msmtp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ssmtp"><span class="toc-number">1.3.3.</span> <span class="toc-text">ssmtp</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mail-Delivery-Agent-MDA"><span class="toc-number">1.4.</span> <span class="toc-text">Mail Delivery Agent (MDA)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#fetchmail"><span class="toc-number">1.4.1.</span> <span class="toc-text">fetchmail</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mail-User-Agent-MUA"><span class="toc-number">1.5.</span> <span class="toc-text">Mail User Agent (MUA)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mutt"><span class="toc-number">1.5.1.</span> <span class="toc-text">mutt</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

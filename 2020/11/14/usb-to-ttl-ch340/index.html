@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>USB to TTL - CH340 | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          USB to TTL - CH340
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/11/14</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Windows" class='tag'>Windows</a>
+
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+  <a href="/tags/#Operating%20system" class='tag'>Operating system</a>
+
+
+          
+        </div>
+        <h1 id="USB-to-TTL-CH340"><a href="#USB-to-TTL-CH340" class="headerlink" title="USB to TTL - CH340"></a>USB to TTL - CH340</h1><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>在某宝买了一个 USB 转 TTL 模块，芯片型号是 CH340，芯片厂家是南京沁恒微电子股份有限公司。
+产品介绍，驱动程序，技术手册和原理图页面位于<a target="_blank" rel="noopener" href="http://www.wch.cn/products/CH340.html">USB转串口芯片:CH340</a>。</p>
+<h3 id="USB-to-Serial-Port-Chips"><a href="#USB-to-Serial-Port-Chips" class="headerlink" title="USB to Serial Port Chips"></a>USB to Serial Port Chips</h3><p><img src="/2020/11/14/usb-to-ttl-ch340/usb_serial_converter.png" alt="USB 转串口芯片"></p>
+<h3 id="Interface-conversion-expert"><a href="#Interface-conversion-expert" class="headerlink" title="Interface conversion expert"></a>Interface conversion expert</h3><p><img src="/2020/11/14/usb-to-ttl-ch340/interface_conversion_expert.png" alt="接口转换专家"></p>
+<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><p>进入 Linux 系统，将这个 USB 转 TTL 模块插入 USB A 口后自动识别。</p>
+<h3 id="dmesg"><a href="#dmesg" class="headerlink" title="dmesg"></a>dmesg</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">dmesg -w</span></span><br><span class="line">[  160.990615] usb 2-6: new full-speed USB device number 4 using xhci_hcd</span><br><span class="line">[  161.139926] usb 2-6: New USB device found, idVendor=1a86, idProduct=7523, bcdDevice= 2.64</span><br><span class="line">[  161.139932] usb 2-6: New USB device strings: Mfr=0, Product=2, SerialNumber=0</span><br><span class="line">[  161.139934] usb 2-6: Product: USB Serial</span><br><span class="line">[  161.165466] usbcore: registered new interface driver usbserial_generic</span><br><span class="line">[  161.165513] usbserial: USB Serial support registered for generic</span><br><span class="line">[  161.167670] usbcore: registered new interface driver ch341</span><br><span class="line">[  161.167684] usbserial: USB Serial support registered for ch341-uart</span><br><span class="line">[  161.167703] ch341 2-6:1.0: ch341-uart converter detected</span><br><span class="line">[  161.168611] usb 2-6: ch341-uart converter now attached to ttyUSB0</span><br></pre></td></tr></table></figure>
+
+<h3 id="lsusb"><a href="#lsusb" class="headerlink" title="lsusb"></a>lsusb</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">lsusb</span></span><br><span class="line">Bus 001 Device 002: ID 8087:8000 Intel Corp.</span><br><span class="line">Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub</span><br><span class="line">Bus 003 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub</span><br><span class="line">Bus 002 Device 004: ID 1a86:7523 QinHeng Electronics HL-340 USB-Serial adapter</span><br><span class="line">Bus 002 Device 003: ID 0c45:64d2 Microdia Integrated Webcam</span><br><span class="line">Bus 002 Device 002: ID 1d57:0008 Xenta 2.4G Wireless Optical Mouse</span><br><span class="line">Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub</span><br></pre></td></tr></table></figure>
+
+<h3 id="udev-rules"><a href="#udev-rules" class="headerlink" title="udev rules"></a>udev rules</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">udev /dev/ttyCH340</span><br><span class="line"></span><br><span class="line">KERNEL==&quot;ttyUSB*&quot;,\</span><br><span class="line">    ATTRS&#123;idVendor&#125;==&quot;1a86&quot;,\</span><br><span class="line">    ATTRS&#123;idProduct&#125;==&quot;7523&quot;,\</span><br><span class="line">    GROUP=&quot;dialout&quot;,\</span><br><span class="line">    MODE=&quot;0660&quot;,\</span><br><span class="line">    RUN+=&quot;/bin/ln -sf %k /dev/ttyCH340&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="terminal-emulation-program"><a href="#terminal-emulation-program" class="headerlink" title="terminal emulation program"></a>terminal emulation program</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">sudo</span> screen /dev/ttyUSB0 115200</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">sudo</span> busybox microcom -t 5000 -s 115200 -X /dev/ttyUSB0</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">sudo</span> tio -b 115200 -t /dev/ttyUSB0</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">sudo</span> picocom -b 115200 /dev/ttyUSB0</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">sudo</span> minicom -b 115200 -8 -D /dev/ttyUSB0</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="pySerial"><a href="#pySerial" class="headerlink" title="pySerial"></a>pySerial</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">sudo</span> apt-get install -y python3-serial</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">sudo</span> python3 -m serial.tools.list_ports</span></span><br><span class="line">/dev/ttyUSB0</span><br><span class="line">1 ports found</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">sudo</span> python3</span></span><br><span class="line">Python 3.8.5 (default, Jul 28 2020, 12:59:40)</span><br><span class="line">[GCC 9.3.0] on linux</span><br><span class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; import serial</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt;</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; ser = serial.Serial(<span class="string">&#x27;/dev/ttyUSB0&#x27;</span>, 115200)</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; ser.timeout = 3</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; ser.write(b<span class="string">&#x27;xyz123abc&#x27;</span>)</span></span><br><span class="line">9</span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; ser.read(8)</span></span><br><span class="line">b&#x27;xyz123ab&#x27;</span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; ser.read(8)</span></span><br><span class="line">b&#x27;c&#x27;</span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> serial</span><br><span class="line"><span class="keyword">from</span> serial.tools <span class="keyword">import</span> list_ports</span><br><span class="line"></span><br><span class="line">ports = list_ports.comports()</span><br><span class="line"><span class="keyword">for</span> port <span class="keyword">in</span> ports:</span><br><span class="line">    <span class="built_in">print</span>(port)</span><br><span class="line"></span><br><span class="line">ser = serial.Serial(<span class="string">&#x27;/dev/ttyUSB0&#x27;</span>, <span class="number">115200</span>)</span><br><span class="line">ser.timeout = <span class="number">3</span></span><br><span class="line">ser.write(<span class="string">b&#x27;xyz123abc&#x27;</span>)</span><br><span class="line">ser.read(<span class="number">8</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><h3 id="驱动程序"><a href="#驱动程序" class="headerlink" title="驱动程序"></a>驱动程序</h3><p>在<a target="_blank" rel="noopener" href="http://www.wch.cn/products/CH340.html">USB转串口芯片:CH340</a>页面，厂家提供了 WHQL <a target="_blank" rel="noopener" href="http://www.wch.cn/downloads/CH341SER_EXE.html">驱动下载</a>，支持主流 Windows 系统。</p>
+<p>进入 Windows 系统，将这个 USB 转 TTL 模块插入 USB A 口，安装厂家提供的驱动程序。然后在设备管理器中的**端口(COM 和 LPT)**设备分类下，可以看到设备 **USB-SERIAL CH340 (COM11)**。</p>
+<p>查看这个设备的属性，可以发现驱动程序是由 <strong>Microsoft Windows Hardware Compatibility Publisher</strong> 签名，提供商是 <strong>wch.cn</strong>，驱动程序日期是 <strong>2019&#x2F;1&#x2F;30</strong>，版本是 <strong>3.5.2019.1</strong>，驱动程序文件是 <strong>C:\Windows\System32\Drivers\CH341S64.SYS</strong>。</p>
+<h3 id="设备信息"><a href="#设备信息" class="headerlink" title="设备信息"></a>设备信息</h3><p>在设备的详细信息页面中，可以看到如下在 <strong>USB-IF</strong> 注册的属性：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">QinHeng Electronics HL-340 USB-Serial adapter</span><br><span class="line">USB-SERIAL CH340</span><br><span class="line">USB\VID_1A86&amp;PID_7523\5&amp;3B489C26&amp;0&amp;6</span><br><span class="line">USB\VID_1A86&amp;PID_7523&amp;REV_0264</span><br><span class="line">USB\VID_1A86&amp;PID_7523</span><br></pre></td></tr></table></figure>
+
+<h3 id="pySerial-1"><a href="#pySerial-1" class="headerlink" title="pySerial"></a>pySerial</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/pyserial/pyserial">https://github.com/pyserial/pyserial</a></li>
+<li><a target="_blank" rel="noopener" href="https://pythonhosted.org/pyserial/">https://pythonhosted.org/pyserial/</a></li>
+<li><a target="_blank" rel="noopener" href="https://pyserial.readthedocs.io/">https://pyserial.readthedocs.io/</a></li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">PS</span> C:\&gt; python <span class="literal">-m</span> pip install pyserial</span><br><span class="line"><span class="built_in">PS</span> C:\&gt; python <span class="literal">-m</span> serial.tools.list_ports</span><br><span class="line">COM11</span><br><span class="line"><span class="number">1</span> ports found</span><br><span class="line"></span><br><span class="line"><span class="built_in">PS</span> C:\&gt; python <span class="literal">-m</span> serial.tools.list_ports <span class="literal">-v</span></span><br><span class="line">COM11</span><br><span class="line">    desc: USB<span class="literal">-SERIAL</span> CH340 (COM11)</span><br><span class="line">    hwid: USB VID:PID=<span class="number">1</span>A86:<span class="number">7523</span> SER=<span class="number">5</span> LOCATION=<span class="number">1</span><span class="literal">-6</span></span><br><span class="line"><span class="number">1</span> ports found</span><br><span class="line"></span><br><span class="line"><span class="built_in">PS</span> C:\&gt; python <span class="literal">-m</span> serial.tools.miniterm <span class="literal">-h</span></span><br><span class="line"><span class="built_in">PS</span> C:\&gt; python <span class="literal">-m</span> serial.tools.miniterm COM11 <span class="number">115200</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">PS</span> C:\&gt; python</span><br><span class="line">Python <span class="number">3.8</span>.<span class="number">6</span> (tags/v3.<span class="number">8.6</span>:db45529, Sep <span class="number">23</span> <span class="number">2020</span>, <span class="number">15</span>:<span class="number">52</span>:<span class="number">53</span>) [<span class="type">MSC</span> <span class="type">v.1927</span> <span class="number">64</span> <span class="type">bit</span> (<span class="type">AMD64</span>)] on win32</span><br><span class="line"><span class="built_in">Type</span> <span class="string">&quot;help&quot;</span>, <span class="string">&quot;copyright&quot;</span>, <span class="string">&quot;credits&quot;</span> or <span class="string">&quot;license&quot;</span> <span class="keyword">for</span> more information.</span><br><span class="line">&gt;&gt;&gt; import serial</span><br><span class="line">&gt;&gt;&gt; from serial.tools import list_ports</span><br><span class="line">&gt;&gt;&gt; ports = list_ports.comports()</span><br><span class="line">&gt;&gt;&gt; <span class="keyword">for</span> port <span class="keyword">in</span> ports:</span><br><span class="line">...     print(port)</span><br><span class="line">...</span><br><span class="line">COM11 - USB<span class="literal">-SERIAL</span> CH340 (COM11)</span><br><span class="line">&gt;&gt;&gt; with serial.Serial(<span class="string">&#x27;COM11&#x27;</span>, <span class="number">19200</span>, timeout=<span class="number">1</span>) as ser:</span><br><span class="line">...     ser.write(b<span class="string">&#x27;hello&#x27;</span>)</span><br><span class="line">...     ser.read(<span class="number">5</span>)</span><br><span class="line">...</span><br><span class="line"><span class="number">5</span></span><br><span class="line">b<span class="string">&#x27;hello&#x27;</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> serial</span><br><span class="line"><span class="keyword">from</span> serial.tools <span class="keyword">import</span> list_ports</span><br><span class="line"></span><br><span class="line">ports = list_ports.comports()</span><br><span class="line"><span class="keyword">for</span> port <span class="keyword">in</span> ports:</span><br><span class="line">    <span class="built_in">print</span>(port)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> serial.Serial(<span class="string">&#x27;COM11&#x27;</span>, <span class="number">19200</span>, timeout=<span class="number">1</span>) <span class="keyword">as</span> ser:</span><br><span class="line">    ser.write(<span class="string">b&#x27;hello&#x27;</span>)</span><br><span class="line">    ser.read(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#USB-to-TTL-CH340"><span class="toc-number">1.</span> <span class="toc-text">USB to TTL - CH340</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-number">1.1.</span> <span class="toc-text">Introduction</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#USB-to-Serial-Port-Chips"><span class="toc-number">1.1.1.</span> <span class="toc-text">USB to Serial Port Chips</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Interface-conversion-expert"><span class="toc-number">1.1.2.</span> <span class="toc-text">Interface conversion expert</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux"><span class="toc-number">1.2.</span> <span class="toc-text">Linux</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#dmesg"><span class="toc-number">1.2.1.</span> <span class="toc-text">dmesg</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lsusb"><span class="toc-number">1.2.2.</span> <span class="toc-text">lsusb</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#udev-rules"><span class="toc-number">1.2.3.</span> <span class="toc-text">udev rules</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#terminal-emulation-program"><span class="toc-number">1.2.4.</span> <span class="toc-text">terminal emulation program</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pySerial"><span class="toc-number">1.2.5.</span> <span class="toc-text">pySerial</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows"><span class="toc-number">1.3.</span> <span class="toc-text">Windows</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.3.1.</span> <span class="toc-text">驱动程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E5%A4%87%E4%BF%A1%E6%81%AF"><span class="toc-number">1.3.2.</span> <span class="toc-text">设备信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pySerial-1"><span class="toc-number">1.3.3.</span> <span class="toc-text">pySerial</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

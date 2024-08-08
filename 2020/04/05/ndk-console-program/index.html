@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>NDK console program | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          NDK console program
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/04/05</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/C-C/">C/C++</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#C/C++" class='tag'>C/C++</a>
+
+
+          
+        </div>
+        <h1 id="NDK-console-program"><a href="#NDK-console-program" class="headerlink" title="NDK console program"></a>NDK console program</h1><h2 id="Install-NDK"><a href="#Install-NDK" class="headerlink" title="Install NDK"></a>Install NDK</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://developer.android.com/ndk/reference">https://developer.android.com/ndk/reference</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.android.com/ndk/guides/abis">https://developer.android.com/ndk/guides/abis</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.android.com/ndk/downloads">https://developer.android.com/ndk/downloads</a></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> NDK_BUNDLE_DIR=/opt/android-ndk-r21b</span><br><span class="line"><span class="built_in">export</span> NDK_DL_URL=https://dl.google.com/android/repository/android-ndk-r21b-linux-x86_64.zip</span><br><span class="line"><span class="built_in">export</span> PATH=/opt/maven-3/bin:/opt/jdk-8/bin:/usr/sbin:/usr/bin:/sbin:/bin</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$&#123;NDK_BUNDLE_DIR&#125;</span>/toolchains/llvm/prebuilt/linux-x86_64/bin:<span class="variable">$&#123;NDK_BUNDLE_DIR&#125;</span>:<span class="variable">$PATH</span></span><br><span class="line"></span><br><span class="line">/bin/rm -fr <span class="variable">$&#123;NDK_BUNDLE_DIR&#125;</span> \</span><br><span class="line">    &amp;&amp; <span class="built_in">mkdir</span> -p <span class="variable">$&#123;NDK_BUNDLE_DIR&#125;</span> \</span><br><span class="line">    &amp;&amp; curl -sSL -o /tmp/ndk.zip <span class="variable">$&#123;NDK_DL_URL&#125;</span> \</span><br><span class="line">    &amp;&amp; (<span class="built_in">cd</span> <span class="variable">$&#123;NDK_BUNDLE_DIR&#125;</span>/.. &amp;&amp; unzip /tmp/ndk.zip)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello, World"></a>Hello, World</h2><h3 id="Hello-c"><a href="#Hello-c" class="headerlink" title="Hello.c"></a>Hello.c</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * gcc -g -std=c11 -Wall -Wextra -Wformat -pedantic -o Hello Hello.c</span></span><br><span class="line"><span class="comment"> * valgrind -v ./Hello</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Hello, World!\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Hello-cpp"><a href="#Hello-cpp" class="headerlink" title="Hello.cpp"></a>Hello.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * g++ -g -std=c++17 -Wall -Wextra -Wformat -pedantic -o Hello Hello.cpp</span></span><br><span class="line"><span class="comment"> * valgrind -v ./Hello</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Hello, World!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Android-mk"><a href="#Android-mk" class="headerlink" title="Android.mk"></a>Android.mk</h3><figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_PATH := <span class="variable">$(<span class="built_in">call</span> my-<span class="built_in">dir</span>)</span></span><br><span class="line"><span class="keyword">include</span> <span class="variable">$(CLEAR_VARS)</span></span><br><span class="line"></span><br><span class="line">LOCAL_MODULE := Hello</span><br><span class="line"></span><br><span class="line">LOCAL_SRC_FILES := Hello.c</span><br><span class="line"><span class="comment">#LOCAL_SRC_FILES := Hello.cpp</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">include</span> <span class="variable">$(BUILD_EXECUTABLE)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Application-mk"><a href="#Application-mk" class="headerlink" title="Application.mk"></a>Application.mk</h3><figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">APP_PLATFORM := android-24</span><br><span class="line">APP_BUILD_SCRIPT := Android.mk</span><br><span class="line">APP_ABI := armeabi-v7a arm64-v8a x86_64</span><br><span class="line"></span><br><span class="line">APP_STL := none</span><br><span class="line"><span class="comment">#APP_STL := c++_static</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="ndk-build"><a href="#ndk-build" class="headerlink" title="ndk-build"></a>ndk-build</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">ndk-build NDK_PROJECT_PATH=. NDK_APPLICATION_MK=Application.mk</span></span><br><span class="line">[armeabi-v7a] Executable     : Hello</span><br><span class="line">[armeabi-v7a] Install        : Hello =&gt; libs/armeabi-v7a/Hello</span><br><span class="line">[arm64-v8a] Compile        : Hello &lt;= Hello.c</span><br><span class="line">[arm64-v8a] Executable     : Hello</span><br><span class="line">[arm64-v8a] Install        : Hello =&gt; libs/arm64-v8a/Hello</span><br><span class="line">[x86_64] Compile        : Hello &lt;= Hello.c</span><br><span class="line">[x86_64] Executable     : Hello</span><br><span class="line">[x86_64] Install        : Hello =&gt; libs/x86_64/Hello</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">file libs/armeabi-v7a/Hello libs/arm64-v8a/Hello libs/x86_64/Hello</span></span><br><span class="line">libs/armeabi-v7a/Hello: ELF 32-bit LSB shared object, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /system/bin/linker, BuildID[sha1]=899b8ea06a0b7372e7eef43db09bc145d5140ca5, stripped</span><br><span class="line">libs/arm64-v8a/Hello:   ELF 64-bit LSB shared object, ARM aarch64, version 1 (SYSV), dynamically linked, interpreter /system/bin/linker64, BuildID[sha1]=1d490b72bbf70379b127a49f60d0383a62312937, stripped</span><br><span class="line">libs/x86_64/Hello:      ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /system/bin/linker64, BuildID[sha1]=2af85ada459a58e93ab96e7aceb5b546f8bce80d, stripped</span><br><span class="line"></span><br><span class="line">arm-linux-androideabi-readelf -h libs/armeabi-v7a/Hello</span><br><span class="line">arm-linux-androideabi-readelf -A libs/armeabi-v7a/Hello</span><br><span class="line">arm-linux-androideabi-readelf -p .interp libs/armeabi-v7a/Hello</span><br><span class="line">arm-linux-androideabi-readelf -p .rodata libs/armeabi-v7a/Hello</span><br><span class="line"></span><br><span class="line">aarch64-linux-android-readelf -h libs/arm64-v8a/Hello</span><br><span class="line">aarch64-linux-android-readelf -p .interp libs/arm64-v8a/Hello</span><br><span class="line">aarch64-linux-android-readelf -p .rodata libs/arm64-v8a/Hello</span><br></pre></td></tr></table></figure>
+
+<h2 id="Android-Debug-Bridge"><a href="#Android-Debug-Bridge" class="headerlink" title="Android Debug Bridge"></a>Android Debug Bridge</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">adb push libs/armeabi-v7a/Hello /data/local/tmp/Hello</span><br><span class="line">adb shell /data/local/tmp/Hello</span><br><span class="line"></span><br><span class="line">adb push libs/arm64-v8a/Hello /data/local/tmp/Hello</span><br><span class="line">adb shell /data/local/tmp/Hello</span><br><span class="line"></span><br><span class="line">adb push libs/x86_64/Hello /data/local/tmp/Hello</span><br><span class="line">adb shell /data/local/tmp/Hello</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#NDK-console-program"><span class="toc-number">1.</span> <span class="toc-text">NDK console program</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Install-NDK"><span class="toc-number">1.1.</span> <span class="toc-text">Install NDK</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hello-World"><span class="toc-number">1.2.</span> <span class="toc-text">Hello, World</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Hello-c"><span class="toc-number">1.2.1.</span> <span class="toc-text">Hello.c</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hello-cpp"><span class="toc-number">1.2.2.</span> <span class="toc-text">Hello.cpp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Android-mk"><span class="toc-number">1.2.3.</span> <span class="toc-text">Android.mk</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Application-mk"><span class="toc-number">1.2.4.</span> <span class="toc-text">Application.mk</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ndk-build"><span class="toc-number">1.2.5.</span> <span class="toc-text">ndk-build</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Android-Debug-Bridge"><span class="toc-number">1.3.</span> <span class="toc-text">Android Debug Bridge</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

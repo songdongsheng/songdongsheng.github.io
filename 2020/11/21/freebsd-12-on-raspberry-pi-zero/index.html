@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>FreeBSD 12 on Raspberry Pi Zero | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          FreeBSD 12 on Raspberry Pi Zero
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/11/21</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/FreeBSD/">FreeBSD</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Operating%20system" class='tag'>Operating system</a>
+
+  <a href="/tags/#FreeBSD" class='tag'>FreeBSD</a>
+
+
+          
+        </div>
+        <h1 id="FreeBSD-12-on-Raspberry-Pi-Zero"><a href="#FreeBSD-12-on-Raspberry-Pi-Zero" class="headerlink" title="FreeBSD 12 on Raspberry Pi Zero"></a>FreeBSD 12 on Raspberry Pi Zero</h1><h2 id="Download-FreeBSD-image"><a href="#Download-FreeBSD-image" class="headerlink" title="Download FreeBSD image"></a>Download FreeBSD image</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.freebsd.org/platforms/index.html">https://www.freebsd.org/platforms/index.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.freebsd.org/platforms/arm.html">https://www.freebsd.org/platforms/arm.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://wiki.freebsd.org/arm64">https://wiki.freebsd.org/arm64</a></li>
+<li><a target="_blank" rel="noopener" href="https://wiki.freebsd.org/arm64/QEMU">https://wiki.freebsd.org/arm64/QEMU</a></li>
+<li><a target="_blank" rel="noopener" href="https://wiki.freebsd.org/arm">https://wiki.freebsd.org/arm</a></li>
+<li><a target="_blank" rel="noopener" href="https://wiki.freebsd.org/arm/Raspberry%20Pi">https://wiki.freebsd.org/arm/Raspberry%20Pi</a></li>
+<li><a target="_blank" rel="noopener" href="https://wiki.freebsd.org/arm/RockChip">https://wiki.freebsd.org/arm/RockChip</a></li>
+<li><a target="_blank" rel="noopener" href="https://wiki.freebsd.org/arm/Allwinner">https://wiki.freebsd.org/arm/Allwinner</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.freebsd.org/cgi/man.cgi?query=muge">https://www.freebsd.org/cgi/man.cgi?query=muge</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.freebsd.org/cgi/man.cgi?query=bwn">https://www.freebsd.org/cgi/man.cgi?query=bwn</a></li>
+<li><a target="_blank" rel="noopener" href="https://wiki.freebsd.org/DeviceDrivers">https://wiki.freebsd.org/DeviceDrivers</a></li>
+<li><a target="_blank" rel="noopener" href="https://wiki.freebsd.org/SDIO">https://wiki.freebsd.org/SDIO</a></li>
+<li><a target="_blank" rel="noopener" href="https://download.freebsd.org/ftp/releases/arm/armv6/ISO-IMAGES/12.2/FreeBSD-12.2-RELEASE-arm-armv6-RPI-B.img.xz">https://download.freebsd.org/ftp/releases/arm/armv6/ISO-IMAGES/12.2/FreeBSD-12.2-RELEASE-arm-armv6-RPI-B.img.xz</a> [Tier 2]</li>
+<li><a target="_blank" rel="noopener" href="https://download.freebsd.org/ftp/releases/arm/armv7/ISO-IMAGES/12.2/FreeBSD-12.2-RELEASE-arm-armv7-RPI2.img.xz">https://download.freebsd.org/ftp/releases/arm/armv7/ISO-IMAGES/12.2/FreeBSD-12.2-RELEASE-arm-armv7-RPI2.img.xz</a> [Tier 2]</li>
+<li><a target="_blank" rel="noopener" href="https://download.freebsd.org/ftp/releases/arm64/aarch64/ISO-IMAGES/12.2/FreeBSD-12.2-RELEASE-arm64-aarch64-RPI3.img.xz">https://download.freebsd.org/ftp/releases/arm64/aarch64/ISO-IMAGES/12.2/FreeBSD-12.2-RELEASE-arm64-aarch64-RPI3.img.xz</a> [Tier 2]</li>
+<li><a target="_blank" rel="noopener" href="https://download.freebsd.org/ftp/snapshots/ISO-IMAGES/13.0/">https://download.freebsd.org/ftp/snapshots/ISO-IMAGES/13.0/</a></li>
+<li><a target="_blank" rel="noopener" href="https://download.freebsd.org/ftp/snapshots/ISO-IMAGES/13.0/FreeBSD-13.0-CURRENT-arm-armv6-RPI-B-20201203-f659bf1d31c.img.xz">https://download.freebsd.org/ftp/snapshots/ISO-IMAGES/13.0/FreeBSD-13.0-CURRENT-arm-armv6-RPI-B-20201203-f659bf1d31c.img.xz</a></li>
+<li><a target="_blank" rel="noopener" href="https://download.freebsd.org/ftp/snapshots/ISO-IMAGES/13.0/FreeBSD-13.0-CURRENT-arm-armv7-RPI2-20201119-f2ea0734875.img.xz">https://download.freebsd.org/ftp/snapshots/ISO-IMAGES/13.0/FreeBSD-13.0-CURRENT-arm-armv7-RPI2-20201119-f2ea0734875.img.xz</a></li>
+<li><a target="_blank" rel="noopener" href="https://download.freebsd.org/ftp/snapshots/ISO-IMAGES/13.0/FreeBSD-13.0-CURRENT-arm64-aarch64-RPI3-20201203-f659bf1d31c.img.xz">https://download.freebsd.org/ftp/snapshots/ISO-IMAGES/13.0/FreeBSD-13.0-CURRENT-arm64-aarch64-RPI3-20201203-f659bf1d31c.img.xz</a></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">aria2c https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.2/FreeBSD-12.2-RELEASE-arm-armv6-RPI-B.img.xz</span></span><br><span class="line"></span><br><span class="line">FREEBSD_STABLE_ROOT=https://download.freebsd.org/ftp/snapshots/arm/armv6/ISO-IMAGES/12.2</span><br><span class="line">FREEBSD_STABLE_FILE=`curl -sS $&#123;FREEBSD_STABLE_ROOT&#125;/ | grep -oP &quot;(FreeBSD-.*?-STABLE-arm-armv6-RPI-B-.*?xz)&quot; | tail -1`</span><br><span class="line">aria2c $&#123;FREEBSD_STABLE_ROOT&#125;/$&#123;FREEBSD_STABLE_FILE&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Write-image-to-SDXC-card"><a href="#Write-image-to-SDXC-card" class="headerlink" title="Write image to SDXC card"></a>Write image to SDXC card</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cat</span> FreeBSD-12.2-STABLE-arm-armv6-RPI-B-20201119-r367792.img.xz | xz -<span class="built_in">cd</span> | <span class="built_in">sudo</span> <span class="built_in">dd</span> of=/dev/sdb bs=4M oflag=<span class="built_in">sync</span> status=progress; time <span class="built_in">sync</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Booting-Raspberry-Pi"><a href="#Booting-Raspberry-Pi" class="headerlink" title="Booting Raspberry Pi"></a>Booting Raspberry Pi</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">sudo</span> minicom -b 115200 -8 -D /dev/ttyUSB0</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br></pre></td><td class="code"><pre><span class="line">U-Boot 2020.10 (Nov 21 2020 - 14:02:49 +0000)</span><br><span class="line"></span><br><span class="line">DRAM:  448 MiB</span><br><span class="line">RPI Zero (0x900093)</span><br><span class="line">MMC:   mmc@7e300000: 1</span><br><span class="line">Loading Environment from FAT... In:    serial</span><br><span class="line">Out:   vidconsole</span><br><span class="line">Err:   vidconsole</span><br><span class="line">Net:   No ethernet found.</span><br><span class="line">starting USB...</span><br><span class="line">Bus usb@7e980000: USB DWC2</span><br><span class="line">scanning bus usb@7e980000 for devices...</span><br><span class="line">      USB device not accepting new address (error=0)</span><br><span class="line">2 USB Device(s) found</span><br><span class="line">       scanning usb for storage devices... 0 Storage Device(s) found</span><br><span class="line">Hit any key to stop autoboot:  0</span><br><span class="line">MMC Device 0 not found</span><br><span class="line">no mmc device at slot 0</span><br><span class="line">switch to partitions #0, OK</span><br><span class="line">mmc1 is current device</span><br><span class="line">Scanning mmc 1:1...</span><br><span class="line">Found EFI removable media binary efi/boot/bootarm.efi</span><br><span class="line">libfdt fdt_check_header(): FDT_ERR_BADMAGIC</span><br><span class="line">Scanning disk mmc@7e300000.blk...</span><br><span class="line">** Unrecognized filesystem type **</span><br><span class="line">Found 3 disks</span><br><span class="line">No EFI system partition</span><br><span class="line">BootOrder not defined</span><br><span class="line">EFI boot manager: Cannot load any image</span><br><span class="line">625488 bytes read in 76 ms (7.8 MiB/s)</span><br><span class="line">libfdt fdt_check_header(): FDT_ERR_BADMAGIC</span><br><span class="line">Booting /efi\boot\bootarm.efi</span><br><span class="line">Consoles: EFI console</span><br><span class="line">    Reading loader env vars from /efi/freebsd/loader.env</span><br><span class="line">Setting currdev to disk0p1:</span><br><span class="line">FreeBSD/arm EFI loader, Revision 1.1</span><br><span class="line"></span><br><span class="line">   Command line arguments: l</span><br><span class="line">   EFI version: 2.80</span><br><span class="line">   EFI Firmware: Das U-Boot (rev 8224.4096)</span><br><span class="line">   Console: efi (0)</span><br><span class="line">   Load Path: /efi\boot\bootarm.efi</span><br><span class="line">   Load Device: /VenHw(e61d73b9-a384-4acc-aeab-82e828f3628b)/SD(1)/SD(0)/HD(1,0x01,0,0x42f,0x18fa8)</span><br><span class="line">Trying ESP: /VenHw(e61d73b9-a384-4acc-aeab-82e828f3628b)/SD(1)/SD(0)/HD(1,0x01,0,0x42f,0x18fa8)</span><br><span class="line">Setting currdev to disk0p1:</span><br><span class="line">Trying: /VenHw(e61d73b9-a384-4acc-aeab-82e828f3628b)/SD(1)/SD(0)/HD(2,0x01,0,0x193d7,0x1d88c29)</span><br><span class="line">Setting currdev to disk0p2:</span><br><span class="line">Loading /boot/defaults/loader.conf</span><br><span class="line">Loading /boot/defaults/loader.conf</span><br><span class="line">Loading /boot/device.hints</span><br><span class="line">Loading /boot/loader.conf</span><br><span class="line">Loading /boot/loader.conf.local</span><br><span class="line">Loading kernel...</span><br><span class="line">/boot/kernel/kernel text=0x6f1708 data=0x83710 data=0x0+0x1f0000 syms=[0x4+0xc37f0+0x4+0xcd395]</span><br><span class="line">Loading configured modules...</span><br><span class="line">/etc/hostid size=0x25</span><br><span class="line">/boot/entropy size=0x1000</span><br><span class="line">/boot/kernel/umodem.ko text=0x1540 text=0xf40 data=0x234+0x4 syms=[0x4+0xe70+0x4+0xa74]</span><br><span class="line">loading required module &#x27;ucom&#x27;</span><br><span class="line">/boot/kernel/ucom.ko text=0x1714 text=0x2d3c data=0x3c4+0x838 syms=[0x4+0x13e0+0x4+0xbac]</span><br><span class="line"></span><br><span class="line">Hit [Enter] to boot immediately, or any other key for command prompt.</span><br><span class="line">Booting [/boot/kernel/kernel]...</span><br><span class="line">Using DTB provided by EFI at 0x7ef6000.</span><br><span class="line">Kernel entry at 0x14c00180...</span><br><span class="line">Kernel args: (null)</span><br><span class="line">---&lt;&lt;BOOT&gt;&gt;---</span><br><span class="line">Copyright (c) 1992-2020 The FreeBSD Project.</span><br><span class="line">Copyright (c) 1979, 1980, 1983, 1986, 1988, 1989, 1991, 1992, 1993, 1994</span><br><span class="line">        The Regents of the University of California. All rights reserved.</span><br><span class="line">FreeBSD is a registered trademark of The FreeBSD Foundation.</span><br><span class="line">FreeBSD 12.2-STABLE r367792 RPI-B arm</span><br><span class="line">FreeBSD clang version 10.0.1 (git@github.com:llvm/llvm-project.git llvmorg-10.0.1-0-gef32c611aa2)</span><br><span class="line">VT: init without driver.</span><br><span class="line">CPU: ARM ARM1176 r0p7 (ECO: 0x00000000)</span><br><span class="line">CPU Features:</span><br><span class="line">  Thumb, Security, VMSAv7</span><br><span class="line">Optional instructions:</span><br><span class="line">  UMULL, SMULL, MLA, SIMD(ext)</span><br><span class="line">  16KB/32B 4-way instruction cache</span><br><span class="line">  16KB/32B 4-way WB data cache</span><br><span class="line">real memory  = 469757952 (447 MB)</span><br><span class="line">avail memory = 446181376 (425 MB)</span><br><span class="line">random: unblocking device.</span><br><span class="line">random: entropy device external interface</span><br><span class="line">kbd0 at kbdmux0</span><br><span class="line">ofwbus0: &lt;Open Firmware Device Tree&gt;</span><br><span class="line">simplebus0: &lt;Flattened device tree simple bus&gt; on ofwbus0</span><br><span class="line">intc0: &lt;BCM2835 Interrupt Controller&gt; mem 0x7e00b200-0x7e00b3ff on simplebus0</span><br><span class="line">gpio0: &lt;BCM2708/2835 GPIO controller&gt; mem 0x7e200000-0x7e2000b3 irq 19,20 on simplebus0</span><br><span class="line">gpiobus0: &lt;OFW GPIO bus&gt; on gpio0</span><br><span class="line">bcm_dma0: &lt;BCM2835 DMA Controller&gt; mem 0x7e007000-0x7e007eff irq 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 on simplebus0</span><br><span class="line">bcmwd0: &lt;BCM2708/2835 Watchdog&gt; mem 0x7e100000-0x7e100113,0x7e00a000-0x7e00a023 on simplebus0</span><br><span class="line">bcmrng0: &lt;Broadcom BCM2835 RNG&gt; mem 0x7e104000-0x7e10400f irq 17 on simplebus0</span><br><span class="line">mbox0: &lt;BCM2835 VideoCore Mailbox&gt; mem 0x7e00b880-0x7e00b8bf irq 18 on simplebus0</span><br><span class="line">gpioc0: &lt;GPIO controller&gt; on gpio0</span><br><span class="line">uart0: &lt;PrimeCell UART (PL011)&gt; mem 0x7e201000-0x7e2011ff irq 21 on simplebus0</span><br><span class="line">uart0: console (115200,n,8,1)</span><br><span class="line">bcm283x_dwcotg0: &lt;DWC OTG 2.0 integrated USB controller (bcm283x)&gt; mem 0x7e980000-0x7e98ffff,0x7e006000-0x7e006fff irq 41,42 on simplebus0</span><br><span class="line">usbus0 on bcm283x_dwcotg0</span><br><span class="line">systimer0 mem 0x7e003000-0x7e003fff irq 43,44,45,46 on simplebus0</span><br><span class="line">Event timer &quot;BCM2835-3&quot; frequency 1000000 Hz quality 1000</span><br><span class="line">Timecounter &quot;BCM2835-3&quot; frequency 1000000 Hz quality 1000</span><br><span class="line">sdhci_bcm0: &lt;Broadcom 2708 SDHCI controller&gt; mem 0x7e300000-0x7e3000ff irq 48 on simplebus0</span><br><span class="line">mmc0: &lt;MMC/SD bus&gt; on sdhci_bcm0</span><br><span class="line">vchiq0: &lt;BCM2835 VCHIQ&gt; mem 0x7e00b840-0x7e00b87b irq 52 on simplebus0</span><br><span class="line">vchiq: local ver 8 (min 3), remote ver 8.</span><br><span class="line">pcm0: &lt;VCHIQ audio&gt; on vchiq0</span><br><span class="line">fb0: &lt;BCM2835 VT framebuffer driver&gt; on simplebus0</span><br><span class="line">fb0: keeping existing fb bpp of 32</span><br><span class="line">fbd0 on fb0</span><br><span class="line">VT: initialize with new VT driver &quot;fb&quot;.</span><br><span class="line">fb0: 656x416(656x416@0,0) 32bpp</span><br><span class="line">fb0: fbswap: 1, pitch 2624, base 0x1eaf0000, screen_size 1091584</span><br><span class="line">gpioled0: &lt;GPIO LEDs&gt; on ofwbus0</span><br><span class="line">cryptosoft0: &lt;software crypto&gt;</span><br><span class="line">Timecounters tick every 1.000 msec</span><br><span class="line">usbus0: 480Mbps High Speed USB v2.0</span><br><span class="line">ugen0.1: &lt;DWCOTG OTG Root HUB&gt; at usbus0</span><br><span class="line">uhub0: &lt;DWCOTG OTG Root HUB, class 9/0, rev 2.00/1.00, addr 1&gt; on usbus0</span><br><span class="line">mmcsd0: 16GB &lt;SDHC NCard 1.0 SN 229045F3 MFG 02/2012 by 115 BG&gt; at mmc0 50.0MHz/4bit/65535-block</span><br><span class="line">Trying to mount root from ufs:/dev/ufs/rootfs [rw]...</span><br><span class="line">WARNING:  was not properly dismounted</span><br><span class="line">Warning: no time-of-day clock registered, system time will not be set accurately</span><br><span class="line">uhub0: 1 port with 1 removable, self powered</span><br><span class="line">ugen0.2: &lt;vendor 0x214b USB2.0 HUB&gt; at usbus0</span><br><span class="line">uhub1 on uhub0</span><br><span class="line">uhub1: &lt;vendor 0x214b USB2.0 HUB, class 9/0, rev 2.00/1.00, addr 2&gt; on usbus0</span><br><span class="line">Setting hostuuid: 617d555b-2a1c-11eb-ad9d-75bde1a855ce.</span><br><span class="line">Setting hostid: 0xdaae4663.</span><br><span class="line">Starting file system checks:</span><br><span class="line">uhub1: 4 ports with 4 removable, self powered</span><br><span class="line">/dev/ufs/rootfs: 24059 files, 503425 used, 3241854 free (214 frags, 405205 blocks, 0.0% fragmentation)</span><br><span class="line">Mounting local filesystems:.</span><br><span class="line">ELF ldconfig path: /lib /usr/lib /usr/lib/compat</span><br><span class="line">Soft Float compatibility ldconfig path:</span><br><span class="line">Setting hostname: rpi-b.</span><br><span class="line">Setting up harvesting: [UMA],[FS_ATIME],SWI,INTERRUPT,NET_NG,NET_ETHER,NET_TUN,MOUSE,KEYBOARD,ATTACH,CACHED</span><br><span class="line">Feeding entropy: .</span><br><span class="line">lo0: link state changed to UP</span><br><span class="line">Starting Network: lo0.</span><br><span class="line">lo0: flags=8049&lt;UP,LOOPBACK,RUNNING,MULTICAST&gt; metric 0 mtu 16384</span><br><span class="line">        options=680003&lt;RXCSUM,TXCSUM,LINKSTATE,RXCSUM_IPV6,TXCSUM_IPV6&gt;</span><br><span class="line">        inet6 ::1 prefixlen 128</span><br><span class="line">        inet6 fe80::1%lo0 prefixlen 64 scopeid 0x1</span><br><span class="line">        inet 127.0.0.1 netmask 0xff000000</span><br><span class="line">        groups: lo</span><br><span class="line">        nd6 options=21&lt;PERFORMNUD,AUTO_LINKLOCAL&gt;</span><br><span class="line">ugen0.3: &lt;Unknown &gt; at usbus0 (disconnected)</span><br><span class="line">Starting devd.</span><br><span class="line">add host 127.0.0.1: gateway lo0 fib 0: route already in table</span><br><span class="line">add host ::1: gateway lo0 fib 0: route already in table</span><br><span class="line">add net fe80::: gateway ::1</span><br><span class="line">add net ff02::: gateway ::1</span><br><span class="line">add net ::ffff:0.0.0.0: gateway ::1</span><br><span class="line">add net ::0.0.0.0: gateway ::1</span><br><span class="line">Creating and/or trimming log files.</span><br><span class="line">Updating motd:.</span><br><span class="line">Updating /var/run/os-release done.</span><br><span class="line">Starting syslogd.</span><br><span class="line">Clearing /tmp (X related).</span><br><span class="line">Mounting late filesystems:.</span><br><span class="line">Performing sanity check on sshd configuration.</span><br><span class="line">Starting sshd.</span><br><span class="line">Configuring vt: blanktime.</span><br><span class="line">Starting cron.</span><br><span class="line">Starting background file system checks in 60 seconds.</span><br><span class="line"></span><br><span class="line">Thu Nov 21 14:24:18 UTC 2020</span><br><span class="line"></span><br><span class="line">FreeBSD/arm (rpi-b) (ttyu0)</span><br><span class="line"></span><br><span class="line">login:</span><br><span class="line">Password:</span><br></pre></td></tr></table></figure>
+
+<h2 id="Logging-in-to-FreeBSD"><a href="#Logging-in-to-FreeBSD" class="headerlink" title="Logging in to FreeBSD"></a>Logging in to FreeBSD</h2><p>The default passwords for the images are <strong>freebsd&#x2F;freebsd</strong> and <strong>root&#x2F;root</strong> .</p>
+<p>If you logging remotely, <strong>freebsd&#x2F;freebsd</strong> is mandatory, since <strong>root</strong> remote login is disabled by default.</p>
+<h2 id="cat-x2F-etc-x2F-os-release"><a href="#cat-x2F-etc-x2F-os-release" class="headerlink" title="cat &#x2F;etc&#x2F;os-release"></a>cat &#x2F;etc&#x2F;os-release</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">root@rpi-b:~ # ls -l /etc/os-release</span><br><span class="line">lrwxr-xr-x  1 root  wheel  21 Nov 19 04:03 /etc/os-release -&gt; ../var/run/os-release</span><br><span class="line"></span><br><span class="line">root@rpi-b:~ # cat /etc/os-release</span><br><span class="line">NAME=FreeBSD</span><br><span class="line">VERSION=12.2-STABLE</span><br><span class="line">VERSION_ID=12.2</span><br><span class="line">ID=freebsd</span><br><span class="line">ANSI_COLOR=&quot;0;31&quot;</span><br><span class="line">PRETTY_NAME=&quot;FreeBSD 12.2-STABLE&quot;</span><br><span class="line">CPE_NAME=cpe:/o:freebsd:freebsd:12.2</span><br><span class="line">HOME_URL=https://FreeBSD.org/</span><br><span class="line">BUG_REPORT_URL=https://bugs.FreeBSD.org/</span><br></pre></td></tr></table></figure>
+
+<h2 id="List-of-processes-after-startup"><a href="#List-of-processes-after-startup" class="headerlink" title="List of processes after startup"></a>List of processes after startup</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">root@rpi-b:~ # ps ax</span><br><span class="line">PID TT  STAT     TIME COMMAND</span><br><span class="line">  0  -  DLs   0:00.01 [kernel]</span><br><span class="line">  1  -  ILs   0:00.06 /sbin/init --</span><br><span class="line">  2  -  DL    0:00.00 [crypto]</span><br><span class="line">  3  -  DL    0:00.00 [crypto returns 0]</span><br><span class="line">  4  -  DL    0:00.00 [cam]</span><br><span class="line">  5  -  IL    0:00.00 [VCHIQ-0]</span><br><span class="line">  6  -  IL    0:00.00 [VCHIQr-0]</span><br><span class="line">  7  -  IL    0:00.00 [VCHIQs-0]</span><br><span class="line">  8  -  DL    0:00.00 [sctp_iterator]</span><br><span class="line">  9  -  DL    0:00.78 [rand_harvestq]</span><br><span class="line"> 10  -  RNL  30:45.95 [idle]</span><br><span class="line"> 11  -  WL    0:10.31 [intr]</span><br><span class="line"> 12  -  DL    0:00.53 [geom]</span><br><span class="line"> 13  -  DL    0:00.00 [sequencer 00]</span><br><span class="line"> 14  -  DL    0:00.27 [usb]</span><br><span class="line"> 15  -  DL    0:00.00 [soaiod1]</span><br><span class="line"> 16  -  DL    0:00.00 [soaiod2]</span><br><span class="line"> 17  -  DL    0:00.00 [soaiod3]</span><br><span class="line"> 18  -  DL    0:00.00 [soaiod4]</span><br><span class="line"> 19  -  DL    0:00.47 [mmcsd0: mmc/sd card]</span><br><span class="line"> 20  -  IL    0:00.00 [VCHIQka-0]</span><br><span class="line"> 21  -  IL    0:00.00 [bcm2835_audio_worke]</span><br><span class="line"> 22  -  DL    0:00.59 [pagedaemon]</span><br><span class="line"> 23  -  DL    0:00.00 [vmdaemon]</span><br><span class="line"> 24  -  DL    0:00.51 [bufdaemon]</span><br><span class="line"> 25  -  DL    0:00.04 [vnlru]</span><br><span class="line"> 26  -  DL    0:00.16 [syncer]</span><br><span class="line"> 27  -  DL    0:00.29 [schedcpu]</span><br><span class="line">555  -  Ss    0:00.00 /sbin/devd</span><br><span class="line">728  -  Is    0:00.06 /usr/sbin/syslogd -s</span><br><span class="line">819  -  Is    0:00.01 /usr/sbin/sshd</span><br><span class="line">828  -  Ss    0:00.08 /usr/sbin/cron -s</span><br><span class="line">852 u0  Is    0:00.21 login [pam] (login)</span><br><span class="line">853 u0  S     0:00.58 -csh (csh)</span><br><span class="line">937 u0  R+    0:00.02 ps ax</span><br><span class="line">844 v0  Is+   0:00.03 /usr/libexec/getty Pc ttyv0</span><br><span class="line">845 v1  Is+   0:00.03 /usr/libexec/getty Pc ttyv1</span><br><span class="line">846 v2  Is+   0:00.03 /usr/libexec/getty Pc ttyv2</span><br><span class="line">847 v3  Is+   0:00.03 /usr/libexec/getty Pc ttyv3</span><br><span class="line">848 v4  Is+   0:00.03 /usr/libexec/getty Pc ttyv4</span><br><span class="line">849 v5  Is+   0:00.03 /usr/libexec/getty Pc ttyv5</span><br><span class="line">850 v6  Is+   0:00.03 /usr/libexec/getty Pc ttyv6</span><br><span class="line">851 v7  Is+   0:00.03 /usr/libexec/getty Pc ttyv7</span><br><span class="line">root@rpi-b:~ #</span><br></pre></td></tr></table></figure>
+
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>FreeBSD 12.2 can’t found Realtek RTL8152 Based USB Ethernet Adapter, it’s really disappointing. FreeBSD 13.0 snapshot have boot errors, it’s even more disappointing.</p>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#FreeBSD-12-on-Raspberry-Pi-Zero"><span class="toc-number">1.</span> <span class="toc-text">FreeBSD 12 on Raspberry Pi Zero</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Download-FreeBSD-image"><span class="toc-number">1.1.</span> <span class="toc-text">Download FreeBSD image</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Write-image-to-SDXC-card"><span class="toc-number">1.2.</span> <span class="toc-text">Write image to SDXC card</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Booting-Raspberry-Pi"><span class="toc-number">1.3.</span> <span class="toc-text">Booting Raspberry Pi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Logging-in-to-FreeBSD"><span class="toc-number">1.4.</span> <span class="toc-text">Logging in to FreeBSD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cat-x2F-etc-x2F-os-release"><span class="toc-number">1.5.</span> <span class="toc-text">cat &#x2F;etc&#x2F;os-release</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#List-of-processes-after-startup"><span class="toc-number">1.6.</span> <span class="toc-text">List of processes after startup</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion"><span class="toc-number">1.7.</span> <span class="toc-text">Conclusion</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

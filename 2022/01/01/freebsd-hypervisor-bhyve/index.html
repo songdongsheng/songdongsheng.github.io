@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>FreeBSD Hypervisor: bhyve | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          FreeBSD Hypervisor: bhyve
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2022/01/01</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/FreeBSD/">FreeBSD</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Operating%20system" class='tag'>Operating system</a>
+
+  <a href="/tags/#FreeBSD" class='tag'>FreeBSD</a>
+
+
+          
+        </div>
+        <h1 id="FreeBSD-Hypervisor-bhyve"><a href="#FreeBSD-Hypervisor-bhyve" class="headerlink" title="FreeBSD Hypervisor: bhyve"></a>FreeBSD Hypervisor: bhyve</h1><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>The bhyve BSD-licensed hypervisor became part of the base system with FreeBSD 10.0-RELEASE. This hypervisor supports a number of guests, including FreeBSD, OpenBSD, and many Linux® distributions.</p>
+<h2 id="Preparing-the-Host"><a href="#Preparing-the-Host" class="headerlink" title="Preparing the Host"></a>Preparing the Host</h2><p>The first step to creating a virtual machine in bhyve is configuring the host system. First, load the bhyve kernel module:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">kldload vmm</span></span><br></pre></td></tr></table></figure>
+
+<p>Then, create a tap interface for the network device in the virtual machine to attach to. In order for the network device to participate in the network, also create a bridge interface containing the tap interface and the physical interface as members. In this example, the physical interface is <em>igb0</em>:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">ifconfig tap0 create</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">sysctl net.link.tap.up_on_open=1</span></span><br><span class="line">net.link.tap.up_on_open: 0 -&gt; 1</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">ifconfig bridge0 create</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">ifconfig bridge0 addm ue0 addm tap0</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">ifconfig bridge0 up</span></span><br><span class="line"></span><br><span class="line">service bhyve start</span><br><span class="line">service bhyve status</span><br><span class="line">service bhyve stop</span><br></pre></td></tr></table></figure>
+
+<h2 id="Creating-a-FreeBSD-Guest"><a href="#Creating-a-FreeBSD-Guest" class="headerlink" title="Creating a FreeBSD Guest"></a>Creating a FreeBSD Guest</h2><p>Download an installation image of FreeBSD to install:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">pkg install -y aria2 lzma vm-bhyve bhyve-rc</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">pkg info -l aria2 | grep <span class="string">&#x27;bin/&#x27;</span></span></span><br><span class="line">    /usr/local/bin/aria2c</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">aria2c -c -m 0 -t 5 -j 8 -s 8 -x 8 -k 1m --file-allocation=falloc https://download.freebsd.org/ftp/releases/ISO-IMAGES/13.1/FreeBSD-13.1-RELEASE-amd64-disc1.iso</span></span><br><span class="line">    Download Results:</span><br><span class="line">    gid   |stat|avg speed  |path/URI</span><br><span class="line">    ======+====+===========+=======================================================</span><br><span class="line">    a31284|OK  |   699KiB/s|/root/vm/FreeBSD-13.1-RELEASE-amd64-disc1.iso</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">aria2c -c -m 0 -t 5 -j 8 -s 8 -x 8 -k 1m --file-allocation=falloc https://download.freebsd.org/ftp/releases/VM-IMAGES/13.1-RELEASE/amd64/Latest/FreeBSD-13.1-RELEASE-amd64.qcow2.xz</span></span><br><span class="line">    Download Results:</span><br><span class="line">    gid   |stat|avg speed  |path/URI</span><br><span class="line">    ======+====+===========+=======================================================</span><br><span class="line">    0ed032|OK  |   1.2MiB/s|/root/vm/FreeBSD-13.1-RELEASE-amd64.qcow2.xz</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">xz -d -k -v FreeBSD-13.1-RELEASE-amd64.qcow2.xz</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">fetch https://download.freebsd.org/ftp/releases/ISO-IMAGES/13.1/FreeBSD-13.1-RELEASE-amd64-disc1.iso</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">fetch https://download.freebsd.org/ftp/releases/VM-IMAGES/13.1-RELEASE/amd64/Latest/FreeBSD-13.1-RELEASE-amd64.qcow2.xz</span></span><br></pre></td></tr></table></figure>
+
+<p>Create a file to use as the virtual disk for the guest machine. Specify the size and name of the virtual disk:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">truncate</span> -s 16G guest.img</span></span><br></pre></td></tr></table></figure>
+
+<p>FreeBSD comes with an example script for running a virtual machine in bhyve. The script will start the virtual machine and run it in a loop, so it will automatically restart if it crashes. The script takes a number of options to control the configuration of the machine</p>
+<p>This example starts the virtual machine in installation mode:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">sh /usr/share/examples/bhyve/vmrun.sh -c 2 -m 1024M -t tap0 -d guest.img -i -I FreeBSD-13.1-RELEASE-amd64-disc1.iso guestname</span></span><br></pre></td></tr></table></figure>
+
+<p>The virtual machine will boot and start the installer. After installing a system in the virtual machine, when the system asks about dropping in to a shell at the end of the installation, choose <strong>Yes</strong>.</p>
+<p>Reboot the virtual machine. While rebooting the virtual machine causes bhyve to exit, the vmrun.sh script runs <code>bhyve</code> in a loop and will automatically restart it. When this happens, choose the reboot option from the boot loader menu in order to escape the loop. Now the guest can be started from the virtual disk:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">sh /usr/share/examples/bhyve/vmrun.sh -c 2 -m 1024M -t tap0 -d guest.img guestname</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Managing-Virtual-Machines"><a href="#Managing-Virtual-Machines" class="headerlink" title="Managing Virtual Machines"></a>Managing Virtual Machines</h2><p>A device node is created in &#x2F;dev&#x2F;vmm for each virtual machine. This allows the administrator to easily see a list of the running virtual machines:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">ls</span> -al /dev/vmm</span></span><br></pre></td></tr></table></figure>
+
+<p>A specified virtual machine can be destroyed using <code>bhyvectl</code>:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">bhyvectl --destroy --vm=guestname</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Persistent-Configuration"><a href="#Persistent-Configuration" class="headerlink" title="Persistent Configuration"></a>Persistent Configuration</h2><p>In order to configure the system to start bhyve guests at boot time, the following configurations must be made in the specified files:</p>
+<ol>
+<li><p>&#x2F;etc&#x2F;sysctl.conf</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net.link.tap.up_on_open=1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x2F;etc&#x2F;rc.conf</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">hostname=&quot;freebsd-amd64-01&quot;</span><br><span class="line">ifconfig_DEFAULT=&quot;DHCP&quot;</span><br><span class="line">ipv6_enable=&quot;YES&quot;</span><br><span class="line">ipv6_activate_all_interfaces=&quot;YES&quot;</span><br><span class="line">sshd_enable=&quot;YES&quot;</span><br><span class="line">ntpdate_enable=&quot;YES&quot;</span><br><span class="line">sendmail_enable=&quot;NONE&quot;</span><br><span class="line">sendmail_submit_enable=&quot;NO&quot;</span><br><span class="line">sendmail_outbound_enable=&quot;NO&quot;</span><br><span class="line">sendmail_msp_queue_enable=&quot;NO&quot;</span><br><span class="line">growfs_enable=&quot;YES&quot;</span><br><span class="line"></span><br><span class="line">cloned_interfaces=&quot;tap0 tap1 bridge0&quot;</span><br><span class="line">ifconfig_bridge0=&quot;addm ue0 addm tap0 addm tap1&quot;</span><br><span class="line"></span><br><span class="line">kld_list=&quot;nmdm vmm&quot;</span><br><span class="line"></span><br><span class="line">bhyve_enable=&quot;YES&quot;</span><br><span class="line">bhyve_profiles=&quot;virt1 virt2&quot;</span><br><span class="line">bhyve_virt1_diskdev=&quot;/dev/zvol/tank/bhyve/virt1&quot;</span><br><span class="line">bhyve_virt2_tapdev=&quot;tap1&quot;</span><br><span class="line">bhyve_virt2_diskdev=&quot;/dev/zvol/tank/bhyve/virt2&quot;</span><br><span class="line">bhyve_virt2_memsize=&quot;8192&quot;</span><br><span class="line">bhyve_virt2_ncpu=&quot;4&quot;</span><br><span class="line"></span><br><span class="line">vm_enable=&quot;YES&quot;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">vm_dir=<span class="string">&quot;zfs:pool/bhyve/virt&quot;</span></span></span><br><span class="line">vm_dir=&quot;/var/bhyve/virt&quot;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://wiki.freebsd.org/bhyve">bhyve - FreeBSD Wiki</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.freebsd.org/en/books/handbook/virtualization/#virtualization-host-bhyve">FreeBSD as a Host with bhyve</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.freebsd.org/releases/13.1R/signatures/">FreeBSD 13.1 Release Checksum Signatures</a></li>
+<li><a target="_blank" rel="noopener" href="https://download.freebsd.org/ftp/releases/ISO-IMAGES/13.1/">FreeBSD 13.1 ISO Images</a></li>
+<li><a target="_blank" rel="noopener" href="https://download.freebsd.org/ftp/releases/VM-IMAGES/13.1-RELEASE/">FreeBSD 13.1 VM Images</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.freebsd.org/cgi/man.cgi?query=rc">FreeBSD Manual Pages - rc</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.freebsd.org/cgi/man.cgi?query=rc.conf">FreeBSD Manual Pages - rc.conf</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.freebsd.org/cgi/man.cgi?query=sysctl.conf">FreeBSD Manual Pages - sysctl.conf</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.freebsd.org/cgi/man.cgi?query=bhyve">FreeBSD Manual Pages - bhyve</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.freebsd.org/cgi/man.cgi?query=bhyve_config">FreeBSD Manual Pages - bhyve_config</a></li>
+</ul>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#FreeBSD-Hypervisor-bhyve"><span class="toc-number">1.</span> <span class="toc-text">FreeBSD Hypervisor: bhyve</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-number">1.1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Preparing-the-Host"><span class="toc-number">1.2.</span> <span class="toc-text">Preparing the Host</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Creating-a-FreeBSD-Guest"><span class="toc-number">1.3.</span> <span class="toc-text">Creating a FreeBSD Guest</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Managing-Virtual-Machines"><span class="toc-number">1.4.</span> <span class="toc-text">Managing Virtual Machines</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Persistent-Configuration"><span class="toc-number">1.5.</span> <span class="toc-text">Persistent Configuration</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">1.6.</span> <span class="toc-text">Reference</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

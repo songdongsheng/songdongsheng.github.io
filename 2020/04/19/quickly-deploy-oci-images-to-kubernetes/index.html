@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Quickly deploy OCI images to Kubernetes | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Quickly deploy OCI images to Kubernetes
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/04/19</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Cloud/">Cloud</a>/ <a class="article-category-link" href="/categories/Cloud/Kubernetes/">Kubernetes</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tag"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Kubernetes" class='tag'>Kubernetes</a>
+
+
+          
+        </div>
+        <h1 id="Quickly-deploy-OCI-images-to-Kubernetes"><a href="#Quickly-deploy-OCI-images-to-Kubernetes" class="headerlink" title="Quickly deploy OCI images to Kubernetes"></a>Quickly deploy OCI images to Kubernetes</h1><h2 id="Create-a-ephemeral-pod"><a href="#Create-a-ephemeral-pod" class="headerlink" title="Create a ephemeral pod"></a>Create a ephemeral pod</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#run</span></span><br><span class="line"></span><br><span class="line">kubectl run -it --rm --restart=Never alpine --image=alpine</span><br><span class="line">kubectl run -it --rm --restart=Never centos-7 --image=centos:7</span><br><span class="line">kubectl run -it --rm --restart=Never centos-8 --image=centos:8</span><br><span class="line">kubectl run -it --rm --restart=Never debian-stable --image=debian:stable</span><br><span class="line">kubectl run -it --rm --restart=Never debian-testing --image=debian:testing</span><br><span class="line">kubectl run -it --rm --restart=Never fedora32 --image=fedora:32</span><br><span class="line">kubectl run -it --rm --restart=Never sle15 --image=registry.suse.com/suse/sle15</span><br><span class="line">kubectl run -it --rm --restart=Never ubi7 --image=registry.access.redhat.com/ubi7/ubi</span><br><span class="line">kubectl run -it --rm --restart=Never ubi8 --image=registry.access.redhat.com/ubi8/ubi</span><br><span class="line">kubectl run -it --rm --restart=Never ubuntu-1804 --image=ubuntu:18.04</span><br><span class="line">kubectl run -it --rm --restart=Never ubuntu-2004 --image=ubuntu:20.04</span><br></pre></td></tr></table></figure>
+
+<h2 id="Create-a-long-lived-pod"><a href="#Create-a-long-lived-pod" class="headerlink" title="Create a long-lived pod"></a>Create a long-lived pod</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl -n kube-system run fedora-32 --generator=run-pod/v1 --image=fedora:32 -- bash -c &#x27;while true; do sleep 10; done&#x27;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Attach-the-long-lived-pod"><a href="#Attach-the-long-lived-pod" class="headerlink" title="Attach the long-lived pod"></a>Attach the long-lived pod</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl -n kube-system exec -it fedora-32 -- bash</span><br></pre></td></tr></table></figure>
+
+<h2 id="Remove-the-long-lived-pod"><a href="#Remove-the-long-lived-pod" class="headerlink" title="Remove the long-lived pod"></a>Remove the long-lived pod</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl -n kube-system delete pod fedora-32</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Quickly-deploy-OCI-images-to-Kubernetes"><span class="toc-number">1.</span> <span class="toc-text">Quickly deploy OCI images to Kubernetes</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Create-a-ephemeral-pod"><span class="toc-number">1.1.</span> <span class="toc-text">Create a ephemeral pod</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Create-a-long-lived-pod"><span class="toc-number">1.2.</span> <span class="toc-text">Create a long-lived pod</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Attach-the-long-lived-pod"><span class="toc-number">1.3.</span> <span class="toc-text">Attach the long-lived pod</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Remove-the-long-lived-pod"><span class="toc-number">1.4.</span> <span class="toc-text">Remove the long-lived pod</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Build Boost on Windows | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Build Boost on Windows
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/05/02</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/C-C/">C/C++</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#C/C++" class='tag'>C/C++</a>
+
+
+          
+        </div>
+        <h1 id="Build-Boost-on-Windows"><a href="#Build-Boost-on-Windows" class="headerlink" title="Build Boost on Windows"></a>Build Boost on Windows</h1><h2 id="Download-Boost-C-Libraries"><a href="#Download-Boost-C-Libraries" class="headerlink" title="Download Boost C++ Libraries"></a>Download Boost C++ Libraries</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">C:\&gt;aria2c -c -m 0 -t 5 -j 8 -s 8 -x 8 -k 1m --file-allocation=none ^</span><br><span class="line">    https://dl.bintray.com/boostorg/release/1.73.0/source/boost_1_73_0.tar.gz</span><br><span class="line"></span><br><span class="line">C:\&gt;tar -xzf boost_1_73_0.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h2 id="Install-Visual-Studio-Build-Tools"><a href="#Install-Visual-Studio-Build-Tools" class="headerlink" title="Install Visual Studio Build Tools"></a>Install Visual Studio Build Tools</h2><p>Install <a target="_blank" rel="noopener" href="https://aka.ms/buildtools">Build Tools for Visual Studio 2019</a>, then open <strong>x64 Native Tools Command Prompt for VS 2019</strong>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">C:\&gt;cl</span><br><span class="line">Microsoft (R) C/C++ Optimizing Compiler Version 19.26.28806 for x64</span><br><span class="line">Copyright (C) Microsoft Corporation.  All rights reserved.</span><br><span class="line"></span><br><span class="line">usage: cl [ option... ] filename... [ /link linkoption... ]</span><br></pre></td></tr></table></figure>
+
+<h2 id="Build-and-Install-Boost-Build-b2"><a href="#Build-and-Install-Boost-Build-b2" class="headerlink" title="Build and Install Boost.Build (b2)"></a>Build and Install Boost.Build (b2)</h2><ol>
+<li>Go to the directory tools\build\</li>
+<li>Run bootstrap.bat</li>
+<li>Run b2 install –prefix&#x3D;PREFIX where PREFIX is the directory where you want Boost.Build to be installed</li>
+<li>Add PREFIX\bin to your PATH environment variable.</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd tools\build\</span><br><span class="line"></span><br><span class="line">bootstrap.bat</span><br><span class="line"></span><br><span class="line">b2 install --prefix=C:\opt\boost-build</span><br><span class="line"></span><br><span class="line">SET PATH=C:\opt\boost-build\bin;%PATH%</span><br></pre></td></tr></table></figure>
+
+<h2 id="Build-Boost-with-Boost-Build-b2"><a href="#Build-Boost-with-Boost-Build-b2" class="headerlink" title="Build Boost with Boost.Build (b2)"></a>Build Boost with Boost.Build (b2)</h2><h3 id="b2-configuration"><a href="#b2-configuration" class="headerlink" title="b2 configuration"></a>b2 configuration</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">https://boostorg.github.io/build/manual/master/index.html</span><br><span class="line"></span><br><span class="line">--layout=versioned (static)</span><br><span class="line">--layout=system (shared)</span><br><span class="line"></span><br><span class="line">variant=debug,release</span><br><span class="line">link=shared,static</span><br><span class="line">threading=single,multi</span><br><span class="line">runtime-link=shared,static</span><br><span class="line">address-model=32,64</span><br><span class="line">debug-symbols=on</span><br></pre></td></tr></table></figure>
+
+<h3 id="b2-combination"><a href="#b2-combination" class="headerlink" title="b2 - combination"></a>b2 - combination</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">while read B2_LINK B2_VARIANT REST; do</span><br><span class="line">    echo b2 -j4 --layout=system \</span><br><span class="line">        --build-dir=..\\boost-build-x64-$&#123;B2_LINK&#125;-$&#123;B2_VARIANT&#125; \</span><br><span class="line">        --prefix=C:\\opt\\boost-x64-$&#123;B2_LINK&#125;-$&#123;B2_VARIANT&#125; \</span><br><span class="line">        link=$&#123;B2_LINK&#125; variant=$&#123;B2_VARIANT&#125; \</span><br><span class="line">        toolset=msvc runtime-link=shared threading=multi address-model=64 \</span><br><span class="line">        install</span><br><span class="line">done &lt;&lt; EOF</span><br><span class="line">shared  release</span><br><span class="line">shared  debug</span><br><span class="line">static  release</span><br><span class="line">static  debug</span><br><span class="line">EOF</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">du</span> -ms boost-x64-*</span></span><br><span class="line">206     boost-x64-shared-debug</span><br><span class="line">175     boost-x64-shared-release</span><br><span class="line">691     boost-x64-static-debug</span><br><span class="line">354     boost-x64-static-release</span><br><span class="line">1426    boost-x64-*</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">(<span class="built_in">du</span> -ms boost-x64; <span class="built_in">cd</span> boost-x64; <span class="built_in">du</span> -ms include/ lib/shared/* lib/static/*)</span></span><br><span class="line">971     boost-x64</span><br><span class="line">151     include/</span><br><span class="line">56      lib/shared/debug</span><br><span class="line">24      lib/shared/release</span><br><span class="line">540     lib/static/debug</span><br><span class="line">203     lib/static/release</span><br><span class="line"></span><br><span class="line">1426 - 971 = 455 MB</span><br></pre></td></tr></table></figure>
+
+<h3 id="b2-static-release"><a href="#b2-static-release" class="headerlink" title="b2 - static - release"></a>b2 - static - release</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">b2 -j4 --layout=system ^</span><br><span class="line">    --build-dir=..\boost-build-x64-static-release ^</span><br><span class="line">    --prefix=C:\opt\boost-x64-static-release ^</span><br><span class="line">    toolset=msvc variant=release threading=multi link=static runtime-link=shared address-model=64 install</span><br></pre></td></tr></table></figure>
+
+<h3 id="b2-shared-release"><a href="#b2-shared-release" class="headerlink" title="b2 - shared - release"></a>b2 - shared - release</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">b2 -j4 --layout=system ^</span><br><span class="line">    --build-dir=..\boost-build-x64-shared-release ^</span><br><span class="line">    --prefix=C:\opt\boost-x64-shared-release ^</span><br><span class="line">    toolset=msvc variant=release threading=multi link=shared runtime-link=shared address-model=64 install</span><br></pre></td></tr></table></figure>
+
+<h2 id="Link-to-Boost-Library"><a href="#Link-to-Boost-Library" class="headerlink" title="Link to Boost Library"></a>Link to Boost Library</h2><h3 id="original-structure"><a href="#original-structure" class="headerlink" title="original structure"></a>original structure</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"># BOOST_LIB_BUILDID, BOOST_ALL_NO_LIB, BOOST_AUTO_LINK_NOMANGLE, BOOST_LIB_DIAGNOSTIC</span><br><span class="line"></span><br><span class="line"># 37,376</span><br><span class="line">cl /MD /EHsc /DBOOST_ALL_NO_LIB=1 /I C:\opt\boost-x64-static-release\include makepasswd_boost.cpp ^</span><br><span class="line">     /link /LIBPATH:C:\opt\boost-x64-static-release\lib libboost_random.lib libboost_system.lib</span><br><span class="line"></span><br><span class="line"># 37,376</span><br><span class="line">cl /MD /EHsc /DBOOST_AUTO_LINK_SYSTEM /I C:\opt\boost-x64-static-release\include makepasswd_boost.cpp ^</span><br><span class="line">     /link /LIBPATH:C:\opt\boost-x64-static-release\lib</span><br><span class="line"></span><br><span class="line"># 50,688</span><br><span class="line">cl /MDd /EHsc /DBOOST_AUTO_LINK_SYSTEM /I C:\opt\boost-x64-static-debug\include makepasswd_boost.cpp ^</span><br><span class="line">     /link /LIBPATH:C:\opt\boost-x64-static-debug\lib</span><br><span class="line"></span><br><span class="line"># 23,040</span><br><span class="line">cl /MD /EHsc /DBOOST_ALL_NO_LIB=1 /I C:\opt\boost-x64-shared-release\include makepasswd_boost.cpp ^</span><br><span class="line">     /link /LIBPATH:C:\opt\boost-x64-shared-release\lib boost_random.lib boost_system.lib</span><br><span class="line"></span><br><span class="line"># 23,040</span><br><span class="line">cl /MD /EHsc /DBOOST_AUTO_LINK_NOMANGLE /I C:\opt\boost-x64-shared-release\include makepasswd_boost.cpp ^</span><br><span class="line">     /link /LIBPATH:C:\opt\boost-x64-shared-release\lib</span><br><span class="line"></span><br><span class="line"># 29,184</span><br><span class="line">cl /MDd /EHsc /DBOOST_AUTO_LINK_NOMANGLE /I C:\opt\boost-x64-shared-debug\include makepasswd_boost.cpp ^</span><br><span class="line">     /link /LIBPATH:C:\opt\boost-x64-shared-debug\lib</span><br></pre></td></tr></table></figure>
+
+<h3 id="compact-structure"><a href="#compact-structure" class="headerlink" title="compact structure"></a>compact structure</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">boost-x64/include/boost/version.hpp</span><br><span class="line">boost-x64/lib/static/release/boost_system.lib</span><br><span class="line">boost-x64/lib/shared/debug/boost_system.lib</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># BOOST_LIB_BUILDID, BOOST_ALL_NO_LIB, BOOST_AUTO_LINK_NOMANGLE, BOOST_LIB_DIAGNOSTIC</span><br><span class="line"></span><br><span class="line"># 23,040</span><br><span class="line">cl /MD /EHsc /DBOOST_AUTO_LINK_NOMANGLE /I C:\opt\boost-x64\include makepasswd_boost.cpp ^</span><br><span class="line">     /link /LIBPATH:C:\opt\boost-x64\lib\shared\release</span><br><span class="line"></span><br><span class="line"># 29,184</span><br><span class="line">cl /MDd /EHsc /DBOOST_AUTO_LINK_NOMANGLE /I C:\opt\boost-x64\include makepasswd_boost.cpp ^</span><br><span class="line">     /link /LIBPATH:C:\opt\boost-x64\lib\shared\debug</span><br><span class="line"></span><br><span class="line"># 37,376</span><br><span class="line">cl /MD /EHsc /DBOOST_AUTO_LINK_SYSTEM /I C:\opt\boost-x64\include makepasswd_boost.cpp ^</span><br><span class="line">     /link /LIBPATH:C:\opt\boost-x64\lib\static\release</span><br><span class="line"></span><br><span class="line"># 50,688</span><br><span class="line">cl /MDd /EHsc /DBOOST_AUTO_LINK_SYSTEM /I C:\opt\boost-x64\include makepasswd_boost.cpp ^</span><br><span class="line">     /link /LIBPATH:C:\opt\boost-x64\lib\static\debug</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Build-Boost-on-Windows"><span class="toc-number">1.</span> <span class="toc-text">Build Boost on Windows</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Download-Boost-C-Libraries"><span class="toc-number">1.1.</span> <span class="toc-text">Download Boost C++ Libraries</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Install-Visual-Studio-Build-Tools"><span class="toc-number">1.2.</span> <span class="toc-text">Install Visual Studio Build Tools</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Build-and-Install-Boost-Build-b2"><span class="toc-number">1.3.</span> <span class="toc-text">Build and Install Boost.Build (b2)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Build-Boost-with-Boost-Build-b2"><span class="toc-number">1.4.</span> <span class="toc-text">Build Boost with Boost.Build (b2)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#b2-configuration"><span class="toc-number">1.4.1.</span> <span class="toc-text">b2 configuration</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#b2-combination"><span class="toc-number">1.4.2.</span> <span class="toc-text">b2 - combination</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#b2-static-release"><span class="toc-number">1.4.3.</span> <span class="toc-text">b2 - static - release</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#b2-shared-release"><span class="toc-number">1.4.4.</span> <span class="toc-text">b2 - shared - release</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Link-to-Boost-Library"><span class="toc-number">1.5.</span> <span class="toc-text">Link to Boost Library</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#original-structure"><span class="toc-number">1.5.1.</span> <span class="toc-text">original structure</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#compact-structure"><span class="toc-number">1.5.2.</span> <span class="toc-text">compact structure</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>
