@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>How to Mount QEMU Disk Image | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          How to Mount QEMU Disk Image
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2021/09/19</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/Windows/">Windows</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Windows" class='tag'>Windows</a>
+
+  <a href="/tags/#Operating%20system" class='tag'>Operating system</a>
+
+
+          
+        </div>
+        <h1 id="How-to-Mount-QEMU-Disk-Image"><a href="#How-to-Mount-QEMU-Disk-Image" class="headerlink" title="How to Mount QEMU Disk Image"></a>How to Mount QEMU Disk Image</h1><h2 id="Load-NBD-Kernel-Module-on-The-Host"><a href="#Load-NBD-Kernel-Module-on-The-Host" class="headerlink" title="Load NBD Kernel Module on The Host"></a>Load NBD Kernel Module on The Host</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> modprobe nbd max_part=16 nbds_max=16</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">ls</span> /dev/nbd*</span><br><span class="line">/dev/nbd0  /dev/nbd10  /dev/nbd12  /dev/nbd14  /dev/nbd2  /dev/nbd4  /dev/nbd6  /dev/nbd8</span><br><span class="line">/dev/nbd1  /dev/nbd11  /dev/nbd13  /dev/nbd15  /dev/nbd3  /dev/nbd5  /dev/nbd7  /dev/nbd9</span><br></pre></td></tr></table></figure>
+
+<h2 id="Connect-the-QEMU-Disk-Image-as-NBD"><a href="#Connect-the-QEMU-Disk-Image-as-NBD" class="headerlink" title="Connect the QEMU Disk Image as NBD"></a>Connect the QEMU Disk Image as NBD</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ qemu-img convert -f raw -O qcow2 src.raw dst.qcow2</span><br><span class="line"></span><br><span class="line">$ qemu-img resize dst.qcow2 48G</span><br><span class="line">Image resized.</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">sudo</span> qemu-nbd --connect=/dev/nbd0 my.qcow2</span><br></pre></td></tr></table></figure>
+
+<h2 id="Find-The-Desired-NBD-Partition"><a href="#Find-The-Desired-NBD-Partition" class="headerlink" title="Find The Desired NBD Partition"></a>Find The Desired NBD Partition</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ dmesg | grep nbd</span><br><span class="line">[92223.517473]  nbd0: p1 p12 p13 p14 p15</span><br><span class="line">[92223.518662]  nbd0: p1 p12 p13 p14 p15</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">sudo</span> fdisk /dev/nbd0 -l</span><br></pre></td></tr></table></figure>
+
+<h2 id="Resize-or-Fix-The-Partition-and-File-System"><a href="#Resize-or-Fix-The-Partition-and-File-System" class="headerlink" title="Resize or Fix The Partition and File System"></a>Resize or Fix The Partition and File System</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> sgdisk -e /dev/nbd0</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">sudo</span> e2fsck -f /dev/nbd0p1</span><br><span class="line">$ <span class="built_in">sudo</span> resize2fs /dev/nbd0p1</span><br></pre></td></tr></table></figure>
+
+<h2 id="Mount-The-Desired-Partition"><a href="#Mount-The-Desired-Partition" class="headerlink" title="Mount The Desired Partition"></a>Mount The Desired Partition</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> mount /dev/nbd0p1 /mnt/</span><br><span class="line"></span><br><span class="line">$ mount | grep nbd</span><br><span class="line">/dev/nbd0p1 on /mnt <span class="built_in">type</span> ext4 (rw,relatime)</span><br></pre></td></tr></table></figure>
+
+<p>If you encountered error <code>mount: special device /dev/nbd0p1 does not exist</code>, or similar partition table errors, please rescan partitions, tell the kernel about the latest information of partitions:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> partx -a /dev/nbd0</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">sudo</span> partx -s /dev/nbd0</span><br><span class="line"></span><br><span class="line">$ partx --<span class="built_in">help</span></span><br><span class="line"></span><br><span class="line">Usage:</span><br><span class="line"> partx [-a|-d|-s|-u] [--nr &lt;n:m&gt; | &lt;partition&gt;] &lt;disk&gt;</span><br><span class="line"></span><br><span class="line">Tell the kernel about the presence and numbering of partitions.</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line"> -a, --add            add specified partitions or all of them</span><br><span class="line"> -d, --delete         delete specified partitions or all of them</span><br><span class="line"> -u, --update         update specified partitions or all of them</span><br><span class="line"> -s, --show           list partitions</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h2 id="Do-Something-in-The-Desired-Partition"><a href="#Do-Something-in-The-Desired-Partition" class="headerlink" title="Do Something in The Desired Partition"></a>Do Something in The Desired Partition</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ls</span> /mnt/</span><br><span class="line">bin  boot  dev  etc  home  lib  lost+found  media  mnt  opt  proc  root  run  sbin  snap  srv  sys  tmp  usr  var</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">sudo</span> <span class="built_in">du</span> -ms /mnt/</span><br><span class="line">3127    /mnt/</span><br></pre></td></tr></table></figure>
+
+<h2 id="Unmount-File-System-and-Disconnect-NBD"><a href="#Unmount-File-System-and-Disconnect-NBD" class="headerlink" title="Unmount File System and Disconnect NBD"></a>Unmount File System and Disconnect NBD</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> umount /mnt</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">sudo</span> qemu-nbd --disconnect /dev/nbd0</span><br><span class="line">/dev/nbd0 disconnected</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">sudo</span> rmmod nbd</span><br><span class="line"></span><br><span class="line">$ dmesg | grep nbd</span><br><span class="line">[92223.517473]  nbd0: p1 p12 p13 p14 p15</span><br><span class="line">[92223.518662]  nbd0: p1 p12 p13 p14 p15</span><br><span class="line">[92412.338838]  nbd0: p1 p12 p13 p14 p15</span><br><span class="line">[92534.871085] EXT4-fs (nbd0p1): mounted filesystem with ordered data mode. Opts: (null)</span><br><span class="line">[92794.269063] block nbd0: NBD_DISCONNECT</span><br><span class="line">[92794.269077] block nbd0: Disconnected due to user request.</span><br><span class="line">[92794.269078] block nbd0: shutting down sockets</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#How-to-Mount-QEMU-Disk-Image"><span class="toc-number">1.</span> <span class="toc-text">How to Mount QEMU Disk Image</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Load-NBD-Kernel-Module-on-The-Host"><span class="toc-number">1.1.</span> <span class="toc-text">Load NBD Kernel Module on The Host</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Connect-the-QEMU-Disk-Image-as-NBD"><span class="toc-number">1.2.</span> <span class="toc-text">Connect the QEMU Disk Image as NBD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Find-The-Desired-NBD-Partition"><span class="toc-number">1.3.</span> <span class="toc-text">Find The Desired NBD Partition</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Resize-or-Fix-The-Partition-and-File-System"><span class="toc-number">1.4.</span> <span class="toc-text">Resize or Fix The Partition and File System</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mount-The-Desired-Partition"><span class="toc-number">1.5.</span> <span class="toc-text">Mount The Desired Partition</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Do-Something-in-The-Desired-Partition"><span class="toc-number">1.6.</span> <span class="toc-text">Do Something in The Desired Partition</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Unmount-File-System-and-Disconnect-NBD"><span class="toc-number">1.7.</span> <span class="toc-text">Unmount File System and Disconnect NBD</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

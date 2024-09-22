@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>WireGuard - Next Generation Network Tunnel | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          WireGuard - Next Generation Network Tunnel
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/01/01</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/IP/">IP</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tag"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#IP" class='tag'>IP</a>
+
+
+          
+        </div>
+        <h1 id="WireGuard"><a href="#WireGuard" class="headerlink" title="WireGuard"></a>WireGuard</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://www.wireguard.com/">https://www.wireguard.com/</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.wireguard.com/install/">https://www.wireguard.com/install/</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.wireguard.com/quickstart/">https://www.wireguard.com/quickstart/</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.wireguard.com/protocol/">https://www.wireguard.com/protocol/</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.wireguard.com/repositories/">https://www.wireguard.com/repositories/</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.wireguard.com/papers/wireguard.pdf">https://www.wireguard.com/papers/wireguard.pdf</a></li>
+</ul>
+<p>WireGuard® is an extremely simple yet fast and modern VPN that utilizes state-of-the-art cryptography. It aims to be faster, simpler, leaner, and more useful than IPsec, while avoiding the massive headache. It intends to be considerably more performant than OpenVPN. WireGuard is designed as a general purpose VPN for running on embedded interfaces and super computers alike, fit for many different circumstances. Initially released for the Linux kernel, it is now cross-platform (Windows, macOS, BSD, iOS, Android) and widely deployable. It is currently under heavy development, but already it might be regarded as the most secure, easiest to use, and simplest VPN solution in the industry.</p>
+<ul>
+<li>Simple &amp; Easy-to-use</li>
+<li>Cryptographically Sound</li>
+<li>Minimal Attack Surface</li>
+<li>High Performance</li>
+<li>Well Defined &amp; Thoroughly Considered</li>
+</ul>
+<h2 id="Conceptual-Overview"><a href="#Conceptual-Overview" class="headerlink" title="Conceptual Overview"></a>Conceptual Overview</h2><p>WireGuard securely encapsulates IP packets over UDP. You add a WireGuard interface, configure it with your private key and your peers’ public keys, and then you send packets across it. All issues of key distribution and pushed configurations are out of scope of WireGuard; these are issues much better left for other layers, lest we end up with the bloat of IKE or OpenVPN. In contrast, it more mimics the model of SSH and Mosh; both parties have each other’s public keys, and then they’re simply able to begin exchanging packets through the interface.</p>
+<h2 id="Simple-Network-Interface"><a href="#Simple-Network-Interface" class="headerlink" title="Simple Network Interface"></a>Simple Network Interface</h2><p>WireGuard works by adding a network interface (or multiple), like eth0 or wlan0, called wg0 (or wg1, wg2, wg3, etc). This network interface can then be configured normally using ifconfig(8) or ip-address(8), with routes for it added and removed using route(8) or ip-route(8), and so on with all the ordinary networking utilities. The specific WireGuard aspects of the interface are configured using the wg(8) tool. This interface acts as a tunnel interface. WireGuard associates tunnel IP addresses with public keys and remote endpoints.</p>
+<h2 id="Cryptokey-Routing"><a href="#Cryptokey-Routing" class="headerlink" title="Cryptokey Routing"></a>Cryptokey Routing</h2><p>At the heart of WireGuard is a concept called Cryptokey Routing, which works by associating public keys with a list of tunnel IP addresses that are allowed inside the tunnel. Each network interface has a private key and a list of peers. Each peer has a public key. Public keys are short and simple, and are used by peers to authenticate each other. They can be passed around for use in configuration files by any out-of-band method, similar to how one might send their SSH public key to a friend for access to a shell server.</p>
+<p>When sending packets, the list of allowed IPs behaves as a sort of routing table, and when receiving packets, the list of allowed IPs behaves as a sort of access control list.</p>
+<p>This is what we call a Cryptokey Routing Table: the simple association of public keys and allowed IPs.</p>
+<p>Any combination of IPv4 and IPv6 can be used, for any of the fields. WireGuard is fully capable of encapsulating one inside the other if necessary.</p>
+<p>Because all packets sent on the WireGuard interface are encrypted and authenticated, and because there is such a tight coupling between the identity of a peer and the allowed IP address of a peer, system administrators do not need complicated firewall extensions, such as in the case of IPsec, but rather they can simply match on “is it from this IP? on this interface?”, and be assured that it is a secure and authentic packet. This greatly simplifies network management and access control, and provides a great deal more assurance that your iptables rules are actually doing what you intended for them to do.</p>
+<h2 id="Built-in-Roaming"><a href="#Built-in-Roaming" class="headerlink" title="Built-in Roaming"></a>Built-in Roaming</h2><p>The client configuration contains an initial endpoint of its single peer (the server), so that it knows where to send encrypted data before it has received encrypted data. The server configuration doesn’t have any initial endpoints of its peers (the clients). This is because the server discovers the endpoint of its peers by examining from where correctly authenticated data originates. If the server itself changes its own endpoint, and sends data to the clients, the clients will discover the new server endpoint and update the configuration just the same. Both client and server send encrypted data to the most recent IP endpoint for which they authentically decrypted data. Thus, there is full IP roaming on both ends.</p>
+<h2 id="Ready-for-Containers"><a href="#Ready-for-Containers" class="headerlink" title="Ready for Containers"></a>Ready for Containers</h2><p>WireGuard sends and receives encrypted packets using the network namespace in which the WireGuard interface was originally created. This means that you can create the WireGuard interface in your main network namespace, which has access to the Internet, and then move it into a network namespace belonging to a Docker container as that container’s only interface. This ensures that the only possible way that container is able to access the network is through a secure encrypted WireGuard tunnel.</p>
+<h2 id="NAT-and-Firewall-Traversal-Persistence"><a href="#NAT-and-Firewall-Traversal-Persistence" class="headerlink" title="NAT and Firewall Traversal Persistence"></a>NAT and Firewall Traversal Persistence</h2><p>By default, WireGuard tries to be as silent as possible when not being used; it is not a chatty protocol. For the most part, it only transmits data when a peer wishes to send packets. When it’s not being asked to send packets, it stops sending packets until it is asked again. In the majority of configurations, this works well. However, when a peer is behind NAT or a firewall, it might wish to be able to receive incoming packets even when it is not sending any packets. Because NAT and stateful firewalls keep track of “connections”, if a peer behind NAT or a firewall wishes to receive incoming packets, he must keep the NAT&#x2F;firewall mapping valid, by periodically sending keepalive packets. This is called persistent keepalives. When this option is enabled, a keepalive packet is sent to the server endpoint once every interval seconds. A sensible interval that works with a wide variety of firewalls is 25 seconds. Setting it to 0 turns the feature off, which is the default, since most users will not need this, and it makes WireGuard slightly more chatty. This feature may be specified by adding the PersistentKeepalive &#x3D; field to a peer in the configuration file, or setting persistent-keepalive at the command line. If you don’t need this feature, don’t enable it. But if you’re behind NAT or a firewall and you want to receive incoming connections long after network traffic has gone silent, this option will keep the “connection” open in the eyes of NAT.</p>
+<h2 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.wireguard.com/install/">https://www.wireguard.com/install/</a></li>
+</ul>
+<h3 id="WireGuard-for-Windows"><a href="#WireGuard-for-Windows" class="headerlink" title="WireGuard for Windows"></a>WireGuard for Windows</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://download.wireguard.com/windows-client/">https://download.wireguard.com/windows-client/</a></li>
+</ul>
+<h3 id="Ubuntu-≥-19-10"><a href="#Ubuntu-≥-19-10" class="headerlink" title="Ubuntu ≥ 19.10"></a>Ubuntu ≥ 19.10</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install wireguard</span><br></pre></td></tr></table></figure>
+
+<h3 id="Ubuntu-≤-19-04"><a href="#Ubuntu-≤-19-04" class="headerlink" title="Ubuntu ≤ 19.04"></a>Ubuntu ≤ 19.04</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:wireguard/wireguard</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install wireguard</span><br></pre></td></tr></table></figure>
+
+<h3 id="Debian"><a href="#Debian" class="headerlink" title="Debian"></a>Debian</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;deb http://deb.debian.org/debian/ unstable main&quot; | sudo tee /etc/apt/sources.list.d/unstable.list</span><br><span class="line">printf &#x27;Package: *\nPin: release a=unstable\nPin-Priority: 90\n&#x27; | sudo tee /etc/apt/preferences.d/limit-unstable</span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt install wireguard</span><br><span class="line"></span><br><span class="line">sudo apt dist-upgrade</span><br><span class="line">sudo apt install linux-headers-amd64</span><br><span class="line">sudo apt-get install --reinstall wireguard-dkms</span><br></pre></td></tr></table></figure>
+
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Key-Generation"><a href="#Key-Generation" class="headerlink" title="Key Generation"></a>Key Generation</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">umask 077</span><br><span class="line"></span><br><span class="line">wg genkey &gt; privatekey</span><br><span class="line">wg pubkey &lt; privatekey &gt; publickey</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"> <span class="keyword">do</span> this all at once</span></span><br><span class="line">wg genkey | tee privatekey | wg pubkey &gt; publickey</span><br></pre></td></tr></table></figure>
+
+<h3 id="Server-configuration"><a href="#Server-configuration" class="headerlink" title="Server configuration"></a>Server configuration</h3><pre><code># sudo sysctl net.ipv4.conf.all.forwarding=1
+# sudo sysctl net.ipv6.conf.all.forwarding=1
+# sudo vi /etc/wireguard/wg0.conf
+[Interface]
+PrivateKey = YMKtNQbqzIL37gFZPue1rxITRWfwb828bvFqpbiMZ00=
+ListenPort = 24618
+
+# OP-7020-01
+[Peer]
+PublicKey = YMKtNQbqzIL37gFZPue1rxITRWfwb828bvFqpbiMZ00=
+AllowedIPs = 192.168.20.2/32
+PersistentKeepalive = 25
+</code></pre>
+<h3 id="Client-configuration"><a href="#Client-configuration" class="headerlink" title="Client configuration"></a>Client configuration</h3><pre><code># sudo sysctl net.ipv4.conf.all.forwarding=1
+# sudo sysctl net.ipv6.conf.all.forwarding=1
+# sudo vi /etc/wireguard/wg0.conf
+# sudo wg setconf wg0 /etc/wireguard/wg0.conf
+# qrencode -t png -o ipv4-tunnel-by-ipv4.png &lt; ipv4-tunnel-by-ipv4.conf
+[Interface]
+PrivateKey = YMKtNQbqzIL37gFZPue1rxITRWfwb828bvFqpbiMZ00=
+ListenPort = 6474
+
+[Peer]
+PublicKey = 8IFM9l26YZF0Xs3QPK88j87iE/gUrTRyi2n9I5WjH2c=
+Endpoint = 26.73.12.47:24618
+AllowedIPs = 0.0.0.0/0
+PersistentKeepalive = 25
+</code></pre>
+<h3 id="Command-line-Interface"><a href="#Command-line-Interface" class="headerlink" title="Command-line Interface"></a>Command-line Interface</h3><h4 id="Server-side"><a href="#Server-side" class="headerlink" title="Server side"></a>Server side</h4><h5 id="Server-route"><a href="#Server-route" class="headerlink" title="Server route"></a>Server route</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">iptables -L -n -v</span><br><span class="line"></span><br><span class="line">iptables -t filter -P INPUT ACCEPT</span><br><span class="line">iptables -t filter -P FORWARD ACCEPT</span><br><span class="line">iptables -t filter -P OUTPUT ACCEPT</span><br><span class="line">iptables -t filter -F</span><br><span class="line">iptables -t filter -X</span><br><span class="line">iptables -t nat -F</span><br><span class="line">iptables -t nat -X</span><br><span class="line"></span><br><span class="line">cat | iptables-restore &lt;&lt; EOF</span><br><span class="line">*filter</span><br><span class="line">:INPUT ACCEPT</span><br><span class="line">:FORWARD ACCEPT</span><br><span class="line">:OUTPUT ACCEPT</span><br><span class="line">-A FORWARD -i wg0 -j ACCEPT</span><br><span class="line">COMMIT</span><br><span class="line">*nat</span><br><span class="line">:PREROUTING ACCEPT</span><br><span class="line">:INPUT ACCEPT</span><br><span class="line">:OUTPUT ACCEPT</span><br><span class="line">:POSTROUTING ACCEPT</span><br><span class="line">-A POSTROUTING -p esp -j RETURN</span><br><span class="line">-A POSTROUTING -s 10.20.30.0/24  -o ens3 -j MASQUERADE</span><br><span class="line">-A POSTROUTING -s 10.20.40.0/24  -o ens3 -j MASQUERADE</span><br><span class="line">-A POSTROUTING -s 192.168.0.0/16 -o ens3 -j MASQUERADE</span><br><span class="line">COMMIT</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h5 id="wg-quick"><a href="#wg-quick" class="headerlink" title="wg-quick"></a>wg-quick</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">sudo</span> wg setconf wg0 /etc/wireguard/wg0.conf</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> wg-quick@wg0</span></span><br><span class="line"></span><br><span class="line">sudo ip link add dev wg0 type wireguard</span><br><span class="line">sudo ip addr add dev wg0 192.168.20.1/24</span><br><span class="line">sudo ip link set dev wg0 up mtu 1420</span><br><span class="line">sudo ip link set up dev wg0</span><br><span class="line"></span><br><span class="line">sudo wg setconf wg0 /etc/wireguard/wg0.conf</span><br><span class="line"></span><br><span class="line">sudo wg show</span><br><span class="line">sudo wg showconf wg0</span><br></pre></td></tr></table></figure>
+
+<h4 id="Client-side"><a href="#Client-side" class="headerlink" title="Client side"></a>Client side</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">sudo</span> wg setconf wg0 /etc/wireguard/wg0.conf</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> wg-quick@wg0</span></span><br><span class="line"></span><br><span class="line">sudo ip link add dev wg0 type wireguard</span><br><span class="line">sudo ip addr add dev wg0 192.168.20.2/24</span><br><span class="line">sudo ip link set dev wg0 up mtu 1420</span><br><span class="line">sudo ip link set up dev wg0</span><br><span class="line"></span><br><span class="line">sudo wg setconf wg0 /etc/wireguard/wg0.conf</span><br><span class="line"></span><br><span class="line">sudo wg show</span><br><span class="line">sudo wg showconf wg0</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">sudo</span> wg-quick up wg0</span></span><br><span class="line"><span class="meta prompt_">[#</span><span class="language-bash">] ip <span class="built_in">link</span> add wg0 <span class="built_in">type</span> wireguard</span></span><br><span class="line"><span class="meta prompt_">[#</span><span class="language-bash">] wg setconf wg0 /dev/fd/63</span></span><br><span class="line"><span class="meta prompt_">[#</span><span class="language-bash">] ip -4 address add 192.168.20.3/32 dev wg0</span></span><br><span class="line"><span class="meta prompt_">[#</span><span class="language-bash">] ip <span class="built_in">link</span> <span class="built_in">set</span> mtu 1420 up dev wg0</span></span><br><span class="line"><span class="meta prompt_">[#</span><span class="language-bash">] wg <span class="built_in">set</span> wg0 fwmark 51820</span></span><br><span class="line"><span class="meta prompt_">[#</span><span class="language-bash">] ip -4 route add 0.0.0.0/0 dev wg0 table 51820</span></span><br><span class="line"><span class="meta prompt_">[#</span><span class="language-bash">] ip -4 rule add not fwmark 51820 table 51820</span></span><br><span class="line"><span class="meta prompt_">[#</span><span class="language-bash">] ip -4 rule add table main suppress_prefixlength 0</span></span><br><span class="line"><span class="meta prompt_">[#</span><span class="language-bash">] sysctl -q net.ipv4.conf.all.src_valid_mark=1</span></span><br><span class="line"><span class="meta prompt_">[#</span><span class="language-bash">] nft -f /dev/fd/63</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">ping -OD 192.168.20.1</span></span><br><span class="line">PING 192.168.20.1 (192.168.20.1) 56(84) bytes of data.</span><br><span class="line">[1584754074.675552] 64 bytes from 192.168.20.1: icmp_seq=1 ttl=64 time=176 ms</span><br><span class="line">[1584754075.677335] 64 bytes from 192.168.20.1: icmp_seq=2 ttl=64 time=177 ms</span><br><span class="line">[1584754076.680005] 64 bytes from 192.168.20.1: icmp_seq=3 ttl=64 time=178 ms</span><br><span class="line">[1584754077.679841] 64 bytes from 192.168.20.1: icmp_seq=4 ttl=64 time=176 ms</span><br><span class="line">[1584754078.682989] 64 bytes from 192.168.20.1: icmp_seq=5 ttl=64 time=177 ms</span><br><span class="line">[1584754079.683023] 64 bytes from 192.168.20.1: icmp_seq=6 ttl=64 time=176 ms</span><br><span class="line">[1584754080.696269] 64 bytes from 192.168.20.1: icmp_seq=7 ttl=64 time=188 ms</span><br><span class="line">[1584754081.684687] 64 bytes from 192.168.20.1: icmp_seq=8 ttl=64 time=176 ms</span><br><span class="line">[1584754082.687258] 64 bytes from 192.168.20.1: icmp_seq=9 ttl=64 time=178 ms</span><br><span class="line">^C</span><br><span class="line">--- 192.168.20.1 ping statistics ---</span><br><span class="line">9 packets transmitted, 9 received, 0% packet loss, time 17ms</span><br><span class="line">rtt min/avg/max/mdev = 175.802/177.997/188.254/3.769 ms</span><br></pre></td></tr></table></figure>
+
+<h4 id="Client-route"><a href="#Client-route" class="headerlink" title="Client route"></a>Client route</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">sudo ip route add 192.168.20.0/24 via 192.168.20.2 dev wg0</span><br><span class="line"></span><br><span class="line">sudo ip route add 26.73.12.47/32 via 192.168.1.1</span><br><span class="line">sudo ip route add 8.8.8.8/32 via 192.168.20.2 dev wg0</span><br><span class="line">sudo ip route add 8.8.4.4/32 via 192.168.20.2 dev wg0</span><br><span class="line">sudo ip route add 128.0.0.0/1 via 192.168.20.2 dev wg0</span><br><span class="line">sudo ip route add 0.0.0.0/1 via 192.168.20.2 dev wg0</span><br><span class="line"></span><br><span class="line">sudo ip route del 26.73.12.47/32</span><br><span class="line">sudo ip route del 8.8.8.8/32</span><br><span class="line">sudo ip route del 8.8.4.4/32</span><br><span class="line">sudo ip route del 0.0.0.0/1</span><br><span class="line">sudo ip route del 128.0.0.0/1</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WireGuard"><span class="toc-number">1.</span> <span class="toc-text">WireGuard</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Conceptual-Overview"><span class="toc-number">1.1.</span> <span class="toc-text">Conceptual Overview</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Simple-Network-Interface"><span class="toc-number">1.2.</span> <span class="toc-text">Simple Network Interface</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cryptokey-Routing"><span class="toc-number">1.3.</span> <span class="toc-text">Cryptokey Routing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Built-in-Roaming"><span class="toc-number">1.4.</span> <span class="toc-text">Built-in Roaming</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ready-for-Containers"><span class="toc-number">1.5.</span> <span class="toc-text">Ready for Containers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NAT-and-Firewall-Traversal-Persistence"><span class="toc-number">1.6.</span> <span class="toc-text">NAT and Firewall Traversal Persistence</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Installation"><span class="toc-number">1.7.</span> <span class="toc-text">Installation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#WireGuard-for-Windows"><span class="toc-number">1.7.1.</span> <span class="toc-text">WireGuard for Windows</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ubuntu-%E2%89%A5-19-10"><span class="toc-number">1.7.2.</span> <span class="toc-text">Ubuntu ≥ 19.10</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ubuntu-%E2%89%A4-19-04"><span class="toc-number">1.7.3.</span> <span class="toc-text">Ubuntu ≤ 19.04</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Debian"><span class="toc-number">1.7.4.</span> <span class="toc-text">Debian</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-number">1.8.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Key-Generation"><span class="toc-number">1.8.1.</span> <span class="toc-text">Key Generation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Server-configuration"><span class="toc-number">1.8.2.</span> <span class="toc-text">Server configuration</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Client-configuration"><span class="toc-number">1.8.3.</span> <span class="toc-text">Client configuration</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Command-line-Interface"><span class="toc-number">1.8.4.</span> <span class="toc-text">Command-line Interface</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Server-side"><span class="toc-number">1.8.4.1.</span> <span class="toc-text">Server side</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Server-route"><span class="toc-number">1.8.4.1.1.</span> <span class="toc-text">Server route</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#wg-quick"><span class="toc-number">1.8.4.1.2.</span> <span class="toc-text">wg-quick</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Client-side"><span class="toc-number">1.8.4.2.</span> <span class="toc-text">Client side</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Client-route"><span class="toc-number">1.8.4.3.</span> <span class="toc-text">Client route</span></a></li></ol></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

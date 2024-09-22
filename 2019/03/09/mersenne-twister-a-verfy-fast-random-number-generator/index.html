@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Mersenne Twister - a verfy fast random number generator | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Mersenne Twister - a verfy fast random number generator
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2019/03/09</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/Java/">Java</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#Java" class='tag'>Java</a>
+
+  <a href="/tags/#Randomization" class='tag'>Randomization</a>
+
+
+          
+        </div>
+        <h1 id="Mersenne-Twister"><a href="#Mersenne-Twister" class="headerlink" title="Mersenne Twister"></a>Mersenne Twister</h1><p><a target="_blank" rel="noopener" href="http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html">Mersenne Twister (mt19937)</a> is a verfy fast random number generator of period 2^19937-1, and basically for Monte-Carlo simulations - it is not cryptographically secure “as is”.</p>
+<h2 id="What-is-Mersenne-Twister-MT"><a href="#What-is-Mersenne-Twister-MT" class="headerlink" title="What is Mersenne Twister (MT)"></a>What is Mersenne Twister (MT)</h2><p>Mersenne Twister(MT) is a pseudorandom number generating algorithm developped by Makoto Matsumoto and Takuji Nishimura (alphabetical order) in 1996&#x2F;1997. An improvement on initialization was given on 2002 Jan.</p>
+<p>MT has the following merits:</p>
+<ul>
+<li>It is designed with consideration on the flaws of various existing generators.</li>
+<li>Far longer period and far higher order of equidistribution than any other implemented generators. (It is proved that the period is 2^19937-1, and 623-dimensional equidistribution property is assured.)</li>
+<li>Fast generation. (Although it depends on the system, it is reported that there are no much difference in speed between MT and the standard ANSI-C library function rand().</li>
+</ul>
+<h2 id="Boost-C-Libraries"><a href="#Boost-C-Libraries" class="headerlink" title="Boost C++ Libraries"></a>Boost C++ Libraries</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;boost/random/mersenne_twister.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;boost/random/discrete_distribution.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;boost/format.hpp&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">boost::mt19937 <span class="title">rng</span><span class="params">(<span class="number">5489</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i) &#123;</span><br><span class="line">        std::cout &lt;&lt; (boost::format(<span class="string">&quot;0x%08X&quot;</span>) % <span class="built_in">rng</span>()) &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    std::cout &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">0xD091BB5C</span></span><br><span class="line"><span class="comment">0x22AE9EF6</span></span><br><span class="line"><span class="comment">0xE7E1FAEE</span></span><br><span class="line"><span class="comment">0xD5C31F79</span></span><br><span class="line"><span class="comment">0x2082352C</span></span><br><span class="line"><span class="comment">0xF807B7DF</span></span><br><span class="line"><span class="comment">0xE9D30005</span></span><br><span class="line"><span class="comment">0x3895AFE1</span></span><br><span class="line"><span class="comment">0xA1E24BBA</span></span><br><span class="line"><span class="comment">0x4EE4092B</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Java-implementation"><a href="#Java-implementation" class="headerlink" title="Java implementation"></a>Java implementation</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MT19937</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="type">int</span> <span class="variable">UPPER_MASK</span> <span class="operator">=</span> <span class="number">0x80000000</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="type">int</span> <span class="variable">LOWER_MASK</span> <span class="operator">=</span> <span class="number">0x7fffffff</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="type">int</span> <span class="variable">N</span> <span class="operator">=</span> <span class="number">624</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="type">int</span> <span class="variable">M</span> <span class="operator">=</span> <span class="number">397</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="type">int</span>[] MAGIC = &#123;<span class="number">0x0</span>, <span class="number">0x9908b0df</span>&#125;;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="type">int</span> <span class="variable">MAGIC_FACTOR1</span> <span class="operator">=</span> <span class="number">1812433253</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="type">int</span> <span class="variable">MAGIC_FACTOR2</span> <span class="operator">=</span> <span class="number">1664525</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="type">int</span> <span class="variable">MAGIC_FACTOR3</span> <span class="operator">=</span> <span class="number">1566083941</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="type">int</span> <span class="variable">MAGIC_MASK1</span> <span class="operator">=</span> <span class="number">0x9d2c5680</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="type">int</span> <span class="variable">MAGIC_MASK2</span> <span class="operator">=</span> <span class="number">0xefc60000</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="type">int</span> <span class="variable">MAGIC_SEED</span> <span class="operator">=</span> <span class="number">0x12BD6AA</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Internal state</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">transient</span> <span class="type">int</span>[] mt = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">transient</span> <span class="type">int</span> mti;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">MT19937</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>(Double.hashCode(System.currentTimeMillis() * (<span class="type">double</span>) System.nanoTime()));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">MT19937</span><span class="params">(<span class="type">int</span> seed)</span> &#123;</span><br><span class="line">        setSeed(seed);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">MT19937</span><span class="params">(<span class="type">int</span>[] seed)</span> &#123;</span><br><span class="line">        setSeed(seed);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">MT19937</span><span class="params">(<span class="type">byte</span>[] seed)</span> &#123;</span><br><span class="line">        setSeed(pack(seed));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">        byte[] &#123; 0x01, 0x02, 0x03, 0x04, 0x05, 0x06 &#125;</span></span><br><span class="line"><span class="comment">        -&gt;</span></span><br><span class="line"><span class="comment">        int[]  &#123; 0x04030201, 0x00000605 &#125;</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="type">int</span>[] pack(<span class="type">byte</span>[] buf) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">up</span> <span class="operator">=</span> ((buf.length + <span class="number">3</span>) &gt;&gt;&gt; <span class="number">2</span>);</span><br><span class="line">        <span class="type">int</span>[] ibuf = <span class="keyword">new</span> <span class="title class_">int</span>[up];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> <span class="number">0</span>; n &lt; up; n++) &#123;</span><br><span class="line">            <span class="type">int</span> k, m = (n + <span class="number">1</span>) &lt;&lt; <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (m &gt; buf.length)</span><br><span class="line">                m = buf.length;</span><br><span class="line">            <span class="keyword">for</span> (k = buf[--m] &amp; <span class="number">0xff</span>; (m &amp; <span class="number">0x3</span>) != <span class="number">0</span>; k = (k &lt;&lt; <span class="number">8</span>) | buf[--m] &amp; <span class="number">0xff</span>)</span><br><span class="line">                ;</span><br><span class="line">            ibuf[n] = k;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ibuf;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 1 &lt;= buf.length &lt;&lt; 624</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">setSeed</span><span class="params">(<span class="type">int</span>[] buf)</span> &#123;</span><br><span class="line">        setSeed(MAGIC_SEED);</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">length</span> <span class="operator">=</span> buf.length;</span><br><span class="line">        <span class="keyword">if</span> (length == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>, j = <span class="number">0</span>, k = (N &gt; length ? N : length);</span><br><span class="line">        <span class="keyword">for</span> (; k &gt; <span class="number">0</span>; k--) &#123;</span><br><span class="line">            mt[i] = (mt[i] ^ ((mt[i - <span class="number">1</span>] ^ (mt[i - <span class="number">1</span>] &gt;&gt;&gt; <span class="number">30</span>)) * MAGIC_FACTOR2)) + buf[j] + j;</span><br><span class="line">            i++;</span><br><span class="line">            j++;</span><br><span class="line">            <span class="keyword">if</span> (i &gt;= N) &#123;</span><br><span class="line">                mt[<span class="number">0</span>] = mt[N - <span class="number">1</span>];</span><br><span class="line">                i = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (j &gt;= length)</span><br><span class="line">                j = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (k = N - <span class="number">1</span>; k &gt; <span class="number">0</span>; k--) &#123;</span><br><span class="line">            mt[i] = (mt[i] ^ ((mt[i - <span class="number">1</span>] ^ (mt[i - <span class="number">1</span>] &gt;&gt;&gt; <span class="number">30</span>)) * MAGIC_FACTOR3)) - i;</span><br><span class="line">            i++;</span><br><span class="line">            <span class="keyword">if</span> (i &gt;= N) &#123;</span><br><span class="line">                mt[<span class="number">0</span>] = mt[N - <span class="number">1</span>];</span><br><span class="line">                i = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        mt[<span class="number">0</span>] |= UPPER_MASK; <span class="comment">// MSB is 1; assuring non-zero initial array</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">setSeed</span><span class="params">(<span class="type">int</span> seed)</span> &#123;</span><br><span class="line">        mt[<span class="number">0</span>] = seed;</span><br><span class="line">        <span class="keyword">for</span> (mti = <span class="number">1</span>; mti &lt; N; mti++) &#123;</span><br><span class="line">            mt[mti] = (MAGIC_FACTOR1 * (mt[mti - <span class="number">1</span>] ^ (mt[mti - <span class="number">1</span>] &gt;&gt;&gt; <span class="number">30</span>)) + mti);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="type">int</span> <span class="title function_">next</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> y;</span><br><span class="line">        <span class="keyword">if</span> (mti &gt;= N) &#123;</span><br><span class="line">            <span class="type">int</span> kk;</span><br><span class="line">            <span class="keyword">for</span> (kk = <span class="number">0</span>; kk &lt; N - M; kk++) &#123;</span><br><span class="line">                y = (mt[kk] &amp; UPPER_MASK) | (mt[kk + <span class="number">1</span>] &amp; LOWER_MASK);</span><br><span class="line">                mt[kk] = mt[kk + M] ^ (y &gt;&gt;&gt; <span class="number">1</span>) ^ MAGIC[y &amp; <span class="number">0x1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span> (; kk &lt; N - <span class="number">1</span>; kk++) &#123;</span><br><span class="line">                y = (mt[kk] &amp; UPPER_MASK) | (mt[kk + <span class="number">1</span>] &amp; LOWER_MASK);</span><br><span class="line">                mt[kk] = mt[kk + (M - N)] ^ (y &gt;&gt;&gt; <span class="number">1</span>) ^ MAGIC[y &amp; <span class="number">0x1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">            y = (mt[N - <span class="number">1</span>] &amp; UPPER_MASK) | (mt[<span class="number">0</span>] &amp; LOWER_MASK);</span><br><span class="line">            mt[N - <span class="number">1</span>] = mt[M - <span class="number">1</span>] ^ (y &gt;&gt;&gt; <span class="number">1</span>) ^ MAGIC[y &amp; <span class="number">0x1</span>];</span><br><span class="line"></span><br><span class="line">            mti = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        y = mt[mti++];</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Tempering</span></span><br><span class="line">        y ^= (y &gt;&gt;&gt; <span class="number">11</span>);</span><br><span class="line">        y ^= (y &lt;&lt; <span class="number">7</span>) &amp; MAGIC_MASK1;</span><br><span class="line">        y ^= (y &lt;&lt; <span class="number">15</span>) &amp; MAGIC_MASK2;</span><br><span class="line">        y ^= (y &gt;&gt;&gt; <span class="number">18</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">nextBytes</span><span class="params">(<span class="type">byte</span>[] bytes)</span> &#123;</span><br><span class="line">        <span class="type">int</span> i, value, n = bytes.length &amp; <span class="number">0x7FFF_FFFC</span>;</span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i += <span class="number">4</span>) &#123;</span><br><span class="line">            value = next();</span><br><span class="line">            bytes[i] = (<span class="type">byte</span>) (value &gt;&gt; <span class="number">24</span>);</span><br><span class="line">            bytes[i + <span class="number">1</span>] = (<span class="type">byte</span>) (value &gt;&gt; <span class="number">16</span>);</span><br><span class="line">            bytes[i + <span class="number">2</span>] = (<span class="type">byte</span>) (value &gt;&gt; <span class="number">8</span>);</span><br><span class="line">            bytes[i + <span class="number">3</span>] = (<span class="type">byte</span>) (value);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        n = bytes.length &amp; <span class="number">0x03</span>;</span><br><span class="line">        <span class="keyword">if</span> (n &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            value = next();</span><br><span class="line">            <span class="keyword">if</span> (n &gt;= <span class="number">3</span>) &#123;</span><br><span class="line">                bytes[i++] = (<span class="type">byte</span>) (value &gt;&gt; <span class="number">16</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (n &gt;= <span class="number">2</span>) &#123;</span><br><span class="line">                bytes[i++] = (<span class="type">byte</span>) (value &gt;&gt; <span class="number">8</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (n &gt;= <span class="number">1</span>) &#123;</span><br><span class="line">                bytes[i++] = (<span class="type">byte</span>) (value &gt;&gt; <span class="number">8</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Mersenne-Twister"><span class="toc-number">1.</span> <span class="toc-text">Mersenne Twister</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-Mersenne-Twister-MT"><span class="toc-number">1.1.</span> <span class="toc-text">What is Mersenne Twister (MT)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Boost-C-Libraries"><span class="toc-number">1.2.</span> <span class="toc-text">Boost C++ Libraries</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-implementation"><span class="toc-number">1.3.</span> <span class="toc-text">Java implementation</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

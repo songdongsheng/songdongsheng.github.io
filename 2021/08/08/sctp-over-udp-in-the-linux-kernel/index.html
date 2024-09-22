@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>SCTP over UDP in the Linux kernel | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          SCTP over UDP in the Linux kernel
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2021/08/08</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/C/">C</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#C" class='tag'>C</a>
+
+
+          
+        </div>
+        <h1 id="SCTP-over-UDP-in-the-Linux-kernel"><a href="#SCTP-over-UDP-in-the-Linux-kernel" class="headerlink" title="SCTP over UDP in the Linux kernel"></a>SCTP over UDP in the Linux kernel</h1><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Stream Control Transmission Protocol over User Datagram Protocol (SCTP over UDP, also known as UDP encapsulation of SCTP) is a feature defined in RFC6951 and implemented in the Linux kernel space since 5.11.</p>
+<h2 id="Why-we-need-SCTP-over-UDP"><a href="#Why-we-need-SCTP-over-UDP" class="headerlink" title="Why we need SCTP over UDP"></a>Why we need SCTP over UDP</h2><p>As the <a target="_blank" rel="noopener" href="https://lore.kernel.org/netdev/cover.1603110316.git.lucien.xin@gmail.com/T/">author said</a>:</p>
+<blockquote>
+<p>  The Main Reasons:</p>
+<ol>
+<li><p>To allow SCTP traffic to pass through legacy NATs, which do not
+provide native SCTP support as specified in [BEHAVE] and
+[NATSUPP].</p>
+</li>
+<li><p>To allow SCTP to be implemented on hosts that do not provide
+direct access to the IP layer.  In particular, applications can
+use their own SCTP implementation if the operating system does not
+provide one.</p>
+</li>
+</ol>
+</blockquote>
+<p>The first reason will solve the middlebox issues that have brought many troubles to users and prevented SCTP’s wide use. The second reason is to allow user space applications to develop their own SCTP implementation based on the UDP protocol.</p>
+<h2 id="How-SCTP-over-UDP-works"><a href="#How-SCTP-over-UDP-works" class="headerlink" title="How SCTP over UDP works"></a>How SCTP over UDP works</h2><p>With this feature enabled, all SCTP packets are encapsulated into UDP packets. SCTP over UDP is implemented with kernel UDP tunnel APIs that have previously been used by the VXLAN, GENEVE, and TIPC protocols.</p>
+<p>UDP-encapsulated SCTP is normally communicated between SCTP stacks using the IANA-assigned UDP port number 9899 (sctp-tunneling) on both ends.</p>
+<p>There are circumstances where other ports may be used on either end, and it might be required to use ports other than the registered port, implementations need to allow other port numbers to be specified as a local or remote UDP encapsulation port number through APIs.</p>
+<h2 id="How-to-use-SCTP-over-UDP"><a href="#How-to-use-SCTP-over-UDP" class="headerlink" title="How to use SCTP over UDP"></a>How to use SCTP over UDP</h2><p>When programming, you don’t need to do anything different: All the standard SCTP features still apply, and all the APIs are available to use as before. Old applications will work well without any changes or recompilation. The only adjustment is to set up a UDP port (a local listening port or src port) and an encapsulation port (a remote listening or dest port), which could be done globally for the network namespace by sysctl:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sysctl -w net.sctp.encap_port=9899</span></span><br><span class="line"><span class="comment"># sysctl -w net.sctp.udp_port=9899</span></span><br></pre></td></tr></table></figure>
+
+<p>Alternatively, you could set the encapsulation port per socket, association, or transport, using sockopt:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setsockopt(SCTP_REMOTE_UDP_ENCAPS_PORT, port);</span><br></pre></td></tr></table></figure>
+
+<p>On the server side, the encapsulation port normally doesn’t need to be set explicitly, as detailed in the next section.</p>
+<h2 id="The-UDP-encapsulation-port"><a href="#The-UDP-encapsulation-port" class="headerlink" title="The UDP encapsulation port"></a>The UDP encapsulation port</h2><p>The UDP encapsulation port allows for very flexible usage. On the sender side, the global encapsulation port only provides a default value:</p>
+<ul>
+<li>The per-socket encapsulation port can be used when another socket on one host connects to a different host on which a different UDP port is used.</li>
+<li>The per-association encapsulation port can be used when the same socket connects to a different host on which a different UDP port is used.</li>
+<li>The per-transport encapsulation port can be used when the same association wants to send UDP-encapsulated SCTP packets on one transport.</li>
+</ul>
+<p>On the receiver side, the encapsulation port normally doesn’t need to be set:</p>
+<ul>
+<li>The encapsulation port of one association would be learned from the first INIT packet. Other INITs with different UDP src ports would then be discarded.</li>
+<li>The encapsulation port of each transport would be learned from the incoming packets on the corresponding path, and can be updated anytime.</li>
+<li>Plain SCTP packets can still be processed even if the encapsulation ports of the association and its transports are set.</li>
+</ul>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>If you’re using SCTP and enjoying its features, like multi-homing, multi-streaming, and partial-reliability, but having issues with middleboxes, the Linux kernel now provides an easier way to get around them.</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc6951">RFC 6951: UDP Encapsulation of SCTP Packets</a></li>
+<li><a target="_blank" rel="noopener" href="https://lore.kernel.org/netdev/cover.1603110316.git.lucien.xin@gmail.com/T/">PATCH v4 net-next 00&#x2F;16 sctp: Implement RFC6951: UDP Encapsulation of SCTP</a></li>
+<li><a target="_blank" rel="noopener" href="https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/Documentation/networking/ip-sysctl.rst?h=linux-5.13.y#n2723">SCTP of Linux Kernel IP Sysctl</a></li>
+</ul>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SCTP-over-UDP-in-the-Linux-kernel"><span class="toc-number">1.</span> <span class="toc-text">SCTP over UDP in the Linux kernel</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-number">1.1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-we-need-SCTP-over-UDP"><span class="toc-number">1.2.</span> <span class="toc-text">Why we need SCTP over UDP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#How-SCTP-over-UDP-works"><span class="toc-number">1.3.</span> <span class="toc-text">How SCTP over UDP works</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#How-to-use-SCTP-over-UDP"><span class="toc-number">1.4.</span> <span class="toc-text">How to use SCTP over UDP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-UDP-encapsulation-port"><span class="toc-number">1.5.</span> <span class="toc-text">The UDP encapsulation port</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion"><span class="toc-number">1.6.</span> <span class="toc-text">Conclusion</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">1.7.</span> <span class="toc-text">Reference</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

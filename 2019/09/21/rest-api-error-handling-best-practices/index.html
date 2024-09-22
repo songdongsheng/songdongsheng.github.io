@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>REST API Error Handling Best Practices | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          REST API Error Handling Best Practices
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2019/09/21</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/API/">API</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tag"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#REST" class='tag'>REST</a>
+
+
+          
+        </div>
+        <h1 id="REST-API-Error-Handling-Best-Practices"><a href="#REST-API-Error-Handling-Best-Practices" class="headerlink" title="REST API Error Handling Best Practices"></a>REST API Error Handling Best Practices</h1><h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><ul>
+<li><a target="_blank" rel="noopener" href="http://jsonapi.org/format/">http://jsonapi.org/format/</a></li>
+<li><a target="_blank" rel="noopener" href="http://json-schema.org/">http://json-schema.org</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.jsonrpc.org/specification">http://www.jsonrpc.org/specification</a></li>
+<li><a target="_blank" rel="noopener" href="https://apigee.com/about/blog/technology/restful-api-design-what-about-errors">https://apigee.com/about/blog/technology/restful-api-design-what-about-errors</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.jayway.com/2014/10/19/spring-boot-error-responses/">https://blog.jayway.com/2014/10/19/spring-boot-error-responses/</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/rest/api/storageservices/common-rest-api-error-codes">https://docs.microsoft.com/en-us/rest/api/storageservices/common-rest-api-error-codes</a></li>
+<li><a target="_blank" rel="noopener" href="https://google.github.io/styleguide/jsoncstyleguide.xml">https://google.github.io/styleguide/jsoncstyleguide.xml</a></li>
+<li><a target="_blank" rel="noopener" href="https://nordicapis.com/best-practices-api-error-handling/">https://nordicapis.com/best-practices-api-error-handling/</a></li>
+<li><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc7807">https://tools.ietf.org/html/rfc7807</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.petrikainulainen.net/programming/spring-framework/spring-from-the-trenches-adding-validation-to-a-rest-api/">https://www.petrikainulainen.net/programming/spring-framework/spring-from-the-trenches-adding-validation-to-a-rest-api/</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.restcase.com/">https://www.restcase.com</a></li>
+</ul>
+<h1 id="HTTP-status"><a href="#HTTP-status" class="headerlink" title="HTTP status"></a>HTTP status</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">https://en.wikipedia.org/wiki/List_of_HTTP_status_codes</a></li>
+<li>200 OK</li>
+<li>201 Created</li>
+<li>202 Accepted</li>
+<li>204 No Content</li>
+<li>301 Moved Permanently</li>
+<li>304 Not Modified</li>
+<li>307 Temporary Redirect</li>
+<li>308 Permanent Redirect</li>
+<li>400 Bad Request</li>
+<li>401 Unauthorized</li>
+<li>403 Forbidden</li>
+<li>404 NOT FOUND</li>
+<li>405 Method Not Allowed</li>
+<li>409 Conflict</li>
+<li>410 Gone</li>
+<li>412 Precondition Failed</li>
+<li>429 Too Many Requests</li>
+<li>500 Internal Server Error</li>
+<li>501 Not Implemented</li>
+<li>502 Bad Gateway</li>
+<li>503 Service Unavailable</li>
+<li>508 Loop Detected</li>
+</ul>
+<h1 id="Sample"><a href="#Sample" class="headerlink" title="Sample"></a>Sample</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 403 Forbidden</span><br><span class="line">Content-Type: application/problem+json</span><br><span class="line">Content-Language: en</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"> &quot;timestamp&quot;:&quot;2019-09-21 13:01:59.667+08:00&quot;,</span><br><span class="line"> &quot;path&quot;:&quot;/api/books/12345&quot;</span><br><span class="line"> &quot;status&quot; : 403,</span><br><span class="line"> &quot;code&quot; : 123,</span><br><span class="line"> &quot;error&quot;:&quot;NoHostAvailable&quot;,</span><br><span class="line"> &quot;message&quot;: &quot;Your current balance is 30, but that costs 50.&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#REST-API-Error-Handling-Best-Practices"><span class="toc-number">1.</span> <span class="toc-text">REST API Error Handling Best Practices</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#References"><span class="toc-number">2.</span> <span class="toc-text">References</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HTTP-status"><span class="toc-number">3.</span> <span class="toc-text">HTTP status</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Sample"><span class="toc-number">4.</span> <span class="toc-text">Sample</span></a></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>
