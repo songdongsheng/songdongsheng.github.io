@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Portable Hardware Locality | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Portable Hardware Locality
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2019/06/23</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/Linux/">Linux</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tag"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+
+          
+        </div>
+        <h1 id="Portable-Hardware-Locality"><a href="#Portable-Hardware-Locality" class="headerlink" title="Portable Hardware Locality"></a>Portable Hardware Locality</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://www.open-mpi.org/projects/hwloc/">Portable Hardware Locality</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/open-mpi/hwloc">GIT repository</a></li>
+</ul>
+<h2 id="In-a-nutshell"><a href="#In-a-nutshell" class="headerlink" title="In a nutshell"></a>In a nutshell</h2><p>The Portable Hardware Locality (hwloc) software package provides a portable abstraction (across OS, versions, architectures, …) of the hierarchical topology of modern architectures, including NUMA memory nodes, sockets, shared caches, cores and simultaneous multithreading. It also gathers various system attributes such as cache and memory information as well as the locality of I&#x2F;O devices such as network interfaces, InfiniBand HCAs or GPUs.</p>
+<p>hwloc primarily aims at helping applications with gathering information about increasingly complex parallel computing platforms so as to exploit them accordingly and efficiently. For instance, two tasks that tightly cooperate should probably be placed onto cores sharing a cache. However, two independent memory-intensive tasks should better be spread out onto different sockets so as to maximize their memory throughput. As described in this paper, OpenMP threads have to be placed according to their affinities and to the hardware characteristics. MPI implementations apply similar techniques while also adapting their communication strategies to the network locality as described in this paper or this one.</p>
+<p>hwloc may also help many applications just by providing a portable CPU and memory binding API and a reliable way to find out how many cores and&#x2F;or hardware threads are available.</p>
+<h2 id="Examples-of-outputs"><a href="#Examples-of-outputs" class="headerlink" title="Examples of outputs"></a>Examples of outputs</h2><h3 id="61-GB-8-Cores"><a href="#61-GB-8-Cores" class="headerlink" title="61 GB, 8 Cores"></a>61 GB, 8 Cores</h3><p><img src="/2019/06/23/portable-hardware-locality/ppc64-full-with-smt.png" alt="image"></p>
+<h3 id="383-GB-32-Cores"><a href="#383-GB-32-Cores" class="headerlink" title="383 GB, 32 Cores"></a>383 GB, 32 Cores</h3><p><img src="/2019/06/23/portable-hardware-locality/lstopo.png" alt="image"></p>
+<h3 id="375-GB-40-Cores"><a href="#375-GB-40-Cores" class="headerlink" title="375 GB, 40 Cores"></a>375 GB, 40 Cores</h3><p><img src="/2019/06/23/portable-hardware-locality/2XeonSPv2+dax+pmem.v2.1.png" alt="image"></p>
+<h3 id="1487-GB-40-Cores"><a href="#1487-GB-40-Cores" class="headerlink" title="1487 GB, 40 Cores"></a>1487 GB, 40 Cores</h3><p><img src="/2019/06/23/portable-hardware-locality/2XeonSPv2+msc.v2.1.png" alt="image"></p>
+<h3 id="1861-GB-40-Cores"><a href="#1861-GB-40-Cores" class="headerlink" title="1861 GB, 40 Cores"></a>1861 GB, 40 Cores</h3><p><img src="/2019/06/23/portable-hardware-locality/2XeonSPv2+2kmem.v2.1.png" alt="image"></p>
+<h3 id="The-hierarchical-topology-map-of-the-current-system"><a href="#The-hierarchical-topology-map-of-the-current-system" class="headerlink" title="The hierarchical topology map of the current system"></a>The hierarchical topology map of the current system</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># hwloc-ls</span></span><br><span class="line">Machine (16GB)</span><br><span class="line">  Package L#0 + L3 L#0 (30MB) + L2 L#0 (256KB) + L1d L#0 (32KB) + L1i L#0 (32KB)</span><br><span class="line">    Core L#0 + PU L#0 (P#0)</span><br><span class="line">    Core L#1 + PU L#1 (P#1)</span><br><span class="line">  Misc(MemoryModule)</span><br><span class="line">  HostBridge L#0</span><br><span class="line">    PCI 8086:7010</span><br><span class="line">      Block(Removable Media Device) L#0 <span class="string">&quot;sr0&quot;</span></span><br><span class="line">    PCI 1013:00b8</span><br><span class="line">      GPU L#1 <span class="string">&quot;card0&quot;</span></span><br><span class="line">      GPU L#2 <span class="string">&quot;controlD64&quot;</span></span><br><span class="line">    PCI 1af4:1000</span><br><span class="line">    PCI 1af4:1001</span><br></pre></td></tr></table></figure>
+
+<h3 id="The-information-about-the-given-objects"><a href="#The-information-about-the-given-objects" class="headerlink" title="The information about the given objects"></a>The information about the given objects</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># hwloc-info</span></span><br><span class="line">depth 0:        1 Machine (<span class="built_in">type</span> <span class="comment">#1)</span></span><br><span class="line"> depth 1:       1 Package (<span class="built_in">type</span> <span class="comment">#3)</span></span><br><span class="line">  depth 2:      1 L3Cache (<span class="built_in">type</span> <span class="comment">#4)</span></span><br><span class="line">   depth 3:     1 L2Cache (<span class="built_in">type</span> <span class="comment">#4)</span></span><br><span class="line">    depth 4:    1 L1dCache (<span class="built_in">type</span> <span class="comment">#4)</span></span><br><span class="line">     depth 5:   1 L1iCache (<span class="built_in">type</span> <span class="comment">#4)</span></span><br><span class="line">      depth 6:  2 Core (<span class="built_in">type</span> <span class="comment">#5)</span></span><br><span class="line">       depth 7: 2 PU (<span class="built_in">type</span> <span class="comment">#6)</span></span><br><span class="line">Special depth -3:       1 Bridge (<span class="built_in">type</span> <span class="comment">#9)</span></span><br><span class="line">Special depth -4:       4 PCI Device (<span class="built_in">type</span> <span class="comment">#10)</span></span><br><span class="line">Special depth -5:       3 OS Device (<span class="built_in">type</span> <span class="comment">#11)</span></span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Portable-Hardware-Locality"><span class="toc-number">1.</span> <span class="toc-text">Portable Hardware Locality</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#In-a-nutshell"><span class="toc-number">1.1.</span> <span class="toc-text">In a nutshell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Examples-of-outputs"><span class="toc-number">1.2.</span> <span class="toc-text">Examples of outputs</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#61-GB-8-Cores"><span class="toc-number">1.2.1.</span> <span class="toc-text">61 GB, 8 Cores</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#383-GB-32-Cores"><span class="toc-number">1.2.2.</span> <span class="toc-text">383 GB, 32 Cores</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#375-GB-40-Cores"><span class="toc-number">1.2.3.</span> <span class="toc-text">375 GB, 40 Cores</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1487-GB-40-Cores"><span class="toc-number">1.2.4.</span> <span class="toc-text">1487 GB, 40 Cores</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1861-GB-40-Cores"><span class="toc-number">1.2.5.</span> <span class="toc-text">1861 GB, 40 Cores</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-hierarchical-topology-map-of-the-current-system"><span class="toc-number">1.2.6.</span> <span class="toc-text">The hierarchical topology map of the current system</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-information-about-the-given-objects"><span class="toc-number">1.2.7.</span> <span class="toc-text">The information about the given objects</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

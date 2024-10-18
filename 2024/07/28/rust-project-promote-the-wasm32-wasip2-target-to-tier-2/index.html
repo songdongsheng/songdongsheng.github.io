@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Rust project promote the wasm32-wasip2 target to Tier 2 | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Rust project promote the wasm32-wasip2 target to Tier 2
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2024/07/28</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+  <a href="/tags/#Rust" class='tag'>Rust</a>
+
+  <a href="/tags/#WASM" class='tag'>WASM</a>
+
+
+          
+        </div>
+        <h1 id="Rust-project-promote-the-wasm32-wasip2-target-to-Tier-2"><a href="#Rust-project-promote-the-wasm32-wasip2-target-to-Tier-2" class="headerlink" title="Rust project promote the wasm32-wasip2 target to Tier 2"></a>Rust project promote the wasm32-wasip2 target to Tier 2</h1><p>The <code>wasm32-wasip2</code> target is an extension to <code>wasm32-wasip1</code> target, originally known as <code>wasm32-wasi</code>. It is the next evolution in the development of WASI (the WebAssembly System Interface) that uses the WebAssembly component model to allow for a standardized set of syscalls that are intended to empower WebAssembly binaries with native host capabilities. This target is <strong>cross-compiled</strong>. The target supports <code>std</code> fully.</p>
+<p>On February 28, 2024, Rust <a target="_blank" rel="noopener" href="https://github.com/rust-lang/rust/pull/119616">merged the tier 3 target <code>wasm32-wasip2</code></a>; on July 17, 2024, the <a target="_blank" rel="noopener" href="https://github.com/rust-lang/rust/pull/126967">target <code>wasm32-wasip2</code> was promoted to tier 2</a>.</p>
+<p>WASI has released two milestone versions, <a target="_blank" rel="noopener" href="https://github.com/WebAssembly/WASI/blob/main/legacy/preview1/docs.md"><strong>0.1</strong></a> and <a target="_blank" rel="noopener" href="https://github.com/WebAssembly/WASI/blob/main/preview2/README.md"><strong>0.2</strong></a>. They correspond to Rust targets <a target="_blank" rel="noopener" href="https://doc.rust-lang.org/nightly/rustc/platform-support/wasm32-wasip1.html"><code>wasm32-wasip1</code></a> and <a target="_blank" rel="noopener" href="https://doc.rust-lang.org/nightly/rustc/platform-support/wasm32-wasip2.html"><code>wasm32-wasip2</code></a> respectively.</p>
+<p>WASI Preview 2 represents a major milestone for WASI. It marks the moment when WASI has fully rebased on the <strong>Wit IDL</strong> and the <strong>component model</strong> type system and semantics, making it modular, fully virtualizable, and accessible to a wide variety of source languages.</p>
+<p>WASI Preview 2 is also known as “WASI 0.2”, and corresponds to versions numbered <code>0.2.x</code> in Wit packages and related identifiers. It is also known as “WASIp2”, where the “p” stands for either “preview” or “point”.</p>
+<p>WASI Preview 2 contains the following APIs:</p>
+<table>
+<thead>
+<tr>
+<th>Proposal</th>
+<th>Versions</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>wasi-io</td>
+<td>0.2.0</td>
+</tr>
+<tr>
+<td>wasi-clocks</td>
+<td>0.2.0</td>
+</tr>
+<tr>
+<td>wasi-random</td>
+<td>0.2.0</td>
+</tr>
+<tr>
+<td>wasi-filesystem</td>
+<td>0.2.0</td>
+</tr>
+<tr>
+<td>wasi-sockets</td>
+<td>0.2.0</td>
+</tr>
+<tr>
+<td>wasi-cli</td>
+<td>0.2.0</td>
+</tr>
+<tr>
+<td>wasi-http</td>
+<td>0.2.0</td>
+</tr>
+</tbody></table>
+<h2 id="What-You-Need"><a href="#What-You-Need" class="headerlink" title="What You Need"></a>What You Need</h2><ul>
+<li>✓ <code>WASI SDK 23.0</code> or later</li>
+<li>✓ <code>wasmtime 23.0.1</code> or later</li>
+<li>⍻ <code>WasmEdge 0.14.0</code> or later (wasm32-wasip1 only)</li>
+<li>⍻ <code>wasmer 4.3.5</code> or later (wasm32-wasip1 only)</li>
+<li>⍻ <code>wasmi 0.36.0</code> or later (No binary packages, requires <code>rust 1.77.0</code> or newer to compile) (wasm32-wasip1 only)</li>
+<li>⍻ <code>wazero 1.7.3</code> or later (wasm32-wasip1 only)</li>
+<li>⍻ <code>WebAssembly Micro Runtime 2.1.1</code> or later (wasm32-wasip1 only)</li>
+</ul>
+<h2 id="WASI-SDK"><a href="#WASI-SDK" class="headerlink" title="WASI SDK"></a>WASI SDK</h2><p>Let’s first use the classic <strong>Hello World</strong> program to test the each WASI implementation:</p>
+<h3 id="hello-c"><a href="#hello-c" class="headerlink" title="hello.c"></a>hello.c</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stdout</span>, <span class="string">&quot;Hello, World!\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="wasm32-wasip1"><a href="#wasm32-wasip1" class="headerlink" title="wasm32-wasip1"></a>wasm32-wasip1</h3><p>Generate WASM files for target <code>wasm32-wasip1</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># /opt/wasi-sdk-23/bin/clang -v -Wl,--version --target=wasm32-wasip1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># /opt/wasi-sdk-23/bin/clang --target=wasm32-wasip1 -o hello-p1.wasm hello.c</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># file hello-p1.wasm</span></span><br><span class="line">hello-p1.wasm: WebAssembly (wasm) binary module version 0x1 (MVP)</span><br></pre></td></tr></table></figure>
+
+<p>All 6 WASI implementations used in this article support the target <code>wasm32-wasip1</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># wasmtime hello-p1.wasm</span></span><br><span class="line">Hello, World!</span><br><span class="line"></span><br><span class="line"><span class="comment"># wasmedge hello-p1.wasm</span></span><br><span class="line">Hello, World!</span><br><span class="line"></span><br><span class="line"><span class="comment"># wasmer hello-p1.wasm</span></span><br><span class="line">Hello, World!</span><br><span class="line"></span><br><span class="line"><span class="comment"># wasmi_cli hello-p1.wasm</span></span><br><span class="line">Hello, World!</span><br><span class="line"></span><br><span class="line"><span class="comment"># wazero run hello-p1.wasm</span></span><br><span class="line">Hello, World!</span><br><span class="line"></span><br><span class="line"><span class="comment"># iwasm hello-p1.wasm</span></span><br><span class="line">Hello, World!</span><br></pre></td></tr></table></figure>
+
+<h3 id="wasm32-wasip2"><a href="#wasm32-wasip2" class="headerlink" title="wasm32-wasip2"></a>wasm32-wasip2</h3><p>Generate WASM files for target <code>wasm32-wasip2</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># /opt/wasi-sdk-23/bin/clang -v -Wl,--version --target=wasm32-wasip2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># /opt/wasi-sdk-23/bin/clang --target=wasm32-wasip2 -o hello-p2.wasm hello.c</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># file hello-p2.wasm</span></span><br><span class="line">hello-p2.wasm: WebAssembly (wasm) binary module version 0x1000d</span><br></pre></td></tr></table></figure>
+
+<h4 id="wasmtime"><a href="#wasmtime" class="headerlink" title="wasmtime"></a>wasmtime</h4><p>Earlier versions of <code>wasmtime</code> would report an error:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># wasmtime hello-p2.wasm</span></span><br><span class="line">Error: cannot execute a component without `--wasm component-model`</span><br></pre></td></tr></table></figure>
+
+<p>The new version of <code>wasmtime</code> has no problem:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># wasmtime hello-p1.wasm</span></span><br><span class="line">Hello, World!</span><br></pre></td></tr></table></figure>
+
+<h4 id="wasmedge"><a href="#wasmedge" class="headerlink" title="wasmedge"></a>wasmedge</h4><p><code>wasmedge</code> runs with an error, requiring component model support to be enabled:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># wasmedge hello-p2.wasm</span></span><br><span class="line">[error] loading failed: illegal opcode, Code: 0x117</span><br><span class="line">[error]     This instruction or syntax requires enabling Component Model proposal</span><br><span class="line">[error]     Bytecode offset: 0x00000004</span><br><span class="line">[error]     At AST node: component</span><br><span class="line">[error]     File name: <span class="string">&quot;hello-p2.wasm&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>In fact, it is still unsuccessful to enable support for the component model:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">root@wsl2-leap:~# wasmedge --enable-component hello-p2.wasm</span><br><span class="line">[warning] component model is enabled, this is experimental.</span><br><span class="line">[warning] component model is an experimental proposal</span><br><span class="line">[error] Might an invalid wasm file</span><br><span class="line">[error] loading failed: magic header not detected, Code: 0x103</span><br><span class="line">[error]     Bytecode offset: 0x000410a9</span><br><span class="line">[error]     At AST node: component</span><br><span class="line">[error]     At AST node: component</span><br><span class="line">[error]     File name: <span class="string">&quot;hello-p2.wasm&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="wasmer"><a href="#wasmer" class="headerlink" title="wasmer"></a>wasmer</h4><p><code>wasmer</code> does not support <strong>WASI 0.2</strong> yet:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># wasmer run hello-p2.wasm</span></span><br><span class="line">error: Unable to compile <span class="string">&quot;hello-p2.wasm&quot;</span></span><br><span class="line">╰─▶ 1: compile error</span><br></pre></td></tr></table></figure>
+
+<h4 id="wasmi"><a href="#wasmi" class="headerlink" title="wasmi"></a>wasmi</h4><p><code>wasmi</code> does not support <strong>WASI 0.2</strong> yet:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># wasmi_cli hello-p2.wasm</span></span><br><span class="line">Error: failed to parse and validate Wasm module <span class="string">&quot;hello-p2.wasm&quot;</span>: unknown binary version: 0xd, note: the WebAssembly component model feature is not enabled (at offset 0x0)</span><br></pre></td></tr></table></figure>
+
+<h4 id="wazero"><a href="#wazero" class="headerlink" title="wazero"></a>wazero</h4><p><code>wazero</code> does not support <strong>WASI 0.2</strong> yet:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># wazero run hello-p2.wasm</span></span><br><span class="line">error compiling wasm binary: invalid version header</span><br></pre></td></tr></table></figure>
+
+<h4 id="WebAssembly-Micro-Runtime"><a href="#WebAssembly-Micro-Runtime" class="headerlink" title="WebAssembly Micro Runtime"></a>WebAssembly Micro Runtime</h4><p><strong>WebAssembly Micro Runtime</strong> does not support WASI 0.2 yet:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># iwasm hello-p2.wasm</span></span><br><span class="line">WASM module load failed: unknown binary version</span><br></pre></td></tr></table></figure>
+
+<h2 id="Rust"><a href="#Rust" class="headerlink" title="Rust"></a>Rust</h2><p>Let’s test each WASI implementation with a <strong>Rust</strong> implementation of the classic <strong>Hello World</strong> program:</p>
+<h3 id="hello-rs"><a href="#hello-rs" class="headerlink" title="hello.rs"></a>hello.rs</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Hello, World!&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="wasm32-wasip1-1"><a href="#wasm32-wasip1-1" class="headerlink" title="wasm32-wasip1"></a>wasm32-wasip1</h3><p>Generate WASM files for target <code>wasm32-wasip1</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># rustc -v --target wasm32-wasip1 -o hello-p1.wasm hello.rs</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># file hello-p1.wasm</span></span><br><span class="line">hello-p1.wasm: WebAssembly (wasm) binary module version 0x1 (MVP)</span><br></pre></td></tr></table></figure>
+
+<p>All 6 WASI implementations used in this article support the target <code>wasm32-wasip1</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># wasmtime hello-p1.wasm</span></span><br><span class="line">Hello, World!</span><br><span class="line"></span><br><span class="line"><span class="comment"># wasmedge hello-p1.wasm</span></span><br><span class="line">Hello, World!</span><br><span class="line"></span><br><span class="line"><span class="comment"># wasmer hello-p1.wasm</span></span><br><span class="line">Hello, World!</span><br><span class="line"></span><br><span class="line"><span class="comment"># wasmi_cli hello-p1.wasm</span></span><br><span class="line">Hello, World!</span><br><span class="line"></span><br><span class="line"><span class="comment"># wazero run hello-p1.wasm</span></span><br><span class="line">Hello, World!</span><br><span class="line"></span><br><span class="line"><span class="comment"># iwasm hello-p1.wasm</span></span><br><span class="line">Hello, World!</span><br></pre></td></tr></table></figure>
+
+<h3 id="wasm32-wasip2-1"><a href="#wasm32-wasip2-1" class="headerlink" title="wasm32-wasip2"></a>wasm32-wasip2</h3><p>Generate WASM files for target wasm32-wasip2:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># rustc -v --target wasm32-wasip1 -o hello-p1.wasm hello.rs</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># file hello-p1.wasm</span></span><br><span class="line">hello-p1.wasm: WebAssembly (wasm) binary module version 0x1 (MVP)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Wrapping-Up"><a href="#Wrapping-Up" class="headerlink" title="Wrapping Up"></a>Wrapping Up</h2><p>The component model is expected to add <code>future</code> and <code>stream</code> keywords, which will provide integrated and composable <code>async</code> functionality. WASI Preview 3 is planned to be a major revision of the Preview 2 APIs using these new features in place of <code>wasi-io</code>‘s streams and polling interfaces. It’s also expected to incorporate lessons learned from implementation and user experience with Preview 2.</p>
+<p>When Preview 3 is launched, implementations may continue to support Preview 2, either by implementing Preview 3 along side it, or by virtualizing (polyfilling) Preview 2 in terms of Preview 3.</p>
+<p>The release criteria of Preview 3 will include that performance will be measured and addressed.</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/WebAssembly/wasi-sdk/">WASI-enabled WebAssembly C&#x2F;C++ toolchain - https://github.com/WebAssembly/wasi-sdk/</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/WebAssembly/WASI/tree/main/preview2">WASI Preview 2 - https://github.com/WebAssembly/WASI/tree/main/preview2</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.rust-lang.org/2024/04/09/updates-to-rusts-wasi-targets.html">Changes to Rust’s WASI targets - https://blog.rust-lang.org/2024/04/09/updates-to-rusts-wasi-targets.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/rust-lang/compiler-team/issues/694">New Tier-3 target: wasm32-wasi-preview2 - https://github.com/rust-lang/compiler-team/issues/694</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/rust-lang/compiler-team/issues/760">Promote wasm32-wasip2 to a Tier 2 target - https://github.com/rust-lang/compiler-team/issues/760</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/rust-lang/rust/pull/126967">Promote the wasm32-wasip2 target to Tier 2 - https://github.com/rust-lang/rust/pull/126967</a></li>
+<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/nightly/rustc/platform-support/wasm32-wasip2.html">Rust Platform Support - target wasm32-wasip2 - https://doc.rust-lang.org/nightly/rustc/platform-support/wasm32-wasip2.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=y3x4-nQeXxc">A stream of consciousness on the future of async in the Component Model by Luke Wagner @ Wasm I&#x2F;O 24 - https://www.youtube.com/watch?v=y3x4-nQeXxc</a></li>
+</ul>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Rust-project-promote-the-wasm32-wasip2-target-to-Tier-2"><span class="toc-number">1.</span> <span class="toc-text">Rust project promote the wasm32-wasip2 target to Tier 2</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-You-Need"><span class="toc-number">1.1.</span> <span class="toc-text">What You Need</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WASI-SDK"><span class="toc-number">1.2.</span> <span class="toc-text">WASI SDK</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#hello-c"><span class="toc-number">1.2.1.</span> <span class="toc-text">hello.c</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#wasm32-wasip1"><span class="toc-number">1.2.2.</span> <span class="toc-text">wasm32-wasip1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#wasm32-wasip2"><span class="toc-number">1.2.3.</span> <span class="toc-text">wasm32-wasip2</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#wasmtime"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">wasmtime</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#wasmedge"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">wasmedge</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#wasmer"><span class="toc-number">1.2.3.3.</span> <span class="toc-text">wasmer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#wasmi"><span class="toc-number">1.2.3.4.</span> <span class="toc-text">wasmi</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#wazero"><span class="toc-number">1.2.3.5.</span> <span class="toc-text">wazero</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#WebAssembly-Micro-Runtime"><span class="toc-number">1.2.3.6.</span> <span class="toc-text">WebAssembly Micro Runtime</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rust"><span class="toc-number">1.3.</span> <span class="toc-text">Rust</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#hello-rs"><span class="toc-number">1.3.1.</span> <span class="toc-text">hello.rs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#wasm32-wasip1-1"><span class="toc-number">1.3.2.</span> <span class="toc-text">wasm32-wasip1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#wasm32-wasip2-1"><span class="toc-number">1.3.3.</span> <span class="toc-text">wasm32-wasip2</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Wrapping-Up"><span class="toc-number">1.4.</span> <span class="toc-text">Wrapping Up</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">1.5.</span> <span class="toc-text">Reference</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Cargo Source Replacement | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Cargo Source Replacement
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/04/04</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/Rust/">Rust</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#Rust" class='tag'>Rust</a>
+
+
+          
+        </div>
+        <h1 id="Cargo-Source-Replacement"><a href="#Cargo-Source-Replacement" class="headerlink" title="Cargo Source Replacement"></a>Cargo Source Replacement</h1><h2 id="Environment-variables-and-configurations"><a href="#Environment-variables-and-configurations" class="headerlink" title="Environment variables and configurations"></a>Environment variables and configurations</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/cargo/reference/config.html">https://doc.rust-lang.org/cargo/reference/config.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/cargo/reference/environment-variables.html">https://doc.rust-lang.org/cargo/reference/environment-variables.html</a></li>
+<li>CARGO_HOME: ~&#x2F;.rustup or %USERPROFILE%&#x2F;.rustup</li>
+<li>CARGO_HTTP_MULTIPLEXING: true</li>
+<li>CARGO_HTTP_SSL_VERSION: tlsv1.3</li>
+<li>CARGO_HTTP_PROXY: socks5h:&#x2F;&#x2F;proxy.example.com | <a target="_blank" rel="noopener" href="http://proxy.example.com/">http://proxy.example.com:80</a></li>
+<li>CARGO_HTTP_TIMEOUT: 10</li>
+<li>CARGO_NET_OFFLINE: false</li>
+<li>RUSTUP_DIST_SERVER: <a target="_blank" rel="noopener" href="https://static.rust-lang.org/">https://static.rust-lang.org</a></li>
+<li>RUSTUP_UPDATE_ROOT: <a target="_blank" rel="noopener" href="https://static.rust-lang.org/rustup">https://static.rust-lang.org/rustup</a></li>
+<li>RUSTUP_TOOLCHAIN: stable | beta | nightly</li>
+<li>RUSTUP_IO_THREADS: 4</li>
+</ul>
+<h2 id="Rustup-profiles"><a href="#Rustup-profiles" class="headerlink" title="Rustup profiles"></a>Rustup profiles</h2><p>Rustup profiles are groups of components you can choose to download while installing a new Rust toolchain. The profiles available at this time are <strong>minimal</strong>, <strong>default</strong>, and <strong>complete</strong>:</p>
+<ul>
+<li>The <strong>minimal</strong> profile includes as few components as possible to get a working compiler (<strong>rustc</strong>, <strong>rust-std</strong>, and <strong>cargo</strong>). It’s recommended to use this component on Windows systems if you don’t use local documentation, and in CI.</li>
+<li>The <strong>default</strong> profile includes all the components previously installed by default (rustc, rust-std, cargo, and rust-docs) plus <strong>rustfmt</strong> and <strong>clippy</strong>. This profile will be used by rustup by default, and it’s the one recommended for general use.</li>
+<li>The <strong>complete</strong> profile includes all the components available through rustup, including <strong>miri</strong> and IDE integration tools (<strong>rls</strong> and <strong>rust-analysis</strong>).</li>
+</ul>
+<p>To change the rustup profile you can use the rustup set profile command. For example, to select the minimal profile you can use:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rustup <span class="built_in">set</span> profile minimal</span><br></pre></td></tr></table></figure>
+
+<h2 id="Rustup-components-history"><a href="#Rustup-components-history" class="headerlink" title="Rustup components history"></a>Rustup components history</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://rust-lang.github.io/rustup-components-history/">https://rust-lang.github.io/rustup-components-history/</a></li>
+<li><a target="_blank" rel="noopener" href="https://rust-lang.github.io/rustup-components-history/x86_64-unknown-linux-gnu.html">https://rust-lang.github.io/rustup-components-history/x86_64-unknown-linux-gnu.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://rust-lang.github.io/rustup-components-history/x86_64-pc-windows-msvc.html">https://rust-lang.github.io/rustup-components-history/x86_64-pc-windows-msvc.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://rust-lang.github.io/rustup-components-history/x86_64-unknown-freebsd.html">https://rust-lang.github.io/rustup-components-history/x86_64-unknown-freebsd.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://rust-lang.github.io/rustup-components-history/x86_64-unknown-netbsd.html">https://rust-lang.github.io/rustup-components-history/x86_64-unknown-netbsd.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://rust-lang.github.io/rustup-components-history/x86_64-apple-darwin.html">https://rust-lang.github.io/rustup-components-history/x86_64-apple-darwin.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://rust-lang.github.io/rustup-components-history/s390x-unknown-linux-gnu.html">https://rust-lang.github.io/rustup-components-history/s390x-unknown-linux-gnu.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://rust-lang.github.io/rustup-components-history/riscv64gc-unknown-linux-gnu.html">https://rust-lang.github.io/rustup-components-history/riscv64gc-unknown-linux-gnu.html</a></li>
+</ul>
+<h2 id="Rustup-installation"><a href="#Rustup-installation" class="headerlink" title="Rustup installation"></a>Rustup installation</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># curl --proto &#x27;=https&#x27; --tlsv1.2 -sSf https://sh.rustup.rs \</span></span><br><span class="line">    | sh -s -- --profile minimal --default-toolchain nightly</span><br><span class="line"></span><br><span class="line"><span class="comment"># export CARGO_HTTP_PROXY=&quot;socks5h://proxy.example.com&quot;</span></span><br><span class="line"><span class="comment"># export CARGO_HOME=/opt/rust</span></span><br><span class="line"><span class="comment"># export CARGO_HTTP_MULTIPLEXING=true</span></span><br><span class="line"></span><br><span class="line">$ curl --proto <span class="string">&#x27;=https&#x27;</span> --tlsv1.2 -sSf https://sh.rustup.rs | sh</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$url</span> = <span class="string">&quot;https://static.rust-lang.org/rustup/dist/x86_64-pc-windows-msvc/rustup-init.exe&quot;</span></span><br><span class="line"><span class="variable">$output</span> = <span class="string">&quot;rustup-init-x86_64-pc-windows-msvc.exe&quot;</span></span><br><span class="line"><span class="variable">$start_time</span> = <span class="built_in">Get-Date</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">Invoke-WebRequest</span> <span class="literal">-Uri</span> <span class="variable">$url</span> <span class="literal">-OutFile</span> <span class="variable">$output</span></span><br><span class="line"><span class="built_in">Write-Output</span> <span class="string">&quot;Time taken: <span class="variable">$</span>((Get-Date).Subtract(<span class="variable">$start_time</span>).Seconds) second(s)&quot;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$url</span> = <span class="string">&quot;https://static.rust-lang.org/rustup/dist/x86_64-pc-windows-msvc/rustup-init.exe&quot;</span></span><br><span class="line"><span class="variable">$output</span> = <span class="string">&quot;rustup-init-x86_64-pc-windows-msvc.exe&quot;</span></span><br><span class="line"><span class="variable">$start_time</span> = <span class="built_in">Get-Date</span></span><br><span class="line"></span><br><span class="line">(<span class="built_in">New-Object</span> System.Net.WebClient).DownloadFile(<span class="variable">$url</span>, <span class="variable">$output</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">Write-Output</span> <span class="string">&quot;Time taken: <span class="variable">$</span>((Get-Date).Subtract(<span class="variable">$start_time</span>).Seconds) second(s)&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$url</span> = <span class="string">&quot;https://static.rust-lang.org/rustup/dist/x86_64-pc-windows-msvc/rustup-init.exe&quot;</span></span><br><span class="line"><span class="variable">$output</span> = <span class="string">&quot;rustup-init-x86_64-pc-windows-msvc.exe&quot;</span></span><br><span class="line"><span class="variable">$start_time</span> = <span class="built_in">Get-Date</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">Import-Module</span> BitsTransfer</span><br><span class="line"><span class="built_in">Start-BitsTransfer</span> <span class="literal">-Source</span> <span class="variable">$url</span> <span class="literal">-Destination</span> <span class="variable">$output</span></span><br><span class="line"><span class="comment"># Start-BitsTransfer -Source $url -Destination $output -Asynchronous</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">Write-Output</span> <span class="string">&quot;Time taken: <span class="variable">$</span>((Get-Date).Subtract(<span class="variable">$start_time</span>).Seconds) second(s)&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Build-offline"><a href="#Build-offline" class="headerlink" title="Build offline"></a>Build offline</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cargo fetch --target x86_64-unknown-linux-gnu --verbose</span><br><span class="line"></span><br><span class="line">cargo build --release --offline --frozen --target x86_64-unknown-linux-gnu --verbose</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cargo vendor</span><br><span class="line"></span><br><span class="line">cargo build --release --offline --frozen --target x86_64-unknown-linux-gnu --verbose</span><br></pre></td></tr></table></figure>
+
+<h2 id="Overriding-dependencies"><a href="#Overriding-dependencies" class="headerlink" title="Overriding dependencies"></a>Overriding dependencies</h2><p>The desire to <a target="_blank" rel="noopener" href="https://doc.rust-lang.org/cargo/reference/overriding-dependencies.html">override a dependency</a> can arise through a number of scenarios. Most of them, however, boil down to the ability to work with a crate before it’s been published to <a target="_blank" rel="noopener" href="https://crates.io/">crates.io</a>. For example:</p>
+<ul>
+<li>A crate you’re working on is also used in a much larger application you’re working on, and you’d like to test a bug fix to the library inside of the larger application.</li>
+<li>An upstream crate you don’t work on has a new feature or a bug fix on the master branch of its git repository which you’d like to test out.</li>
+<li>You’re about to publish a new major version of your crate, but you’d like to do integration testing across an entire package to ensure the new major version works.</li>
+<li>You’ve submitted a fix to an upstream crate for a bug you found, but you’d like to immediately have your application start depending on the fixed version of the crate to avoid blocking on the bug fix getting merged.</li>
+</ul>
+<p>These scenarios can be solved with the <a target="_blank" rel="noopener" href="https://doc.rust-lang.org/cargo/reference/overriding-dependencies.html#the-patch-section">[patch] manifest section</a>.</p>
+<p>Let’s say you’re working with the <a target="_blank" rel="noopener" href="https://crates.io/crates/uuid">uuid crate</a> but while you’re working on it you discover a bug. You are, however, quite enterprising so you decide to also try to fix the bug!</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[package]</span></span><br><span class="line"><span class="attr">name</span> = <span class="string">&quot;my-library&quot;</span></span><br><span class="line"><span class="attr">version</span> = <span class="string">&quot;0.1.0&quot;</span></span><br><span class="line"><span class="attr">authors</span> = [<span class="string">&quot;...&quot;</span>]</span><br><span class="line"></span><br><span class="line"><span class="section">[dependencies]</span></span><br><span class="line"><span class="attr">uuid</span> = <span class="string">&quot;1.0&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="section">[patch.crates-io]</span></span><br><span class="line"><span class="attr">uuid</span> = &#123; path = <span class="string">&quot;../path/to/uuid&quot;</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>If you are working with an unpublished minor version, just edit <strong>Cargo.toml</strong>:</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[package]</span></span><br><span class="line"><span class="attr">name</span> = <span class="string">&quot;my-library&quot;</span></span><br><span class="line"><span class="attr">version</span> = <span class="string">&quot;0.1.0&quot;</span></span><br><span class="line"><span class="attr">authors</span> = [<span class="string">&quot;...&quot;</span>]</span><br><span class="line"></span><br><span class="line"><span class="section">[dependencies]</span></span><br><span class="line"><span class="attr">uuid</span> = <span class="string">&quot;1.0&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="section">[patch.crates-io]</span></span><br><span class="line"><span class="attr">uuid</span> = &#123; git = <span class="string">&quot;https://github.com/uuid-rs/uuid&quot;</span>, branch = <span class="string">&quot;2.0.0&quot;</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>In case the dependency you want to override isn’t loaded from <a target="_blank" rel="noopener" href="https://crates.io/">crates.io</a>, you’ll have to change a bit how you use <strong>[patch]</strong>. For example, if the dependency is a git dependency, you can override it to a local path with:</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[patch.&quot;https://github.com/your/repository&quot;]</span></span><br><span class="line"><span class="attr">my-library</span> = &#123; path = <span class="string">&quot;../my-library/path&quot;</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Using-an-alternate-registry"><a href="#Using-an-alternate-registry" class="headerlink" title="Using an alternate registry"></a>Using an alternate registry</h2><p>To use a <a target="_blank" rel="noopener" href="https://doc.rust-lang.org/cargo/reference/registries.html">registry</a> other than <a target="_blank" rel="noopener" href="https://crates.io/">crates.io</a>, the name and index URL of the registry must be added to a <strong>.cargo&#x2F;config</strong> file. The registries table has a key for each registry, for example:</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[registries]</span></span><br><span class="line"><span class="attr">my-registry</span> = &#123; index = <span class="string">&quot;https://my-intranet:8080/git/index&quot;</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>The <strong>index</strong> key should be a URL to a git repository with the registry’s index. A crate can then depend on a crate from another registry by specifying the <strong>registry</strong> key and a value of the registry’s name in that dependency’s entry in <strong>Cargo.toml</strong>:</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[package]</span></span><br><span class="line"><span class="attr">name</span> = <span class="string">&quot;my-project&quot;</span></span><br><span class="line"><span class="attr">version</span> = <span class="string">&quot;0.1.0&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="section">[dependencies]</span></span><br><span class="line"><span class="attr">other-crate</span> = &#123; version = <span class="string">&quot;1.0&quot;</span>, registry = <span class="string">&quot;my-registry&quot;</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Source-replacement"><a href="#Source-replacement" class="headerlink" title="Source replacement"></a>Source replacement</h2><p>This document is about <a target="_blank" rel="noopener" href="https://doc.rust-lang.org/cargo/reference/source-replacement.html">replacing the crate index</a>. You can read about overriding dependencies in the <a target="_blank" rel="noopener" href="https://doc.rust-lang.org/cargo/reference/overriding-dependencies.html">overriding dependencies</a> section of this documentation.</p>
+<p>A source is a provider that contains crates that may be included as dependencies for a package. Cargo supports the ability to <strong>replace one source</strong> with another to express strategies such as:</p>
+<ul>
+<li><p>Vendoring - custom sources can be defined which represent crates on the local filesystem. These sources are subsets of the source that they’re replacing and can be checked into packages if necessary.</p>
+</li>
+<li><p>Mirroring - sources can be replaced with an equivalent version which acts as a cache for crates.io itself.</p>
+</li>
+</ul>
+<p>Cargo has a core assumption about source replacement that the source code is exactly the same from both sources. Note that this also means that a replacement source is not allowed to have crates which are not present in the original source.</p>
+<p>As a consequence, source replacement is not appropriate for situations such as patching a dependency or a private registry. Cargo supports patching dependencies through the usage of <a target="_blank" rel="noopener" href="https://doc.rust-lang.org/cargo/reference/overriding-dependencies.html">the [patch] key</a>, and private registry support is described in <a target="_blank" rel="noopener" href="https://doc.rust-lang.org/cargo/reference/registries.html">the Registries chapter</a>.</p>
+<p>Configuration of replacement sources is done through <strong>.cargo&#x2F;config</strong> and the full set of available keys are:</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[source]</span></span><br><span class="line"></span><br><span class="line"><span class="section">[source.my-vendor-source]</span></span><br><span class="line"><span class="attr">directory</span> = <span class="string">&quot;vendor&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="section">[source.crates-io]</span></span><br><span class="line"><span class="attr">replace-with</span> = <span class="string">&quot;my-vendor-source&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Each source has its own table where the key is the name of the source</span></span><br><span class="line"><span class="section">[source.the-source-name]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Indicate that `the-source-name` will be replaced with `another-source`,</span></span><br><span class="line"><span class="comment"># defined elsewhere</span></span><br><span class="line"><span class="attr">replace-with</span> = <span class="string">&quot;another-source&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Several kinds of sources can be specified (described in more detail below):</span></span><br><span class="line"><span class="attr">registry</span> = <span class="string">&quot;https://example.com/path/to/index&quot;</span></span><br><span class="line"><span class="attr">local-registry</span> = <span class="string">&quot;path/to/registry&quot;</span></span><br><span class="line"><span class="attr">directory</span> = <span class="string">&quot;path/to/vendor&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Git sources can optionally specify a branch/tag/rev as well</span></span><br><span class="line"><span class="attr">git</span> = <span class="string">&quot;https://example.com/path/to/repo&quot;</span></span><br><span class="line"><span class="comment"># branch = &quot;master&quot;</span></span><br><span class="line"><span class="comment"># tag = &quot;v1.0.1&quot;</span></span><br><span class="line"><span class="comment"># rev = &quot;313f44e8&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Vendor-all-dependencies-for-a-project-locally"><a href="#Vendor-all-dependencies-for-a-project-locally" class="headerlink" title="Vendor all dependencies for a project locally"></a>Vendor all dependencies for a project locally</h2><p>This cargo subcommand will vendor all crates.io and git dependencies for a project into the specified directory at <strong><path></strong>. After this command completes the vendor directory specified by <strong><path></strong> will contain all remote sources from dependencies specified. Additional manifests beyond the default one can be specified with the <strong>-s</strong> option.</p>
+<p>The <strong>cargo vendor</strong> command will also print out the configuration necessary to use the vendored sources, which you will need to add to <strong>.cargo&#x2F;config</strong>.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cargo vendor [OPTIONS] [PATH]</span><br></pre></td></tr></table></figure>
+
+<h2 id="Prefetch-popular-dependencies"><a href="#Prefetch-popular-dependencies" class="headerlink" title="Prefetch popular dependencies"></a>Prefetch popular dependencies</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cargo install cargo-prefetch</span><br><span class="line">cargo prefetch</span><br><span class="line">cargo prefetch --list</span><br><span class="line"></span><br><span class="line">cargo prefetch serde</span><br><span class="line">cargo prefetch serde@=1.0.90</span><br><span class="line"></span><br><span class="line">cargo prefetch --top-downloads=400</span><br></pre></td></tr></table></figure>
+
+<h2 id="Find-out-what-takes-most-of-the-space-in-your-executable"><a href="#Find-out-what-takes-most-of-the-space-in-your-executable" class="headerlink" title="Find out what takes most of the space in your executable."></a>Find out what takes most of the space in your executable.</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">cargo install cargo-bloat</span><br><span class="line">cargo install cargo-bloat --features regex-filter</span><br><span class="line"></span><br><span class="line"><span class="comment"># Get a list of the biggest functions in the release build</span></span><br><span class="line">% cargo bloat --release -n 10</span><br><span class="line"></span><br><span class="line"><span class="comment"># Get a list of the biggest dependencies in the release build:</span></span><br><span class="line">% cargo bloat --release --crates</span><br><span class="line"></span><br><span class="line"><span class="comment"># Get a list of the biggest functions in the release build filtered by the regexp:</span></span><br><span class="line"><span class="comment"># Note: you have to build cargo-bloat with a regex-filter feature enabled.</span></span><br><span class="line">% cargo bloat --release --filter <span class="string">&#x27;^__&#x27;</span> -n 10</span><br></pre></td></tr></table></figure>
+
+<h2 id="Building-dependency-graphs"><a href="#Building-dependency-graphs" class="headerlink" title="Building dependency graphs"></a>Building dependency graphs</h2><p>Dependencies are colored depending on their kind:</p>
+<ul>
+<li>Black: regular dependency</li>
+<li>Purple: build dependency</li>
+<li>Blue: dev dependency</li>
+<li>Red: optional dependency</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cargo install cargo-deps</span><br><span class="line">cargo deps | dot -Tpng &gt; graph.png</span><br><span class="line"></span><br><span class="line"><span class="comment"># The default behavior is to exclude optional, dev, and build dependencies. To see all dependencies, pass --all-deps:</span></span><br><span class="line">cargo deps --all-deps | dot -Tpng &gt; graph.png</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Cargo-Source-Replacement"><span class="toc-number">1.</span> <span class="toc-text">Cargo Source Replacement</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Environment-variables-and-configurations"><span class="toc-number">1.1.</span> <span class="toc-text">Environment variables and configurations</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rustup-profiles"><span class="toc-number">1.2.</span> <span class="toc-text">Rustup profiles</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rustup-components-history"><span class="toc-number">1.3.</span> <span class="toc-text">Rustup components history</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rustup-installation"><span class="toc-number">1.4.</span> <span class="toc-text">Rustup installation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Build-offline"><span class="toc-number">1.5.</span> <span class="toc-text">Build offline</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Overriding-dependencies"><span class="toc-number">1.6.</span> <span class="toc-text">Overriding dependencies</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Using-an-alternate-registry"><span class="toc-number">1.7.</span> <span class="toc-text">Using an alternate registry</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Source-replacement"><span class="toc-number">1.8.</span> <span class="toc-text">Source replacement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vendor-all-dependencies-for-a-project-locally"><span class="toc-number">1.9.</span> <span class="toc-text">Vendor all dependencies for a project locally</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Prefetch-popular-dependencies"><span class="toc-number">1.10.</span> <span class="toc-text">Prefetch popular dependencies</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Find-out-what-takes-most-of-the-space-in-your-executable"><span class="toc-number">1.11.</span> <span class="toc-text">Find out what takes most of the space in your executable.</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Building-dependency-graphs"><span class="toc-number">1.12.</span> <span class="toc-text">Building dependency graphs</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

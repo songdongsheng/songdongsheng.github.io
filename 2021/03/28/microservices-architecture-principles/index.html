@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Microservices Architecture Principles | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Microservices Architecture Principles
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2021/03/28</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Architecture/">Architecture</a>/ <a class="article-category-link" href="/categories/Architecture/Principle/">Principle</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Architecture" class='tag'>Architecture</a>
+
+  <a href="/tags/#Principle" class='tag'>Principle</a>
+
+
+          
+        </div>
+        <h1 id="Microservices-Architecture-Principles"><a href="#Microservices-Architecture-Principles" class="headerlink" title="Microservices Architecture Principles"></a>Microservices Architecture Principles</h1><h2 id="What-is-a-microservices-architecture"><a href="#What-is-a-microservices-architecture" class="headerlink" title="What is a microservices architecture"></a>What is a microservices architecture</h2><p>Essentially, microservices architecture is a method of software development that aims to break down an application to isolate key functions, each of these functions is called a “service”. These services are designed to meet a specific and unique business need, for example: user management, payments, sending emails or even notifications. In addition, they are independent and modular, this allows each to be developed and deployed without affecting the others. This type of architecture is intended to be the opposite of monolithic architectures which are built as a single autonomous unit.</p>
+<p>This definition may recall another type of architecture quite similar, Service Oriented Architecture (SOA), a software design already well stated.</p>
+<p>What makes an SOA architecture different from a microservices architecture?</p>
+<p>Let’s start with a clear observation, made by the precursors of microservices: this architecture is an extension of the concept of SOA. Most of the design principles for microservices were already available in the SOA world. Some people claim that “the microservices architecture is a well-designed SOA architecture.” Let’s see the differences between SOA and microservices along several axes:</p>
+<ul>
+<li><p><strong>Size</strong>: One of the big differences is the size and scope of services. As you can guess from the name, in microservices, the size of each service is much smaller than the one of SOA services. In a microservices architecture, each service has a single responsibility while in the SOA architecture, services can contain many business functions.</p>
+</li>
+<li><p><strong>Reusability</strong>: One of the goals of SOA is to reuse components without worrying about coupling while in microservices we try to minimize reuse since this creates dependencies that reduce agility and resiliency. A weak coupling is preferred, even if it means having code duplication.</p>
+</li>
+<li><p><strong>Communication</strong>: In SOA, communication between services is usually done synchronously through an enterprise service bus (ESB), this introduces a critical point of failure and latency. In a microservices application, fault tolerance is better thanks to the independence of each service, asynchronous communication is also privileged between services (for example a publish subscribe model can be used to allow a service to stay up to date on changes to another one’s data), enabling high availability.</p>
+</li>
+<li><p><strong>Data duplication</strong>: One of the goals of an SOA is to allow all applications to access data synchronously directly at the source. With a microservices architecture, each service has access to all the data it needs locally (ideally) to have maximum performance and agility, even if this means having to duplicate data and therefore add complexity.</p>
+</li>
+</ul>
+<p>Let’s sum it all up with a diagram:</p>
+<p><img src="/2021/03/28/microservices-architecture-principles/monolith-soa-msa.png" alt="Monolith, SOA and Microservices Architecture"></p>
+<h2 id="Advantages-and-disadvantages-of-a-microservices-architecture"><a href="#Advantages-and-disadvantages-of-a-microservices-architecture" class="headerlink" title="Advantages and disadvantages of a microservices architecture"></a>Advantages and disadvantages of a microservices architecture</h2><p>Now that we have a better understanding of what a microservices architecture is, let’s see what are the advantages and disadvantages of it compared to a monolith architecture. We’ve seen a number of benefits before, but let’s go over them all:</p>
+<h3 id="Advantages"><a href="#Advantages" class="headerlink" title="Advantages"></a>Advantages</h3><ul>
+<li><p><strong>Independent Development</strong>: Teams can choose the technologies that best suit each service using various technology stacks and are not limited by the choices made at the start of the project. Additionally, a single development team can build, test, and deploy a service, enabling faster deployment and facilitating continuous innovation. It is also more difficult to make mistakes since there are strong boundaries between the different services.</p>
+</li>
+<li><p><strong>Independent deployment</strong>: Microservices are deployed independently. A service can be updated without having to redeploy the entire application, making it easier to manage bug fixes and new features. This simplifies integration and continuous deployment. In many traditional applications, if there is a bug in one part of the application, it can block the entire release process.</p>
+</li>
+<li><p><strong>Independent scaling</strong>: Services can scale independently to suit needs, optimizing costs and time since there is no need to scale the entire application as you would with a monolith.</p>
+</li>
+<li><p><strong>Small Targeted Teams</strong>: Teams can be targeted to only one service, making code easier to understand and making it easier for new members to join the team, no need to spend weeks figuring out how a complex monolith works. It also promotes flexibility, large teams tend to be less productive because communication is slower, management time increases and agility decreases.</p>
+</li>
+<li><p><strong>Small Code Base</strong>: In a monolithic application, code dependencies tend to get mixed up over time. Adding new functionality requires changing the code in a lot of places. In a microservices architecture, which does not share code or database, these dependencies are minimized, which makes it easier to add new features. It also complements the previous point that it makes it easier to understand the code and introduce new members to the team.</p>
+</li>
+<li><p><strong>Data isolation</strong>: In a microservices architecture, each service has private access to its database (ideally), we can then perform an update of the database schema without affecting the other services. In a monolithic application, schema updates can become very difficult and risky since multiple parts of the application can use the same data.</p>
+</li>
+<li><p><strong>Resilience</strong>: With a microservices architecture, critical points of failure are considerably reduced. When a service goes down, the whole application does not stop functioning as it does with the monolithic model and therefore the risk is also reduced when new features are developed. Errors are also isolated and therefore easier to correct.</p>
+</li>
+<li><p><strong>Technological Advances</strong>: Recent advancements in cloud technologies and containerization make setting up a microservices architecture increasingly simple. Every cloud provider has solutions for this type of architecture to make life easier for developers.</p>
+</li>
+</ul>
+<h3 id="Disadvantages"><a href="#Disadvantages" class="headerlink" title="Disadvantages"></a>Disadvantages</h3><p>Now that we have a better idea of all the advantages of a microservices architecture, let’s see what the disadvantages and challenges are:</p>
+<ul>
+<li><p><strong>Complexity</strong>: While each service is simpler, the system as a whole is more complex. Because this is a distributed system, care should be taken to select and set up all services and databases, and then deploy each of these components independently. All the challenges of a distributed system must be taken into account.</p>
+</li>
+<li><p><strong>Testing</strong>: Having multitude independent services can make writing tests more complex, especially when there are many dependencies between services. A mock must be used for each dependent service to be able to unit test a service.</p>
+</li>
+<li><p><strong>Data Integrity</strong>: Microservices have a distributed database architecture, which is a challenge for data integrity. Some business transactions, which require updating multiple business functions of the application, need to update multiple databases owned by different services. This requires setting up eventual consistency of data, which is obviously more complex and less intuitive for developers.</p>
+</li>
+<li><p><strong>Network latency</strong>: Using many small services can result in increased communications between services. Also, if you have a chain of dependency between services to perform a business transaction, the additional latency that results can become a problem. Asynchronous communications should be favored when usage permits, but this once again adds complexity to the system.</p>
+</li>
+</ul>
+<p>According to these advantages and disadvantages it is then more or less relevant to adopt a microservices architecture, there is no universal rule, each project is unique and the motivations towards one architecture or the other depend on the needs and the context of it.</p>
+<h2 id="Orchestration-vs-Choreography"><a href="#Orchestration-vs-Choreography" class="headerlink" title="Orchestration vs Choreography"></a>Orchestration vs Choreography</h2><p>In a microservices architecture, it is inevitable that some services need to communicate with each other, these communications can be achieved in two ways, orchestration or choreography. A lot of documentation exists on these two models, including a publication by Chaitanya Rudrabhatla in the International Journal of Advanced Computer Science and Applications (IJACSA), executive director and architect at Sony Pictures Entertainment.</p>
+<h3 id="Orchestration"><a href="#Orchestration" class="headerlink" title="Orchestration"></a>Orchestration</h3><p>The first intuitive idea to make the services communicate with each other is quite simply to make REST calls between the services:</p>
+<p><img src="/2021/03/28/microservices-architecture-principles/orchestration-rest.png" alt="Make REST calls between the services"></p>
+<p>This approach is simple to set up but the system quickly becomes complex to maintain since we introduce dependencies between services, which we want to avoid as much as possible. A more thoughtful way to do this transaction is to introduce an additional abstraction with a new service, an orchestrator:</p>
+<p><img src="/2021/03/28/microservices-architecture-principles/orchestration-orchestrator.png" alt="Orchestrator"></p>
+<p>The orchestrator is the only one to have knowledge of the other services, in case of an update of the services, it will still be necessary to be careful not to “break” the orchestrator, but we have the advantage that it is the only one affected by the changes. However, with this approach or the previous one, there are still drawbacks which are the latency this can introduce due to synchronous calls, and poor fault tolerance. Also on a system made up of a large amount of services, one can quickly come up with a system with a lot of dependencies that looks like a distributed monolith. Orchestration should therefore be used sparingly.</p>
+<h3 id="Choreography"><a href="#Choreography" class="headerlink" title="Choreography"></a>Choreography</h3><p>The choreography overcomes the various disadvantages of orchestration, there is no dependency or latency in the system. The solution is to use events with a publish-subscribe model:</p>
+<p><img src="/2021/03/28/microservices-architecture-principles/choreography.png" alt="Choreography"></p>
+<p>When an action is taken, the service in question will publish an event to which the other services will be able to subscribe to make the necessary changes. Communication is asynchronous and services are unaware of each other, therefore the system is efficient and easy to maintain on a large scale. In the event of a service failure, the system continues to operate, but the consistency of the data can be lost, the high availability of the system is favored, in cases where the consistency of the data is critical, it is completely possible to set up circuit breakers to automatically deactivate certain services.</p>
+<h2 id="Advice-and-good-practices"><a href="#Advice-and-good-practices" class="headerlink" title="Advice and good practices"></a>Advice and good practices</h2><p>The following tips and best practices are largely inspired by Michael Bryzek, co-founder and CTO at Flow.io, and his talk “Design microservice architectures the right way”, I truly recommend everyone to watch this video.</p>
+<h3 id="Microservices-languages"><a href="#Microservices-languages" class="headerlink" title="Microservices languages"></a>Microservices languages</h3><p>We saw previously that one of the advantages of a microservices architecture is that each service can be developed with the language you want. In practice, it is advisable to limit the number of languages used as much as possible. This allows developers to easily switch teams and work on any service and be productive very quickly, even more if there is strong consistency between services. By limiting the number of languages, recruiting is also simplified.</p>
+<h3 id="API-definition"><a href="#API-definition" class="headerlink" title="API definition"></a>API definition</h3><p>An architecture driven by its specifications is the best way to produce quality APIs. API definitions can be made in JSON or YAML independently of the code (not generated with annotations) so as not to be dependent on the languages used in the services. All placed in a separate project that brings together all the specifications in order to have a single place to manage the specifications. It is then possible to set up a linter on this project to guarantee the consistency of style of all the APIs. In the definition of APIs, it is wise to provide a route to know the state of the service (example: “&#x2F;health”) and also to provide for API versioning so as never to “break” anything for the users who use it.</p>
+<h3 id="Code-generation"><a href="#Code-generation" class="headerlink" title="Code generation"></a>Code generation</h3><p>Thanks to a good definition of APIs, it is possible to generate code to create all the services. In this way we are certain that the definition really corresponds to what the services expose (the generated code must obviously not be modified, but must expose interfaces allowing to implement the necessary methods) and we also ensure a strong consistency. This avoids wasting time with repetitive tasks that have no added value. In this generation of code, you also have to plan for the generation of the necessary tests and mocks, it is important to think about this from the start to avoid it becoming very complex.</p>
+<h3 id="Databases"><a href="#Databases" class="headerlink" title="Databases"></a>Databases</h3><p>Each service has its own database that no other service can access. If this very important rule is lost, database updates become risky and complex since fixes must be made in all the services that access this database. If a service needs to make changes based on another service, it must go through its API or through events.</p>
+<h3 id="Continuous-deployment"><a href="#Continuous-deployment" class="headerlink" title="Continuous deployment"></a>Continuous deployment</h3><p>Continuous deployment is a prerequisite for managing a microservices architecture. Without continuous deployment, each service would have to be deployed by hand, which would be time consuming, error prone, and significantly slow down the time between each update.</p>
+<h3 id="Services-communication"><a href="#Services-communication" class="headerlink" title="Services communication"></a>Services communication</h3><p>To allow communication between services, it is better to use event streams rather than using REST requests on APIs, only use APIs in case there is no other choice than to do a synchronous transaction. Using events with a publish-subscribe model reduces latency for users (since communication is asynchronous), and in the event of an error, it is possible to replay a chain of events if they were recorded in a newspaper. In addition, you can trace everything that has happened in the system easily. As with APIs, it is important to maintain an event schema specification that all developers can trust. Lastly, each event producer must have at least one recipient and each consumer must be idempotent.</p>
+<h3 id="Maintenance-of-dependencies"><a href="#Maintenance-of-dependencies" class="headerlink" title="Maintenance of dependencies"></a>Maintenance of dependencies</h3><p>Maintaining a microservices architecture can be a challenge. Each service has dependencies that need to be updated while ensuring that the service continues to function properly. Depending on the number of architectural departments, this task can take a long time. Fortunately, this process can be automated with a script that runs every week (for example), and with the testing in place, we can ensure that the architecture continues to function.</p>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Microservices-Architecture-Principles"><span class="toc-number">1.</span> <span class="toc-text">Microservices Architecture Principles</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-a-microservices-architecture"><span class="toc-number">1.1.</span> <span class="toc-text">What is a microservices architecture</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Advantages-and-disadvantages-of-a-microservices-architecture"><span class="toc-number">1.2.</span> <span class="toc-text">Advantages and disadvantages of a microservices architecture</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Advantages"><span class="toc-number">1.2.1.</span> <span class="toc-text">Advantages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Disadvantages"><span class="toc-number">1.2.2.</span> <span class="toc-text">Disadvantages</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Orchestration-vs-Choreography"><span class="toc-number">1.3.</span> <span class="toc-text">Orchestration vs Choreography</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Orchestration"><span class="toc-number">1.3.1.</span> <span class="toc-text">Orchestration</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Choreography"><span class="toc-number">1.3.2.</span> <span class="toc-text">Choreography</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Advice-and-good-practices"><span class="toc-number">1.4.</span> <span class="toc-text">Advice and good practices</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Microservices-languages"><span class="toc-number">1.4.1.</span> <span class="toc-text">Microservices languages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#API-definition"><span class="toc-number">1.4.2.</span> <span class="toc-text">API definition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Code-generation"><span class="toc-number">1.4.3.</span> <span class="toc-text">Code generation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Databases"><span class="toc-number">1.4.4.</span> <span class="toc-text">Databases</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Continuous-deployment"><span class="toc-number">1.4.5.</span> <span class="toc-text">Continuous deployment</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Services-communication"><span class="toc-number">1.4.6.</span> <span class="toc-text">Services communication</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Maintenance-of-dependencies"><span class="toc-number">1.4.7.</span> <span class="toc-text">Maintenance of dependencies</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

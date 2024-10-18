@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>.NET Core Life Cycle | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          .NET Core Life Cycle
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/03/22</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/NET/">.NET</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#.NET" class='tag'>.NET</a>
+
+
+          
+        </div>
+        <h1 id="NET-Core-Life-Cycle"><a href="#NET-Core-Life-Cycle" class="headerlink" title=".NET Core Life Cycle"></a>.NET Core Life Cycle</h1><h2 id="NET-Programming-Languages"><a href="#NET-Programming-Languages" class="headerlink" title=".NET Programming Languages"></a>.NET Programming Languages</h2><p>.NET is a free, cross-platform, open source developer platform, created by Microsoft, for building many different types of applications. With .NET, you can use multiple languages, editors, and libraries to build for web, mobile, desktop, gaming, and IoT. You can write your .NET apps in C#, F#, or Visual Basic. Supported on Windows, Linux, and macOS.</p>
+<h2 id="LTS-and-Current-with-NET-Core"><a href="#LTS-and-Current-with-NET-Core" class="headerlink" title="LTS and Current with .NET Core"></a>LTS and Current with .NET Core</h2><p>.NET Core gives two support options: Long Term Support (LTS) and Current. .NET Core adapted behaviors similar with other open source frameworks and platforms.</p>
+<p>Long-term support (LTS) releases have an extended support period. Use <a target="_blank" rel="noopener" href="https://dotnet.microsoft.com/platform/support/policy/dotnet-core">LTS</a> if you need to stay supported on the same version of .NET Core for longer.</p>
+<p>LTS is supported for one of these two options – whatever is shorter:</p>
+<ul>
+<li>3 years after its release or</li>
+<li>12 months after the next LTS version</li>
+</ul>
+<p>Current is supported for one of these three options – whatever is shorter:</p>
+<ul>
+<li>12 months after the next LTS version or</li>
+<li>3 months after the next Current version</li>
+</ul>
+<h2 id="NET-Core-release-lifecycles"><a href="#NET-Core-release-lifecycles" class="headerlink" title=".NET Core release lifecycles"></a>.NET Core release lifecycles</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://dotnet.microsoft.com/platform/support/policy/dotnet-core">https://dotnet.microsoft.com/platform/support/policy/dotnet-core</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/dotnet/core/blob/master/os-lifecycle-policy.md">https://github.com/dotnet/core/blob/master/os-lifecycle-policy.md</a></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>VERSION</th>
+<th>RELEASE DATE</th>
+<th>SUPPORT LEVEL</th>
+<th>END OF SUPPORT</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>.NET Core 3.1</td>
+<td>2019-12-03</td>
+<td>LTS</td>
+<td>December 3, 2022</td>
+</tr>
+<tr>
+<td>.NET Core 3.0</td>
+<td>2019-09-23</td>
+<td>Current (EOL)</td>
+<td>March 3, 2020</td>
+</tr>
+<tr>
+<td>.NET Core 2.2</td>
+<td>2018-12-04</td>
+<td>Current (EOL)</td>
+<td>December 23, 2019</td>
+</tr>
+<tr>
+<td>.NET Core 2.1</td>
+<td>2018-05-30</td>
+<td>LTS</td>
+<td>August 21, 2021</td>
+</tr>
+</tbody></table>
+<h2 id="Download-NET-Core"><a href="#Download-NET-Core" class="headerlink" title="Download .NET Core"></a>Download .NET Core</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://dotnet.microsoft.com/download">https://dotnet.microsoft.com/download</a></li>
+<li><a target="_blank" rel="noopener" href="https://dotnet.microsoft.com/download/dotnet-core">https://dotnet.microsoft.com/download/dotnet-core</a></li>
+</ul>
+<p>The ASP.NET Core Module is a native IIS module that plugs into the IIS pipeline to either:</p>
+<ul>
+<li>Host an ASP.NET Core app inside of the IIS worker process (w3wp.exe), called the in-process hosting model.</li>
+<li>Forward web requests to a backend ASP.NET Core app running the Kestrel server, called the out-of-process hosting model.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>INTENTION</th>
+<th>OPTION</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>build applications</td>
+<td>.NET SDK</td>
+</tr>
+<tr>
+<td>console applications</td>
+<td>.NET Core Runtime</td>
+</tr>
+<tr>
+<td>desktop applications</td>
+<td>.NET Desktop Runtime</td>
+</tr>
+<tr>
+<td>web&#x2F;server applications</td>
+<td>ASP.NET Core Runtime</td>
+</tr>
+</tbody></table>
+<h2 id="NET-Core-3-1"><a href="#NET-Core-3-1" class="headerlink" title=".NET Core 3.1"></a>.NET Core 3.1</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://dotnet.microsoft.com/download/dotnet-core/3.1">https://dotnet.microsoft.com/download/dotnet-core/3.1</a></li>
+</ul>
+<h3 id="Language-support"><a href="#Language-support" class="headerlink" title="Language support"></a>Language support</h3><ul>
+<li>C# 8.0</li>
+<li>F# 4.7</li>
+</ul>
+<h3 id="Supported-OS-versions"><a href="#Supported-OS-versions" class="headerlink" title="Supported OS versions"></a>Supported OS versions</h3><table>
+<thead>
+<tr>
+<th>OS</th>
+<th>Version</th>
+<th>Architectures</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Windows 10 Client</td>
+<td>Version 1607+</td>
+<td>x64, x86</td>
+<td></td>
+</tr>
+<tr>
+<td>Nano Server</td>
+<td>Version 1803+</td>
+<td>x64, ARM32</td>
+<td></td>
+</tr>
+<tr>
+<td>Windows Server</td>
+<td>2012 R2+</td>
+<td>x64, x86</td>
+<td></td>
+</tr>
+<tr>
+<td>Mac OS X</td>
+<td>10.13+</td>
+<td>x64</td>
+<td></td>
+</tr>
+<tr>
+<td>Red Hat Enterprise Linux <br/> CentOS <br/> Oracle Linux</td>
+<td>7+</td>
+<td>x64</td>
+<td></td>
+</tr>
+<tr>
+<td>Debian</td>
+<td>9+</td>
+<td>x64, ARM32, ARM64</td>
+<td></td>
+</tr>
+<tr>
+<td>Ubuntu</td>
+<td>18.04, 16.04</td>
+<td>x64, ARM32, ARM64</td>
+<td></td>
+</tr>
+<tr>
+<td>SUSE Enterprise Linux (SLES)</td>
+<td>12 SP2+</td>
+<td>x64</td>
+<td></td>
+</tr>
+<tr>
+<td>Alpine Linux</td>
+<td>3.8+</td>
+<td>x64, ARM64</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="NET-Core-5-0"><a href="#NET-Core-5-0" class="headerlink" title=".NET Core 5.0"></a>.NET Core 5.0</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://dotnet.microsoft.com/download/dotnet-core/5.0">https://dotnet.microsoft.com/download/dotnet-core/5.0</a></li>
+</ul>
+<h3 id="Language-support-1"><a href="#Language-support-1" class="headerlink" title="Language support"></a>Language support</h3><ul>
+<li>C# 8.0</li>
+<li>F# 5.0</li>
+</ul>
+<h3 id="Supported-OS-versions-1"><a href="#Supported-OS-versions-1" class="headerlink" title="Supported OS versions"></a>Supported OS versions</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/help/13853/windows-lifecycle-fact-sheet">https://support.microsoft.com/en-us/help/13853/windows-lifecycle-fact-sheet</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows-server/get-started/windows-server-release-info">https://docs.microsoft.com/en-us/windows-server/get-started/windows-server-release-info</a></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>OS</th>
+<th>Version</th>
+<th>Architectures</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Windows 10 Client</td>
+<td>Version 1607+</td>
+<td>x64, x86</td>
+<td></td>
+</tr>
+<tr>
+<td>Nano Server</td>
+<td>Version 1803+</td>
+<td>x64, ARM32</td>
+<td></td>
+</tr>
+<tr>
+<td>Windows Server</td>
+<td>2012 R2+</td>
+<td>x64, x86</td>
+<td></td>
+</tr>
+<tr>
+<td>Mac OS X</td>
+<td>10.13+</td>
+<td>x64</td>
+<td></td>
+</tr>
+<tr>
+<td>Red Hat Enterprise Linux <br/> CentOS <br/> Oracle Linux</td>
+<td>7+</td>
+<td>x64</td>
+<td></td>
+</tr>
+<tr>
+<td>Debian</td>
+<td>9+</td>
+<td>x64, ARM32, ARM64</td>
+<td></td>
+</tr>
+<tr>
+<td>Ubuntu</td>
+<td>18.04, 16.04</td>
+<td>x64, ARM32, ARM64</td>
+<td></td>
+</tr>
+<tr>
+<td>SUSE Enterprise Linux (SLES)</td>
+<td>12 SP2+</td>
+<td>x64</td>
+<td></td>
+</tr>
+<tr>
+<td>Alpine Linux</td>
+<td>3.8+</td>
+<td>x64, ARM64</td>
+<td></td>
+</tr>
+</tbody></table>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#NET-Core-Life-Cycle"><span class="toc-number">1.</span> <span class="toc-text">.NET Core Life Cycle</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#NET-Programming-Languages"><span class="toc-number">1.1.</span> <span class="toc-text">.NET Programming Languages</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LTS-and-Current-with-NET-Core"><span class="toc-number">1.2.</span> <span class="toc-text">LTS and Current with .NET Core</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NET-Core-release-lifecycles"><span class="toc-number">1.3.</span> <span class="toc-text">.NET Core release lifecycles</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Download-NET-Core"><span class="toc-number">1.4.</span> <span class="toc-text">Download .NET Core</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NET-Core-3-1"><span class="toc-number">1.5.</span> <span class="toc-text">.NET Core 3.1</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Language-support"><span class="toc-number">1.5.1.</span> <span class="toc-text">Language support</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Supported-OS-versions"><span class="toc-number">1.5.2.</span> <span class="toc-text">Supported OS versions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NET-Core-5-0"><span class="toc-number">1.6.</span> <span class="toc-text">.NET Core 5.0</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Language-support-1"><span class="toc-number">1.6.1.</span> <span class="toc-text">Language support</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Supported-OS-versions-1"><span class="toc-number">1.6.2.</span> <span class="toc-text">Supported OS versions</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>
