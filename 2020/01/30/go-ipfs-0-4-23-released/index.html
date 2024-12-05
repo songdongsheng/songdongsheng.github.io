@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>go-ipfs 0.4.23 released | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          go-ipfs 0.4.23 released
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/01/30</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/Linux/">Linux</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tag"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+
+          
+        </div>
+        <h1 id="go-ipfs-0-4-23-released"><a href="#go-ipfs-0-4-23-released" class="headerlink" title="go-ipfs 0.4.23 released"></a>go-ipfs 0.4.23 released</h1><h2 id="Highlights"><a href="#Highlights" class="headerlink" title="Highlights"></a>Highlights</h2><ul>
+<li>Fixed a bug in the TLS transport that would (very rarely) cause disconnects during the handshake. You really should upgrade or you’ll see this bug more and more when TLS is enabled by default in go-ipfs 0.5.0.</li>
+<li>Patched a commonly occurring bug in the websocket transport that was causing panics because of concurrent writes.</li>
+<li>Fixed Resursive Resolving of dnsaddr Multiaddrs</li>
+<li>Retuned Connection Manager</li>
+<li>Reduced Relay Related DHT Spam</li>
+<li>Better Bitswap</li>
+</ul>
+<h2 id="Assets"><a href="#Assets" class="headerlink" title="Assets"></a>Assets</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/ipfs/go-ipfs/releases/">https://github.com/ipfs/go-ipfs/releases/</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ipfs/go-ipfs/releases/download/v0.4.23/go-ipfs-source.tar.gz">https://github.com/ipfs/go-ipfs/releases/download/v0.4.23/go-ipfs-source.tar.gz</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ipfs/go-ipfs/releases/download/v0.4.23/go-ipfs-source.tar.gz.cid">https://github.com/ipfs/go-ipfs/releases/download/v0.4.23/go-ipfs-source.tar.gz.cid</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ipfs/go-ipfs/releases/download/v0.4.23/go-ipfs-source.tar.gz.sha512">https://github.com/ipfs/go-ipfs/releases/download/v0.4.23/go-ipfs-source.tar.gz.sha512</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ipfs/go-ipfs/releases/download/v0.4.23/go-ipfs_v0.4.23_linux-amd64.tar.gz">https://github.com/ipfs/go-ipfs/releases/download/v0.4.23/go-ipfs_v0.4.23_linux-amd64.tar.gz</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ipfs/go-ipfs/releases/download/v0.4.23/go-ipfs_v0.4.23_linux-amd64.tar.gz.cid">https://github.com/ipfs/go-ipfs/releases/download/v0.4.23/go-ipfs_v0.4.23_linux-amd64.tar.gz.cid</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ipfs/go-ipfs/releases/download/v0.4.23/go-ipfs_v0.4.23_linux-amd64.tar.gz.sha512">https://github.com/ipfs/go-ipfs/releases/download/v0.4.23/go-ipfs_v0.4.23_linux-amd64.tar.gz.sha512</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ipfs/go-ipfs/releases/download/v0.4.23/go-ipfs_v0.4.23_windows-amd64.zip">https://github.com/ipfs/go-ipfs/releases/download/v0.4.23/go-ipfs_v0.4.23_windows-amd64.zip</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ipfs/go-ipfs/releases/download/v0.4.23/go-ipfs_v0.4.23_windows-amd64.zip.cid">https://github.com/ipfs/go-ipfs/releases/download/v0.4.23/go-ipfs_v0.4.23_windows-amd64.zip.cid</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ipfs/go-ipfs/releases/download/v0.4.23/go-ipfs_v0.4.23_windows-amd64.zip.sha512">https://github.com/ipfs/go-ipfs/releases/download/v0.4.23/go-ipfs_v0.4.23_windows-amd64.zip.sha512</a></li>
+<li>…</li>
+</ul>
+<h2 id="Download"><a href="#Download" class="headerlink" title="Download"></a>Download</h2><h3 id="ipfs-get"><a href="#ipfs-get" class="headerlink" title="ipfs get"></a>ipfs get</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">ipfs get /ipns/dist.ipfs.io/go-ipfs/v0.4.23/go-ipfs_v0.4.23_linux-amd64.tar.gz</span><br><span class="line">ipfs get /ipns/dist.ipfs.io/go-ipfs/v0.4.23/go-ipfs_v0.4.23_windows-amd64.zip</span><br><span class="line"></span><br><span class="line">ipfs get -o go-ipfs_v0.4.23_linux-amd64.tar.gz QmW58T9uBd1gd6mnat254xk9B4b63dHN55T97icWATWv1K</span><br><span class="line">ipfs get -o go-ipfs_v0.4.23_windows-amd64.zip  QmfKbwBdmSy6UWaYBb3o6fXzxAvJKhMGoWzJwwjpftNN2r</span><br><span class="line"></span><br><span class="line"><span class="comment"># ipfs get /ipns/dist.ipfs.io/go-ipfs/v0.4.23/go-ipfs_v0.4.23_linux-amd64.tar.gz</span></span><br><span class="line">Saving file(s) to go-ipfs_v0.4.23_linux-amd64.tar.gz</span><br><span class="line"> 19.66 MiB / 19.66 MiB [====================================================================================] 100.00% 0s</span><br><span class="line"></span><br><span class="line"><span class="comment"># ipfs get /ipns/dist.ipfs.io/go-ipfs/v0.4.23/go-ipfs_v0.4.23_windows-amd64.zip</span></span><br><span class="line">Saving file(s) to go-ipfs_v0.4.23_windows-amd64.zip</span><br><span class="line"> 16.68 MiB / 16.68 MiB [====================================================================================] 100.00% 0s</span><br><span class="line"></span><br><span class="line"><span class="comment"># ipfs get -o go-ipfs_v0.4.23_linux-amd64.tar.gz QmW58T9uBd1gd6mnat254xk9B4b63dHN55T97icWATWv1K</span></span><br><span class="line">Saving file(s) to go-ipfs_v0.4.23_linux-amd64.tar.gz</span><br><span class="line"> 19.66 MiB / 19.66 MiB [====================================================================================] 100.00% 3s</span><br><span class="line"></span><br><span class="line"><span class="comment"># ipfs get -o go-ipfs_v0.4.23_windows-amd64.zip  QmfKbwBdmSy6UWaYBb3o6fXzxAvJKhMGoWzJwwjpftNN2r</span></span><br><span class="line">Saving file(s) to go-ipfs_v0.4.23_windows-amd64.zip</span><br><span class="line"> 16.68 MiB / 16.68 MiB [====================================================================================] 100.00% 1s</span><br></pre></td></tr></table></figure>
+
+<h3 id="gateway"><a href="#gateway" class="headerlink" title="gateway"></a>gateway</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># gateway.ipfs.io, ipfs.infura.io, hardbin.com, siderus.io, ipfs.io</span></span><br><span class="line"></span><br><span class="line">wget -O go-ipfs_v0.4.23_linux-amd64.tar.gz https://gateway.ipfs.io/ipfs/QmW58T9uBd1gd6mnat254xk9B4b63dHN55T97icWATWv1K</span><br><span class="line">wget -O go-ipfs_v0.4.23_windows-amd64.zip  https://gateway.ipfs.io/ipfs/QmfKbwBdmSy6UWaYBb3o6fXzxAvJKhMGoWzJwwjpftNN2r</span><br><span class="line"></span><br><span class="line">curl -L -o go-ipfs_v0.4.23_linux-amd64.tar.gz https://gateway.ipfs.io/ipfs/QmW58T9uBd1gd6mnat254xk9B4b63dHN55T97icWATWv1K</span><br><span class="line">curl -L -o go-ipfs_v0.4.23_windows-amd64.zip  https://gateway.ipfs.io/ipfs/QmfKbwBdmSy6UWaYBb3o6fXzxAvJKhMGoWzJwwjpftNN2r</span><br><span class="line"></span><br><span class="line"><span class="comment"># curl -L -o go-ipfs_v0.4.23_linux-amd64.tar.gz https://gateway.ipfs.io/ipfs/QmW58T9uBd1gd6mnat254xk9B4b63dHN55T97icWATWv1K</span></span><br><span class="line">  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current</span><br><span class="line">                                 Dload  Upload   Total   Spent    Left  Speed</span><br><span class="line">100 19.6M  100 19.6M    0     0  11.3M      0  0:00:01  0:00:01 --:--:-- 11.3M</span><br><span class="line"></span><br><span class="line"><span class="comment"># curl -L -o go-ipfs_v0.4.23_windows-amd64.zip  https://gateway.ipfs.io/ipfs/QmfKbwBdmSy6UWaYBb3o6fXzxAvJKhMGoWzJwwjpftNN2r</span></span><br><span class="line">  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current</span><br><span class="line">                                 Dload  Upload   Total   Spent    Left  Speed</span><br><span class="line">100 16.6M  100 16.6M    0     0  11.1M      0  0:00:01  0:00:01 --:--:-- 11.1M</span><br></pre></td></tr></table></figure>
+
+<h2 id="Systemd-service"><a href="#Systemd-service" class="headerlink" title="Systemd service"></a>Systemd service</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">groupadd -r ipfs &amp;&amp; useradd -r -g ipfs ipfs</span><br><span class="line"></span><br><span class="line"><span class="built_in">mkdir</span> -p /var/lib/ipfs &amp;&amp; IPFS_PATH=/var/lib/ipfs ipfs init</span><br><span class="line"></span><br><span class="line">EDITOR=vi ipfs config edit</span><br><span class="line"></span><br><span class="line"><span class="built_in">chown</span> -R ipfs:ipfs /var/lib/ipfs</span><br><span class="line"></span><br><span class="line"><span class="built_in">cat</span> &lt;&lt; <span class="string">EOF &gt; /etc/systemd/system/ipfs.service</span></span><br><span class="line"><span class="string">[Unit]</span></span><br><span class="line"><span class="string">Description=ipfs</span></span><br><span class="line"><span class="string">After=syslog.target network.target network-online.target remote-fs.target</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[Service]</span></span><br><span class="line"><span class="string">Type=simple</span></span><br><span class="line"><span class="string">User=ipfs</span></span><br><span class="line"><span class="string">Group=ipfs</span></span><br><span class="line"><span class="string">RestartSec=5s</span></span><br><span class="line"><span class="string">Restart=always</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">SyslogIdentifier=ipfs</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Environment=IPFS_PATH=/var/lib/ipfs</span></span><br><span class="line"><span class="string">#ExecStartPre=-/usr/bin/ipfs init</span></span><br><span class="line"><span class="string">WorkingDirectory=/var/lib/ipfs</span></span><br><span class="line"><span class="string"># WorkingDirectory=/tmp</span></span><br><span class="line"><span class="string">ExecStart=/usr/bin/ipfs daemon</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[Install]</span></span><br><span class="line"><span class="string">WantedBy=multi-user.target</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line">systemctl <span class="built_in">enable</span> ipfs</span><br><span class="line">systemctl stop ipfs</span><br><span class="line">systemctl start ipfs</span><br><span class="line">systemctl status ipfs</span><br><span class="line"></span><br><span class="line">ipfs config show</span><br><span class="line"></span><br><span class="line"><span class="comment"># netstat -anp | grep ipfs | grep &#x27;*&#x27;</span></span><br><span class="line">tcp        0      0 127.0.0.1:5001          0.0.0.0:*               LISTEN      23692/ipfs</span><br><span class="line">tcp        0      0 0.0.0.0:8080            0.0.0.0:*               LISTEN      23692/ipfs</span><br><span class="line">tcp        0      0 0.0.0.0:4001            0.0.0.0:*               LISTEN      23692/ipfs</span><br><span class="line">tcp6       0      0 :::8080                 :::*                    LISTEN      23692/ipfs</span><br><span class="line">tcp6       0      0 :::4001                 :::*                    LISTEN      23692/ipfs</span><br><span class="line">udp        0      0 0.0.0.0:5353            0.0.0.0:*                           23692/ipfs</span><br><span class="line">udp        0      0 0.0.0.0:38683           0.0.0.0:*                           23692/ipfs</span><br><span class="line">udp        0      0 0.0.0.0:4001            0.0.0.0:*                           23692/ipfs</span><br><span class="line">udp6       0      0 :::5353                 :::*                                23692/ipfs</span><br><span class="line">udp6       0      0 :::33684                :::*                                23692/ipfs</span><br><span class="line">udp6       0      0 :::4001                 :::*                                23692/ipfs</span><br></pre></td></tr></table></figure>
+
+<h2 id="Basic-commands"><a href="#Basic-commands" class="headerlink" title="Basic commands"></a>Basic commands</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">ipfs <span class="built_in">id</span></span><br><span class="line">ipfs bootstrap list</span><br><span class="line">ipfs bootstrap <span class="built_in">rm</span> all</span><br><span class="line">ipfs bootstrap add --default</span><br><span class="line">ipfs diag sys | jq .</span><br><span class="line">ipfs swarm peers</span><br><span class="line">ipfs swarm connect &lt;multiaddr&gt;</span><br><span class="line"></span><br><span class="line">ipfs swarm peers | xargs -n 1 ipfs bootstrap add</span><br><span class="line"><span class="built_in">sudo</span> netstat -anp | grep ipfs | grep ESTABLISHED | <span class="built_in">wc</span> -l</span><br><span class="line"></span><br><span class="line">ipfs bootstrap add /ip4/192.168.1.139/tcp/4001/ipfs/QmaYbjkt2jifmnZU6a933fFjYEDVf5BMWkQSYCNMqvkRid</span><br><span class="line">ipfs swarm connect /ip4/192.168.1.139/tcp/4001/ipfs/QmbSSqxrct6yB2xs1drDv8eCKBRdMJzSmYLVsTNnUTsDZU</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="built_in">read</span> PEER REST; <span class="keyword">do</span></span><br><span class="line">    ipfs bootstrap add <span class="string">&quot;<span class="variable">$&#123;PEER&#125;</span>&quot;</span></span><br><span class="line">    ipfs swarm connect <span class="string">&quot;<span class="variable">$&#123;PEER&#125;</span>&quot;</span></span><br><span class="line"><span class="keyword">done</span> &lt;&lt; <span class="string">EOF</span></span><br><span class="line"><span class="string">    /ip4/149.248.32.245/tcp/4001/ipfs/QmRA4e86TZ6kkrQqja4gWY7fiSsPWFbVFmijiU6nTNMHg7</span></span><br><span class="line"><span class="string">    /ip4/149.248.32.245/udp/4001/quic/ipfs/QmRA4e86TZ6kkrQqja4gWY7fiSsPWFbVFmijiU6nTNMHg7</span></span><br><span class="line"><span class="string">    /ip6/2001:19f0:8001:1c86:5400:2ff:fe10:1f9f/tcp/4001/ipfs/QmRA4e86TZ6kkrQqja4gWY7fiSsPWFbVFmijiU6nTNMHg7</span></span><br><span class="line"><span class="string">    /ip6/2001:19f0:8001:1c86:5400:2ff:fe10:1f9f/udp/4001/quic/ipfs/QmRA4e86TZ6kkrQqja4gWY7fiSsPWFbVFmijiU6nTNMHg7</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line">ipfs <span class="built_in">ls</span> /ipns/dist.ipfs.io/go-ipfs/</span><br><span class="line">ipfs <span class="built_in">cat</span> /ipns/dist.ipfs.io/go-ipfs/versions</span><br><span class="line">ipfs <span class="built_in">ls</span> /ipns/dist.ipfs.io/go-ipfs/v0.4.23/</span><br><span class="line">ipfs <span class="built_in">cat</span> /ipns/dist.ipfs.io/go-ipfs/v0.4.23/dist.json</span><br><span class="line">ipfs get /ipns/dist.ipfs.io/go-ipfs/v0.4.23/go-ipfs_v0.4.23_linux-amd64.tar.gz</span><br><span class="line">ipfs get /ipns/dist.ipfs.io/go-ipfs/v0.4.23/go-ipfs_v0.4.23_windows-amd64.zip</span><br><span class="line"></span><br><span class="line">ipfs repo version</span><br><span class="line">ipfs repo <span class="built_in">stat</span></span><br><span class="line">ipfs stats bw</span><br><span class="line">ipfs stats repo</span><br><span class="line">ipfs pin <span class="built_in">ls</span></span><br><span class="line">ipfs pin verify</span><br><span class="line"></span><br><span class="line">ipfs add --nocopy    SLE-12-SP5-Server-DVD-x86_64-GM-DVD1.iso</span><br><span class="line">ipfs add --only-hash SLE-12-SP5-Server-DVD-x86_64-GM-DVD1.iso</span><br></pre></td></tr></table></figure>
+
+<h2 id="Experimental-features"><a href="#Experimental-features" class="headerlink" title="Experimental features"></a>Experimental features</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">ipfs config --json Experimental.FilestoreEnabled <span class="literal">true</span></span><br><span class="line">ipfs config --json Experimental.UrlstoreEnabled <span class="literal">true</span></span><br><span class="line">ipfs config --json Experimental.PreferTLS <span class="literal">true</span></span><br><span class="line">ipfs config --json Experimental.QUIC <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">EDITOR=vi ipfs config edit</span><br><span class="line"></span><br><span class="line">  <span class="string">&quot;Addresses&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;API&quot;</span>: <span class="string">&quot;/ip4/127.0.0.1/tcp/5001&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Gateway&quot;</span>: [</span><br><span class="line">      <span class="string">&quot;/ip4/0.0.0.0/tcp/8080&quot;</span>,</span><br><span class="line">      <span class="string">&quot;/ip6/::/tcp/8080&quot;</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="string">&quot;Swarm&quot;</span>: [</span><br><span class="line">      <span class="string">&quot;/ip4/0.0.0.0/tcp/4001&quot;</span>,</span><br><span class="line">      <span class="string">&quot;/ip4/0.0.0.0/udp/4001/quic&quot;</span>,</span><br><span class="line">      <span class="string">&quot;/ip6/::/tcp/4001&quot;</span>,</span><br><span class="line">      <span class="string">&quot;/ip6/::/udp/4001/quic&quot;</span></span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#go-ipfs-0-4-23-released"><span class="toc-number">1.</span> <span class="toc-text">go-ipfs 0.4.23 released</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Highlights"><span class="toc-number">1.1.</span> <span class="toc-text">Highlights</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Assets"><span class="toc-number">1.2.</span> <span class="toc-text">Assets</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Download"><span class="toc-number">1.3.</span> <span class="toc-text">Download</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ipfs-get"><span class="toc-number">1.3.1.</span> <span class="toc-text">ipfs get</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#gateway"><span class="toc-number">1.3.2.</span> <span class="toc-text">gateway</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Systemd-service"><span class="toc-number">1.4.</span> <span class="toc-text">Systemd service</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Basic-commands"><span class="toc-number">1.5.</span> <span class="toc-text">Basic commands</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Experimental-features"><span class="toc-number">1.6.</span> <span class="toc-text">Experimental features</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

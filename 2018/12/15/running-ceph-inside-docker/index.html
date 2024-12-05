@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Running Ceph inside Docker | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Running Ceph inside Docker
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2018/12/15</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Cloud/">Cloud</a>/ <a class="article-category-link" href="/categories/Cloud/Container/">Container</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Cloud" class='tag'>Cloud</a>
+
+  <a href="/tags/#Container" class='tag'>Container</a>
+
+
+          
+        </div>
+        <h1 id="Running-Ceph-inside-Docker"><a href="#Running-Ceph-inside-Docker" class="headerlink" title="Running Ceph inside Docker"></a>Running Ceph inside Docker</h1><h2 id="Ceph-Versions-and-Docker-image-tags"><a href="#Ceph-Versions-and-Docker-image-tags" class="headerlink" title="Ceph Versions and Docker image tags"></a>Ceph Versions and Docker image tags</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://docs.ceph.com/docs/master/releases/schedule/">https://docs.ceph.com/docs/master/releases/schedule/</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.ceph.com/docs/master/start/kube-helm/">https://docs.ceph.com/docs/master/start/kube-helm/</a></li>
+<li><a target="_blank" rel="noopener" href="https://hub.docker.com/r/ceph/daemon/tags">https://hub.docker.com/r/ceph/daemon/tags</a></li>
+<li><a target="_blank" rel="noopener" href="https://hub.docker.com/r/ceph/ceph/tags">https://hub.docker.com/r/ceph/ceph/tags</a></li>
+</ul>
+<h2 id="Find-available-container-image-tags"><a href="#Find-available-container-image-tags" class="headerlink" title="Find available container image tags"></a>Find available container image tags</h2><pre><code>curl -sSL https://registry.hub.docker.com/v2/repositories/ceph/daemon/tags/ | jq &#39;.&quot;results&quot;[] .name&#39;
+curl -sSL https://registry.hub.docker.com/v2/repositories/ceph/daemon/tags/?page=2 | jq &#39;.&quot;results&quot;[] .name&#39;
+</code></pre>
+<h2 id="Deploy-a-monitor"><a href="#Deploy-a-monitor" class="headerlink" title="Deploy a monitor"></a>Deploy a monitor</h2><pre><code>docker run -d --net=host \
+-v /etc/ceph:/etc/ceph \
+-v /var/lib/ceph/:/var/lib/ceph/ \
+-e MON_IP=192.168.5.120 \
+-e CEPH_PUBLIC_NETWORK=192.168.5.0/24 \
+ceph/daemon mon
+</code></pre>
+<h2 id="Deploy-a-Manager-daemon"><a href="#Deploy-a-Manager-daemon" class="headerlink" title="Deploy a Manager daemon"></a>Deploy a Manager daemon</h2><pre><code>docker run -d --net=host \
+-v /etc/ceph:/etc/ceph \
+-v /var/lib/ceph/:/var/lib/ceph/ \
+ceph/daemon mgr
+</code></pre>
+<h2 id="Deploy-an-OSD"><a href="#Deploy-an-OSD" class="headerlink" title="Deploy an OSD"></a>Deploy an OSD</h2><pre><code>docker run -d --net=host \
+--pid=host \
+--privileged=true \
+-v /etc/ceph:/etc/ceph \
+-v /var/lib/ceph/:/var/lib/ceph/ \
+-v /dev/:/dev/ \
+-e OSD_DEVICE=/dev/vdd \
+-e OSD_TYPE=disk \
+-e OSD_BLUESTORE=1 \
+ceph/daemon osd
+</code></pre>
+<h2 id="Deploy-a-MDS"><a href="#Deploy-a-MDS" class="headerlink" title="Deploy a MDS"></a>Deploy a MDS</h2><pre><code>docker run -d --net=host \
+-v /var/lib/ceph/:/var/lib/ceph/ \
+-v /etc/ceph:/etc/ceph \
+-e CEPHFS_CREATE=1 \
+ceph/daemon mds
+</code></pre>
+<h2 id="Deploy-a-Rados-Gateway"><a href="#Deploy-a-Rados-Gateway" class="headerlink" title="Deploy a Rados Gateway"></a>Deploy a Rados Gateway</h2><pre><code>docker run -d --net=host \
+-v /var/lib/ceph/:/var/lib/ceph/ \
+-v /etc/ceph:/etc/ceph \
+ceph/daemon rgw
+</code></pre>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Running-Ceph-inside-Docker"><span class="toc-number">1.</span> <span class="toc-text">Running Ceph inside Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Ceph-Versions-and-Docker-image-tags"><span class="toc-number">1.1.</span> <span class="toc-text">Ceph Versions and Docker image tags</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Find-available-container-image-tags"><span class="toc-number">1.2.</span> <span class="toc-text">Find available container image tags</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Deploy-a-monitor"><span class="toc-number">1.3.</span> <span class="toc-text">Deploy a monitor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Deploy-a-Manager-daemon"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy a Manager daemon</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Deploy-an-OSD"><span class="toc-number">1.5.</span> <span class="toc-text">Deploy an OSD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Deploy-a-MDS"><span class="toc-number">1.6.</span> <span class="toc-text">Deploy a MDS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Deploy-a-Rados-Gateway"><span class="toc-number">1.7.</span> <span class="toc-text">Deploy a Rados Gateway</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

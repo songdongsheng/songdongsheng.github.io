@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>ANSI Escape Sequences Colors | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          ANSI Escape Sequences Colors
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2019/01/26</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/Linux/">Linux</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tag"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+
+          
+        </div>
+        <h1 id="ANSI-Escape-Sequences-Colors"><a href="#ANSI-Escape-Sequences-Colors" class="headerlink" title="ANSI Escape Sequences Colors"></a>ANSI Escape Sequences Colors</h1><p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/ANSI_escape_code">ANSI escape sequences</a> are non-printed text that is interpreted to change the format of some text. These can be used to beautify terminal prompts, text, or anything else that understands ANSI escape sequences.</p>
+<h2 id="Add-colors-to-the-prompt"><a href="#Add-colors-to-the-prompt" class="headerlink" title="Add colors to the prompt"></a>Add colors to the prompt</h2><p>Sequences have different lengths. All sequences start with ESC (27 &#x2F; hex 0x1B &#x2F; oct 033), followed by a second byte in the range 0x40–0x5F (ASCII @A–Z[]^_).
+Colors must be followed by a m. The next part is the 1 preceding the actual color code. This indicates whether or not the color should be bold or not (0 for normal, 1 for bold).</p>
+<p>To add colors to the shell prompt use the following export command syntax:</p>
+<pre><code>&#39;\e[x;ym $PS1 \e[m&#39;
+</code></pre>
+<p>Where,</p>
+<ol>
+<li>\e[ : Start color scheme.</li>
+<li>x;y : Color pair to use (x;y)</li>
+<li>$PS1 : Your shell prompt variable.</li>
+<li>\e[m : Stop color scheme.</li>
+</ol>
+<p>To set a red color prompt, type the following command:</p>
+<pre><code>export PS1=&quot;\e[0;31m[\u@\h: \w]\$ \e[m &quot;
+</code></pre>
+<p>You can also use tput command to set terminal and modify the prompt settings. For example, to display RED color prompt using a tput:</p>
+<pre><code>export PS1=&quot;\[$(tput setaf 1)\][\u@\h:\w] $ \[$(tput sgr0)\]&quot;
+</code></pre>
+<h2 id="Basic-color-codes-listing"><a href="#Basic-color-codes-listing" class="headerlink" title="Basic color codes listing"></a>Basic color codes listing</h2><pre><code>Black      0;30       Dark Gray    1;30
+Red        0;31       Bold Red     1;31
+Green      0;32       Bold Green   1;32
+Yellow     0;33       Bold Yellow  1;33
+Blue       0;34       Bold Blue    1;34
+Purple     0;35       Bold Purple  1;35
+Cyan       0;36       Bold Cyan    1;36
+Light Gray 0;37       White        1;37
+</code></pre>
+<h2 id="A-list-of-handy-tput-command-line-options"><a href="#A-list-of-handy-tput-command-line-options" class="headerlink" title="A list of handy tput command line options"></a>A list of handy tput command line options</h2><ul>
+<li>tput bold – Bold effect</li>
+<li>tput rev – Display inverse colors</li>
+<li>tput sgr0 – Reset everything</li>
+<li>tput setaf {CODE}– Set foreground color, see color {CODE} table below for more information.</li>
+<li>tput setab {CODE}– Set background color, see color {CODE} table below for more information.</li>
+</ul>
+<h2 id="Basic-color-codes-for-the-tput-command"><a href="#Basic-color-codes-for-the-tput-command" class="headerlink" title="Basic color codes for the tput command"></a>Basic color codes for the tput command</h2><table>
+<thead>
+<tr>
+<th>Color {code}</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>Black</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Red</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Green</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Yellow</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Blue</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Magenta</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Cyan</td>
+</tr>
+<tr>
+<td>7</td>
+<td>White</td>
+</tr>
+</tbody></table>
+<h2 id="Color-variables"><a href="#Color-variables" class="headerlink" title="Color variables"></a>Color variables</h2><pre><code>export COLOR_NC=&#39;\e[0m&#39; # No Color
+export COLOR_WHITE=&#39;\e[1;37m&#39;
+export COLOR_BLACK=&#39;\e[0;30m&#39;
+export COLOR_BLUE=&#39;\e[0;34m&#39;
+export COLOR_LIGHT_BLUE=&#39;\e[1;34m&#39;
+export COLOR_GREEN=&#39;\e[0;32m&#39;
+export COLOR_LIGHT_GREEN=&#39;\e[1;32m&#39;
+export COLOR_CYAN=&#39;\e[0;36m&#39;
+export COLOR_LIGHT_CYAN=&#39;\e[1;36m&#39;
+export COLOR_RED=&#39;\e[0;31m&#39;
+export COLOR_LIGHT_RED=&#39;\e[1;31m&#39;
+export COLOR_PURPLE=&#39;\e[0;35m&#39;
+export COLOR_LIGHT_PURPLE=&#39;\e[1;35m&#39;
+export COLOR_BROWN=&#39;\e[0;33m&#39;
+export COLOR_YELLOW=&#39;\e[1;33m&#39;
+export COLOR_GRAY=&#39;\e[0;30m&#39;
+export COLOR_LIGHT_GRAY=&#39;\e[0;37m&#39;
+</code></pre>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ANSI-Escape-Sequences-Colors"><span class="toc-number">1.</span> <span class="toc-text">ANSI Escape Sequences Colors</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Add-colors-to-the-prompt"><span class="toc-number">1.1.</span> <span class="toc-text">Add colors to the prompt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Basic-color-codes-listing"><span class="toc-number">1.2.</span> <span class="toc-text">Basic color codes listing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#A-list-of-handy-tput-command-line-options"><span class="toc-number">1.3.</span> <span class="toc-text">A list of handy tput command line options</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Basic-color-codes-for-the-tput-command"><span class="toc-number">1.4.</span> <span class="toc-text">Basic color codes for the tput command</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Color-variables"><span class="toc-number">1.5.</span> <span class="toc-text">Color variables</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

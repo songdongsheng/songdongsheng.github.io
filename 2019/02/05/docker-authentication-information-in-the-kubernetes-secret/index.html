@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Docker authentication information in the Kubernetes secret | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Docker authentication information in the Kubernetes secret
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2019/02/05</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Cloud/">Cloud</a>/ <a class="article-category-link" href="/categories/Cloud/Kubernetes/">Kubernetes</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tag"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Kubernetes" class='tag'>Kubernetes</a>
+
+
+          
+        </div>
+        <h1 id="Docker-authentication-information-in-the-Kubernetes-secret"><a href="#Docker-authentication-information-in-the-Kubernetes-secret" class="headerlink" title="Docker authentication information in the Kubernetes secret"></a>Docker authentication information in the Kubernetes secret</h1><p>When pull an image from a private registry, we need put docker config.json file in the Kubernetes secret, and use it by Kubernetes imagePullSecrets.</p>
+<h2 id="Docker-config-json"><a href="#Docker-config-json" class="headerlink" title="Docker config.json"></a>Docker config.json</h2><p>The docker login process creates or updates a config.json file that holds an authorization token.</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker login</span></span><br><span class="line"><span class="comment"># cat ~/.docker/config.json</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;auths&quot;:</span> &#123;</span><br><span class="line">        <span class="attr">&quot;https://index.docker.io/v1/&quot;:</span> &#123;</span><br><span class="line">            <span class="attr">&quot;auth&quot;:</span> <span class="string">&quot;c3R...zE2&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Create-Kubernetes-secret-via-docker-config-json"><a href="#Create-Kubernetes-secret-via-docker-config-json" class="headerlink" title="Create Kubernetes secret via docker config.json"></a>Create Kubernetes secret via docker config.json</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kubectl create secret generic armdocker \</span><br><span class="line">    --from-file=.dockerconfigjson=config.json \</span><br><span class="line">    --type=kubernetes.io/dockerconfigjson</span><br></pre></td></tr></table></figure>
+
+<h2 id="Create-Kubernetes-secret-via-docker-username-and-password"><a href="#Create-Kubernetes-secret-via-docker-username-and-password" class="headerlink" title="Create Kubernetes secret via docker username and password"></a>Create Kubernetes secret via docker username and password</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kubectl create secret docker-registry armdocker \</span><br><span class="line">    --docker-server=&lt;your-registry-server&gt; \</span><br><span class="line">    --docker-username=&lt;your-name&gt; \</span><br><span class="line">    --docker-password=&lt;your-pword&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Inspecting-the-Secret"><a href="#Inspecting-the-Secret" class="headerlink" title="Inspecting the Secret"></a>Inspecting the Secret</h2><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># kubectl get secret armdocker --output=yaml</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line">    <span class="attr">kind:</span> <span class="string">Secret</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="string">...</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">armdocker</span></span><br><span class="line">      <span class="string">...</span></span><br><span class="line">    <span class="attr">data:</span></span><br><span class="line">      <span class="string">.dockerconfigjson:</span> <span class="string">eyJodHRwczovL2luZGV4L</span> <span class="string">...</span> <span class="string">J0QUl6RTIifX0=</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">kubernetes.io/dockerconfigjson</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># kubectl get secret armdocker --output=&quot;jsonpath=&#123;.data.\.dockerconfigjson&#125;&quot; | base64 --decode| jq</span></span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">&quot;auths&quot;:</span> &#123;</span><br><span class="line">        <span class="attr">&quot;your.private.registry.example.com&quot;:</span> &#123;</span><br><span class="line">          <span class="attr">&quot;username&quot;:</span> <span class="string">&quot;janedoe&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;password&quot;:</span> <span class="string">&quot;xxxxxxxxxxx&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;email&quot;:</span> <span class="string">&quot;jdoe@example.com&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;auth&quot;:</span> <span class="string">&quot;c3R...zE2&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Use-Kubernetes-secret-of-docker-registry"><a href="#Use-Kubernetes-secret-of-docker-registry" class="headerlink" title="Use Kubernetes secret of docker registry"></a>Use Kubernetes secret of docker registry</h2><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">sample-of-docker-registry-secret</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">restartPolicy:</span> <span class="string">Always</span></span><br><span class="line">      <span class="attr">imagePullSecrets:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">armdocker</span></span><br><span class="line">      <span class="attr">initContainers:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">wait-for-precondition</span></span><br><span class="line">          <span class="string">image：</span> <span class="string">&lt;your-private-image&gt;</span></span><br><span class="line">          <span class="attr">imagePullPolicy:</span> <span class="string">Always</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">sample-service-name</span></span><br><span class="line">          <span class="attr">image:</span> <span class="string">&lt;your-private-image&gt;</span></span><br><span class="line">          <span class="attr">imagePullPolicy:</span> <span class="string">Always</span></span><br></pre></td></tr></table></figure>
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Docker-authentication-information-in-the-Kubernetes-secret"><span class="toc-number">1.</span> <span class="toc-text">Docker authentication information in the Kubernetes secret</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker-config-json"><span class="toc-number">1.1.</span> <span class="toc-text">Docker config.json</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Create-Kubernetes-secret-via-docker-config-json"><span class="toc-number">1.2.</span> <span class="toc-text">Create Kubernetes secret via docker config.json</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Create-Kubernetes-secret-via-docker-username-and-password"><span class="toc-number">1.3.</span> <span class="toc-text">Create Kubernetes secret via docker username and password</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Inspecting-the-Secret"><span class="toc-number">1.4.</span> <span class="toc-text">Inspecting the Secret</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Use-Kubernetes-secret-of-docker-registry"><span class="toc-number">1.5.</span> <span class="toc-text">Use Kubernetes secret of docker registry</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Compiling the Linux Kernel for WSL2 | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Compiling the Linux Kernel for WSL2
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2022/11/06</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/Linux/">Linux</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Windows" class='tag'>Windows</a>
+
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+  <a href="/tags/#Operating%20system" class='tag'>Operating system</a>
+
+
+          
+        </div>
+        <h1 id="Compiling-the-Linux-Kernel-for-WSL2"><a href="#Compiling-the-Linux-Kernel-for-WSL2" class="headerlink" title="Compiling the Linux Kernel for WSL2"></a>Compiling the Linux Kernel for WSL2</h1><h2 id="WSL2-architecture"><a href="#WSL2-architecture" class="headerlink" title="WSL2 architecture"></a>WSL2 architecture</h2><p>WSL 2 not only loads a native Linux Kernel, the image of the Linux Kernel is in the directory <code>C:\Windows\System32\lxss\tools</code>, but it also gives us the option of <strong>loading a customized Linux kernel</strong>. That’s right, we can compile and customize our own kernel to be loaded into WSL 2.</p>
+<p><img src="/2022/11/06/compiling-the-linux-kernel-for-wsl2/wsl2-architecture.png" alt="WSL2 architecture"></p>
+<h2 id="Preparation"><a href="#Preparation" class="headerlink" title="Preparation"></a>Preparation</h2><h3 id="Start-build-container"><a href="#Start-build-container" class="headerlink" title="Start build container"></a>Start build container</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> sysctl -w net.ipv6.conf.all.disable_ipv6=1</span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> podman run --<span class="built_in">rm</span> -it --pull always -h debian-stable \</span><br><span class="line">    -w /root -v $(<span class="built_in">pwd</span>):/xyz --network=host \</span><br><span class="line">    -e <span class="string">&quot;PATH=/usr/sbin:/usr/bin:/sbin:/bin&quot;</span> \</span><br><span class="line">    -e NO_PROXY=<span class="string">&quot;localhost,::1/128,f000::/4,127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16&quot;</span> \</span><br><span class="line">    public.ecr.aws/docker/library/debian:stable</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;precedence ::ffff:0:0/96  100&quot;</span> &gt;&gt; /etc/gai.conf; \</span><br><span class="line">apt-get update &amp;&amp; apt-get dist-upgrade -y &amp;&amp; \</span><br><span class="line">apt-get install -y whiptail &amp;&amp; \</span><br><span class="line">apt-get install -y bc bison build-essential cpio curl dwarves file flex \</span><br><span class="line">    git kmod less libelf-dev libncurses-dev libssl-dev procps \</span><br><span class="line">    python3 python3-pip python3-psutil python3-virtualenv \</span><br><span class="line">    vim-tiny zstd</span><br></pre></td></tr></table></figure>
+
+<h3 id="Use-WSL2-Linux-Kernel"><a href="#Use-WSL2-Linux-Kernel" class="headerlink" title="Use WSL2 Linux Kernel"></a>Use WSL2 Linux Kernel</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># time git clone --depth 100 -b linux-msft-wsl-6.6.y https://github.com/microsoft/WSL2-Linux-Kernel.git</span></span><br><span class="line">...</span><br><span class="line">real    2m55.718s</span><br><span class="line">user    1m36.683s</span><br><span class="line">sys     0m16.305s</span><br><span class="line"></span><br><span class="line"><span class="comment"># du -ms WSL2-Linux-Kernel/</span></span><br><span class="line">2041    WSL2-Linux-Kernel/</span><br><span class="line"></span><br><span class="line"><span class="comment"># cd WSL2-Linux-Kernel/ &amp;&amp; git describe --tags</span></span><br><span class="line">linux-msft-wsl-6.6.36.3</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="Use-Stable-Linux-Kernel"><a href="#Use-Stable-Linux-Kernel" class="headerlink" title="Use Stable Linux Kernel"></a>Use Stable Linux Kernel</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> -fr ~/Linux-6.x/Microsoft &amp;&amp; <span class="built_in">mkdir</span> -p <span class="variable">$_</span> &amp;&amp; <span class="built_in">cd</span> <span class="variable">$_</span>/..</span><br><span class="line">curl -sSL https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.9.10.tar.xz | tar --strip-components=1 -xJ -f -</span><br><span class="line">curl -sSL -o <span class="built_in">arch</span>/x86/configs/config-wsl https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.6.y/arch/x86/configs/config-wsl</span><br><span class="line"></span><br><span class="line"><span class="comment"># du -ms</span></span><br><span class="line">1570    .</span><br></pre></td></tr></table></figure>
+
+<h2 id="Make-Configure"><a href="#Make-Configure" class="headerlink" title="Make Configure"></a>Make Configure</h2><p>We can turn on certain Linux kernel features as needed, which is also the value of compiling the kernel ourselves.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> &lt;&lt; <span class="string">EOF &gt;&gt; arch/x86/configs/config-wsl</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Processor type and features/vsyscall table for legacy applications/Emulate execution only</span></span><br><span class="line"><span class="string">CONFIG_LEGACY_VSYSCALL_XONLY=y</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Compile-time checks and compiler options</span></span><br><span class="line"><span class="string"># BTF: .tmp_vmlinux.btf: pahole (pahole) is not available</span></span><br><span class="line"><span class="string"># BTF = BPF Type Format, Use BTF in BPF rograms</span></span><br><span class="line"><span class="string"># http://vger.kernel.org/~acme/perf/btf-perf-pahole-lsfmm-san-juan-2019/</span></span><br><span class="line"><span class="string"># CONFIG_DEBUG_INFO_BTF=y</span></span><br><span class="line"><span class="string"># CONFIG_DEBUG_INFO_BTF_MODULES=y</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">CONFIG_PREEMPT_DYNAMIC=y</span></span><br><span class="line"><span class="string">CONFIG_PREEMPT_RCU=y</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">CONFIG_KVM=y</span></span><br><span class="line"><span class="string">CONFIG_KVM_INTEL=y</span></span><br><span class="line"><span class="string">CONFIG_KVM_AMD=y</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">CONFIG_TLS=y</span></span><br><span class="line"><span class="string">CONFIG_IP_SCTP=y</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">CONFIG_BRIDGE=y</span></span><br><span class="line"><span class="string">CONFIG_BRIDGE_NETFILTER=y</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">CONFIG_CRYPTO_ZSTD=y</span></span><br><span class="line"><span class="string">CONFIG_KERNEL_ZSTD=y</span></span><br><span class="line"><span class="string">CONFIG_MODULE_COMPRESS_ZSTD=y</span></span><br><span class="line"><span class="string">CONFIG_SQUASHFS_ZSTD=y</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Enable the block layer/ Partition Types/Advanced partition selection</span></span><br><span class="line"><span class="string">CONFIG_BSD_DISKLABEL=y</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Device Drivers/Block devices</span></span><br><span class="line"><span class="string">CONFIG_ATA_OVER_ETH=y</span></span><br><span class="line"><span class="string">CONFIG_BLK_DEV_NBD=y</span></span><br><span class="line"><span class="string">CONFIG_BLK_DEV_RBD=y</span></span><br><span class="line"><span class="string">CONFIG_BLK_DEV_UBLK=y</span></span><br><span class="line"><span class="string">CONFIG_ZRAM=y</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># File systems/Miscellaneous filesystems</span></span><br><span class="line"><span class="string">CONFIG_BTRFS_FS=y</span></span><br><span class="line"><span class="string">CONFIG_ECRYPT_FS=y</span></span><br><span class="line"><span class="string">CONFIG_FUSE_FS=y</span></span><br><span class="line"><span class="string">CONFIG_HFS_FS=y</span></span><br><span class="line"><span class="string">CONFIG_HFSPLUS_FS=y</span></span><br><span class="line"><span class="string">CONFIG_UFS_FS=y</span></span><br><span class="line"><span class="string">CONFIG_UFS_FS_WRITE=y</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">CONFIG_OVERLAY_FS=y</span></span><br><span class="line"><span class="string">CONFIG_OVERLAY_FS_INDEX=y</span></span><br><span class="line"><span class="string">CONFIG_OVERLAY_FS_METACOPY=y</span></span><br><span class="line"><span class="string">CONFIG_OVERLAY_FS_XINO_AUTO=y</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># File systems/Network File Systems</span></span><br><span class="line"><span class="string">CONFIG_CIFS=y</span></span><br><span class="line"><span class="string">CONFIG_NFS_DISABLE_UDP_SUPPORT=y</span></span><br><span class="line"><span class="string">CONFIG_NFS_V4_2=y</span></span><br><span class="line"><span class="string">CONFIG_NFS_V4_2_READ_PLUS=y</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">CONFIG_SUNRPC=y</span></span><br><span class="line"><span class="string">CONFIG_SUNRPC_BACKCHANNEL=y</span></span><br><span class="line"><span class="string">CONFIG_SUNRPC_GSS=y</span></span><br><span class="line"><span class="string">CONFIG_RPCSEC_GSS_KRB5=y</span></span><br><span class="line"><span class="string">CONFIG_RPCSEC_GSS_KRB5_ENCTYPES_AES_SHA2=y</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+
+<p>PS: podman requires the following kernel modules</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># lsmod | grep -E &#x27;^xt_|^ip&#x27; | LC_ALL=en_US.UTF-8 sort</span></span><br><span class="line">ip6_tables             32768  2 ip6table_filter,ip6table_nat</span><br><span class="line">ip6table_filter        12288  0</span><br><span class="line">ip6table_nat           12288  0</span><br><span class="line">ip_tables              32768  2 iptable_filter,iptable_nat</span><br><span class="line">iptable_filter         12288  1</span><br><span class="line">iptable_nat            12288  1</span><br><span class="line">xt_addrtype            12288  2</span><br><span class="line">xt_comment             12288  3</span><br><span class="line">xt_conntrack           12288  1</span><br><span class="line">xt_mark                12288  1</span><br><span class="line">xt_MASQUERADE          16384  4</span><br><span class="line">xt_tcpudp              16384  0</span><br><span class="line">wireguard             118784  0</span><br><span class="line">ip6_udp_tunnel         16384  1 wireguard</span><br><span class="line">udp_tunnel             32768  1 wireguard</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">scripts/config --file <span class="built_in">arch</span>/x86/configs/config-wsl --<span class="built_in">disable</span> SYSTEM_REVOCATION_KEYS; \</span><br><span class="line">scripts/config --file <span class="built_in">arch</span>/x86/configs/config-wsl --<span class="built_in">disable</span> SYSTEM_TRUSTED_KEYRING</span><br><span class="line"></span><br><span class="line">make KCONFIG_CONFIG=<span class="built_in">arch</span>/x86/configs/config-wsl menuconfig</span><br></pre></td></tr></table></figure>
+
+<h2 id="Make-Kernel"><a href="#Make-Kernel" class="headerlink" title="Make Kernel"></a>Make Kernel</h2><h3 id="WSL2-Linux-Kernel"><a href="#WSL2-Linux-Kernel" class="headerlink" title="WSL2 Linux Kernel"></a>WSL2 Linux Kernel</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># time make KCONFIG_CONFIG=arch/x86/configs/config-wsl -j8 bzImage</span></span><br><span class="line">...</span><br><span class="line">real    19m6.172s</span><br><span class="line">user    135m7.511s</span><br><span class="line">sys     17m11.616s</span><br><span class="line"></span><br><span class="line"><span class="comment"># du -ks arch/x86/boot/bzImage</span></span><br><span class="line">15620   <span class="built_in">arch</span>/x86/boot/bzImage</span><br><span class="line"></span><br><span class="line"><span class="comment"># du -ms .</span></span><br><span class="line">6024    .</span><br><span class="line"></span><br><span class="line">time make KCONFIG_CONFIG=<span class="built_in">arch</span>/x86/configs/config-wsl -j8 install</span><br><span class="line"></span><br><span class="line"><span class="comment"># cp arch/x86/boot/bzImage /mnt/c/Users/&lt;seuUser&gt;/vmlinuz-6.6.36.3-WSL2</span></span><br><span class="line"><span class="comment"># cp arch/x86/configs/config-wsl /mnt/c/Users/&lt;seuUser&gt;/vmlinuz-6.6.36.3-WSL2.config</span></span><br><span class="line"><span class="comment"># vi /mnt/c/Users/&lt;seuUser&gt;/.wslconfig</span></span><br><span class="line"></span><br><span class="line">time make KCONFIG_CONFIG=<span class="built_in">arch</span>/x86/configs/config-wsl -j8 modules</span><br><span class="line">time make KCONFIG_CONFIG=<span class="built_in">arch</span>/x86/configs/config-wsl -j8 modules_install</span><br><span class="line">time make KCONFIG_CONFIG=<span class="built_in">arch</span>/x86/configs/config-wsl -j8 tarxz-pkg</span><br></pre></td></tr></table></figure>
+
+<h3 id="Stable-Linux-Kernel"><a href="#Stable-Linux-Kernel" class="headerlink" title="Stable Linux Kernel"></a>Stable Linux Kernel</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># time make KCONFIG_CONFIG=arch/x86/configs/config-wsl -j8 bzImage</span></span><br><span class="line">...</span><br><span class="line">Kernel: <span class="built_in">arch</span>/x86/boot/bzImage is ready  (#1)</span><br><span class="line"></span><br><span class="line">real    19m57.919s</span><br><span class="line">user    142m41.987s</span><br><span class="line">sys     12m48.108s</span><br><span class="line"></span><br><span class="line"><span class="comment"># du -ms .</span></span><br><span class="line">4467    .</span><br><span class="line"></span><br><span class="line"><span class="comment"># du -ks arch/x86/boot/bzImage</span></span><br><span class="line">13992   <span class="built_in">arch</span>/x86/boot/bzImage</span><br><span class="line"></span><br><span class="line">time make KCONFIG_CONFIG=<span class="built_in">arch</span>/x86/configs/config-wsl -j8 install</span><br><span class="line"></span><br><span class="line"><span class="comment"># cp arch/x86/boot/bzImage /mnt/c/Users/&lt;seuUser&gt;/vmlinux-6.11.9-microsoft-standard-WSL2</span></span><br><span class="line"><span class="comment"># cp arch/x86/configs/config-wsl  /mnt/c/Users/&lt;seuUser&gt;/vmlinux-6.11.9-microsoft-standard-WSL2.config</span></span><br><span class="line"><span class="comment"># vi /mnt/c/Users/&lt;seuUser&gt;/.wslconfig</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># time make KCONFIG_CONFIG=arch/x86/configs/config-wsl -j8 modules</span></span><br><span class="line">real    24m17.114s</span><br><span class="line">user    177m49.046s</span><br><span class="line">sys     21m29.028s</span><br><span class="line"></span><br><span class="line">time make KCONFIG_CONFIG=<span class="built_in">arch</span>/x86/configs/config-wsl -j8 modules_install</span><br><span class="line"></span><br><span class="line"><span class="comment"># time make KCONFIG_CONFIG=arch/x86/configs/config-wsl -j8 tarxz-pkg</span></span><br><span class="line">real    7m53.369s</span><br><span class="line">user    8m46.499s</span><br><span class="line">sys     0m30.752s</span><br><span class="line"></span><br><span class="line"><span class="comment"># du -ms linux-6.11.9-microsoft-standard-WSL2-x86.tar.xz</span></span><br><span class="line">708     linux-6.11.9-microsoft-standard-WSL2-x86.tar.xz</span><br></pre></td></tr></table></figure>
+
+<h2 id="Update-UserProfile-wslconfig"><a href="#Update-UserProfile-wslconfig" class="headerlink" title="Update %UserProfile%.wslconfig"></a>Update %UserProfile%.wslconfig</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/wsl/wsl-config#configure-global-options-with-wslconfig">https://learn.microsoft.com/en-us/windows/wsl/wsl-config#configure-global-options-with-wslconfig</a></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[wsl2]</span><br><span class="line"><span class="comment"># An absolute Windows path to a custom Linux kernel</span></span><br><span class="line"><span class="comment"># kernel=C:\\Users\\&lt;seuUser&gt;\\vmlinuz-6.6.36.3-WSL2</span></span><br><span class="line"><span class="comment"># kernel=C:\\Users\\&lt;seuUser&gt;\\vmlinuz-6.9.10-WSL2</span></span><br><span class="line"><span class="comment"># 50% of total memory on Windows or 8GB, whichever is less</span></span><br><span class="line"><span class="comment"># memory=8GB</span></span><br><span class="line"><span class="comment"># Sets additional kernel parameters, in this case enabling older Linux base images such as Centos 6</span></span><br><span class="line"><span class="comment"># kernelCommandLine = vsyscall=emulate systemd.unified_cgroup_hierarchy=1 cgroup_no_v1=all</span></span><br><span class="line"><span class="comment"># kernelCommandLine = vsyscall=emulate systemd.unified_cgroup_hierarchy=1 cgroup_no_v1=named</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Restart-WSL2"><a href="#Restart-WSL2" class="headerlink" title="Restart WSL2"></a>Restart WSL2</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wsl --version</span><br><span class="line">wsl --list --verbose</span><br><span class="line">wsl --shutdown</span><br><span class="line"></span><br><span class="line"><span class="comment"># taskkill /F /T /IM wslservice.exe</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl</span><br></pre></td></tr></table></figure>
+
+<h2 id="Check-WSL2"><a href="#Check-WSL2" class="headerlink" title="Check WSL2"></a>Check WSL2</h2><h3 id="WSL2-Linux-Kernel-1"><a href="#WSL2-Linux-Kernel-1" class="headerlink" title="WSL2 Linux Kernel"></a>WSL2 Linux Kernel</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cat /proc/version</span></span><br><span class="line">Linux version 6.6.36.3-microsoft-standard-WSL2+ (root@debian-stable) (gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils <span class="keyword">for</span> Debian) 2.40) <span class="comment">#1 SMP PREEMPT_DYNAMIC Fri Jul 19 07:04:59 UTC 2024</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Stable-Linux-Kernel-1"><a href="#Stable-Linux-Kernel-1" class="headerlink" title="Stable Linux Kernel"></a>Stable Linux Kernel</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cat /proc/version</span></span><br><span class="line">Linux version 6.9.10-microsoft-standard-WSL2 (root@debian-stable) (gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils <span class="keyword">for</span> Debian) 2.40) <span class="comment">#1 SMP PREEMPT_DYNAMIC Fri Jul 19 02:25:29 UTC 2024</span></span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Compiling-the-Linux-Kernel-for-WSL2"><span class="toc-number">1.</span> <span class="toc-text">Compiling the Linux Kernel for WSL2</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#WSL2-architecture"><span class="toc-number">1.1.</span> <span class="toc-text">WSL2 architecture</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Preparation"><span class="toc-number">1.2.</span> <span class="toc-text">Preparation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Start-build-container"><span class="toc-number">1.2.1.</span> <span class="toc-text">Start build container</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Use-WSL2-Linux-Kernel"><span class="toc-number">1.2.2.</span> <span class="toc-text">Use WSL2 Linux Kernel</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Use-Stable-Linux-Kernel"><span class="toc-number">1.2.3.</span> <span class="toc-text">Use Stable Linux Kernel</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Make-Configure"><span class="toc-number">1.3.</span> <span class="toc-text">Make Configure</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Make-Kernel"><span class="toc-number">1.4.</span> <span class="toc-text">Make Kernel</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#WSL2-Linux-Kernel"><span class="toc-number">1.4.1.</span> <span class="toc-text">WSL2 Linux Kernel</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Stable-Linux-Kernel"><span class="toc-number">1.4.2.</span> <span class="toc-text">Stable Linux Kernel</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Update-UserProfile-wslconfig"><span class="toc-number">1.5.</span> <span class="toc-text">Update %UserProfile%.wslconfig</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Restart-WSL2"><span class="toc-number">1.6.</span> <span class="toc-text">Restart WSL2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Check-WSL2"><span class="toc-number">1.7.</span> <span class="toc-text">Check WSL2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#WSL2-Linux-Kernel-1"><span class="toc-number">1.7.1.</span> <span class="toc-text">WSL2 Linux Kernel</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Stable-Linux-Kernel-1"><span class="toc-number">1.7.2.</span> <span class="toc-text">Stable Linux Kernel</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>
