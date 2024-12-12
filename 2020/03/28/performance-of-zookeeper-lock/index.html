@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Performance of ZooKeeper Lock | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Performance of ZooKeeper Lock
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/03/28</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/Java/">Java</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#Java" class='tag'>Java</a>
+
+
+          
+        </div>
+        <h1 id="Performance-of-ZooKeeper-Lock"><a href="#Performance-of-ZooKeeper-Lock" class="headerlink" title="Performance of ZooKeeper Lock"></a>Performance of ZooKeeper Lock</h1><h2 id="ZooKeeper-Locks"><a href="#ZooKeeper-Locks" class="headerlink" title="ZooKeeper Locks"></a>ZooKeeper Locks</h2><p><a target="_blank" rel="noopener" href="http://zookeeper.apache.org/doc/current/recipes.html#sc_recipes_Locks">Fully distributed locks</a> that are globally synchronous, meaning at any snapshot in time no two clients think they hold the same lock. These can be implemented using ZooKeeeper. As with priority queues, first define a lock node.</p>
+<p>Note:</p>
+<blockquote>
+<p>There now exists a Lock implementation in ZooKeeper recipes directory. This is distributed with the release – zookeeper-recipes&#x2F;zookeeper-recipes-lock directory of the release artifact.</p>
+</blockquote>
+<p>Clients wishing to obtain a lock do the following:</p>
+<ol>
+<li>Call create( ) with a pathname of “locknode&#x2F;guid-lock-“ and the sequence and ephemeral flags set. The guid is needed in case the create() result is missed. See the note below.</li>
+<li>Call getChildren( ) on the lock node without setting the watch flag (this is important to avoid the herd effect).</li>
+<li>If the pathname created in step 1 has the lowest sequence number suffix, the client has the lock and the client exits the protocol.</li>
+<li>The client calls exists( ) with the watch flag set on the path in the lock directory with the next lowest sequence number.</li>
+<li>if exists( ) returns null, go to step 2. Otherwise, wait for a notification for the pathname from the previous step before going to step 2.</li>
+</ol>
+<p>The unlock protocol is very simple: clients wishing to release a lock simply delete the node they created in step 1.</p>
+<p>Here are a few things to notice:</p>
+<ul>
+<li>The removal of a node will only cause one client to wake up since each node is watched by exactly one client. In this way, you avoid the herd effect.</li>
+<li>There is no polling or timeouts.</li>
+<li>Because of the way you implement locking, it is easy to see the amount of lock contention, break locks, debug locking problems, etc.</li>
+</ul>
+<p>Recoverable Errors and the GUID</p>
+<ul>
+<li>If a recoverable error occurs calling create() the client should call getChildren() and check for a node containing the guid used in the path name. This handles the case (noted above) of the create() succeeding on the server but the server crashing before returning the name of the new node.</li>
+</ul>
+<h2 id="Java-Classes"><a href="#Java-Classes" class="headerlink" title="Java Classes"></a>Java Classes</h2><h3 id="DistributedLock"><a href="#DistributedLock" class="headerlink" title="DistributedLock"></a>DistributedLock</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">DistributedLock</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">lock</span><span class="params">()</span> <span class="keyword">throws</span> LockingException;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">unlock</span><span class="params">()</span> <span class="keyword">throws</span> LockingException;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">LockingException</span> <span class="keyword">extends</span> <span class="title class_">RuntimeException</span> &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">LockingException</span><span class="params">(String msg, Exception e)</span> &#123;</span><br><span class="line">            <span class="built_in">super</span>(msg, e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">LockingException</span><span class="params">(String msg)</span> &#123;</span><br><span class="line">            <span class="built_in">super</span>(msg);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ZooKeeperLock"><a href="#ZooKeeperLock" class="headerlink" title="ZooKeeperLock"></a>ZooKeeperLock</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ZooKeeperLock</span> <span class="keyword">implements</span> <span class="title class_">DistributedLock</span>, Watcher &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ZooKeeperLock</span><span class="params">(ZooKeeper zooKeeper, List&lt;ACL&gt; acl, String lockerPath)</span> <span class="keyword">throws</span> KeeperException, InterruptedException &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">ensurePath</span><span class="params">(ZooKeeper zooKeeper, String path)</span> <span class="keyword">throws</span> KeeperException, InterruptedException &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title function_">lock</span><span class="params">()</span> <span class="keyword">throws</span> LockingException &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title function_">unlock</span><span class="params">()</span> <span class="keyword">throws</span> LockingException &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">process</span><span class="params">(WatchedEvent event)</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="Performance-Tests"><a href="#Performance-Tests" class="headerlink" title="Performance Tests"></a>Performance Tests</h2><p>ZooKeeper locks is network and disk heavy program, network throughput is 33 Kpkt&#x2F;s at 2300 TPS. Windows is much slower than Linux in such case.</p>
+<table>
+<thead>
+<tr>
+<th>Disk type</th>
+<th>Windows</th>
+<th>Linux</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HDD SATA</td>
+<td>30 TPS</td>
+<td>45 TPS</td>
+</tr>
+<tr>
+<td>SSD SATA</td>
+<td>110 TPS</td>
+<td>400 TPS</td>
+</tr>
+<tr>
+<td>SSD NVME</td>
+<td>-</td>
+<td>1300 TPS</td>
+</tr>
+<tr>
+<td>TMPFS</td>
+<td>-</td>
+<td>2300 TPS</td>
+</tr>
+</tbody></table>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Performance-of-ZooKeeper-Lock"><span class="toc-number">1.</span> <span class="toc-text">Performance of ZooKeeper Lock</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ZooKeeper-Locks"><span class="toc-number">1.1.</span> <span class="toc-text">ZooKeeper Locks</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-Classes"><span class="toc-number">1.2.</span> <span class="toc-text">Java Classes</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DistributedLock"><span class="toc-number">1.2.1.</span> <span class="toc-text">DistributedLock</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ZooKeeperLock"><span class="toc-number">1.2.2.</span> <span class="toc-text">ZooKeeperLock</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Performance-Tests"><span class="toc-number">1.3.</span> <span class="toc-text">Performance Tests</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

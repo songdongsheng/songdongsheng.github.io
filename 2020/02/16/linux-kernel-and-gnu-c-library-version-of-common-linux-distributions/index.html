@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Linux Kernel and GNU C Library version of common Linux distributions | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Linux Kernel and GNU C Library version of common Linux distributions
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/02/16</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/Linux/">Linux</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tag"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+
+          
+        </div>
+        <h1 id="Linux-Kernel-and-GNU-C-Library-version-of-common-Linux-distributions"><a href="#Linux-Kernel-and-GNU-C-Library-version-of-common-Linux-distributions" class="headerlink" title="Linux Kernel and GNU C Library version of common Linux distributions"></a>Linux Kernel and GNU C Library version of common Linux distributions</h1><h2 id="statically-linking"><a href="#statically-linking" class="headerlink" title="statically linking"></a>statically linking</h2><p>statically linking the specified libraries:</p>
+<pre><code>-Wl,-Bstatic -lluajit-5.1 -lssl -lcrypto -lsctp -Wl,-Bdynamic
+</code></pre>
+<p>but if your static linking program use <code>libdl</code> and the GNU C Library version in the build system is newer than the version in the target system, you may get the following error:</p>
+<pre><code># Using &#39;dlopen&#39; in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
+dl-call-libc-early-init.c:37: _dl_call_libc_early_init: Assertion `sym != NULL&#39; failed.
+</code></pre>
+<h2 id="glibc-versions"><a href="#glibc-versions" class="headerlink" title="glibc versions"></a>glibc versions</h2><p>If we link with the lowest version of the C Library, then we can achieve maximum compatibility.</p>
+<table>
+<thead>
+<tr>
+<th>Linux distribution</th>
+<th>Release date</th>
+<th>GNU C Library</th>
+<th>GCC support library</th>
+<th>Linux Kernel</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ubuntu 10.04</td>
+<td>2010-04</td>
+<td>2.11.1</td>
+<td>4.4.3</td>
+<td>2.6.32</td>
+</tr>
+<tr>
+<td>Debian 6</td>
+<td>2011-02</td>
+<td>2.11.3</td>
+<td>4.4.5</td>
+<td>2.6.32</td>
+</tr>
+<tr>
+<td>RHEL 6</td>
+<td>2010-11</td>
+<td>2.12</td>
+<td>4.4.7</td>
+<td>2.6.32</td>
+</tr>
+<tr>
+<td>Debian 7</td>
+<td>2013-05</td>
+<td>2.13</td>
+<td>4.7.2</td>
+<td>3.2</td>
+</tr>
+<tr>
+<td>Ubuntu 12.04</td>
+<td>2012-04</td>
+<td>2.15</td>
+<td>4.6.3</td>
+<td>3.2</td>
+</tr>
+<tr>
+<td><strong>RHEL 7</strong></td>
+<td>2014-06</td>
+<td><strong>2.17</strong></td>
+<td>4.8.5</td>
+<td>3.10</td>
+</tr>
+<tr>
+<td><strong>AnolisOS 7.9</strong></td>
+<td>2022-02</td>
+<td><strong>2.17</strong></td>
+<td>4.8.5</td>
+<td>3.10 -&gt; 4.19</td>
+</tr>
+<tr>
+<td>Ubuntu 14.04</td>
+<td>2014-04</td>
+<td>2.19</td>
+<td>4.9.3</td>
+<td>3.13</td>
+</tr>
+<tr>
+<td>SLE 12</td>
+<td>2014-10</td>
+<td>2.19 -&gt; 2.22</td>
+<td>4.8.3 -&gt; 13.2</td>
+<td><a target="_blank" rel="noopener" href="https://www.suse.com/lifecycle/">3.12 -&gt; 4.12</a></td>
+</tr>
+<tr>
+<td>Debian 8</td>
+<td>2015-04</td>
+<td>2.19</td>
+<td>4.9.2</td>
+<td>3.16</td>
+</tr>
+<tr>
+<td>Ubuntu 16.04</td>
+<td>2016-04</td>
+<td>2.23</td>
+<td>5.4.0</td>
+<td>4.4</td>
+</tr>
+<tr>
+<td>Debian 9</td>
+<td>2017-06</td>
+<td>2.24</td>
+<td>6.3</td>
+<td>4.9</td>
+</tr>
+<tr>
+<td>Amazon Linux 2 LTS</td>
+<td>2018-06</td>
+<td>2.26</td>
+<td>7.3</td>
+<td>4.14</td>
+</tr>
+<tr>
+<td>SLE 15</td>
+<td>2018-07</td>
+<td>2.26</td>
+<td>7.3</td>
+<td><a target="_blank" rel="noopener" href="https://www.suse.com/lifecycle/">4.12</a></td>
+</tr>
+<tr>
+<td>Ubuntu 18.04</td>
+<td>2018-04</td>
+<td>2.27</td>
+<td>8.4</td>
+<td>4.15</td>
+</tr>
+<tr>
+<td><strong>RHEL 8</strong></td>
+<td>2019-05</td>
+<td><strong>2.28</strong></td>
+<td>8.5</td>
+<td>4.18</td>
+</tr>
+<tr>
+<td><strong>AnolisOS 8.9</strong></td>
+<td>2024-04</td>
+<td><strong>2.28</strong></td>
+<td>8.5</td>
+<td>4.18 -&gt; 5.10</td>
+</tr>
+<tr>
+<td>OpenCloudOS 8.10</td>
+<td>2024-10</td>
+<td>2.28</td>
+<td>8.5</td>
+<td>5.4</td>
+</tr>
+<tr>
+<td>Debian 10</td>
+<td>2019-07</td>
+<td>2.28</td>
+<td>8.3</td>
+<td>4.19</td>
+</tr>
+<tr>
+<td>openEuler 20.03</td>
+<td>2020-03</td>
+<td>2.28</td>
+<td>7.3</td>
+<td>4.19</td>
+</tr>
+<tr>
+<td>Ubuntu 20.04</td>
+<td>2020-04</td>
+<td>2.31</td>
+<td>10.5</td>
+<td>5.4</td>
+</tr>
+<tr>
+<td>SLE 15 SP3</td>
+<td>2021-06</td>
+<td>2.31</td>
+<td>10.2</td>
+<td>5.3</td>
+</tr>
+<tr>
+<td><strong>Debian 11</strong></td>
+<td>2021-08</td>
+<td><strong>2.31</strong></td>
+<td>10.2</td>
+<td>5.10</td>
+</tr>
+<tr>
+<td>SLE 15 SP4</td>
+<td>2022-06</td>
+<td>2.31</td>
+<td>11.2</td>
+<td><a target="_blank" rel="noopener" href="https://www.suse.com/lifecycle/#suse-linux-enterprise-server-15">5.14</a></td>
+</tr>
+<tr>
+<td>openEuler 22.03</td>
+<td>2022-03</td>
+<td>2.34</td>
+<td>10.3</td>
+<td>5.10</td>
+</tr>
+<tr>
+<td>RHEL 9</td>
+<td>2022-05</td>
+<td>2.34</td>
+<td>11.4 -&gt; 11.5</td>
+<td>5.14</td>
+</tr>
+<tr>
+<td>Amazon Linux 2023</td>
+<td>2023-03</td>
+<td>2.34</td>
+<td>11.4</td>
+<td>6.1</td>
+</tr>
+<tr>
+<td>CBL-Mariner 2.0</td>
+<td>2022-05</td>
+<td>2.35</td>
+<td>11.2</td>
+<td>5.15</td>
+</tr>
+<tr>
+<td>Ubuntu 22.04</td>
+<td>2022-04</td>
+<td>2.35</td>
+<td>12.3</td>
+<td>5.15</td>
+</tr>
+<tr>
+<td>Debian 12</td>
+<td>2023-06</td>
+<td><a target="_blank" rel="noopener" href="https://tracker.debian.org/pkg/glibc">2.36</a></td>
+<td><a target="_blank" rel="noopener" href="https://packages.debian.org/bookworm/libgcc-s1">12.2</a></td>
+<td><a target="_blank" rel="noopener" href="https://tracker.debian.org/pkg/linux">6.1</a></td>
+</tr>
+<tr>
+<td>AnolisOS 23.1</td>
+<td>2024-05</td>
+<td>2.38</td>
+<td>12.3</td>
+<td>6.6</td>
+</tr>
+<tr>
+<td><strong>OpenCloudOS 9.2</strong></td>
+<td>2024-05</td>
+<td><strong>2.38</strong></td>
+<td>12.3</td>
+<td>6.6</td>
+</tr>
+<tr>
+<td>openEuler 24.03</td>
+<td>2024-06</td>
+<td>2.38</td>
+<td>12.3</td>
+<td>6.6</td>
+</tr>
+<tr>
+<td>SLE 15 SP6</td>
+<td>2024-06</td>
+<td>2.38</td>
+<td>13.3</td>
+<td>6.4</td>
+</tr>
+<tr>
+<td>Ubuntu 24.04</td>
+<td>2024-04</td>
+<td>2.39</td>
+<td>14.0</td>
+<td>6.8</td>
+</tr>
+<tr>
+<td>Fedora 40</td>
+<td>2024-04</td>
+<td>2.39</td>
+<td>14.1</td>
+<td>6.9</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://mirror.stream.centos.org/10-stream/BaseOS/x86_64/os/Packages/">CentOS Stream 10</a></td>
+<td>2024-12</td>
+<td>2.39</td>
+<td>14.2</td>
+<td>6.12</td>
+</tr>
+<tr>
+<td>Ubuntu 24.10</td>
+<td>2024-10</td>
+<td>2.40</td>
+<td>14.2</td>
+<td>6.11</td>
+</tr>
+<tr>
+<td>Debian 13</td>
+<td><em><strong>2025-06</strong></em></td>
+<td><a target="_blank" rel="noopener" href="https://tracker.debian.org/pkg/glibc">2.40 ?</a></td>
+<td><a target="_blank" rel="noopener" href="https://packages.debian.org/trixie/libgcc-s1">14.2 ?</a></td>
+<td><a target="_blank" rel="noopener" href="https://tracker.debian.org/pkg/linux">6.12 ?</a></td>
+</tr>
+<tr>
+<td>RHEL 10</td>
+<td><em><strong>2025-08</strong></em></td>
+<td><a target="_blank" rel="noopener" href="https://composes.stream.centos.org/stream-10/production/latest-CentOS-Stream/compose/BaseOS/x86_64/os/Packages/">2.40 ?</a></td>
+<td><a target="_blank" rel="noopener" href="https://composes.stream.centos.org/stream-10/production/latest-CentOS-Stream/compose/BaseOS/x86_64/os/Packages/">14.2 ?</a></td>
+<td><a target="_blank" rel="noopener" href="https://composes.stream.centos.org/stream-10/production/latest-CentOS-Stream/compose/BaseOS/x86_64/os/Packages/">6.12 ?</a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://download.opensuse.org/tumbleweed/repo/oss/x86_64/"><strong>openSUSE Tumbleweed</strong></a></td>
+<td><em><strong>Rolling</strong></em></td>
+<td>2.40 ?</td>
+<td>14.2 ?</td>
+<td>6.11 ?</td>
+</tr>
+<tr>
+<td>Alpine 3.18</td>
+<td><a target="_blank" rel="noopener" href="https://alpinelinux.org/releases/">2023-05</a></td>
+<td>musl <a target="_blank" rel="noopener" href="https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.18-stable/main/musl/APKBUILD">1.2.4</a></td>
+<td><a target="_blank" rel="noopener" href="https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.18-stable/main/gcc/APKBUILD">libgcc 12.2</a></td>
+<td><a target="_blank" rel="noopener" href="https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.18-stable/main/linux-lts/APKBUILD">6.1</a></td>
+</tr>
+<tr>
+<td>Alpine 3.19</td>
+<td><a target="_blank" rel="noopener" href="https://alpinelinux.org/releases/">2023-12</a></td>
+<td>musl <a target="_blank" rel="noopener" href="https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.19-stable/main/musl/APKBUILD">1.2.4</a></td>
+<td><a target="_blank" rel="noopener" href="https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.19-stable/main/gcc/APKBUILD">libgcc 13.2</a></td>
+<td><a target="_blank" rel="noopener" href="https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.19-stable/main/linux-lts/APKBUILD">6.6</a></td>
+</tr>
+<tr>
+<td>Alpine 3.20</td>
+<td><a target="_blank" rel="noopener" href="https://alpinelinux.org/releases/">2024-05</a></td>
+<td>musl <a target="_blank" rel="noopener" href="https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.20-stable/main/musl/APKBUILD">1.2.5</a></td>
+<td><a target="_blank" rel="noopener" href="https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.20-stable/main/gcc/APKBUILD">libgcc 13.2</a></td>
+<td><a target="_blank" rel="noopener" href="https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.20-stable/main/linux-lts/APKBUILD">6.6</a></td>
+</tr>
+<tr>
+<td>Alpine 3.21</td>
+<td><a target="_blank" rel="noopener" href="https://alpinelinux.org/releases/">2024-12</a></td>
+<td>musl <a target="_blank" rel="noopener" href="https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.21-stable/main/musl/APKBUILD">1.2.5</a></td>
+<td><a target="_blank" rel="noopener" href="https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.21-stable/main/gcc/APKBUILD">libgcc 14.2</a></td>
+<td><a target="_blank" rel="noopener" href="https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.21-stable/main/linux-lts/APKBUILD">6.12</a></td>
+</tr>
+<tr>
+<td>Alpine edge</td>
+<td><a target="_blank" rel="noopener" href="https://alpinelinux.org/releases/">2025-05</a></td>
+<td>musl <a target="_blank" rel="noopener" href="https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/musl/APKBUILD">1.2.5</a></td>
+<td><a target="_blank" rel="noopener" href="https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/gcc/APKBUILD">libgcc 14.2</a></td>
+<td><a target="_blank" rel="noopener" href="https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/linux-lts/APKBUILD">6.12</a></td>
+</tr>
+</tbody></table>
+<h2 id="libgcc-versions"><a href="#libgcc-versions" class="headerlink" title="libgcc versions"></a>libgcc versions</h2><p>The following GCC versions add new functions to <strong>libgcc</strong> (<a target="_blank" rel="noopener" href="https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/libgcc-std.ver.in;hb=HEAD"><code>libgcc/libgcc-std.ver.in</code></a> and <a target="_blank" rel="noopener" href="https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/config/i386/libgcc-glibc.ver;hb=HEAD"><code>libgcc/config/i386/libgcc-glibc.ver</code></a>)：</p>
+<ul>
+<li><strong>GCC 14.0.0</strong></li>
+<li><strong>GCC 13.0.0</strong></li>
+<li><strong>GCC 12.0.0</strong></li>
+<li><strong>GCC 7.0.0</strong></li>
+<li><strong>GCC 4.8.0</strong></li>
+<li>… (Too old to need to list anymore)</li>
+</ul>
+<h2 id="docker-images"><a href="#docker-images" class="headerlink" title="docker images"></a>docker images</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># shopt -s checkwinsize</span></span><br><span class="line"><span class="comment"># echo &quot;Lines: $(tput lines), Columns: $(tput cols)&quot;</span></span><br><span class="line"><span class="comment"># echo &quot;Lines: $LINES, Columns: $COLUMNS&quot;</span></span><br><span class="line">Lines: 30, Columns: 96</span><br><span class="line"></span><br><span class="line"><span class="comment"># podman images | grep &#x27;&lt;none&gt;&#x27; | awk &#x27;&#123;print $3&#125;&#x27; | xargs --no-run-if-empty podman rmi</span></span><br><span class="line"><span class="comment"># podman images | tail +2 | sort -V -k1,2 | while read IMG_PATH IMG_TAG REST; do date;echo podman pull $IMG_PATH:$IMG_TAG; podman pull $IMG_PATH:$IMG_TAG; echo; done</span></span><br><span class="line"><span class="comment"># podman images | tail +2 | sort -V -k1,2</span></span><br><span class="line">REPOSITORY                                          TAG         IMAGE ID      CREATED       SIZE</span><br><span class="line">docker.io/library/almalinux                         8           acaca326f3b3  8 weeks ago   196 MB</span><br><span class="line">docker.io/library/almalinux                         9           b0b3f56026dd  8 weeks ago   193 MB</span><br><span class="line">docker.io/library/alpine                            3.17        042a816809aa  2 weeks ago   7.34 MB</span><br><span class="line">docker.io/library/debian                            11          5c8936e57a38  2 weeks ago   129 MB</span><br><span class="line">docker.io/library/debian                            testing     556061af5f11  2 weeks ago   121 MB</span><br><span class="line">docker.io/library/ubuntu                            20.04       d5447fc01ae6  7 weeks ago   75.2 MB</span><br><span class="line">docker.io/library/ubuntu                            22.04       6b7dfa7e8fdb  7 weeks ago   80.3 MB</span><br><span class="line">docker.io/songdongsheng/anolisos                    7           856d891a4d7d  2 days ago    181 MB</span><br><span class="line">docker.io/songdongsheng/anolisos                    8           b39daaa5a422  2 days ago    129 MB</span><br><span class="line">docker.io/songdongsheng/openeuler                   22.03       e2c2b88bb007  6 days ago    160 MB</span><br><span class="line">docker.io/songdongsheng/openeuler                   24.03       fcd7328d3b91  3 months ago  167 MB</span><br><span class="line">docker.io/songdongsheng/opencloudos                 8           43f03fc1c7af  2 weeks ago   142 MB</span><br><span class="line">docker.io/songdongsheng/opencloudos                 9           8d77637ceb8c  3 weeks ago   153 MB</span><br><span class="line">ghcr.io/oracle/oraclelinux                          7           258c049720a7  17 hours ago  271 MB</span><br><span class="line">ghcr.io/oracle/oraclelinux                          8           15d3782e65b8  17 hours ago  237 MB</span><br><span class="line">ghcr.io/oracle/oraclelinux                          9           6d4f5c87c123  17 hours ago  234 MB</span><br><span class="line">mcr.microsoft.com/cbl-mariner/base/core             2.0         4ec990a6bc0d  39 hours ago  68.4 MB</span><br><span class="line">public.ecr.aws/amazonlinux/amazonlinux              2           20b4c80b1755  4 days ago    172 MB</span><br><span class="line">public.ecr.aws/amazonlinux/amazonlinux              2023        eef352c7a904  3 days ago    149 MB</span><br><span class="line">quay.io/fedora/fedora                               37          19c0ae4dd222  7 weeks ago   190 MB</span><br><span class="line">quay.io/fedora/fedora                               38          c9bfca6d0ac2  8 days ago    196 MB</span><br><span class="line">registry.access.redhat.com/ubi7                     latest      f0c1470d8cb2  11 days ago   217 MB</span><br><span class="line">registry.access.redhat.com/ubi7-minimal             latest      0f3e1be52c0b  11 days ago   84.8 MB</span><br><span class="line">registry.access.redhat.com/ubi8                     latest      6a2ef33ab97f  3 weeks ago   214 MB</span><br><span class="line">registry.access.redhat.com/ubi8-micro               latest      03a08867970f  2 weeks ago   28.5 MB</span><br><span class="line">registry.access.redhat.com/ubi8-minimal             latest      35585f3ca6c6  3 weeks ago   94.5 MB</span><br><span class="line">registry.access.redhat.com/ubi8/openjdk-11          latest      4383be399b12  10 days ago   397 MB</span><br><span class="line">registry.access.redhat.com/ubi8/openjdk-11-runtime  latest      d526bdf5e61d  10 days ago   358 MB</span><br><span class="line">registry.access.redhat.com/ubi8/openjdk-17          latest      59fd01ab51ad  10 days ago   408 MB</span><br><span class="line">registry.access.redhat.com/ubi8/openjdk-17-runtime  latest      42cb53376c53  10 days ago   366 MB</span><br><span class="line">registry.access.redhat.com/ubi9                     latest      ed8d4815d368  11 days ago   219 MB</span><br><span class="line">registry.access.redhat.com/ubi9-micro               latest      fc923451d5b9  11 days ago   26.1 MB</span><br><span class="line">registry.access.redhat.com/ubi9-minimal             latest      5b3c7c785802  11 days ago   97.4 MB</span><br><span class="line">registry.access.redhat.com/ubi9/openjdk-11          latest      cac6dcc81e20  10 days ago   393 MB</span><br><span class="line">registry.access.redhat.com/ubi9/openjdk-11-runtime  latest      bde7a6c813fb  10 days ago   359 MB</span><br><span class="line">registry.access.redhat.com/ubi9/openjdk-17          latest      f3368e202a72  10 days ago   404 MB</span><br><span class="line">registry.access.redhat.com/ubi9/openjdk-17-runtime  latest      aeb5671874f4  10 days ago   366 MB</span><br><span class="line">registry.opensuse.org/opensuse/leap                 15.4        ce2ffde521dc  2 weeks ago   116 MB</span><br><span class="line">registry.opensuse.org/opensuse/tumbleweed           latest      c2a77db6cf5d  33 hours ago  106 MB</span><br><span class="line">registry.suse.com/bci/bci-base                      15.4        a357b1e79e7e  43 hours ago  122 MB</span><br><span class="line">registry.suse.com/bci/bci-busybox                   15.4        6a88b3a3c425  2 weeks ago   14.5 MB</span><br><span class="line">registry.suse.com/bci/bci-micro                     15.4        07d9e5464374  2 weeks ago   25.8 MB</span><br><span class="line">registry.suse.com/bci/bci-minimal                   15.4        ac521a188b44  28 hours ago  48.1 MB</span><br><span class="line">registry.suse.com/bci/openjdk                       latest      0f14e1b28472  43 hours ago  334 MB</span><br><span class="line">registry.suse.com/bci/openjdk-devel                 latest      68a33af805cf  22 hours ago  402 MB</span><br><span class="line">registry.suse.com/suse/sle15                        15.4        a357b1e79e7e  43 hours ago  122 MB</span><br><span class="line">registry.suse.com/suse/sles12sp5                    latest      9e344f88a8fc  25 hours ago  99.5 MB</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux-Kernel-and-GNU-C-Library-version-of-common-Linux-distributions"><span class="toc-number">1.</span> <span class="toc-text">Linux Kernel and GNU C Library version of common Linux distributions</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#statically-linking"><span class="toc-number">1.1.</span> <span class="toc-text">statically linking</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#glibc-versions"><span class="toc-number">1.2.</span> <span class="toc-text">glibc versions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#libgcc-versions"><span class="toc-number">1.3.</span> <span class="toc-text">libgcc versions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#docker-images"><span class="toc-number">1.4.</span> <span class="toc-text">docker images</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

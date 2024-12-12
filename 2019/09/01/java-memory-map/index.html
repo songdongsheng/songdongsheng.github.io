@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Java Memory Map | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Java Memory Map
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2019/09/01</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/Java/">Java</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tag"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Java" class='tag'>Java</a>
+
+
+          
+        </div>
+        <h1 id="Java-Memory-Map"><a href="#Java-Memory-Map" class="headerlink" title="Java Memory Map"></a>Java Memory Map</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/7/docs/technotes/tools/share/jmap.html">https://docs.oracle.com/javase/7/docs/technotes/tools/share/jmap.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.oracle.com/en/java/javase/8/tools/jmap.html">https://docs.oracle.com/en/java/javase/8/tools/jmap.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.oracle.com/en/java/javase/11/tools/jmap.html">https://docs.oracle.com/en/java/javase/11/tools/jmap.html</a></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$ jmap 1256 | grep ^0x | sort -k3</span><br><span class="line">0x0000000000400000      7K      /ci/jdk-8u152-linux-x64/bin/java</span><br><span class="line">0x00007fd729e9c000      221K    /ci/jdk-8u152-linux-x64/jre/lib/amd64/libjava.so</span><br><span class="line">0x00007fd71422c000      49K     /ci/jdk-8u152-linux-x64/jre/lib/amd64/libmanagement.so</span><br><span class="line">0x00007fd714015000      112K    /ci/jdk-8u152-linux-x64/jre/lib/amd64/libnet.so</span><br><span class="line">0x00007fd70d7ee000      91K     /ci/jdk-8u152-linux-x64/jre/lib/amd64/libnio.so</span><br><span class="line">0x00007fd6cad8f000      251K    /ci/jdk-8u152-linux-x64/jre/lib/amd64/libsunec.so</span><br><span class="line">0x00007fd72a0c8000      64K     /ci/jdk-8u152-linux-x64/jre/lib/amd64/libverify.so</span><br><span class="line">0x00007fd729a6d000      125K    /ci/jdk-8u152-linux-x64/jre/lib/amd64/libzip.so</span><br><span class="line">0x00007fd72a7e1000      16640K  /ci/jdk-8u152-linux-x64/jre/lib/amd64/server/libjvm.so</span><br><span class="line">0x00007fd72bda4000      101K    /ci/jdk-8u152-linux-x64/lib/amd64/jli/libjli.so</span><br><span class="line">0x00007fd72c1d6000      160K    /usr/lib64/ld-2.17.so</span><br><span class="line">0x00007fd72b7dd000      2077K   /usr/lib64/libc-2.17.so</span><br><span class="line">0x00007fd72bba0000      19K     /usr/lib64/libdl-2.17.so</span><br><span class="line">0x00007fd6cab79000      86K     /usr/lib64/libgcc_s-4.8.5-20150702.so.1</span><br><span class="line">0x00007fd72a4df000      1112K   /usr/lib64/libm-2.17.so</span><br><span class="line">0x00007fd729c89000      60K     /usr/lib64/libnss_files-2.17.so</span><br><span class="line">0x00007fd72bfba000      141K    /usr/lib64/libpthread-2.17.so</span><br><span class="line">0x00007fd72a2d7000      43K     /usr/lib64/librt-2.17.so</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java-Memory-Map"><span class="toc-number">1.</span> <span class="toc-text">Java Memory Map</span></a></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

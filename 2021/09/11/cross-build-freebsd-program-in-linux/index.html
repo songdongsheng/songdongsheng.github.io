@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Cross-build FreeBSD Program in Linux | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Cross-build FreeBSD Program in Linux
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2021/09/11</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/FreeBSD/">FreeBSD</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Operating%20system" class='tag'>Operating system</a>
+
+  <a href="/tags/#FreeBSD" class='tag'>FreeBSD</a>
+
+
+          
+        </div>
+        <h1 id="Rust-on-FreeBSD"><a href="#Rust-on-FreeBSD" class="headerlink" title="Rust on FreeBSD"></a>Rust on FreeBSD</h1><h2 id="The-First-Steps-on-FreeBSD"><a href="#The-First-Steps-on-FreeBSD" class="headerlink" title="The First Steps on FreeBSD"></a>The First Steps on FreeBSD</h2><h3 id="hostname"><a href="#hostname" class="headerlink" title="hostname"></a>hostname</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@freebsd-13:~ <span class="comment"># vi /etc/rc.conf</span></span><br><span class="line">    hostname=<span class="string">&quot;freebsd-13&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="hvn0"><a href="#hvn0" class="headerlink" title="hvn0"></a>hvn0</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">root@freebsd-13:~ <span class="comment"># vi /etc/rc.conf</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#defaultrouter=&quot;192.168.1.1&quot;</span></span><br><span class="line">    <span class="comment">#ifconfig_hn0=&quot;inet 192.168.1.130/24&quot;</span></span><br><span class="line"></span><br><span class="line">    ifconfig_hn0=<span class="string">&quot;DHCP&quot;</span></span><br><span class="line">    ifconfig_hn0_ipv6=<span class="string">&quot;inet6 accept_rtadv&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">root@freebsd-13:~ <span class="comment"># dmesg | grep hn0</span></span><br><span class="line">    hn0: &lt;Hyper-V Network Interface&gt; on vmbus0</span><br><span class="line">    hn0: Ethernet address: 5c:a4:fe:98:5f:41</span><br><span class="line">    hn0: <span class="built_in">link</span> state changed to UP</span><br></pre></td></tr></table></figure>
+
+<h3 id="disk"><a href="#disk" class="headerlink" title="disk"></a>disk</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">root@freebsd-13:~ <span class="comment"># df -h</span></span><br><span class="line">Filesystem            Size    Used   Avail Capacity  Mounted on</span><br><span class="line">zroot/ROOT/default     20G    3.1G     17G    16%    /</span><br><span class="line">devfs                 1.0K    1.0K      0B   100%    /dev</span><br><span class="line">/dev/da0p1            260M    1.8M    258M     1%    /boot/efi</span><br><span class="line">zroot/tmp              17G    8.8M     17G     0%    /tmp</span><br><span class="line">zroot/var/log          17G    180K     17G     0%    /var/log</span><br><span class="line">zroot                  17G     96K     17G     0%    /zroot</span><br><span class="line">zroot/var/audit        17G     96K     17G     0%    /var/audit</span><br><span class="line">zroot/usr/ports        18G    711M     17G     4%    /usr/ports</span><br><span class="line">zroot/var/tmp          17G     96K     17G     0%    /var/tmp</span><br><span class="line">zroot/usr/src          17G     96K     17G     0%    /usr/src</span><br><span class="line">zroot/var/mail         17G    120K     17G     0%    /var/mail</span><br><span class="line">zroot/var/crash        17G     96K     17G     0%    /var/crash</span><br><span class="line">zroot/usr/home         17G     83M     17G     0%    /usr/home</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">root@freebsd-13:~ <span class="comment"># mount</span></span><br><span class="line">zroot/ROOT/default on / (zfs, NFS exported, <span class="built_in">local</span>, noatime, nfsv4acls)</span><br><span class="line">devfs on /dev (devfs)</span><br><span class="line">/dev/da0p1 on /boot/efi (msdosfs, <span class="built_in">local</span>)</span><br><span class="line">zroot/tmp on /tmp (zfs, <span class="built_in">local</span>, noatime, nosuid, nfsv4acls)</span><br><span class="line">zroot/var/log on /var/log (zfs, <span class="built_in">local</span>, noatime, noexec, nosuid, nfsv4acls)</span><br><span class="line">zroot on /zroot (zfs, <span class="built_in">local</span>, noatime, nfsv4acls)</span><br><span class="line">zroot/var/audit on /var/audit (zfs, <span class="built_in">local</span>, noatime, noexec, nosuid, nfsv4acls)</span><br><span class="line">zroot/usr/ports on /usr/ports (zfs, <span class="built_in">local</span>, noatime, nosuid, nfsv4acls)</span><br><span class="line">zroot/var/tmp on /var/tmp (zfs, <span class="built_in">local</span>, noatime, nosuid, nfsv4acls)</span><br><span class="line">zroot/usr/src on /usr/src (zfs, <span class="built_in">local</span>, noatime, nfsv4acls)</span><br><span class="line">zroot/var/mail on /var/mail (zfs, <span class="built_in">local</span>, nfsv4acls)</span><br><span class="line">zroot/var/crash on /var/crash (zfs, <span class="built_in">local</span>, noatime, noexec, nosuid, nfsv4acls)</span><br><span class="line">zroot/usr/home on /usr/home (zfs, <span class="built_in">local</span>, noatime, nfsv4acls)</span><br></pre></td></tr></table></figure>
+
+<h3 id="rc-conf"><a href="#rc-conf" class="headerlink" title="rc.conf"></a>rc.conf</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">root@freebsd-13:~ <span class="comment"># vi /etc/rc.conf</span></span><br><span class="line">hostname=<span class="string">&quot;freebsd-13&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># defaultrouter=&quot;192.168.1.1&quot;</span></span><br><span class="line"><span class="comment"># ifconfig_hn0=&quot;inet 192.168.1.130/24&quot;</span></span><br><span class="line"></span><br><span class="line">ifconfig_hn0=<span class="string">&quot;DHCP&quot;</span></span><br><span class="line">ifconfig_hn0_ipv6=<span class="string">&quot;inet6 accept_rtadv&quot;</span></span><br><span class="line"></span><br><span class="line">sshd_enable=<span class="string">&quot;YES&quot;</span></span><br><span class="line">ntpdate_enable=<span class="string">&quot;YES&quot;</span></span><br><span class="line"><span class="comment"># Set dumpdev to &quot;AUTO&quot; to enable crash dumps, &quot;NO&quot; to disable</span></span><br><span class="line">dumpdev=<span class="string">&quot;NO&quot;</span></span><br><span class="line">zfs_enable=<span class="string">&quot;YES&quot;</span></span><br><span class="line"></span><br><span class="line">sendmail_enable=<span class="string">&quot;NO&quot;</span></span><br><span class="line">sendmail_submit_enable=<span class="string">&quot;NO&quot;</span></span><br><span class="line">sendmail_outbound_enable=<span class="string">&quot;NO&quot;</span></span><br><span class="line">sendmail_msp_queue_enable=<span class="string">&quot;NO&quot;</span></span><br><span class="line"></span><br><span class="line">nfs_server_enable=<span class="string">&quot;YES&quot;</span></span><br><span class="line">nfsv4_server_only=<span class="string">&quot;YES&quot;</span></span><br><span class="line">nfsv4_server_enable=<span class="string">&quot;YES&quot;</span></span><br><span class="line">mountd_enable=<span class="string">&quot;YES&quot;</span></span><br><span class="line">nfs_client_enable=<span class="string">&quot;YES&quot;</span></span><br><span class="line"></span><br><span class="line">dbus_enable=<span class="string">&quot;YES&quot;</span></span><br><span class="line">avahi_daemon_enable=<span class="string">&quot;YES&quot;</span></span><br><span class="line"></span><br><span class="line">linux_enable=<span class="string">&quot;YES&quot;</span></span><br><span class="line">linux_mounts_enable=<span class="string">&quot;YES&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="sshd"><a href="#sshd" class="headerlink" title="sshd"></a>sshd</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">root@freebsd-13:~ <span class="comment"># touch $HOME/.hushlogin</span></span><br><span class="line"></span><br><span class="line">root@freebsd-13:~ <span class="comment"># vi /etc/ssh/sshd_config</span></span><br><span class="line">    PermitRootLogin <span class="built_in">yes</span></span><br><span class="line">    PasswordAuthentication <span class="built_in">yes</span></span><br><span class="line">    UseDNS no</span><br><span class="line"></span><br><span class="line">root@freebsd-13:~ <span class="comment"># /etc/rc.d/sshd reload</span></span><br><span class="line">Performing sanity check on sshd configuration.</span><br></pre></td></tr></table></figure>
+
+<h3 id="pkg"><a href="#pkg" class="headerlink" title="pkg"></a>pkg</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@freebsd-13:~ <span class="comment"># vi ~/.profile</span></span><br><span class="line"><span class="comment"># export PS1=&quot;\u@\h:\w \\$ &quot;</span></span><br><span class="line"></span><br><span class="line">. <span class="string">&quot;<span class="variable">$HOME</span>/.cargo/env&quot;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">root@freebsd-13:~ <span class="comment"># pkg update</span></span><br><span class="line">Updating FreeBSD repository catalogue...</span><br><span class="line">Fetching packagesite.txz: 100%    6 MiB   1.1MB/s    00:06</span><br><span class="line">Processing entries: 100%</span><br><span class="line">FreeBSD repository update completed. 30745 packages processed.</span><br><span class="line">All repositories are up to <span class="built_in">date</span>.</span><br><span class="line"></span><br><span class="line">root@freebsd-13:~ <span class="comment"># pkg info</span></span><br><span class="line"></span><br><span class="line">root@freebsd-13:~ <span class="comment"># pkg upgrade -y</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="cc"><a href="#cc" class="headerlink" title="cc"></a>cc</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">root@freebsd-13:~ <span class="comment"># cat &lt;&lt; EOF | cc -std=c11 -march=haswell -O2 -s -o hello -x c -</span></span><br><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line">int <span class="function"><span class="title">main</span></span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Hello, World!\n&quot;</span>);</span><br><span class="line">    <span class="built_in">return</span> 0;</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">root@freebsd-13:~ <span class="comment"># du -ks hello</span></span><br><span class="line">5       hello</span><br><span class="line"></span><br><span class="line">root@freebsd-13:~ <span class="comment"># file hello</span></span><br><span class="line">hello: ELF 64-bit LSB executable, x86-64, version 1 (FreeBSD), dynamically linked, interpreter /libexec/ld-elf.so.1, <span class="keyword">for</span> FreeBSD 13.0 (1300139), FreeBSD-style, stripped</span><br><span class="line"></span><br><span class="line">root@freebsd-13:~ <span class="comment"># readelf -hld hello | grep -E &quot;NEEDED|interpreter&quot;</span></span><br><span class="line">      [Requesting program interpreter: /libexec/ld-elf.so.1]</span><br><span class="line"> 0x0000000000000001 (NEEDED)             Shared library: [libc.so.7]</span><br><span class="line"></span><br><span class="line">root@freebsd-13:~ <span class="comment"># ldd hello</span></span><br><span class="line">hello:</span><br><span class="line">        libc.so.7 =&gt; /lib/libc.so.7 (0x800245000)</span><br></pre></td></tr></table></figure>
+
+<h3 id="c"><a href="#c" class="headerlink" title="c++"></a>c++</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">root@freebsd-13:~ <span class="comment"># cat &lt;&lt; EOF | c++ -std=c++17 -march=haswell -O2 -s -o hello.c++ -x c++ -</span></span><br><span class="line"><span class="comment">#include &lt;iostream&gt;</span></span><br><span class="line">int <span class="function"><span class="title">main</span></span>()</span><br><span class="line">&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Hello, World!&quot;</span> &lt;&lt; <span class="string">std::endl;</span></span><br><span class="line"><span class="string">    return 0;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">root@freebsd-13:~ # du -ks hello.c++</span></span><br><span class="line"><span class="string">9       hello.c++</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">root@freebsd-13:~ # file hello.c++</span></span><br><span class="line"><span class="string">hello.c++: ELF 64-bit LSB executable, x86-64, version 1 (FreeBSD), dynamically linked, interpreter /libexec/ld-elf.so.1, for FreeBSD 13.0 (1300139), FreeBSD-style, stripped</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">root@freebsd-13:~ # readelf -hld hello.c++  | grep -E &quot;NEEDED|interpreter&quot;</span></span><br><span class="line"><span class="string">      [Requesting program interpreter: /libexec/ld-elf.so.1]</span></span><br><span class="line"><span class="string"> 0x0000000000000001 (NEEDED)             Shared library: [libc++.so.1]</span></span><br><span class="line"><span class="string"> 0x0000000000000001 (NEEDED)             Shared library: [libcxxrt.so.1]</span></span><br><span class="line"><span class="string"> 0x0000000000000001 (NEEDED)             Shared library: [libm.so.5]</span></span><br><span class="line"><span class="string"> 0x0000000000000001 (NEEDED)             Shared library: [libgcc_s.so.1]</span></span><br><span class="line"><span class="string"> 0x0000000000000001 (NEEDED)             Shared library: [libc.so.7]</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">root@freebsd-13:~ # ldd hello.c++</span></span><br><span class="line"><span class="string">hello.c++:</span></span><br><span class="line"><span class="string">        libc++.so.1 =&gt; /usr/lib/libc++.so.1 (0x800246000)</span></span><br><span class="line"><span class="string">        libcxxrt.so.1 =&gt; /lib/libcxxrt.so.1 (0x800318000)</span></span><br><span class="line"><span class="string">        libm.so.5 =&gt; /lib/libm.so.5 (0x80033b000)</span></span><br><span class="line"><span class="string">        libgcc_s.so.1 =&gt; /lib/libgcc_s.so.1 (0x80036e000)</span></span><br><span class="line"><span class="string">        libc.so.7 =&gt; /lib/libc.so.7 (0x800387000)</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Copy-FreeBSD-Library-Files-to-Linux"><a href="#Copy-FreeBSD-Library-Files-to-Linux" class="headerlink" title="Copy FreeBSD Library Files to Linux"></a>Copy FreeBSD Library Files to Linux</h2><p>We can copy all files under <strong>&#x2F;lib</strong> and <strong>&#x2F;usr&#x2F;lib</strong>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@freebsd-13:~ <span class="comment"># du -ms /lib /usr/lib /usr/include</span></span><br><span class="line">9       /lib</span><br><span class="line">208     /usr/lib</span><br><span class="line">16      /usr/include</span><br></pre></td></tr></table></figure>
+
+<p>or a few of them:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">root@linux:/opt $ <span class="built_in">du</span> -ms x86_64-unknown-freebsd/</span><br><span class="line">31      x86_64-unknown-freebsd/</span><br><span class="line">3       x86_64-unknown-freebsd/lib</span><br><span class="line">2       x86_64-unknown-freebsd/usr/lib</span><br><span class="line">27      x86_64-unknown-freebsd/usr/include</span><br><span class="line"></span><br><span class="line">root@linux:/opt/x86_64-unknown-freebsd $ find . ! -<span class="built_in">type</span> d | xargs <span class="built_in">du</span> -ks</span><br><span class="line">1936    ./lib/libc.so.7</span><br><span class="line">128     ./lib/libcxxrt.so.1</span><br><span class="line">128     ./lib/libgcc_s.so.1</span><br><span class="line">384     ./lib/libm.so.5</span><br><span class="line">256     ./lib/libthr.so.3</span><br><span class="line">192     ./lib/libutil.so.9</span><br><span class="line">26860   ./usr/include</span><br><span class="line">16      ./usr/lib/Scrt1.o</span><br><span class="line">16      ./usr/lib/crt1.o</span><br><span class="line">8       ./usr/lib/crtbegin.o</span><br><span class="line">8       ./usr/lib/crtbeginS.o</span><br><span class="line">4       ./usr/lib/crtend.o</span><br><span class="line">4       ./usr/lib/crtendS.o</span><br><span class="line">4       ./usr/lib/crti.o</span><br><span class="line">4       ./usr/lib/crtn.o</span><br><span class="line">896     ./usr/lib/libc++.so.1</span><br><span class="line">0       ./usr/lib/libc.so</span><br><span class="line">48      ./usr/lib/libc_nonshared.a</span><br><span class="line">0       ./usr/lib/libexecinfo.so</span><br><span class="line">16      ./usr/lib/libexecinfo.so.1</span><br><span class="line">0       ./usr/lib/libgcc_s.so</span><br><span class="line">0       ./usr/lib/libm.so</span><br><span class="line">640     ./usr/lib/libprocstat.a</span><br><span class="line">0       ./usr/lib/libprocstat.so</span><br><span class="line">64      ./usr/lib/libprocstat.so.1</span><br><span class="line">0       ./usr/lib/libpthread.so</span><br><span class="line">0       ./usr/lib/librt.so</span><br><span class="line">48      ./usr/lib/librt.so.1</span><br><span class="line">0       ./usr/lib/libthr.so</span><br><span class="line">0       ./usr/lib/libutil.so</span><br></pre></td></tr></table></figure>
+
+<h3 id="Archive-Library-Files-on-FreeBSD"><a href="#Archive-Library-Files-on-FreeBSD" class="headerlink" title="Archive Library Files on FreeBSD"></a>Archive Library Files on FreeBSD</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">root@freebsd-13:~ <span class="comment"># tar --no-acls --no-xattrs --no-fflags -cvzf x86_64-unknown-freebsd_13.0-RELEASE-p4-rust.tar.gz \</span></span><br><span class="line">   /lib/libc.so.7 \</span><br><span class="line">   /lib/libcxxrt.so.1 \</span><br><span class="line">   /lib/libgcc_s.so.1 \</span><br><span class="line">   /lib/libm.so.5 \</span><br><span class="line">   /lib/libthr.so.3 \</span><br><span class="line">   /lib/libutil.so.9 \</span><br><span class="line">   /usr/lib/Scrt1.o \</span><br><span class="line">   /usr/lib/crt1.o \</span><br><span class="line">   /usr/lib/crtbegin.o \</span><br><span class="line">   /usr/lib/crtbeginS.o \</span><br><span class="line">   /usr/lib/crtend.o \</span><br><span class="line">   /usr/lib/crtendS.o \</span><br><span class="line">   /usr/lib/crti.o \</span><br><span class="line">   /usr/lib/crtn.o \</span><br><span class="line">   /usr/lib/libc++.so.1 \</span><br><span class="line">   /usr/lib/libc.so \</span><br><span class="line">   /usr/lib/libc_nonshared.a \</span><br><span class="line">   /usr/lib/libexecinfo.so \</span><br><span class="line">   /usr/lib/libexecinfo.so.1 \</span><br><span class="line">   /usr/lib/libgcc_s.so \</span><br><span class="line">   /usr/lib/libm.so \</span><br><span class="line">   /usr/lib/libprocstat.a \</span><br><span class="line">   /usr/lib/libprocstat.so \</span><br><span class="line">   /usr/lib/libprocstat.so.1 \</span><br><span class="line">   /usr/lib/libpthread.so \</span><br><span class="line">   /usr/lib/librt.so \</span><br><span class="line">   /usr/lib/librt.so.1 \</span><br><span class="line">   /usr/lib/libthr.so \</span><br><span class="line">   /usr/lib/libutil.so</span><br></pre></td></tr></table></figure>
+
+<h3 id="Extract-FreeBSD-Library-Files-on-Linux"><a href="#Extract-FreeBSD-Library-Files-on-Linux" class="headerlink" title="Extract FreeBSD Library Files on Linux"></a>Extract FreeBSD Library Files on Linux</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@linux:~ $ <span class="built_in">mkdir</span> -p /opt/x86_64-unknown-freebsd</span><br><span class="line">root@linux:~ ssh root@freebsd-13.local <span class="string">&#x27;cat x86_64-unknown-freebsd_13.0-RELEASE-p4-rust.tar.gz&#x27;</span> | tar -xvz -C /opt/x86_64-unknown-freebsd</span><br></pre></td></tr></table></figure>
+
+<h2 id="Install-clang-and-lld-on-Linux"><a href="#Install-clang-and-lld-on-Linux" class="headerlink" title="Install clang and lld on Linux"></a>Install clang and lld on Linux</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install -y clang lld</span><br></pre></td></tr></table></figure>
+
+<h2 id="Install-Rust-on-Linux"><a href="#Install-Rust-on-Linux" class="headerlink" title="Install Rust on Linux"></a>Install Rust on Linux</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">root@linux:~ curl --proto <span class="string">&#x27;=https&#x27;</span> --tlsv1.2 -sSf https://sh.rustup.rs | sh</span><br><span class="line"></span><br><span class="line">root@linux:~ . <span class="string">&quot;<span class="variable">$HOME</span>/.cargo/env&quot;</span></span><br><span class="line"></span><br><span class="line">root@linux:~ $ cargo --verbose --version</span><br><span class="line">cargo 1.55.0 (32da73ab1 2021-08-23)</span><br><span class="line">release: 1.55.0</span><br><span class="line">commit-hash: 32da73ab19417aa89686e1d85c1440b72fdf877d</span><br><span class="line">commit-date: 2021-08-23</span><br><span class="line"></span><br><span class="line">root@linux:~ $ rustc --version</span><br><span class="line">rustc 1.55.0 (c8dfcfe04 2021-09-06)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Cargo’s-Configuration-on-Linux"><a href="#Cargo’s-Configuration-on-Linux" class="headerlink" title="Cargo’s Configuration on Linux"></a>Cargo’s Configuration on Linux</h2><p>Cargo allows local configuration for a particular package as well as global configuration. It looks for configuration files in the <strong>current directory</strong> and <strong>all parent directories</strong>.</p>
+<ul>
+<li>.cargo&#x2F;config.toml</li>
+<li>(<strong>all parent directories</strong>)&#x2F;.cargo&#x2F;config.toml</li>
+<li>$CARGO_HOME&#x2F;config.toml which defaults to:<ul>
+<li>Windows: %USERPROFILE%.cargo\config.toml</li>
+<li>Unix: $HOME&#x2F;.cargo&#x2F;config.toml, ${CARGO_HOME:-${HOME}&#x2F;.cargo}&#x2F;config.toml</li>
+</ul>
+</li>
+</ul>
+<p>Now we can make rust target <strong>x86_64-unknown-FreeBSD</strong> use directory <strong>&#x2F;opt&#x2F;x86_64-unknown-FreeBSD</strong> as <strong>sysroot</strong>:</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[http]</span></span><br><span class="line"><span class="attr">ssl-version</span> = <span class="string">&quot;tlsv1.3&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="section">[profile.release]</span></span><br><span class="line"><span class="attr">lto</span> = <span class="string">&quot;fat&quot;</span></span><br><span class="line"><span class="attr">opt-level</span> = <span class="string">&quot;s&quot;</span></span><br><span class="line"><span class="attr">codegen-units</span> = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="section">[target.&#x27;cfg(target_arch = &quot;x86_64&quot;)&#x27;]</span></span><br><span class="line"><span class="attr">rustflags</span> = [<span class="string">&quot;-Ctarget-cpu=x86-64-v3&quot;</span>]</span><br><span class="line"></span><br><span class="line"><span class="section">[target.&#x27;cfg(any(target_family = &quot;windows&quot;, target_env = &quot;msvc&quot;, target_env = &quot;musl&quot;)&#x27;]</span></span><br><span class="line"><span class="attr">rustflags</span> = [<span class="string">&quot;-Ctarget-feature=+crt-static&quot;</span>]</span><br><span class="line"></span><br><span class="line"><span class="section">[target.x86_64-unknown-freebsd]</span></span><br><span class="line">    <span class="comment"># 13.0-RELEASE-p4, FreeBSD clang version 11.0.1</span></span><br><span class="line">    <span class="attr">linker</span>=<span class="string">&quot;clang&quot;</span></span><br><span class="line">    <span class="attr">rustflags</span> = [<span class="string">&quot;-Clink-arg=-s&quot;</span>, <span class="string">&quot;-Clink-arg=-v&quot;</span>, <span class="string">&quot;-Clink-arg=-fuse-ld=lld&quot;</span>, <span class="string">&quot;-Clink-arg=--target=x86_64-unknown-freebsd&quot;</span>,</span><br><span class="line"><span class="string">&quot;-Clink-arg=--sysroot=/opt/x86_64-unknown-freebsd&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="Cross-build-FreeBSD-Program-in-Linux"><a href="#Cross-build-FreeBSD-Program-in-Linux" class="headerlink" title="Cross-build FreeBSD Program in Linux"></a>Cross-build FreeBSD Program in Linux</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">root@linux:~ <span class="built_in">uname</span> -msr</span><br><span class="line">Linux 5.10.0-8-amd64 x86_64</span><br><span class="line"></span><br><span class="line">root@linux:~ cargo build -v --release --target x86_64-unknown-freebsd</span><br><span class="line">...</span><br><span class="line">    Finished release [optimized] target(s) <span class="keyword">in</span> 8.67s</span><br><span class="line"></span><br><span class="line">root@linux:~ $ <span class="built_in">du</span> -ks target/x86_64-unknown-freebsd/release/hello</span><br><span class="line">236     target/x86_64-unknown-freebsd/release/hello</span><br><span class="line"></span><br><span class="line">root@linux:~ $ file target/x86_64-unknown-freebsd/release/hello</span><br><span class="line">target/x86_64-unknown-freebsd/release/hello: ELF 64-bit LSB pie executable, x86-64, version 1 (FreeBSD), dynamically linked, interpreter /libexec/ld-elf.so.1, FreeBSD-style, stripped</span><br><span class="line"></span><br><span class="line">root@linux:~ $ readelf -ld target/x86_64-unknown-freebsd/release/hello | grep -E <span class="string">&quot;interpreter:|NEEDED&quot;</span></span><br><span class="line">      [Requesting program interpreter: /libexec/ld-elf.so.1]</span><br><span class="line"> 0x0000000000000001 (NEEDED)             Shared library: [libthr.so.3]</span><br><span class="line"> 0x0000000000000001 (NEEDED)             Shared library: [libgcc_s.so.1]</span><br><span class="line"> 0x0000000000000001 (NEEDED)             Shared library: [libc.so.7]</span><br><span class="line"></span><br><span class="line">root@linux:~ $ scp target/x86_64-unknown-freebsd/release/hello root@freebsd-13.local:/tmp/</span><br><span class="line"></span><br><span class="line">root@linux:~ $ ssh root@freebsd-13.local /tmp/hello</span><br><span class="line">Hello, world!</span><br><span class="line"></span><br><span class="line">root@linux:~ $ ssh root@freebsd-13.local <span class="built_in">uname</span> -msr</span><br><span class="line">FreeBSD 13.0-RELEASE-p4 amd64</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Rust-on-FreeBSD"><span class="toc-number">1.</span> <span class="toc-text">Rust on FreeBSD</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#The-First-Steps-on-FreeBSD"><span class="toc-number">1.1.</span> <span class="toc-text">The First Steps on FreeBSD</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#hostname"><span class="toc-number">1.1.1.</span> <span class="toc-text">hostname</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hvn0"><span class="toc-number">1.1.2.</span> <span class="toc-text">hvn0</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#disk"><span class="toc-number">1.1.3.</span> <span class="toc-text">disk</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rc-conf"><span class="toc-number">1.1.4.</span> <span class="toc-text">rc.conf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sshd"><span class="toc-number">1.1.5.</span> <span class="toc-text">sshd</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pkg"><span class="toc-number">1.1.6.</span> <span class="toc-text">pkg</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cc"><span class="toc-number">1.1.7.</span> <span class="toc-text">cc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#c"><span class="toc-number">1.1.8.</span> <span class="toc-text">c++</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Copy-FreeBSD-Library-Files-to-Linux"><span class="toc-number">1.2.</span> <span class="toc-text">Copy FreeBSD Library Files to Linux</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Archive-Library-Files-on-FreeBSD"><span class="toc-number">1.2.1.</span> <span class="toc-text">Archive Library Files on FreeBSD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Extract-FreeBSD-Library-Files-on-Linux"><span class="toc-number">1.2.2.</span> <span class="toc-text">Extract FreeBSD Library Files on Linux</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Install-clang-and-lld-on-Linux"><span class="toc-number">1.3.</span> <span class="toc-text">Install clang and lld on Linux</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Install-Rust-on-Linux"><span class="toc-number">1.4.</span> <span class="toc-text">Install Rust on Linux</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cargo%E2%80%99s-Configuration-on-Linux"><span class="toc-number">1.5.</span> <span class="toc-text">Cargo’s Configuration on Linux</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cross-build-FreeBSD-Program-in-Linux"><span class="toc-number">1.6.</span> <span class="toc-text">Cross-build FreeBSD Program in Linux</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

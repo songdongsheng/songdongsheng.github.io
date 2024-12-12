@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>HikariCP and PostgreSQL | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          HikariCP and PostgreSQL
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2021/08/14</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/Java/">Java</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#Java" class='tag'>Java</a>
+
+
+          
+        </div>
+        <h1 id="HikariCP-and-PostgreSQL"><a href="#HikariCP-and-PostgreSQL" class="headerlink" title="HikariCP and PostgreSQL"></a>HikariCP and PostgreSQL</h1><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>HikariCP is a simple, solid, high-performance, “zero-overhead” production ready JDBC connection pool at last. At roughly 130Kb, the library is very light.</p>
+<h2 id="Artifacts"><a href="#Artifacts" class="headerlink" title="Artifacts"></a>Artifacts</h2><h3 id="Java-11"><a href="#Java-11" class="headerlink" title="Java 11"></a>Java 11</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.zaxxer<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>HikariCP<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Java-8"><a href="#Java-8" class="headerlink" title="Java 8"></a>Java 8</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.zaxxer<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>HikariCP<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.0.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="About-Pool-Sizing"><a href="#About-Pool-Sizing" class="headerlink" title="About Pool Sizing"></a>About Pool Sizing</h2><p>Configuring a connection pool is something that developers often get wrong. There are several, possibly counter-intuitive for some, principles that need to be understood when configuring the pool.</p>
+<p>When we look at what the major bottlenecks for a database are, they can be summarized as three basic categories: CPU, Disk, Network. We could add Memory in there, but compared to Disk and Network there are several orders of magnitude difference in bandwidth.</p>
+<p>Don’t over-provision your database. The formula below is provided by the PostgreSQL project as a starting point, but I believe it will be largely applicable across databases. You should test your application, i.e. simulate expected load, and try different pool settings around this starting point:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">connections = ((core_count * <span class="number">2</span>) + effective_spindle_count)</span><br></pre></td></tr></table></figure>
+
+<p>Don’t be tricked into thinking, “SSDs are faster and therefore I can have more threads”. That is exactly 180 degrees backwards. Faster, no seeks, no rotational delays means less blocking and therefore fewer threads [closer to core count] will perform better than more threads. More threads only perform better when blocking creates opportunities for executing.</p>
+<h2 id="Production-Ready-Configuration"><a href="#Production-Ready-Configuration" class="headerlink" title="Production Ready Configuration"></a>Production Ready Configuration</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.hikari.jdbcUrl&quot;</span> <span class="attr">value</span>=<span class="string">&quot;&lt;jdbcUrl&gt;&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.hikari.username&quot;</span> <span class="attr">value</span>=<span class="string">&quot;&lt;username&gt;&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.hikari.password&quot;</span> <span class="attr">value</span>=<span class="string">&quot;&lt;password&gt;&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.hikari.autoCommit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.hikari.minimumIdle&quot;</span> <span class="attr">value</span>=<span class="string">&quot;10&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.hikari.maximumPoolSize&quot;</span> <span class="attr">value</span>=<span class="string">&quot;25&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.hikari.keepaliveTime&quot;</span> <span class="attr">value</span>=<span class="string">&quot;60000&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.hikari.idleTimeout&quot;</span> <span class="attr">value</span>=<span class="string">&quot;120000&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.hikari.leakDetectionThreshold&quot;</span> <span class="attr">value</span>=<span class="string">&quot;150000&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.hikari.maxLifeTime&quot;</span> <span class="attr">value</span>=<span class="string">&quot;180000&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.hikari.connectionTimeout&quot;</span> <span class="attr">value</span>=<span class="string">&quot;3000&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.hikari.validationTimeout&quot;</span> <span class="attr">value</span>=<span class="string">&quot;2500&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.hikari.registerMbeans&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Workaround-for-Missing-Configurations"><a href="#Workaround-for-Missing-Configurations" class="headerlink" title="Workaround for Missing Configurations"></a>Workaround for Missing Configurations</h2><p>If missing the following configuration items：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.hikari.keepaliveTime&quot;</span> <span class="attr">value</span>=<span class="string">&quot;60000&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.hikari.idleTimeout&quot;</span> <span class="attr">value</span>=<span class="string">&quot;120000&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.hikari.leakDetectionThreshold&quot;</span> <span class="attr">value</span>=<span class="string">&quot;150000&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.hikari.maxLifeTime&quot;</span> <span class="attr">value</span>=<span class="string">&quot;180000&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>We can workaround it by tunning in the PostgreSQL server side:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> tcp_keepalives_idle<span class="operator">=</span><span class="number">10</span>;</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> tcp_keepalives_interval<span class="operator">=</span><span class="number">2</span>;</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> tcp_keepalives_count<span class="operator">=</span><span class="number">3</span>;</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> idle_in_transaction_session_timeout<span class="operator">=</span><span class="string">&#x27;10s&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> pg_reload_conf();</span><br></pre></td></tr></table></figure>
+
+<p>In sessions connected via a Unix-domain socket, <a target="_blank" rel="noopener" href="https://www.postgresql.org/docs/10/runtime-config-connection.html">TCP keep-alive parameters</a> are ignored and always reads as zero.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">$ psql postgres</span><br><span class="line"></span><br><span class="line">postgres=# show tcp_keepalives_idle;</span><br><span class="line"> tcp_keepalives_idle</span><br><span class="line">---------------------</span><br><span class="line"> 0</span><br><span class="line">(1 row)</span><br><span class="line"></span><br><span class="line">postgres=# show tcp_keepalives_interval;</span><br><span class="line"> tcp_keepalives_interval</span><br><span class="line">-------------------------</span><br><span class="line"> 0</span><br><span class="line">(1 row)</span><br><span class="line"></span><br><span class="line">postgres=# show tcp_keepalives_count;</span><br><span class="line"> tcp_keepalives_count</span><br><span class="line">----------------------</span><br><span class="line"> 0</span><br><span class="line">(1 row)</span><br><span class="line"></span><br><span class="line">postgres=# show idle_in_transaction_session_timeout;</span><br><span class="line"> idle_in_transaction_session_timeout</span><br><span class="line">-------------------------------------</span><br><span class="line"> 0</span><br><span class="line">(1 row)</span><br><span class="line"></span><br><span class="line">postgres=# alter system <span class="built_in">set</span> tcp_keepalives_idle=10;</span><br><span class="line">ALTER SYSTEM</span><br><span class="line">postgres=# alter system <span class="built_in">set</span> tcp_keepalives_interval=2;</span><br><span class="line">ALTER SYSTEM</span><br><span class="line">postgres=# alter system <span class="built_in">set</span> tcp_keepalives_count=3;</span><br><span class="line">ALTER SYSTEM</span><br><span class="line">postgres=# alter system <span class="built_in">set</span> idle_in_transaction_session_timeout=<span class="string">&#x27;10s&#x27;</span>;</span><br><span class="line">ALTER SYSTEM</span><br><span class="line">postgres=#</span><br><span class="line">postgres=# SELECT pg_reload_conf();</span><br><span class="line"> pg_reload_conf</span><br><span class="line">----------------</span><br><span class="line"> t</span><br><span class="line">(1 row)</span><br><span class="line"></span><br><span class="line">postgres=# show idle_in_transaction_session_timeout;</span><br><span class="line"> idle_in_transaction_session_timeout</span><br><span class="line">-------------------------------------</span><br><span class="line"> 10s</span><br><span class="line">(1 row)</span><br><span class="line"></span><br><span class="line">postgres=# show tcp_keepalives_count;</span><br><span class="line"> tcp_keepalives_count</span><br><span class="line">----------------------</span><br><span class="line"> 0</span><br><span class="line">(1 row)</span><br><span class="line"></span><br><span class="line">postgres=# show tcp_keepalives_interval;</span><br><span class="line"> tcp_keepalives_interval</span><br><span class="line">-------------------------</span><br><span class="line"> 0</span><br><span class="line">(1 row)</span><br><span class="line"></span><br><span class="line">postgres=# show tcp_keepalives_idle;</span><br><span class="line"> tcp_keepalives_idle</span><br><span class="line">---------------------</span><br><span class="line"> 0</span><br><span class="line">(1 row)</span><br></pre></td></tr></table></figure>
+
+<p>Let’s check these parameters with TCP connection:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">$ psql --host=127.0.0.1</span><br><span class="line"></span><br><span class="line">postgres=# show tcp_keepalives_idle;</span><br><span class="line"> tcp_keepalives_idle</span><br><span class="line">---------------------</span><br><span class="line"> 10</span><br><span class="line">(1 row)</span><br><span class="line"></span><br><span class="line">postgres=# show tcp_keepalives_interval;</span><br><span class="line"> tcp_keepalives_interval</span><br><span class="line">-------------------------</span><br><span class="line"> 2</span><br><span class="line">(1 row)</span><br><span class="line"></span><br><span class="line">postgres=# show tcp_keepalives_count;</span><br><span class="line"> tcp_keepalives_count</span><br><span class="line">----------------------</span><br><span class="line"> 3</span><br><span class="line">(1 row)</span><br><span class="line"></span><br><span class="line">postgres=# show idle_in_transaction_session_timeout;</span><br><span class="line"> idle_in_transaction_session_timeout</span><br><span class="line">-------------------------------------</span><br><span class="line"> 10s</span><br><span class="line">(1 row)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Get-Rid-of-Staled-Connections"><a href="#Get-Rid-of-Staled-Connections" class="headerlink" title="Get Rid of Staled Connections"></a>Get Rid of Staled Connections</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> clock_timestamp(), datname, pid, state, application_name, state_change <span class="keyword">from</span> pg_stat_activity;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> pg_terminate_backend(pid)</span><br><span class="line">    <span class="keyword">FROM</span> pg_stat_activity</span><br><span class="line">    <span class="keyword">WHERE</span> datname <span class="operator">=</span> <span class="string">&#x27;regress&#x27;</span></span><br><span class="line">      <span class="keyword">AND</span> pid <span class="operator">&lt;&gt;</span> pg_backend_pid()</span><br><span class="line">      <span class="keyword">AND</span> state <span class="keyword">in</span> (<span class="string">&#x27;idle&#x27;</span>, <span class="string">&#x27;idle in transaction&#x27;</span>, <span class="string">&#x27;idle in transaction (aborted)&#x27;</span>, <span class="string">&#x27;disabled&#x27;</span>)</span><br><span class="line">      <span class="keyword">AND</span> application_name <span class="operator">!</span><span class="operator">~</span> <span class="string">&#x27;(?:psql)|(?:pgAdmin.+)&#x27;</span></span><br><span class="line">      <span class="keyword">AND</span> state_change <span class="operator">&lt;</span> <span class="built_in">current_timestamp</span> <span class="operator">-</span> <span class="type">INTERVAL</span> <span class="string">&#x27;5&#x27;</span> <span class="keyword">MINUTE</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> statement_timestamp(), datname, pid, state, application_name, state_change <span class="keyword">from</span> pg_stat_activity;</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> clock_timestamp(), datname, pid, state, application_name, state_change <span class="keyword">from</span> pg_stat_activity;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/brettwooldridge/HikariCP#gear-configuration-knobs-baby">HikariCP Configurations</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/brettwooldridge/HikariCP/releases/latest">HikariCP Latest Release</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/brettwooldridge/HikariCP/wiki/Down-the-Rabbit-Hole">Down the Rabbit Hole</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/brettwooldridge/HikariCP/wiki/About-Pool-Sizing">About Pool Sizing</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/brettwooldridge/HikariCP/wiki/Dropwizard-Metrics">Dropwizard Metrics</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/brettwooldridge/HikariCP/wiki/Dropwizard-HealthChecks">Dropwizard HealthChecks</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/brettwooldridge/HikariCP/wiki/MBean-(JMX)-Monitoring-and-Management">MBean (JMX) Monitoring and Management</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.postgresql.org/docs/12/runtime-config-connection.html">PostgreSQL 12 Connection Configurations</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-boot/docs/current/reference/html/dependency-versions.html#dependency-versions">Spring Boot Application Dependencies </a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#application-properties">Spring Boot Application Properties - spring.datasource.hikari.*</a></li>
+</ul>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HikariCP-and-PostgreSQL"><span class="toc-number">1.</span> <span class="toc-text">HikariCP and PostgreSQL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-number">1.1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Artifacts"><span class="toc-number">1.2.</span> <span class="toc-text">Artifacts</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-11"><span class="toc-number">1.2.1.</span> <span class="toc-text">Java 11</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-8"><span class="toc-number">1.2.2.</span> <span class="toc-text">Java 8</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#About-Pool-Sizing"><span class="toc-number">1.3.</span> <span class="toc-text">About Pool Sizing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Production-Ready-Configuration"><span class="toc-number">1.4.</span> <span class="toc-text">Production Ready Configuration</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Workaround-for-Missing-Configurations"><span class="toc-number">1.5.</span> <span class="toc-text">Workaround for Missing Configurations</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Get-Rid-of-Staled-Connections"><span class="toc-number">1.6.</span> <span class="toc-text">Get Rid of Staled Connections</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">1.7.</span> <span class="toc-text">Reference</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

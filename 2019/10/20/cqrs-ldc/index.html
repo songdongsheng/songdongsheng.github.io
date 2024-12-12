@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>CQRS LDC | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          CQRS LDC
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2019/10/20</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/CQRS/">CQRS</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tag"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#CQRS" class='tag'>CQRS</a>
+
+
+          
+        </div>
+        <h1 id="CQRS-LDC"><a href="#CQRS-LDC" class="headerlink" title="CQRS LDC"></a>CQRS LDC</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> CQRS_LDC_EVENT (</span><br><span class="line">    ID <span class="type">VARCHAR</span>(<span class="number">36</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    AGGREGATE_ID <span class="type">VARCHAR</span>(<span class="number">36</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    REVISION <span class="type">BIGINT</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    <span class="comment">-- ENTINY_ID VARCHAR(36) NOT NULL,</span></span><br><span class="line">    <span class="comment">-- ENTINY_TYPE_ID VARCHAR(64) NOT NULL,</span></span><br><span class="line"></span><br><span class="line">    EVENT JSON <span class="keyword">NOT</span> <span class="keyword">NULL</span> <span class="keyword">CHECK</span> (JSON_VALID(EVENT)),</span><br><span class="line">    <span class="type">TIMESTAMP</span> DATETIME(<span class="number">6</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> <span class="keyword">DEFAULT</span> <span class="built_in">LOCALTIMESTAMP</span>,</span><br><span class="line"></span><br><span class="line"> <span class="comment">-- EVENT JSONB NOT NULL,</span></span><br><span class="line"> <span class="comment">-- EVENT JSON NOT NULL CHECK (JSON_VALID(EVENT)),</span></span><br><span class="line"> <span class="comment">-- EVENT NVARCHAR(MAX) NOT NULL CHECK (ISJSON(EVENT)=1)</span></span><br><span class="line"> <span class="comment">-- TIMESTAMP TIMESTAMP(6) NOT NULL DEFAULT LOCALTIMESTAMP,</span></span><br><span class="line"> <span class="comment">-- TIMESTAMP DATETIME(6) NOT NULL DEFAULT LOCALTIMESTAMP,</span></span><br><span class="line"> <span class="comment">-- TIMESTAMP DATETIME2(6) NOT NULL DEFAULT SYSDATETIME,</span></span><br><span class="line"></span><br><span class="line">    IS_PUBLISHED <span class="type">BOOLEAN</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span> <span class="keyword">DEFAULT</span> <span class="literal">TRUE</span>, <span class="comment">-- BOOLEAN, BIT</span></span><br><span class="line">    CORRELATION_ID <span class="type">VARCHAR</span>(<span class="number">36</span>),</span><br><span class="line"></span><br><span class="line">    <span class="keyword">CONSTRAINT</span> CQRS_LDC_EVENT_PK <span class="keyword">PRIMARY</span> KEY(ID),</span><br><span class="line">    <span class="keyword">CONSTRAINT</span> CQRS_LDC_EVENT_AGGREGATE_ID_REVISION <span class="keyword">UNIQUE</span> (AGGREGATE_ID, REVISION)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> CQRS_LDC_SNAPSHOT (</span><br><span class="line">    ID <span class="type">VARCHAR</span>(<span class="number">36</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    AGGREGATE_ID <span class="type">VARCHAR</span>(<span class="number">36</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    REVISION <span class="type">BIGINT</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line"></span><br><span class="line">    STATE JSONB <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    <span class="type">TIMESTAMP</span> <span class="type">TIMESTAMP</span>(<span class="number">6</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> <span class="keyword">DEFAULT</span> <span class="built_in">LOCALTIMESTAMP</span>,</span><br><span class="line"></span><br><span class="line">  <span class="comment">--STATE JSONB NOT NULL,</span></span><br><span class="line">  <span class="comment">--STATE JSON NOT NULL CHECK (JSON_VALID(STATE)),</span></span><br><span class="line">  <span class="comment">--STATE NVARCHAR(MAX) NOT NULL CHECK (ISJSON(STATE)=1)</span></span><br><span class="line">  <span class="comment">--TIMESTAMP TIMESTAMP(6) NOT NULL DEFAULT LOCALTIMESTAMP,</span></span><br><span class="line">  <span class="comment">--TIMESTAMP DATETIME(6) NOT NULL DEFAULT LOCALTIMESTAMP,</span></span><br><span class="line">  <span class="comment">--TIMESTAMP DATETIME2(6) NOT NULL DEFAULT SYSDATETIME,</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">CONSTRAINT</span> CQRS_LDC_SNAPSHOT_PK <span class="keyword">PRIMARY</span> KEY(ID),</span><br><span class="line">    <span class="keyword">CONSTRAINT</span> CQRS_LDC_SNAPSHOT_AGGREGATE_ID_REVISION <span class="keyword">UNIQUE</span> (AGGREGATE_ID, REVISION)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CQRS-LDC"><span class="toc-number">1.</span> <span class="toc-text">CQRS LDC</span></a></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>ASGI: Async Python Web Ecosystem | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          ASGI: Async Python Web Ecosystem
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/04/25</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/Python/">Python</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#Python" class='tag'>Python</a>
+
+
+          
+        </div>
+        <h1 id="ASGI-Async-Python-Web-Ecosystem"><a href="#ASGI-Async-Python-Web-Ecosystem" class="headerlink" title="ASGI: Async Python Web Ecosystem"></a>ASGI: Async Python Web Ecosystem</h1><p>There’s a lot of exciting stuff happening in the Python web development ecosystem right now — one of the main drivers of this endeavor is <a target="_blank" rel="noopener" href="https://github.com/django/asgiref/blob/master/specs/asgi.rst">ASGI</a> , the <strong>Asynchronous Server Gateway Interface</strong>.</p>
+<h2 id="An-overview-of-ASGI"><a href="#An-overview-of-ASGI" class="headerlink" title="An overview of ASGI"></a>An overview of ASGI</h2><p>ASGI consists of two different components:</p>
+<ul>
+<li>A <strong>protocol server</strong>, which terminates sockets and translates them into connections and per-connection event messages.</li>
+<li>An <strong>application</strong>, which lives inside a <strong>protocol server</strong>, is called once per connection, and handles event messages as they happen, emitting its own event messages back when necessary.</li>
+</ul>
+<p>There are two separate parts to an ASGI connection:</p>
+<ul>
+<li>A <strong>connection scope</strong>, which represents a protocol connection to a user and survives until the connection closes.</li>
+<li><strong>Events</strong>, which are messages sent to the application as things happen on the connection, and messages sent back by the application to be received by the server, including data to be transmitted to the client.</li>
+</ul>
+<h2 id="The-advantages-of-ASGI"><a href="#The-advantages-of-ASGI" class="headerlink" title="The advantages of ASGI"></a>The advantages of ASGI</h2><p>There are many more advantages to using ASGI-based components for building Python web apps.</p>
+<ul>
+<li>Speed: the async nature of ASGI apps and servers make them really fast (for Python, at least) — we’re talking about 60k-70k req&#x2F;s (consider that Flask and Django only achieve 10-20k in a similar situation).</li>
+<li>Features: ASGI servers and frameworks gives you access to inherently concurrent features (WebSocket, Server-Sent Events, HTTP&#x2F;2) that are impossible to implement using sync&#x2F;WSGI.</li>
+<li>Stability: ASGI as a spec has been around for about 3 years now, and version 3.0 is considered very stable. Foundational parts of the ecosystem are stabilizing as a result.</li>
+</ul>
+<p>In terms of libraries and tooling, I don’t think we can say we’re there just yet. But thanks to a very active community, I have strong hopes that the ASGI ecosystem reaches feature parity with the traditional sync&#x2F;WSGI ecosystem real soon.</p>
+<h2 id="ASGI-protocol-servers"><a href="#ASGI-protocol-servers" class="headerlink" title="ASGI protocol servers"></a>ASGI protocol servers</h2><ul>
+<li>Hypercorn - Python 3.7+</li>
+<li>Daphne - Python 3.5+</li>
+<li>Uvicorn - Python 3.6+</li>
+</ul>
+<h3 id="Hypercorn"><a href="#Hypercorn" class="headerlink" title="Hypercorn"></a>Hypercorn</h3><p>[Hypercorn] is an <a target="_blank" rel="noopener" href="https://github.com/django/asgiref/blob/master/specs/asgi.rst">ASGI</a> web server based on the sans-io hyper, <a target="_blank" rel="noopener" href="https://github.com/python-hyper/h11">h11</a>, <a target="_blank" rel="noopener" href="https://github.com/python-hyper/hyper-h2">h2</a>, and <a target="_blank" rel="noopener" href="https://github.com/python-hyper/wsproto">wsproto</a> libraries and inspired by Gunicorn. Hypercorn supports HTTP&#x2F;1, <strong>HTTP&#x2F;2</strong>, WebSockets (over HTTP&#x2F;1 and HTTP&#x2F;2), ASGI&#x2F;2, and ASGI&#x2F;3 specifications. Hypercorn can utilise asyncio, uvloop, or trio worker types.</p>
+<p>Hypercorn was initially part of <a target="_blank" rel="noopener" href="https://gitlab.com/pgjones/quart">Quart</a> before being separated out into a standalone ASGI server. Hypercorn forked from version 0.5.0 of Quart.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -U Hypercorn</span><br></pre></td></tr></table></figure>
+
+<h3 id="Daphne"><a href="#Daphne" class="headerlink" title="Daphne"></a>Daphne</h3><p><a target="_blank" rel="noopener" href="https://github.com/django/daphne/">Daphne</a> is a HTTP, <strong>HTTP2</strong> and WebSocket protocol server for <a target="_blank" rel="noopener" href="https://github.com/django/asgiref/blob/master/specs/asgi.rst">ASGI</a> and <a target="_blank" rel="noopener" href="https://github.com/django/asgiref/blob/master/specs/www.rst">ASGI-HTTP</a>, developed to power <a target="_blank" rel="noopener" href="https://github.com/django/django">Django</a> <a target="_blank" rel="noopener" href="https://github.com/django/channels">Channels</a>.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -U daphne Twisted[tls,http2]</span><br></pre></td></tr></table></figure>
+
+<h3 id="Uvicorn"><a href="#Uvicorn" class="headerlink" title="Uvicorn"></a>Uvicorn</h3><p><a target="_blank" rel="noopener" href="https://www.uvicorn.org/">Uvicorn</a> is a lightning-fast ASGI server, built on uvloop and httptools.</p>
+<p><a target="_blank" rel="noopener" href="https://www.uvicorn.org/">Uvicorn</a> currently supports <strong><em>HTTP&#x2F;1.1 and WebSockets</em></strong>. Support for <del>HTTP&#x2F;2 is planned</del>.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -U uvicorn</span><br></pre></td></tr></table></figure>
+
+<h2 id="ASGI-frameworks"><a href="#ASGI-frameworks" class="headerlink" title="ASGI frameworks"></a>ASGI frameworks</h2><ul>
+<li>Quart - 659</li>
+<li>BlackSheep - 4</li>
+<li>FastAPI</li>
+<li>Sanic - 3168</li>
+<li>Starlette - 4824</li>
+<li>Django Channels - 7161</li>
+</ul>
+<h3 id="Quart"><a href="#Quart" class="headerlink" title="Quart"></a>Quart</h3><p><a target="_blank" rel="noopener" href="https://gitlab.com/pgjones/quart">Quart</a> is a Python <a target="_blank" rel="noopener" href="https://github.com/django/asgiref/blob/master/specs/asgi.rst">ASGI</a> web microframework. It is intended to provide the easiest way to use asyncio functionality in a web context, especially with existing Flask apps. This is possible as the Quart API is a superset of the <a target="_blank" rel="noopener" href="https://github.com/pallets/flask">Flask</a> API.</p>
+<p>Quart aims to be a complete web microframework, as it supports HTTP&#x2F;1.1, HTTP&#x2F;2 and websockets. Quart is very extendable and has a number of known <a target="_blank" rel="noopener" href="https://pgjones.gitlab.io/quart/how_to_guides/quart_extensions.html">extensions</a> and works with many of the <a target="_blank" rel="noopener" href="https://pgjones.gitlab.io/quart/how_to_guides/flask_extensions.html">Flask extensions</a>.</p>
+<p>Also see this <a target="_blank" rel="noopener" href="https://pgjones.gitlab.io/quart/reference/cheatsheet.html">cheatsheet</a>. To deploy in a production setting see the <a target="_blank" rel="noopener" href="https://pgjones.gitlab.io/quart/tutorials/deployment.html">deployment</a> documentation.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -U Quart</span><br></pre></td></tr></table></figure>
+
+<h3 id="BlackSheep"><a href="#BlackSheep" class="headerlink" title="BlackSheep"></a>BlackSheep</h3><p><a target="_blank" rel="noopener" href="https://github.com/RobertoPrevato/BlackSheep">BlackSheep</a> is an asynchronous web framework to build event based, non-blocking Python web applications.</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/RobertoPrevato/BlackSheep">BlackSheep</a> belongs to the category of <a target="_blank" rel="noopener" href="https://asgi.readthedocs.io/en/latest/">ASGI</a> web frameworks, so it requires an ASGI HTTP server to run, such as <a target="_blank" rel="noopener" href="http://www.uvicorn.org/">uvicorn</a>, <a target="_blank" rel="noopener" href="https://github.com/django/daphne/">daphne</a>, or <a target="_blank" rel="noopener" href="https://pgjones.gitlab.io/hypercorn/">hypercorn</a>.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -U blacksheep hypercorn</span><br></pre></td></tr></table></figure>
+
+<h3 id="FastAPI"><a href="#FastAPI" class="headerlink" title="FastAPI"></a>FastAPI</h3><p><a target="_blank" rel="noopener" href="https://github.com/tiangolo/fastapi">FastAPI</a> is a modern, fast (high-performance), web framework for building APIs with Python 3.6+ based on standard Python type hints.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -U fastapi hypercorn</span><br></pre></td></tr></table></figure>
+
+<h3 id="Sanic"><a href="#Sanic" class="headerlink" title="Sanic"></a>Sanic</h3><p><a target="_blank" rel="noopener" href="https://github.com/huge-success/sanic">Sanic</a> is a Python 3.6+ web server and web framework that’s written to go fast. It allows the usage of the async&#x2F;await syntax, which makes your code non-blocking and speedy.</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/huge-success/sanic">Sanic</a> has three serving options: the inbuilt webserver, an <a target="_blank" rel="noopener" href="https://asgi.readthedocs.io/en/latest/implementations.html">ASGI webserver</a>, or gunicorn.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -U sanic hypercorn</span><br></pre></td></tr></table></figure>
+
+<h3 id="Starlette"><a href="#Starlette" class="headerlink" title="Starlette"></a>Starlette</h3><p><a target="_blank" rel="noopener" href="https://github.com/encode/starlette">Starlette</a> is a lightweight <a target="_blank" rel="noopener" href="https://asgi.readthedocs.io/en/latest/">ASGI</a> framework&#x2F;toolkit, which is ideal for building high performance asyncio services.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -U starlette hypercorn</span><br></pre></td></tr></table></figure>
+
+<h3 id="Django-Channels"><a href="#Django-Channels" class="headerlink" title="Django Channels"></a>Django Channels</h3><p><a target="_blank" rel="noopener" href="https://github.com/django/channels">Channels</a> augments <a target="_blank" rel="noopener" href="https://github.com/django/django">Django</a> to bring WebSocket, long-poll HTTP, task offloading and other async support to your code, using familiar Django design patterns and a flexible underlying framework that lets you not only customize behaviours but also write support for your own protocols and needs.</p>
+<p><a target="_blank" rel="noopener" href="https://www.django-rest-framework.org/">Django REST framework</a> is a powerful and flexible toolkit for building Web APIs.</p>
+<ul>
+<li>The Web browsable API is a huge usability win for your developers.</li>
+<li>Authentication policies including packages for OAuth1a and OAuth2.</li>
+<li>Serialization that supports both ORM and non-ORM data sources.</li>
+<li>Customizable all the way down - just use regular function-based views if you don’t need the more powerful features.</li>
+<li>Extensive documentation, and great community support.</li>
+<li>Used and trusted by internationally recognised companies including Mozilla, Red Hat, Heroku, and Eventbrite.</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">python -m pip install -U Django</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">python -m django --version</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">python -c <span class="string">&quot;import django; print(django.get_version())&quot;</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">python -c <span class="string">&quot;import channels; print(channels.__version__)&quot;</span></span></span><br><span class="line">pip install -U Django channels djangorestframework django-filter markdown</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ASGI-Async-Python-Web-Ecosystem"><span class="toc-number">1.</span> <span class="toc-text">ASGI: Async Python Web Ecosystem</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#An-overview-of-ASGI"><span class="toc-number">1.1.</span> <span class="toc-text">An overview of ASGI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-advantages-of-ASGI"><span class="toc-number">1.2.</span> <span class="toc-text">The advantages of ASGI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ASGI-protocol-servers"><span class="toc-number">1.3.</span> <span class="toc-text">ASGI protocol servers</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Hypercorn"><span class="toc-number">1.3.1.</span> <span class="toc-text">Hypercorn</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Daphne"><span class="toc-number">1.3.2.</span> <span class="toc-text">Daphne</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Uvicorn"><span class="toc-number">1.3.3.</span> <span class="toc-text">Uvicorn</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ASGI-frameworks"><span class="toc-number">1.4.</span> <span class="toc-text">ASGI frameworks</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Quart"><span class="toc-number">1.4.1.</span> <span class="toc-text">Quart</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BlackSheep"><span class="toc-number">1.4.2.</span> <span class="toc-text">BlackSheep</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FastAPI"><span class="toc-number">1.4.3.</span> <span class="toc-text">FastAPI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sanic"><span class="toc-number">1.4.4.</span> <span class="toc-text">Sanic</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Starlette"><span class="toc-number">1.4.5.</span> <span class="toc-text">Starlette</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Django-Channels"><span class="toc-number">1.4.6.</span> <span class="toc-text">Django Channels</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

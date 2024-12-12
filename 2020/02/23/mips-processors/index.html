@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>MIPS Processors | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          MIPS Processors
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/02/23</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Processor/">Processor</a>/ <a class="article-category-link" href="/categories/Processor/MIPS/">MIPS</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#QEMU" class='tag'>QEMU</a>
+
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+  <a href="/tags/#MIPS" class='tag'>MIPS</a>
+
+
+          
+        </div>
+        <h1 id="MIPS-Processors"><a href="#MIPS-Processors" class="headerlink" title="MIPS Processors"></a>MIPS Processors</h1><p>自从 2014 年发布 MIPS R6 版本之后， MIPS 公司的 IP Core 产品全面转向 MIPS R6 版本，形成覆盖高中低不同性能和应用需求的 Warrior 产品系列， 而把 R6 之前的产品全部归为 Classic 系列。 Warrior 产品系列又分为 M-Class， I-Class 和 P-Class 三个级别，覆盖了从 32 位微控制器到 64 位服务器与基础设施之间的所有领域。</p>
+<ul>
+<li>P-class 采用 MIPS R6 MIPS 指令集，当前的产品是 P6600 (MIPS64 R6) 和 P5600 (32-bit MIPS32 R5)。</li>
+<li>I-class 采用 MIPS R6 nanoMIPS 指令集，用于嵌入式设备，当前的产品是 I7200 (2.1 GHz, 32-bit nanoMIPS)，I6500-F (MIPS64 R6)，I6500 (MIPS64 R6) 和 I6400 (MIPS64 R6)。</li>
+<li>M-class 采用 MIPS R6 microMIPS 指令集，用于微控制器，当前的产品是 M6250 (64 bit，4GB Virtual Memory，750 MHz)，M6200，M51xx。</li>
+</ul>
+<p>The MIPS32® and MIPS64® instruction-set architectures, which are seamlessly compatible, allow customers to port from one generation to the next while preserving their investment in existing software.</p>
+<p>microMIPS®, a code compression Instruction Set Architecture (ISA) comprised of 16- and 32- bit instructions, that provides similar performance to MIPS32 with a code size reduction of up to 25%.</p>
+<p>nanoMIPS designed for embedded devices, it can deliver up to 40% smaller code than MIPS32. With smaller memory accesses and efficient use of the instruction cache, nanoMIPS also helps to reduce system power consumption.</p>
+<p>Architecture modules that are encompassed as part of the base architecture include SIMD (Single Instruction Multiple Data operation), Virtualization, Multi-threading (MT) and DSP technologies.</p>
+<p>Based on a heritage built over more than three decades of constant innovation, the MIPS architecture is the industry’s most efficient RISC architecture, delivering the best performance and lowest power consumption in a given silicon area.</p>
+<ul>
+<li>nanoMIPS Architecture</li>
+<li>MIPS32 Instruction Set Architecture (ISA)</li>
+<li>MIPS64 Architecture ISA</li>
+<li>microMIPS ISA</li>
+<li>MIPS Multi-Threading architecture module</li>
+<li>MIPS Virtualization architecture module</li>
+<li>MIPS SIMD architecture module</li>
+<li>MIPS DSP architecture module</li>
+<li>MIPS MCU architecture module</li>
+<li>MIPS16e architecture module</li>
+</ul>
+<h2 id="MIPS32-Architecture"><a href="#MIPS32-Architecture" class="headerlink" title="MIPS32 Architecture"></a>MIPS32 Architecture</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://s3-eu-west-1.amazonaws.com/downloads-mips/documents/MD00565-2B-MIPS32-QRC-01.01.pdf">MIPS Instruction Set Quick Reference</a></li>
+<li><a target="_blank" rel="noopener" href="https://s3-eu-west-1.amazonaws.com/downloads-mips/documents/MD00082-2B-MIPS32INT-AFP-06.01.pdf">Introduction to the MIPS32 Architecture v6.01 (867.62 KB)</a></li>
+<li><a target="_blank" rel="noopener" href="https://s3-eu-west-1.amazonaws.com/downloads-mips/documents/MD00086-2B-MIPS32BIS-AFP-6.06.pdf">The MIPS32 Instruction Set v6.06 (2.3 MB)</a></li>
+<li><a target="_blank" rel="noopener" href="https://s3-eu-west-1.amazonaws.com/downloads-mips/mips-downloads/Application-Notes/MD00741-2B-microMIPS32INT-AFP-06.00.pdf">Introduction to the microMIPS32 Architecture v6.0 (800 KB)</a></li>
+<li><a target="_blank" rel="noopener" href="https://s3-eu-west-1.amazonaws.com/downloads-mips/documents/MD00582-2B-microMIPS32-AFP-6.05.pdf">The microMIPS32 Instruction Set v6.05 (1.9 MB)</a></li>
+<li><a target="_blank" rel="noopener" href="https://s3-eu-west-1.amazonaws.com/downloads-mips/documents/MD00090-2B-MIPS32PRA-AFP-06.02.pdf">The MIPS32 and microMIPS32 Privileged Resource Architecture v6.02 (1.46 MB)</a></li>
+</ul>
+<p>The MIPS32 architecture provides seamless upward compatibility to the 64-bit MIPS64® architecture, bringing powerful features, standardized privileged mode instructions, and support for past ISA versions. The MIPS32 architecture incorporates important functionality including SIMD (Single Instruction Multiple Data) and virtualization. These technologies, in conjunction with technologies such as multi-threading (MT), DSP extensions and EVA (Enhanced Virtual Addressing) enrich the architecture for use with modern software workloads which require larger memory sizes, increased computational horsepower and secure execution environments.</p>
+<h2 id="MIPS64-Architecture"><a href="#MIPS64-Architecture" class="headerlink" title="MIPS64 Architecture"></a>MIPS64 Architecture</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://s3-eu-west-1.amazonaws.com/downloads-mips/documents/MD00083-2B-MIPS64INT-AFP-06.01.pdf">Introduction to the MIPS64 Architecture v6.01 (874.83 KB)</a></li>
+<li><a target="_blank" rel="noopener" href="https://s3-eu-west-1.amazonaws.com/downloads-mips/documents/MD00087-2B-MIPS64BIS-AFP-6.06.pdf">The MIPS64 Instruction Set v6.06 (2.7 MB)</a></li>
+<li><a target="_blank" rel="noopener" href="https://s3-eu-west-1.amazonaws.com/downloads-mips/documents/MD00594-2B-microMIPS64-AFP-6.05.pdf">The microMIPS64 Instruction Set v6.05 (2.3 MB)</a></li>
+<li><a target="_blank" rel="noopener" href="https://s3-eu-west-1.amazonaws.com/downloads-mips/documents/MD00091-2B-MIPS64PRA-AFP-06.03.pdf">The MIPS64 and microMIPS64 Privileged Resource Architecture v6.03 (3.3 MB)</a></li>
+</ul>
+<p>The MIPS64® architecture provides a solid high-performance foundation for future MIPS processor-based development by incorporating powerful features, standardizing privileged mode instructions, supporting past ISAs, and providing a seamless upgrade path from the MIPS32 architecture.</p>
+<p>The MIPS32 and MIPS64 architectures incorporate important functionality including SIMD (Single Instruction Multiple Data) and virtualization. These technologies, in conjunction with technologies such as multi-threading (MT), DSP extensions and EVA (Enhanced Virtual Addressing), enrich the architecture for use with modern software workloads which require larger memory sizes, increased computational horsepower and secure execution environments.</p>
+<h2 id="nanoMIPS-Architecture"><a href="#nanoMIPS-Architecture" class="headerlink" title="nanoMIPS Architecture"></a>nanoMIPS Architecture</h2><p>Designed for <strong>embedded</strong> devices, nanoMIPS is a variable lengths instruction set architecture (ISA) offering high performance in substantially reduced code size. Under comparable compiler flags, it can deliver up to 40% smaller code than MIPS32. With smaller memory accesses and efficient use of the instruction cache, nanoMIPS also helps to reduce system power consumption.</p>
+<p>The nanoMIPS ISA combines recoded and new 16-, 32-, and 48-bit instructions to achieve an ideal balance of performance and code density. It incorporates all MIPS32 instructions and architecture modules including MIPS DSP and MIPS MT, as well as new instructions for advanced code size reduction.</p>
+<p>nanoMIPS is supported in release 6 of the MIPS architecture. It is first implemented in  the new MIPS I7200 multi-threaded multi-core processor series. Compiler support is included in the MIPS GNU-based development tools.</p>
+<h2 id="microMIPS-Architecture"><a href="#microMIPS-Architecture" class="headerlink" title="microMIPS Architecture"></a>microMIPS Architecture</h2><p>Designed for <strong>microcontrollers</strong> and other small footprint embedded devices, microMIPS is a code compression instruction set architecture (ISA) that offers 32-bit performance with 16-bit code size for most instructions. It maintains 98% of MIPS32 performance while reducing code size by up to 25%, translating to significant silicon cost savings. With smaller memory accesses and efficient use of the instruction cache, microMIPS also helps to reduce system power consumption.</p>
+<p>The microMIPS ISA combines recoded and new 16- and 32-bit instructions to achieve an ideal balance of performance and code density. It incorporates all MIPS32 instructions and architecture modules including MIPS DSP and MIPS MT, as well as new instructions for advanced code size reduction. The microMIPS ISA is backward compatible, enabling reuse of optimized MIPS microarchitecture.</p>
+<p>microMIPS is supported in releases r3, r5 and r6 of the MIPS architecture. It is implemented in MIPS CPUs including the M14K, microAptiv, and the Warrior M51xx and M62xx series of cores.</p>
+<h2 id="MIPS-Architecture-Modules"><a href="#MIPS-Architecture-Modules" class="headerlink" title="MIPS Architecture Modules"></a>MIPS Architecture Modules</h2><p>MIPS offers a series of architecture modules that allow designers to extend their MIPS32, MIPS64 or microMIPS instruction sets for additional functionality.</p>
+<h3 id="MIPS-Multi-threading"><a href="#MIPS-Multi-threading" class="headerlink" title="MIPS Multi-threading"></a>MIPS Multi-threading</h3><p>Hardware multi-threading can make a single processor core appear and function like multiple separate cores for improved performance and efficiency. MIPS delivers this capability in several families of our licensable CPU IP products, providing a differentiated and highly efficient mechanism to achieve higher levels of performance and&#x2F;or low latency context switching behavior. Find out more about MIPS Multi-threading.</p>
+<h3 id="MIPS-Virtualization"><a href="#MIPS-Virtualization" class="headerlink" title="MIPS Virtualization"></a>MIPS Virtualization</h3><p>The MIPS Virtualization (VZ) module provides the foundation for MIPS multi-domain security technology, and enables consolidation of multiple different embedded CPUs into a single core, resulting in lower silicon area and development effort, ultimately decreasing the overall cost and extending battery life.</p>
+<h3 id="MIPS-SIMD"><a href="#MIPS-SIMD" class="headerlink" title="MIPS SIMD"></a>MIPS SIMD</h3><p>The MIPS SIMD Architecture (MSA) incorporates a software-programmable solution into the CPU to handle emerging codecs or a small number of functions not covered by dedicated hardware. This programmable solution allows for increased system flexibility. In addition, the MSA is designed to accelerate many compute-intensive applications by enabling generic compiler support.</p>
+<h3 id="MIPS-DSP"><a href="#MIPS-DSP" class="headerlink" title="MIPS DSP"></a>MIPS DSP</h3><p>The MIPS DSP module offers licensees a programmable solution for DSP applications, allowing adaptation to changing market needs and extending the life of an SoC design. The DSP module comprises a set of instructions and state in the integer pipeline of MIPS cores and requires minimal additional logic to implement.</p>
+<h3 id="MIPS-MCU"><a href="#MIPS-MCU" class="headerlink" title="MIPS MCU"></a>MIPS MCU</h3><p>The MIPS MCU module provides key enhancements for microcontroller applications including enhanced handling of memory-mapped I&#x2F;O registers and lower interrupt latencies.</p>
+<h3 id="MIPS16e"><a href="#MIPS16e" class="headerlink" title="MIPS16e"></a>MIPS16e</h3><p>The MIPS16e module is composed of 16-bit compressed code instructions, designed for the embedded processor market and situations with tight memory constraints. The core can execute both 16- and 32-bit instructions intermixed in the same program, and is compatible with both the MIPS32 and MIPS64 Architectures.</p>
+<h2 id="Preferred-CPU-models-for-Qemu"><a href="#Preferred-CPU-models-for-Qemu" class="headerlink" title="Preferred CPU models for Qemu"></a>Preferred CPU models for Qemu</h2><ul>
+<li>MIPS32R6, mips32r6-generic</li>
+<li>MIPS64R6, I6400</li>
+<li>nanoMIPS, I7200</li>
+<li>MIPS32R2, 34Kf</li>
+<li>MIPS64R2, MIPS64R2-generic</li>
+</ul>
+<h2 id="MIPS-powered-SoC"><a href="#MIPS-powered-SoC" class="headerlink" title="MIPS-powered SoC"></a>MIPS-powered SoC</h2><ul>
+<li>74Kc (2007), Qualcomm Atheros (AR9344 QCA9558), MediaTek (RT3662 RT3883) Broadcom (BCM4706)</li>
+<li>1004Kc (2008), MediaTek (MT7621[1004KEc, 880MHz, 32-bit, 2 Gbps routing])</li>
+<li>1074Kc (2010), Realtek (RTL8198C)</li>
+</ul>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MIPS-Processors"><span class="toc-number">1.</span> <span class="toc-text">MIPS Processors</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MIPS32-Architecture"><span class="toc-number">1.1.</span> <span class="toc-text">MIPS32 Architecture</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MIPS64-Architecture"><span class="toc-number">1.2.</span> <span class="toc-text">MIPS64 Architecture</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nanoMIPS-Architecture"><span class="toc-number">1.3.</span> <span class="toc-text">nanoMIPS Architecture</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#microMIPS-Architecture"><span class="toc-number">1.4.</span> <span class="toc-text">microMIPS Architecture</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MIPS-Architecture-Modules"><span class="toc-number">1.5.</span> <span class="toc-text">MIPS Architecture Modules</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MIPS-Multi-threading"><span class="toc-number">1.5.1.</span> <span class="toc-text">MIPS Multi-threading</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MIPS-Virtualization"><span class="toc-number">1.5.2.</span> <span class="toc-text">MIPS Virtualization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MIPS-SIMD"><span class="toc-number">1.5.3.</span> <span class="toc-text">MIPS SIMD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MIPS-DSP"><span class="toc-number">1.5.4.</span> <span class="toc-text">MIPS DSP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MIPS-MCU"><span class="toc-number">1.5.5.</span> <span class="toc-text">MIPS MCU</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MIPS16e"><span class="toc-number">1.5.6.</span> <span class="toc-text">MIPS16e</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Preferred-CPU-models-for-Qemu"><span class="toc-number">1.6.</span> <span class="toc-text">Preferred CPU models for Qemu</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MIPS-powered-SoC"><span class="toc-number">1.7.</span> <span class="toc-text">MIPS-powered SoC</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

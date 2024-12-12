@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Rust installation | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Rust installation
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/01/27</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/Rust/">Rust</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tag"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Rust" class='tag'>Rust</a>
+
+
+          
+        </div>
+        <h1 id="Install-Rust"><a href="#Install-Rust" class="headerlink" title="Install Rust"></a>Install Rust</h1><h2 id="Rust’s-core-design-principles"><a href="#Rust’s-core-design-principles" class="headerlink" title="Rust’s core design principles"></a>Rust’s core design principles</h2><ul>
+<li>Practicality — it should be a language that can be and is used in the real world.</li>
+<li>Pragmatism — it should admit concessions to human usability and integration into systems as they exist today.</li>
+<li>Memory-safety — it must enforce memory safety, and not admit segmentation faults and other such memory-access violations.</li>
+<li>Performance — it must be in the same performance class as C++. <strong>favored run-time over compile-time</strong>.</li>
+<li>Concurrency — it must provide modern solutions to writing concurrent code.</li>
+</ul>
+<h2 id="Release-channels-and-riding-the-trains"><a href="#Release-channels-and-riding-the-trains" class="headerlink" title="Release channels and riding the trains"></a>Release channels and riding the trains</h2><p>Rust development operates on a train schedule. That is, all development is
+done on the master branch of the Rust repository. Releases follow a software
+release train model, which has been used by Cisco IOS and other software
+projects. There are three release channels for Rust:</p>
+<ul>
+<li>Nightly</li>
+<li>Beta</li>
+<li>Stable</li>
+</ul>
+<p>Every six weeks, it’s time to prepare a new release! The beta branch of the
+Rust repository branches off from the master branch used by nightly.</p>
+<p>Six weeks after the first beta was created, it’s time for a stable release!
+The stable branch is produced from the beta branch.</p>
+<p>This is called the “train model” because every six weeks, a release “leaves
+the station”.</p>
+<h3 id="Rust-stable-channel"><a href="#Rust-stable-channel" class="headerlink" title="Rust stable channel"></a>Rust stable channel</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">curl -sSLO https://static.rust-lang.org/dist/channel-rust-stable.toml.sha256</span><br><span class="line">curl -sSLO https://static.rust-lang.org/dist/channel-rust-stable.toml</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">cat</span> channel-rust-stable.toml | grep x86_64-unknown-linux-gnu.tar.xz | awk -F <span class="string">&#x27;&quot;&#x27;</span> <span class="string">&#x27;&#123;print $2&#125;&#x27;</span></span><br><span class="line">$ <span class="built_in">cat</span> channel-rust-stable.toml | grep x86_64-pc-windows-msvc.tar.xz | awk -F <span class="string">&#x27;&quot;&#x27;</span> <span class="string">&#x27;&#123;print $2&#125;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="built_in">read</span> triple rest; <span class="keyword">do</span></span><br><span class="line">    [ -z <span class="string">&quot;<span class="variable">$triple</span>&quot;</span> ] || <span class="built_in">cat</span> channel-rust-stable.toml | grep <span class="variable">$triple</span>.tar.xz | awk -F <span class="string">&#x27;&quot;&#x27;</span> <span class="string">&#x27;&#123;print $2&#125;&#x27;</span> | grep rustc-1</span><br><span class="line"><span class="keyword">done</span> &lt;&lt; <span class="string">EOF</span></span><br><span class="line"><span class="string">aarch64-unknown-linux-gnu</span></span><br><span class="line"><span class="string">armv7-unknown-linux-gnueabihf</span></span><br><span class="line"><span class="string">riscv64gc-unknown-linux-gnu</span></span><br><span class="line"><span class="string">s390x-unknown-linux-gnu</span></span><br><span class="line"><span class="string">x86_64-pc-windows-gnu</span></span><br><span class="line"><span class="string">x86_64-unknown-linux-gnu</span></span><br><span class="line"><span class="string">x86_64-unknown-linux-musl</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">aarch64-apple-ios</span></span><br><span class="line"><span class="string">aarch64-linux-android</span></span><br><span class="line"><span class="string">mips64el-unknown-linux-gnuabi64</span></span><br><span class="line"><span class="string">x86_64-apple-darwin</span></span><br><span class="line"><span class="string">x86_64-pc-windows-msvc</span></span><br><span class="line"><span class="string">x86_64-unknown-freebsd</span></span><br><span class="line"><span class="string">x86_64-unknown-netbsd</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line">https://static.rust-lang.org/dist/2020-03-12/rustc-1.42.0-aarch64-unknown-linux-gnu.tar.xz</span><br><span class="line">https://static.rust-lang.org/dist/2020-03-12/rustc-1.42.0-armv7-unknown-linux-gnueabihf.tar.xz</span><br><span class="line">https://static.rust-lang.org/dist/2020-03-12/rustc-1.42.0-mips64el-unknown-linux-gnuabi64.tar.xz</span><br><span class="line">https://static.rust-lang.org/dist/2020-03-12/rustc-1.42.0-s390x-unknown-linux-gnu.tar.xz</span><br><span class="line">https://static.rust-lang.org/dist/2020-03-12/rustc-1.42.0-x86_64-apple-darwin.tar.xz</span><br><span class="line">https://static.rust-lang.org/dist/2020-03-12/rustc-1.42.0-x86_64-pc-windows-gnu.tar.xz</span><br><span class="line">https://static.rust-lang.org/dist/2020-03-12/rustc-1.42.0-x86_64-pc-windows-msvc.tar.xz</span><br><span class="line">https://static.rust-lang.org/dist/2020-03-12/rustc-1.42.0-x86_64-unknown-freebsd.tar.xz</span><br><span class="line">https://static.rust-lang.org/dist/2020-03-12/rustc-1.42.0-x86_64-unknown-linux-gnu.tar.xz</span><br><span class="line">https://static.rust-lang.org/dist/2020-03-12/rustc-1.42.0-x86_64-unknown-linux-musl.tar.xz</span><br><span class="line">https://static.rust-lang.org/dist/2020-03-12/rustc-1.42.0-x86_64-unknown-netbsd.tar.xz</span><br></pre></td></tr></table></figure>
+
+<h2 id="Using-rustup"><a href="#Using-rustup" class="headerlink" title="Using rustup"></a>Using rustup</h2><h3 id="Linux-user"><a href="#Linux-user" class="headerlink" title="Linux user"></a>Linux user</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># curl --proto &#x27;=https&#x27; --tlsv1.2 -sSf https://sh.rustup.rs \</span></span><br><span class="line">    | sh -s -- --profile minimal --default-toolchain nightly</span><br><span class="line"></span><br><span class="line"><span class="comment"># export CARGO_HTTP_PROXY=&quot;socks5h://proxy.example.com&quot;</span></span><br><span class="line"><span class="comment"># export CARGO_HOME=/opt/rust</span></span><br><span class="line"><span class="comment"># export CARGO_HTTP_MULTIPLEXING=true</span></span><br><span class="line"></span><br><span class="line">$ curl --proto <span class="string">&#x27;=https&#x27;</span> --tlsv1.2 -sSf https://sh.rustup.rs | sh</span><br><span class="line"></span><br><span class="line">$ cargo install cargo-binutils</span><br><span class="line">$ rustup component add llvm-tools-preview</span><br><span class="line">$ cargo objdump -- -version</span><br><span class="line">$ cargo nm --bin app --release</span><br><span class="line">$ cargo nm --bin app --release -- -print-size -size-sort</span><br><span class="line">$ cargo objdump --bin app --release -- -disassemble -no-show-raw-insn</span><br><span class="line">$ cargo size --bin app --release -- -A -x</span><br></pre></td></tr></table></figure>
+
+<h3 id="Windows-user"><a href="#Windows-user" class="headerlink" title="Windows user"></a>Windows user</h3><p>Windows builds of rustup additionally require an installation of <a target="_blank" rel="noopener" href="https://visualstudio.microsoft.com/downloads/">Visual
+Studio 2019 or the Visual C++ Build Tools 2019</a>. For Visual Studio, make
+sure to check the “C++ tools” and “Windows 10 SDK” option</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -sSL -o rustup-init.exe https://win.rustup.rs/</span><br><span class="line">rustup-init.exe</span><br></pre></td></tr></table></figure>
+
+<h2 id="Update"><a href="#Update" class="headerlink" title="Update"></a>Update</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rustup self update</span><br><span class="line">rustup update</span><br></pre></td></tr></table></figure>
+
+<h2 id="Verify"><a href="#Verify" class="headerlink" title="Verify"></a>Verify</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cargo --version</span><br><span class="line">rustc --version</span><br></pre></td></tr></table></figure>
+
+<h2 id="Generating-a-new-project"><a href="#Generating-a-new-project" class="headerlink" title="Generating a new project"></a>Generating a new project</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cargo new hello-rust</span><br><span class="line"><span class="built_in">cd</span> hello-rust/</span><br><span class="line">cargo run</span><br></pre></td></tr></table></figure>
+
+<h2 id="Working-with-nightly-Rust"><a href="#Working-with-nightly-Rust" class="headerlink" title="Working with nightly Rust"></a>Working with nightly Rust</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">rustup toolchain install nightly</span><br><span class="line">rustup run nightly rustc --version</span><br><span class="line"></span><br><span class="line">cargo new hello-rust</span><br><span class="line"><span class="built_in">cd</span> hello-rust/</span><br><span class="line">cargo +nightly run</span><br></pre></td></tr></table></figure>
+
+<h2 id="Cross-compilation"><a href="#Cross-compilation" class="headerlink" title="Cross-compilation"></a>Cross-compilation</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install -y \</span><br><span class="line">    g++ \</span><br><span class="line">    g++-aarch64-linux-gnu \</span><br><span class="line">    g++-arm-linux-gnueabi \</span><br><span class="line">    g++-mingw-w64-x86-64-posix \</span><br><span class="line">    g++-riscv64-linux-gnu \</span><br><span class="line">    g++-s390x-linux-gnu \</span><br><span class="line">    musl-tools \</span><br><span class="line">    opensbi \</span><br><span class="line">    ovmf \</span><br><span class="line">    qemu-efi-aarch64 \</span><br><span class="line">    qemu-efi-arm \</span><br><span class="line">    qemu-system-arm \</span><br><span class="line">    qemu-system-misc \</span><br><span class="line">    u-boot-qemu</span><br><span class="line"></span><br><span class="line"><span class="comment"># https://developer.arm.com/ip-products/processors/cortex-a [a7, a9, a15, a72]</span></span><br><span class="line"><span class="comment"># https://developer.arm.com/ip-products/processors/cortex-r [r5, r5f]</span></span><br><span class="line"><span class="comment"># https://developer.arm.com/ip-products/processors/cortex-m [m3/thumbv7m-none-eabi, m4/thumbv7em-none-eabi]</span></span><br><span class="line"><span class="comment"># https://en.wikipedia.org/wiki/Comparison_of_ARMv7-A_cores</span></span><br><span class="line"><span class="comment"># https://en.wikipedia.org/wiki/Comparison_of_ARMv8-A_cores</span></span><br><span class="line"><span class="comment"># https://en.wikipedia.org/wiki/RISC-V</span></span><br><span class="line"><span class="comment"># https://docs.rust-embedded.org/faq.html</span></span><br><span class="line"></span><br><span class="line">rustup target add \</span><br><span class="line">    aarch64-unknown-linux-gnu \</span><br><span class="line">    armv7-unknown-linux-gnueabihf \</span><br><span class="line">    riscv64gc-unknown-linux-gnu \</span><br><span class="line">    s390x-unknown-linux-gnu \</span><br><span class="line">    x86_64-pc-windows-gnu \</span><br><span class="line">    x86_64-unknown-linux-gnu \</span><br><span class="line">    x86_64-unknown-linux-musl</span><br><span class="line"></span><br><span class="line">rustup target list</span><br><span class="line"></span><br><span class="line">rustc \</span><br><span class="line">    --target=riscv64gc-unknown-linux-gnu \</span><br><span class="line">    -C linker=riscv64-linux-gnu-gcc \</span><br><span class="line">    main.rs</span><br><span class="line"></span><br><span class="line"><span class="built_in">cat</span> &gt; ~/.cargo/config &lt;&lt; <span class="string">EOF</span></span><br><span class="line"><span class="string">[target.aarch64-unknown-linux-gnu]</span></span><br><span class="line"><span class="string">linker = &quot;aarch64-linux-gnu-gcc&quot;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[target.riscv64gc-unknown-linux-gnu]</span></span><br><span class="line"><span class="string">linker = &quot;riscv64-linux-gnu-gcc&quot;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[target.s390x-unknown-linux-gnu]</span></span><br><span class="line"><span class="string">linker = &quot;s390x-linux-gnu-gcc&quot;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[target.x86_64-pc-windows-gnu]</span></span><br><span class="line"><span class="string">linker = &quot;x86_64-w64-mingw32-gcc&quot;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[target.x86_64-unknown-linux-gnu]</span></span><br><span class="line"><span class="string">linker = &quot;x86_64-linux-gnu-gcc&quot;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[target.x86_64-unknown-linux-musl]</span></span><br><span class="line"><span class="string">linker = &quot;musl-gcc&quot;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Cortex-A7, A9, A15</span></span><br><span class="line"><span class="string">[target.armv7-unknown-linux-gnueabihf]</span></span><br><span class="line"><span class="string">linker = &quot;arm-linux-gnueabihf-gcc&quot;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Cortex-M3</span></span><br><span class="line"><span class="string">[target.thumbv7m-none-eabi]</span></span><br><span class="line"><span class="string">linker = &quot;arm-linux-gnueabi-gcc&quot;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Cortex-M4 and Cortex-M7</span></span><br><span class="line"><span class="string">[target.thumbv7em-none-eabi]</span></span><br><span class="line"><span class="string">linker = &quot;arm-linux-gnueabi-gcc&quot;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Cortex-R4 and Cortex-R5</span></span><br><span class="line"><span class="string">[target.armv7r-none-eabi]</span></span><br><span class="line"><span class="string">linker = &quot;arm-linux-gnueabi-gcc&quot;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># RV32I base instruction set with M, A and C extensions</span></span><br><span class="line"><span class="string"># XuanTie 902 (RV32EMC)</span></span><br><span class="line"><span class="string"># XuanTie 910 (RV64GCV)</span></span><br><span class="line"><span class="string">[target.riscv32imac-unknown-none-elf]</span></span><br><span class="line"><span class="string">linker = &quot;riscv32imac-none-gcc&quot;</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line">cargo build --target=aarch64-unknown-linux-gnu</span><br><span class="line">cargo build --target=armv7-unknown-linux-gnueabihf</span><br><span class="line">cargo build --target=riscv64gc-unknown-linux-gnu</span><br><span class="line">cargo build --target=s390x-unknown-linux-gnu</span><br><span class="line">cargo build --target=x86_64-pc-windows-gnu</span><br><span class="line">cargo build --target=x86_64-unknown-linux-gnu</span><br><span class="line">cargo build --target=x86_64-unknown-linux-musl</span><br></pre></td></tr></table></figure>
+
+<h2 id="Environment-variables"><a href="#Environment-variables" class="headerlink" title="Environment variables"></a>Environment variables</h2><ul>
+<li>RUSTUP_HOME (default: ~&#x2F;.rustup or %USERPROFILE%&#x2F;.rustup) Sets the root rustup folder, used for storing installed toolchains and configuration options.</li>
+<li>RUSTUP_TOOLCHAIN (default: none) If set, will override the toolchain used for all rust tool invocations. A toolchain with this name should be installed, or invocations will fail.</li>
+<li>RUSTUP_DIST_SERVER (default: <a target="_blank" rel="noopener" href="https://static.rust-lang.org/">https://static.rust-lang.org</a>) Sets the root URL for downloading static resources related to Rust. You can change this to instead use a local mirror, or to test the binaries from the staging directory.</li>
+<li>RUSTUP_DIST_ROOT (default: <a target="_blank" rel="noopener" href="https://static.rust-lang.org/dist">https://static.rust-lang.org/dist</a>) Deprecated. Use RUSTUP_DIST_SERVER instead.</li>
+<li>RUSTUP_UPDATE_ROOT (default <a target="_blank" rel="noopener" href="https://static.rust-lang.org/rustup">https://static.rust-lang.org/rustup</a>) Sets the root URL for downloading self-updates.</li>
+<li>RUSTUP_IO_THREADS unstable (defaults to reported cpu count). Sets the number of threads to perform close IO in. Set to disabled to force single-threaded IO for troubleshooting, or an arbitrary number to override automatic detection.</li>
+<li>RUSTUP_TRACE_DIR unstable (default: no tracing) Enables tracing and determines the directory that traces will be written too. Traces are of the form PID.trace. Traces can be read by the Catapult project tracing viewer.</li>
+<li>RUSTUP_UNPACK_RAM unstable (default 400M, min 100M) Caps the amount of RAM rustup will use for IO tasks while unpacking.</li>
+<li>RUSTUP_NO_BACKTRACE Disables backtraces on non-panic errors even when RUST_BACKTRACE is set.</li>
+</ul>
+<h2 id="Working-with-network-proxies"><a href="#Working-with-network-proxies" class="headerlink" title="Working with network proxies"></a>Working with network proxies</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> https_proxy=socks5://proxy.example.com:1080</span><br><span class="line"><span class="built_in">export</span> https_proxy=http://proxy.example.com:8080</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Install-Rust"><span class="toc-number">1.</span> <span class="toc-text">Install Rust</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Rust%E2%80%99s-core-design-principles"><span class="toc-number">1.1.</span> <span class="toc-text">Rust’s core design principles</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Release-channels-and-riding-the-trains"><span class="toc-number">1.2.</span> <span class="toc-text">Release channels and riding the trains</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Rust-stable-channel"><span class="toc-number">1.2.1.</span> <span class="toc-text">Rust stable channel</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Using-rustup"><span class="toc-number">1.3.</span> <span class="toc-text">Using rustup</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux-user"><span class="toc-number">1.3.1.</span> <span class="toc-text">Linux user</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows-user"><span class="toc-number">1.3.2.</span> <span class="toc-text">Windows user</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Update"><span class="toc-number">1.4.</span> <span class="toc-text">Update</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Verify"><span class="toc-number">1.5.</span> <span class="toc-text">Verify</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Generating-a-new-project"><span class="toc-number">1.6.</span> <span class="toc-text">Generating a new project</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Working-with-nightly-Rust"><span class="toc-number">1.7.</span> <span class="toc-text">Working with nightly Rust</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cross-compilation"><span class="toc-number">1.8.</span> <span class="toc-text">Cross-compilation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Environment-variables"><span class="toc-number">1.9.</span> <span class="toc-text">Environment variables</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Working-with-network-proxies"><span class="toc-number">1.10.</span> <span class="toc-text">Working with network proxies</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

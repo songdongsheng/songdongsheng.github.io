@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>RBAC principle | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          RBAC principle
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2019/04/05</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Architecture/">Architecture</a>/ <a class="article-category-link" href="/categories/Architecture/RBAC/">RBAC</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Architecture" class='tag'>Architecture</a>
+
+  <a href="/tags/#RBAC" class='tag'>RBAC</a>
+
+
+          
+        </div>
+        <h1 id="RBAC-principle"><a href="#RBAC-principle" class="headerlink" title="RBAC principle"></a>RBAC principle</h1><h2 id="RBAC-三角形"><a href="#RBAC-三角形" class="headerlink" title="RBAC 三角形"></a>RBAC 三角形</h2><p>RBAC 三角形有 2 种流行的描述，who&#x2F;what&#x2F;how 和 who&#x2F;what&#x2F;where，没有实质上的不同。都是定义了什么人可以对什么资源做什么操作。</p>
+<p><img src="/2019/04/05/rbac-principle/rbac-triangle.jpg" alt="RBAC 三角形"></p>
+<ol>
+<li>Where 定义了操作范围 (scope)。</li>
+<li>What 定义了角色可以做什么操作 (Role)。</li>
+<li>Who 定义了谁可以执行操作 (Role Group)。</li>
+</ol>
+<h2 id="RBAC-实体"><a href="#RBAC-实体" class="headerlink" title="RBAC 实体"></a>RBAC 实体</h2><ol>
+<li><p>User：有权访问系统的个体</p>
+</li>
+<li><p>Role：组织内的命名作业功能，通常是为了完成某项职责而必须具有的权限集合。</p>
+</li>
+<li><p>Permission：批准访问一个或多个对象的特定模式。</p>
+<ul>
+<li>Object：所有权限控制对象</li>
+<li>Operation：权限控制对象支持的操作。基本对象操作有：<ul>
+<li>A &#x3D; Append</li>
+<li>C &#x3D; Create</li>
+<li>R &#x3D; Read</li>
+<li>U &#x3D; Update</li>
+<li>D &#x3D; Delete</li>
+<li>E &#x3D; Execute</li>
+</ul>
+</li>
+<li>ID：权限标识，由对象标识和操作组合而成。</li>
+</ul>
+</li>
+<li><p>Session：用户与激活的分配给用户的角色的子集的映射。</p>
+</li>
+</ol>
+<p><img src="/2019/04/05/rbac-principle/rbac.jpg" alt="image"></p>
+<h2 id="RBAC-授权约束"><a href="#RBAC-授权约束" class="headerlink" title="RBAC 授权约束"></a>RBAC 授权约束</h2><p>授权约束分为静态约束(SSD)和动态约束(DSD)，用来实现职责分离，基于时间和地点的权限等。</p>
+<ol>
+<li>静态约束(SSD)，在系统配置时已经确定的约束。例如用户不应该既当裁判员，又当运动员。</li>
+<li>动态约束(DSD)，在系统运行时才确定的约束。例如只有在工作时间才能登陆，只有在特定地区才能具有特定权限。</li>
+</ol>
+<h2 id="UML-responsibility-of-RBAC"><a href="#UML-responsibility-of-RBAC" class="headerlink" title="UML responsibility of RBAC"></a>UML responsibility of RBAC</h2><p><img src="/2019/04/05/rbac-principle/rbac-uml.jpg" alt="image"></p>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RBAC-principle"><span class="toc-number">1.</span> <span class="toc-text">RBAC principle</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#RBAC-%E4%B8%89%E8%A7%92%E5%BD%A2"><span class="toc-number">1.1.</span> <span class="toc-text">RBAC 三角形</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RBAC-%E5%AE%9E%E4%BD%93"><span class="toc-number">1.2.</span> <span class="toc-text">RBAC 实体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RBAC-%E6%8E%88%E6%9D%83%E7%BA%A6%E6%9D%9F"><span class="toc-number">1.3.</span> <span class="toc-text">RBAC 授权约束</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UML-responsibility-of-RBAC"><span class="toc-number">1.4.</span> <span class="toc-text">UML responsibility of RBAC</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

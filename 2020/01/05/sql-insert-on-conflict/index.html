@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>SQL insert on conflict | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          SQL insert on conflict
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/01/05</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/SQL/">SQL</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#SQL" class='tag'>SQL</a>
+
+
+          
+        </div>
+        <h1 id="SQL-insert-on-conflict"><a href="#SQL-insert-on-conflict" class="headerlink" title="SQL insert on conflict"></a>SQL insert on conflict</h1><h2 id="PostgreSQL"><a href="#PostgreSQL" class="headerlink" title="PostgreSQL"></a>PostgreSQL</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.postgresql.org/docs/current/static/sql-insert.html">https://www.postgresql.org/docs/current/static/sql-insert.html</a></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> MYBAAS(ID, TYPE_NAME, JSON)</span><br><span class="line"><span class="keyword">VALUES</span>(?, ?, ?)</span><br><span class="line"><span class="keyword">ON</span> CONFLICT(ID) DO <span class="keyword">UPDATE</span> <span class="keyword">SET</span> TYPE_NAME<span class="operator">=</span>?, JSON<span class="operator">=</span>?</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> MYBAAS(ID, TYPE_NAME, JSON)</span><br><span class="line"><span class="keyword">VALUES</span>(?, ?, ?)</span><br><span class="line"><span class="keyword">ON</span> CONFLICT DO NOTHING;</span><br></pre></td></tr></table></figure>
+
+<h2 id="SQL-Server"><a href="#SQL-Server" class="headerlink" title="SQL Server"></a>SQL Server</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/sql/t-sql/statements/create-table-transact-sql">https://docs.microsoft.com/en-us/sql/t-sql/statements/create-table-transact-sql</a></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> MYBAAS (</span><br><span class="line">        ID          <span class="type">VARCHAR</span>(<span class="number">64</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">        TYPE_NAME   <span class="type">VARCHAR</span>(<span class="number">64</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">        JSON        LONGTEXT <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">        <span class="keyword">CONSTRAINT</span> MYBAAS_PK <span class="keyword">PRIMARY</span> KEY (ID) <span class="keyword">WITH</span> (IGNORE_DUP_KEY<span class="operator">=</span><span class="keyword">ON</span>)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> PROPERTY_MAP (</span><br><span class="line">        ID              <span class="type">VARCHAR</span>(<span class="number">64</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">        PROPERTY_NAME   <span class="type">VARCHAR</span>(<span class="number">64</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">        COLUMN_NAME     <span class="type">VARCHAR</span>(<span class="number">64</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">        TYPE_NAME       <span class="type">VARCHAR</span>(<span class="number">64</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">        <span class="keyword">CONSTRAINT</span> PROPERTY_MAP_PK <span class="keyword">PRIMARY</span> KEY (ID)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">UNIQUE</span> INDEX PROPERTY_MAP_UK01</span><br><span class="line"><span class="keyword">ON</span> PROPERTY_MAP(PROPERTY_NAME) <span class="keyword">WITH</span> (IGNORE_DUP_KEY <span class="operator">=</span> <span class="keyword">ON</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">UNIQUE</span> INDEX PROPERTY_MAP_UK02</span><br><span class="line"><span class="keyword">ON</span> PROPERTY_MAP(COLUMN_NAME) <span class="keyword">WITH</span> (IGNORE_DUP_KEY <span class="operator">=</span> <span class="keyword">ON</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="SQLite"><a href="#SQLite" class="headerlink" title="SQLite"></a>SQLite</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://sqlite.org/lang_insert.html">https://sqlite.org/lang_insert.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://sqlite.org/lang_conflict.html">https://sqlite.org/lang_conflict.html</a></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">OR</span> REPLACE <span class="keyword">INTO</span> MYBAAS(ID, TYPE_NAME, JSON)</span><br><span class="line"><span class="keyword">VALUES</span>(?, ?, ?);</span><br></pre></td></tr></table></figure>
+
+<h2 id="MariaDB-x2F-MySQL"><a href="#MariaDB-x2F-MySQL" class="headerlink" title="MariaDB&#x2F;MySQL"></a>MariaDB&#x2F;MySQL</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://mariadb.com/kb/en/library/insert-on-duplicate-key-update/">https://mariadb.com/kb/en/library/insert-on-duplicate-key-update/</a></li>
+<li><a target="_blank" rel="noopener" href="https://mariadb.com/kb/en/library/insert-ignore/">https://mariadb.com/kb/en/library/insert-ignore/</a></li>
+<li><a target="_blank" rel="noopener" href="https://mariadb.com/kb/en/library/values/">https://mariadb.com/kb/en/library/values/</a></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> MYBAAS(ID, TYPE_NAME, JSON)</span><br><span class="line"><span class="keyword">VALUES</span>(?, ?, ?)</span><br><span class="line"><span class="keyword">ON</span> DUPLICATE KEY <span class="keyword">UPDATE</span> TYPE_NAME<span class="operator">=</span>?, JSON<span class="operator">=</span>?</span><br></pre></td></tr></table></figure>
+
+<h2 id="Oracle"><a href="#Oracle" class="headerlink" title="Oracle"></a>Oracle</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://docs.oracle.com/database/122/SQLRF/MERGE.htm">https://docs.oracle.com/database/122/SQLRF/MERGE.htm</a></li>
+<li><a target="_blank" rel="noopener" href="http://download.oracle.com/docs/cds/database/122.zip">http://download.oracle.com/docs/cds/database/122.zip</a></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">MERGE</span> <span class="keyword">INTO</span> MYBAAS D</span><br><span class="line">    <span class="keyword">USING</span> (<span class="keyword">SELECT</span> ? <span class="keyword">AS</span> ID, ? <span class="keyword">AS</span> TYPE_NAME, ? <span class="keyword">AS</span> JSON <span class="keyword">FROM</span> DUAL) S</span><br><span class="line">    <span class="keyword">ON</span> (D.ID <span class="operator">=</span> S.ID)</span><br><span class="line">    <span class="keyword">WHEN</span> MATCHED <span class="keyword">THEN</span></span><br><span class="line">        <span class="keyword">UPDATE</span> <span class="keyword">SET</span> D.TYPE_NAME <span class="operator">=</span> S.TYPE_NAME</span><br><span class="line">    <span class="keyword">WHEN</span> <span class="keyword">NOT</span> MATCHED <span class="keyword">THEN</span></span><br><span class="line">        <span class="keyword">INSERT</span> (D.ID, D.TYPE_NAME, D.JSON)</span><br><span class="line">        <span class="keyword">VALUES</span> (S.ID, S.TYPE_NAME, S.JSON);</span><br></pre></td></tr></table></figure>
+
+<h2 id="DB2"><a href="#DB2" class="headerlink" title="DB2"></a>DB2</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">MERGE</span> <span class="keyword">INTO</span> MYBAAS <span class="keyword">AS</span> D</span><br><span class="line">    <span class="keyword">USING</span> (<span class="keyword">VALUES</span>(?, ?, ?)) <span class="keyword">AS</span> S(ID, TYPE_NAME, JSON)</span><br><span class="line">    <span class="keyword">ON</span> D.ID <span class="operator">=</span> S.ID</span><br><span class="line">    <span class="keyword">WHEN</span> MATCHED <span class="keyword">THEN</span></span><br><span class="line">        <span class="keyword">UPDATE</span> <span class="keyword">SET</span> D.TYPE_NAME <span class="operator">=</span> S.TYPE_NAME, D.JSON <span class="operator">=</span> S.JSON</span><br><span class="line">    <span class="keyword">WHEN</span> <span class="keyword">NOT</span> MATCHED <span class="keyword">THEN</span></span><br><span class="line">        <span class="keyword">INSERT</span> (ID, TYPE_NAME, JSON) <span class="keyword">VALUES</span> (S.ID, S.TYPE_NAME, S.JSON);</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SQL-insert-on-conflict"><span class="toc-number">1.</span> <span class="toc-text">SQL insert on conflict</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#PostgreSQL"><span class="toc-number">1.1.</span> <span class="toc-text">PostgreSQL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL-Server"><span class="toc-number">1.2.</span> <span class="toc-text">SQL Server</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQLite"><span class="toc-number">1.3.</span> <span class="toc-text">SQLite</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MariaDB-x2F-MySQL"><span class="toc-number">1.4.</span> <span class="toc-text">MariaDB&#x2F;MySQL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Oracle"><span class="toc-number">1.5.</span> <span class="toc-text">Oracle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DB2"><span class="toc-number">1.6.</span> <span class="toc-text">DB2</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

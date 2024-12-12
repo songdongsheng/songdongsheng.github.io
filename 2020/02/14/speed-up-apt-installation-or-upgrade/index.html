@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Speed up apt installation or upgrade | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Speed up apt installation or upgrade
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/02/14</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/Linux/">Linux</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tag"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+
+          
+        </div>
+        <h1 id="Speed-up-apt-installation-or-upgrade"><a href="#Speed-up-apt-installation-or-upgrade" class="headerlink" title="Speed up apt installation or upgrade"></a>Speed up apt installation or upgrade</h1><h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><ol>
+<li>Get URIs of fetching files</li>
+<li>Download them by aria2c to utilize maximum bandwidth</li>
+<li>Install packages from the cache</li>
+</ol>
+<h2 id="Script-apt-fast-sh"><a href="#Script-apt-fast-sh" class="headerlink" title="Script (apt-fast.sh)"></a>Script (apt-fast.sh)</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line">[ <span class="string">&quot;`whoami`&quot;</span> = root ] || <span class="built_in">exec</span> <span class="built_in">sudo</span> bash <span class="string">&quot;<span class="variable">$0</span>&quot;</span> <span class="string">&quot;<span class="variable">$@</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">which</span> aria2c &amp;&gt;/dev/null  || apt-get install -y --install-recommends aria2</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$@</span>&quot;</span> | grep -q <span class="string">&quot;upgrade\|install\|dist-upgrade&quot;</span>; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">cd</span> /var/cache/apt/archives/</span><br><span class="line"></span><br><span class="line">    deb_file_list=`<span class="built_in">mktemp</span>`</span><br><span class="line">    <span class="built_in">trap</span> <span class="string">&quot;rm -f <span class="variable">$&#123;deb_file_list&#125;</span>&quot;</span> EXIT</span><br><span class="line">    apt-get -y --print-uris <span class="variable">$@</span> | egrep -o -e <span class="string">&quot;(http|https)://[^\&#x27;]+&quot;</span> &gt; <span class="variable">$&#123;deb_file_list&#125;</span></span><br><span class="line">    <span class="built_in">cat</span> <span class="variable">$&#123;deb_file_list&#125;</span></span><br><span class="line"></span><br><span class="line">    aria2c -c -j 50 -x 5 -k 1m \</span><br><span class="line">        --connect-timeout=15 --<span class="built_in">timeout</span>=15 --max-tries=0 \</span><br><span class="line">        --file-allocation=falloc --input-file=<span class="variable">$&#123;deb_file_list&#125;</span></span><br><span class="line">    <span class="keyword">if</span> [ <span class="string">&quot;$?&quot;</span> = <span class="string">&quot;0&quot;</span> ] ; <span class="keyword">then</span></span><br><span class="line">        apt-get <span class="variable">$@</span> -y</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        find /var/cache/apt/ -name <span class="string">&quot;*.deb&quot;</span> -or -name <span class="string">&quot;*.deb.aria2&quot;</span> | xargs -n 1 -r <span class="built_in">rm</span> --</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    apt-get <span class="variable">$@</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">bash apt-fast.sh upgrade</span><br><span class="line"></span><br><span class="line">bash apt-fast.sh dist-upgrade</span><br><span class="line"></span><br><span class="line">bash apt-fast.sh install mssql-server mssql-server-fts mssql-tools</span><br><span class="line"></span><br><span class="line"><span class="comment"># https://docs.microsoft.com/en-us/sql/sql-server/</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> /opt/mssql/bin/mssql-conf setup</span><br><span class="line"></span><br><span class="line">systemctl status mssql-server --no-pager</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;export PATH=&quot;$PATH:/opt/mssql-tools/bin&quot;&#x27;</span> &gt;&gt; ~/.bashrc</span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br><span class="line"></span><br><span class="line">sqlcmd -S localhost -U SA -P <span class="string">&#x27;&lt;YourPassword&gt;&#x27;</span></span><br><span class="line"></span><br><span class="line">SELECT Name FROM sys.databases;</span><br><span class="line">CREATE DATABASE TestDB;</span><br><span class="line">USE TestDB;</span><br><span class="line">GO</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Speed-up-apt-installation-or-upgrade"><span class="toc-number">1.</span> <span class="toc-text">Speed up apt installation or upgrade</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Overview"><span class="toc-number">1.1.</span> <span class="toc-text">Overview</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Script-apt-fast-sh"><span class="toc-number">1.2.</span> <span class="toc-text">Script (apt-fast.sh)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Usage"><span class="toc-number">1.3.</span> <span class="toc-text">Usage</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

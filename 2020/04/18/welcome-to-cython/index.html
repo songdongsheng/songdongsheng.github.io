@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Welcome to Cython | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Welcome to Cython
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/04/18</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/Python/">Python</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#Python" class='tag'>Python</a>
+
+
+          
+        </div>
+        <h1 id="Welcome-to-Cython"><a href="#Welcome-to-Cython" class="headerlink" title="Welcome to Cython"></a>Welcome to Cython</h1><h2 id="About-Cython"><a href="#About-Cython" class="headerlink" title="About Cython"></a>About Cython</h2><p><a target="_blank" rel="noopener" href="https://cython.org/">Cython</a> is an optimising static compiler for both the Python programming language and the extended Cython programming language (based on Pyrex). It makes writing C extensions for Python as easy as Python itself.</p>
+<p>The Cython language is a superset of the Python language that additionally supports calling C functions and declaring C types on variables and class attributes. This allows the compiler to generate very efficient C code from Cython code. The C code is generated once and then compiles with all major C&#x2F;C++ compilers in all later CPython versions.</p>
+<h2 id="Installing-Cython"><a href="#Installing-Cython" class="headerlink" title="Installing Cython"></a>Installing Cython</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install Cython</span><br></pre></td></tr></table></figure>
+
+<h2 id="Building-Cython-code"><a href="#Building-Cython-code" class="headerlink" title="Building Cython code"></a>Building Cython code</h2><p>Cython code must, unlike Python, be compiled. This happens in two stages:</p>
+<ul>
+<li>A .pyx file is compiled by Cython to a .c file, containing the code of a Python extension module.</li>
+<li>The .c file is compiled by a C compiler to a .so file (or .pyd on Windows) which can be import-ed directly into a Python session. <a target="_blank" rel="noopener" href="https://setuptools.readthedocs.io/">setuptools</a> takes care of this part. Although Cython can call them for you in certain cases.</li>
+</ul>
+<p>There are several ways to build Cython code:</p>
+<ul>
+<li>Write a setuptools setup.py. This is the normal and recommended way.</li>
+<li>Run the cython command-line utility manually to produce the .c file from the .pyx file, then manually compiling the .c file into a shared object library or DLL suitable for import from Python. (These manual steps are mostly for debugging and experimentation.)</li>
+</ul>
+<h3 id="Compiling-with-the-cythonize-command"><a href="#Compiling-with-the-cythonize-command" class="headerlink" title="Compiling with the cythonize command"></a>Compiling with the cythonize command</h3><p>Run the <strong>cythonize</strong> compiler command with your options and list of .pyx files to generate an extension module. For example:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">cythonize -a -i yourmod.pyx</span></span><br></pre></td></tr></table></figure>
+
+<p>This creates a <strong>yourmod.c</strong> file (or <strong>yourmod.cpp</strong> in C++ mode), compiles it, and puts the resulting extension module (<strong>.so</strong> or <strong>.pyd</strong>, depending on your platform) next to the source file for direct import (<strong>-i</strong> builds “in place”). The <strong>-a</strong> switch additionally produces an annotated html file of the source code.</p>
+<p>The <strong>cythonize</strong> command accepts multiple source files and glob patterns like <strong>**&#x2F;*.pyx</strong> as argument and also understands the common <strong>-j</strong> option for running multiple parallel build jobs. When called without further options, it will only translate the source files to <strong>.c</strong> or <strong>.cpp</strong> files. Pass the <strong>-h</strong> flag for a complete list of supported options.</p>
+<h3 id="Building-a-Cython-module-using-setuptools"><a href="#Building-a-Cython-module-using-setuptools" class="headerlink" title="Building a Cython module using setuptools"></a>Building a Cython module using setuptools</h3><p>Imagine a simple “hello world” script in a file hello.pyx:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">say_hello_to</span>(<span class="params">name</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Hello %s!&quot;</span> % name)</span><br></pre></td></tr></table></figure>
+
+<p>The following could be a corresponding setup.py script:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> setuptools <span class="keyword">import</span> setup</span><br><span class="line"><span class="keyword">from</span> Cython.Build <span class="keyword">import</span> cythonize</span><br><span class="line"></span><br><span class="line">setup(</span><br><span class="line">    name=<span class="string">&#x27;Hello World Application&#x27;</span>,</span><br><span class="line">    ext_modules=cythonize(<span class="string">&quot;src/*.pyx&quot;</span>),</span><br><span class="line">    version=<span class="string">&quot;1.0.0&quot;</span>,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>To build, run <strong>python setup.py build_ext –inplace</strong>. Then simply start a Python session and do <strong>from hello import say_hello_to</strong> and use the imported function as you see fit.</p>
+<h2 id="Using-C-libraries"><a href="#Using-C-libraries" class="headerlink" title="Using C libraries"></a>Using C libraries</h2><p>Apart from writing fast code, one of the main use cases of Cython is to call external C libraries from Python code. As Cython code compiles down to C code itself, it is actually trivial to call C functions directly in the code.</p>
+<h3 id="Defining-external-declarations"><a href="#Defining-external-declarations" class="headerlink" title="Defining external declarations"></a>Defining external declarations</h3><p>The C API of the queue implementation, which is defined in the header file <strong>c-algorithms&#x2F;src&#x2F;queue.h</strong>, essentially looks like this:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* queue.h */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">Queue</span> <span class="title">Queue</span>;</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">void</span> *QueueValue;</span><br><span class="line"></span><br><span class="line">Queue *<span class="title function_">queue_new</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">queue_free</span><span class="params">(Queue *<span class="built_in">queue</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">queue_push_head</span><span class="params">(Queue *<span class="built_in">queue</span>, QueueValue data)</span>;</span><br><span class="line">QueueValue <span class="title function_">queue_pop_head</span><span class="params">(Queue *<span class="built_in">queue</span>)</span>;</span><br><span class="line">QueueValue <span class="title function_">queue_peek_head</span><span class="params">(Queue *<span class="built_in">queue</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">queue_push_tail</span><span class="params">(Queue *<span class="built_in">queue</span>, QueueValue data)</span>;</span><br><span class="line">QueueValue <span class="title function_">queue_pop_tail</span><span class="params">(Queue *<span class="built_in">queue</span>)</span>;</span><br><span class="line">QueueValue <span class="title function_">queue_peek_tail</span><span class="params">(Queue *<span class="built_in">queue</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">queue_is_empty</span><span class="params">(Queue *<span class="built_in">queue</span>)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>The first step is to redefine the C API in a .pxd file</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#cython: language_level=3</span></span><br><span class="line"><span class="comment">#libuv.pyd</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># https://github.com/fragglet/c-algorithms/blob/master/src/queue.h</span></span><br><span class="line"><span class="comment"># https://github.com/fragglet/c-algorithms/blob/master/src/queue.c</span></span><br><span class="line">cdef extern <span class="keyword">from</span> <span class="string">&quot;c-algorithms/src/queue.h&quot;</span>:</span><br><span class="line">    ctypedef struct Queue:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    ctypedef void* QueueValue</span><br><span class="line"></span><br><span class="line">    Queue* queue_new()</span><br><span class="line">    void queue_free(Queue* queue)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">int</span> queue_push_head(Queue* queue, QueueValue data)</span><br><span class="line">    QueueValue queue_pop_head(Queue* queue)</span><br><span class="line">    QueueValue queue_peek_head(Queue* queue)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">int</span> queue_push_tail(Queue* queue, QueueValue data)</span><br><span class="line">    QueueValue queue_pop_tail(Queue* queue)</span><br><span class="line">    QueueValue queue_peek_tail(Queue* queue)</span><br><span class="line"></span><br><span class="line">    bint queue_is_empty(Queue* queue)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Writing-a-wrapper-class"><a href="#Writing-a-wrapper-class" class="headerlink" title="Writing a wrapper class"></a>Writing a wrapper class</h3><p>After declaring our C library’s API, we can start to design the Queue class that should wrap the C queue. It will live in a file called <strong>queue.pyx</strong>.</p>
+<p>Here is a first start for the Queue class:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># queue.pyx</span></span><br><span class="line"></span><br><span class="line">cimport cqueue</span><br><span class="line"></span><br><span class="line">cdef <span class="keyword">class</span> <span class="title class_">Queue</span>:</span><br><span class="line">    cdef cqueue.Queue* _c_queue</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__cinit__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="variable language_">self</span>._c_queue = cqueue.queue_new()</span><br></pre></td></tr></table></figure>
+
+<h3 id="Memory-management"><a href="#Memory-management" class="headerlink" title="Memory management"></a>Memory management</h3><p>Before we continue implementing the other methods, it is important to understand that the above implementation is not safe. In case anything goes wrong in the call to <strong>queue_new()</strong>, this code will simply swallow the error, so we will likely run into a crash later on. According to the documentation of the <strong>queue_new()</strong> function, the only reason why the above can fail is due to insufficient memory. In that case, it will return <strong>NULL</strong>, whereas it would normally return a pointer to the new queue.</p>
+<p>The Python way to get out of this is to raise a <strong>MemoryError</strong>. We can thus change the init function as follows:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># queue.pyx</span></span><br><span class="line"></span><br><span class="line">cimport cqueue</span><br><span class="line"></span><br><span class="line">cdef <span class="keyword">class</span> <span class="title class_">Queue</span>:</span><br><span class="line">    cdef cqueue.Queue* _c_queue</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__cinit__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="variable language_">self</span>._c_queue = cqueue.queue_new()</span><br><span class="line">        <span class="keyword">if</span> <span class="variable language_">self</span>._c_queue <span class="keyword">is</span> NULL:</span><br><span class="line">            <span class="keyword">raise</span> MemoryError()</span><br></pre></td></tr></table></figure>
+
+<p>The next thing to do is to clean up when the Queue instance is no longer used (i.e. all references to it have been deleted). To this end, CPython provides a callback that Cython makes available as a special method <strong><strong>dealloc</strong>()</strong>. In our case, all we have to do is to free the C Queue, but only if we succeeded in initialising it in the init method:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">__dealloc__</span>(<span class="params">self</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="variable language_">self</span>._c_queue <span class="keyword">is</span> <span class="keyword">not</span> NULL:</span><br><span class="line">        cqueue.queue_free(<span class="variable language_">self</span>._c_queue)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Mapping-functionality"><a href="#Mapping-functionality" class="headerlink" title="Mapping functionality"></a>Mapping functionality</h3><p>Adding an append() method should now be straight forward:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cdef append(<span class="variable language_">self</span>, <span class="built_in">int</span> value):</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> cqueue.queue_push_tail(<span class="variable language_">self</span>._c_queue,</span><br><span class="line">                                  &lt;void*&gt;value):</span><br><span class="line">        <span class="keyword">raise</span> MemoryError()</span><br></pre></td></tr></table></figure>
+
+<p>Adding an extend() method should now be straight forward:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cdef extend(<span class="variable language_">self</span>, <span class="built_in">int</span>* values, size_t count):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Append all ints to the queue.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    cdef <span class="built_in">int</span> value</span><br><span class="line">    <span class="keyword">for</span> value <span class="keyword">in</span> values[:count]:  <span class="comment"># Slicing pointer to limit the iteration boundaries.</span></span><br><span class="line">        <span class="variable language_">self</span>.append(value)</span><br></pre></td></tr></table></figure>
+
+<p>So far, we can only add data to the queue. The next step is to write the two methods to get the first element: <strong>peek()</strong> and <strong>pop()</strong>, which provide read-only and destructive read access respectively. To avoid compiler warnings when casting <strong>void</strong>* to <strong>int</strong> directly, we use an intermediate data type that is big enough to hold a <strong>void*</strong>. Here, <strong>Py_ssize_t</strong>:</p>
+<p>cdef int peek(self):
+    return <Py_ssize_t>cqueue.queue_peek_head(self._c_queue)</p>
+<p>cdef int pop(self):
+    return <Py_ssize_t>cqueue.queue_pop_head(self._c_queue)</p>
+<h3 id="Handling-errors"><a href="#Handling-errors" class="headerlink" title="Handling errors"></a>Handling errors</h3><p>Now, what happens when the queue is empty? According to the documentation, the functions return a <strong>NULL</strong> pointer, which is typically not a valid value. But since we are simply casting to and from ints, we cannot distinguish anymore if the return value was <strong>NULL</strong> because the queue was empty or because the value stored in the queue was <strong>0</strong>. In Cython code, we want the first case to raise an exception, whereas the second case should simply return <strong>0</strong>. To deal with this, we need to special case this value, and check if the queue really is empty or not:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cdef <span class="built_in">int</span> peek(<span class="variable language_">self</span>) <span class="keyword">except</span>? -<span class="number">1</span>:</span><br><span class="line">    cdef <span class="built_in">int</span> value = &lt;Py_ssize_t&gt;cqueue.queue_peek_head(<span class="variable language_">self</span>._c_queue)</span><br><span class="line">    <span class="keyword">if</span> value == <span class="number">0</span>:</span><br><span class="line">        <span class="comment"># this may mean that the queue is empty, or</span></span><br><span class="line">        <span class="comment"># that it happens to contain a 0 value</span></span><br><span class="line">        <span class="keyword">if</span> cqueue.queue_is_empty(<span class="variable language_">self</span>._c_queue):</span><br><span class="line">            <span class="keyword">raise</span> IndexError(<span class="string">&quot;Queue is empty&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> value</span><br></pre></td></tr></table></figure>
+
+<h3 id="Compiling-and-linking"><a href="#Compiling-and-linking" class="headerlink" title="Compiling and linking"></a>Compiling and linking</h3><p>At this point, we have a working Cython module that we can test. To compile it, we need to configure a <strong>setup.py</strong> script for <strong>setuptools</strong>. Here is the most basic script for compiling a Cython module:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> setuptools <span class="keyword">import</span> Extension, setup</span><br><span class="line"><span class="keyword">from</span> Cython.Build <span class="keyword">import</span> cythonize</span><br><span class="line"></span><br><span class="line">setup(</span><br><span class="line">    ext_modules = cythonize([Extension(<span class="string">&quot;queue&quot;</span>, [<span class="string">&quot;queue.pyx&quot;</span>])])</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>To build against the external C library, we need to make sure Cython finds the necessary libraries. There are two ways to archive this. First we can tell setuptools where to find the c-source to compile the <strong>queue.c</strong> implementation automatically. Alternatively, we can build and install C-Alg as system library and dynamically link it.</p>
+<h4 id="Static-Linking"><a href="#Static-Linking" class="headerlink" title="Static Linking"></a>Static Linking</h4><p>To build the c-code automatically we need to include compiler directives in queue.pyx:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># distutils: sources = c-algorithms/src/queue.c</span></span><br><span class="line"><span class="comment"># distutils: include_dirs = c-algorithms/src/</span></span><br><span class="line"></span><br><span class="line">cimport cqueue</span><br><span class="line"></span><br><span class="line">cdef <span class="keyword">class</span> <span class="title class_">Queue</span>:</span><br><span class="line">    cdef cqueue.Queue* _c_queue</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__cinit__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="variable language_">self</span>._c_queue = cqueue.queue_new()</span><br><span class="line">        <span class="keyword">if</span> <span class="variable language_">self</span>._c_queue <span class="keyword">is</span> NULL:</span><br><span class="line">            <span class="keyword">raise</span> MemoryError()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__dealloc__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="variable language_">self</span>._c_queue <span class="keyword">is</span> <span class="keyword">not</span> NULL:</span><br><span class="line">            cqueue.queue_free(<span class="variable language_">self</span>._c_queue)</span><br></pre></td></tr></table></figure>
+
+<p>The <strong>sources</strong> compiler directive gives the path of the C files that setuptools is going to compile and link (statically) into the resulting extension module. In general all relevant header files should be found in <strong>include_dirs</strong>. Now we can build the project using:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python setup.py build_ext -i</span></span><br></pre></td></tr></table></figure>
+
+<p>And test whether our build was successful:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python -c <span class="string">&#x27;import queue; Q = queue.Queue()&#x27;</span></span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Dynamic-Linking"><a href="#Dynamic-Linking" class="headerlink" title="Dynamic Linking"></a>Dynamic Linking</h4><p>Dynamic linking is useful, if the library we are going to wrap is already installed on the system. To perform dynamic linking we first need to build and install c-alg.</p>
+<p>In this approach we need to tell the setup script to link with an external library. To do so we need to extend the setup script to install change the extension setup from</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ext_modules = cythonize([Extension(<span class="string">&quot;queue&quot;</span>, [<span class="string">&quot;queue.pyx&quot;</span>])])</span><br></pre></td></tr></table></figure>
+
+<p>to</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ext_modules = cythonize([</span><br><span class="line">    Extension(<span class="string">&quot;queue&quot;</span>, [<span class="string">&quot;queue.pyx&quot;</span>],</span><br><span class="line">              libraries=[<span class="string">&quot;calg&quot;</span>])</span><br><span class="line">    ])</span><br></pre></td></tr></table></figure>
+<p>Now we should be able to build the project using:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python setup.py build_ext -i</span><br></pre></td></tr></table></figure>
+
+<p>If the libcalg is not installed in a ‘normal’ location, users can provide the required parameters externally by passing appropriate C compiler flags, such as:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CFLAGS=&quot;-I/usr/local/otherdir/calg/include&quot;  \</span><br><span class="line">LDFLAGS=&quot;-L/usr/local/otherdir/calg/lib&quot;     \</span><br><span class="line">    python setup.py build_ext -i</span><br></pre></td></tr></table></figure>
+
+<p>Before we run the module, we also need to make sure that <strong>libcalg</strong> is in the <strong>LD_LIBRARY_PATH</strong> environment variable, e.g. by setting:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">export</span> LD_LIBRARY_PATH=<span class="variable">$LD_LIBRARY_PATH</span>:/usr/local/lib</span></span><br></pre></td></tr></table></figure>
+
+<p>Once we have compiled the module for the first time, we can now import it and instantiate a new Queue:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">export</span> PYTHONPATH=.</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python -c <span class="string">&#x27;import queue; Q = queue.Queue()&#x27;</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Implementing-functions-in-C"><a href="#Implementing-functions-in-C" class="headerlink" title="Implementing functions in C"></a>Implementing functions in C</h2><p>When you want to call C code from a Cython module, usually that code will be in some external library that you link your extension against. However, you can also directly compile C (or C++) code as part of your Cython module. In the <strong>.pyx</strong> file, you can put something like:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cdef extern <span class="keyword">from</span> <span class="string">&quot;spam.c&quot;</span>:</span><br><span class="line">    void order_spam(<span class="built_in">int</span> tons)</span><br></pre></td></tr></table></figure>
+
+<p>Cython will assume that the function <strong>order_spam()</strong> is defined in the file <strong>spam.c</strong>. If you also want to cimport this function from another module, it must be declared (not extern!) in the <strong>.pxd</strong> file:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cdef void order_spam(<span class="built_in">int</span> tons)</span><br></pre></td></tr></table></figure>
+
+<p>For this to work, the signature of <strong>order_spam()</strong> in <strong>spam.c</strong> must match the signature that Cython uses, in particular the function must be static:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">order_spam</span><span class="params">(<span class="type">int</span> tons)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Ordered %i tons of spam!\n&quot;</span>, tons);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Including-verbatim-C-code"><a href="#Including-verbatim-C-code" class="headerlink" title="Including verbatim C code"></a>Including verbatim C code</h2><p>For advanced use cases, Cython allows you to directly write C code as “docstring” of a <strong>cdef extern from block</strong>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cdef extern <span class="keyword">from</span> *:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    /* This is C code which will be put</span></span><br><span class="line"><span class="string">     * in the .c file output by Cython */</span></span><br><span class="line"><span class="string">    static long square(long x) &#123;return x * x;&#125;</span></span><br><span class="line"><span class="string">    #define assign(x, y) ((x) = (y))</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    long square(long x)</span><br><span class="line">    void assign(long&amp; x, long y)</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Welcome-to-Cython"><span class="toc-number">1.</span> <span class="toc-text">Welcome to Cython</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#About-Cython"><span class="toc-number">1.1.</span> <span class="toc-text">About Cython</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Installing-Cython"><span class="toc-number">1.2.</span> <span class="toc-text">Installing Cython</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Building-Cython-code"><span class="toc-number">1.3.</span> <span class="toc-text">Building Cython code</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Compiling-with-the-cythonize-command"><span class="toc-number">1.3.1.</span> <span class="toc-text">Compiling with the cythonize command</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Building-a-Cython-module-using-setuptools"><span class="toc-number">1.3.2.</span> <span class="toc-text">Building a Cython module using setuptools</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Using-C-libraries"><span class="toc-number">1.4.</span> <span class="toc-text">Using C libraries</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Defining-external-declarations"><span class="toc-number">1.4.1.</span> <span class="toc-text">Defining external declarations</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Writing-a-wrapper-class"><span class="toc-number">1.4.2.</span> <span class="toc-text">Writing a wrapper class</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Memory-management"><span class="toc-number">1.4.3.</span> <span class="toc-text">Memory management</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mapping-functionality"><span class="toc-number">1.4.4.</span> <span class="toc-text">Mapping functionality</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Handling-errors"><span class="toc-number">1.4.5.</span> <span class="toc-text">Handling errors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Compiling-and-linking"><span class="toc-number">1.4.6.</span> <span class="toc-text">Compiling and linking</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Static-Linking"><span class="toc-number">1.4.6.1.</span> <span class="toc-text">Static Linking</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Dynamic-Linking"><span class="toc-number">1.4.6.2.</span> <span class="toc-text">Dynamic Linking</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Implementing-functions-in-C"><span class="toc-number">1.5.</span> <span class="toc-text">Implementing functions in C</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Including-verbatim-C-code"><span class="toc-number">1.6.</span> <span class="toc-text">Including verbatim C code</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

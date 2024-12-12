@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>NewSQL | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          NewSQL
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2018/11/18</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/NewSQL/">NewSQL</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#SQL" class='tag'>SQL</a>
+
+  <a href="/tags/#NewSQL" class='tag'>NewSQL</a>
+
+
+          
+        </div>
+        <h1 id="NewSQL"><a href="#NewSQL" class="headerlink" title="NewSQL"></a>NewSQL</h1><h2 id="Bigtable-amp-NoSQL"><a href="#Bigtable-amp-NoSQL" class="headerlink" title="Bigtable &amp; NoSQL"></a>Bigtable &amp; NoSQL</h2><p>在 CAP 定理(2000 年)的推波助澜下，NoSQL 运动发展的如火如荼(AP 系统如 Cassandra、Voldemort、Tokyo Cabinet、Riak；CP 系统如 HBase、Hypertable、MongoDB、Redis)，并总结出了自己的设计哲学：</p>
+<ul>
+<li>no SQL</li>
+<li>no ACID</li>
+<li>no schema</li>
+<li>high performance</li>
+<li>high scalability</li>
+<li>high availability</li>
+<li>low latency</li>
+<li>relaxed consistency</li>
+</ul>
+<p>然而，随着 NoSQL 系统在应用中的广泛使用，系统设计中抛弃的技术债务成了应用开发人员的负担，开发接口千奇百怪，数据不一致问题状况百出，事务一致性无法保证，正如 Eric Brewer 所说：</p>
+<p>The hidden cost of forfeiting consistency, which is the need to know the system’s invariants. The subtle beauty of a consistent system is that the invariants tend to hold even when the designer does not know what they are.</p>
+<h2 id="从-NoSQL-转向-NewSQL"><a href="#从-NoSQL-转向-NewSQL" class="headerlink" title="从 NoSQL 转向 NewSQL"></a>从 NoSQL 转向 NewSQL</h2><p>Spanner (2012&#x2F;2017, NoSQL is Out and NewSQL is In) 是一个全功能的 SQL 系统，作者在论文中再次强调了支持事务和 SQL 的重要性：</p>
+<p>…developers of many OLTP applications found it difficult to build these applications without a strong schema system, cross-row transactions, consistent replication and a powerful query language.</p>
+<p>如果没有强表达能力的查询语言：</p>
+<p>…developers had to write complex code to process and aggregate the data in their applications.</p>
+<p>与此同时，作者对 NoSQL with ACID + SQL 的技术架构也寄予了高度的肯定：</p>
+<p>A scalable, manageable, transactional key-value store is perhaps the lowest common denominator for building enterprise-strength global storage systems. It has been demonstrated by our colleagues from the F1 team that a transactional NoSQL core can be used to build a scalable SQL DBMS.</p>
+<p>并且，在存储系统中松耦合还是紧耦合实现 SQL 还是一个需要认真讨论的问题：</p>
+<p>both the loosely coupled (in case of F1) and tightly coupled SQL designs can be deployed successfully, and even simultaneously, on a transactional NoSQL core. A detailed exploration of the pros and cons of these designs is still outstanding. But it is perhaps fair to say that from the perspective of many engineers working on the Google infrastructure, the SQL vs NoSQL dichotomy may no longer be relevant.</p>
+<h2 id="NewSQL-的核心特性"><a href="#NewSQL-的核心特性" class="headerlink" title="NewSQL 的核心特性"></a>NewSQL 的核心特性</h2><p>NewSQL 的核心特性如下：</p>
+<ul>
+<li>支持 SQL 接口。</li>
+<li>支持 ACID 事务语义。</li>
+<li>在 OLTP 场景下具备 NoSQL 的高性能、高可用、高扩展性。</li>
+</ul>
+<p>Spanner 和 F1 论文发表至今，催生了一些优秀的 NewSQL 开源项目：</p>
+<ul>
+<li>2015 年 5 月 24 日，HP 开源 Trafodion，一款基于 HBase，支持 ACID 事务、SI 隔离级别的 SQL 数据库；2018 年 1 月 10 日，Apache 宣布 Trafodion 成为顶级项目。</li>
+<li>2015 年 6 月 4 日，前 Google 员工创办 CockroachDB；2015 年融资 600 万美元；2016 年融资 2000 万美元；2017 年融资 2700 万美元。</li>
+<li>2015 年中，前豌豆荚员工发布 TiDB；2017 年融资 1500 万美元。</li>
+<li>2017 年 11 月 2 日，前 Facebook 员工创办 YugaByte DB；2017 年融资 800 万美元；2018 年融资 1600 万美元。</li>
+</ul>
+<p>它们的共同点是都依赖于一个支持事务的 NoSQL 基础系统。从这些项目的实现架构来看，主要分为两种：</p>
+<ul>
+<li>原生实现：如 CockroachDB、YugaByteDB</li>
+<li>NoSQL+ACID+SQL：如 TiDB、Trafodion</li>
+</ul>
+<h2 id="事务并发控制"><a href="#事务并发控制" class="headerlink" title="事务并发控制"></a>事务并发控制</h2><p>从 NewSQL 的发展趋势来看，ACID 事务的回归是必然的，而且在分布式场景下，均致力于实现可扩展、高性能的串行化隔离级别，这在传统数据库的实现中是难以达到的。事务管理的核心技术是并发控制，原子性、一致性、隔离性都与它相关。</p>
+<p>事务的并发控制是为了实现事务的调度。</p>
+<p>一个正确、高效的事务调度应满足如下属性：</p>
+<ul>
+<li>可串行化：多个并发事务的调度 S 与一个串行化的调度产生相同的结果，则称这个调度 S 是可串行化的；在数据库实现中，一般使用冲突可串行化技术。</li>
+<li>可恢复性：已经提交的事务没有读过被终止的事务写过的数据，防止脏读异常。</li>
+<li>避免级联终止：避免由于事务 T1 的终止而导致事务 T2 的终止。</li>
+<li>严格性：先发生写操作的事务的提交或终止应先于其它冲突事务的提交或终止。</li>
+</ul>
+<p>并发控制从实现思路维度可以分为如下三类：</p>
+<ul>
+<li>乐观：重在事后检测，在事务提交时检查是否满足隔离级别。满足，则提交；否则回滚并自动重新执行。</li>
+<li>悲观：重在事前预防，在事务执行时检查是否满足隔离级别。满足，则继续执行；否则等待或回滚。</li>
+<li>半乐观：混合使用乐观和悲观技术实现事务并发控制。</li>
+</ul>
+<p>并发控制从实现方式维度可以分为如下几种：</p>
+<ul>
+<li><p>基于锁的并发控制</p>
+<ul>
+<li>2PL(two-phase locking)：事务在执行期间被明确的划分为 growing 和 shrinking 阶段，growing 阶段只能持有锁不能释放锁；shrinking 阶段只能释放锁不能持有锁，仅满足可恢复性；</li>
+<li>S2PL(strict two-phase locking)：在满足 2PL 的前提下，要求持有的排它锁必须在事务提交后才释放，避免了级联回滚；</li>
+<li>SS2PL(strong strict two-phase locking)：在满足 2PL 的前提下，要求事务提交之前不得释放任何锁，保证了严格性。</li>
+</ul>
+</li>
+<li><p>基于时间戳的并发控制</p>
+<p>  在事务开始时生成一个单调递增的时间戳，数据项上维护最近读时间戳和最近写时间戳。每次读写操作，系统都会将事务时间戳与数据项上的时间戳进行检查，对于任意读写操作，如果事务时间戳小于数据项的最近写时间戳，则将事务回滚；对于写操作，如果事务时间戳小于数据项的最近读时间戳，则将事务回滚；如果都满足，则继续访问下一个数据项。</p>
+</li>
+<li><p>基于 OCC 的并发控制</p>
+<p>  事务的生命周期被划分为三个阶段，将串行化检测推迟到提交阶段：</p>
+<ul>
+<li>读阶段：事务写操作仅是对事务私有空间中数据的更新，并不对数据库中的数据项进行真实的更新，保证读阶段没有任何事务冲突及锁开销；</li>
+<li>验证阶段：检测事务是否满足串行化隔离级别；</li>
+<li>写阶段：将事务私有空间中的更新数据写入数据库。</li>
+</ul>
+</li>
+<li><p>基于多版本的并发控制</p>
+<p>  每一次写操作会生成一个新的数据项版本，数据项的版本号可以使用事务的时间戳或事务号；系统维护多个数据版本，读操作根据所在事务的时间戳或事务号能够读到指定的版本，做到读-写或写-读操作不阻塞，写-写操作的冲突依赖 2PL 实现。</p>
+</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://cloud.google.com/spanner/docs/overview">https://cloud.google.com/spanner/docs/overview</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.google.com/spanner/docs/data-types">https://cloud.google.com/spanner/docs/data-types</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.google.com/spanner/docs/schema-design">https://cloud.google.com/spanner/docs/schema-design</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.google.com/spanner/docs/sql-best-practices">https://cloud.google.com/spanner/docs/sql-best-practices</a></li>
+<li><a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/26481.html">https://help.aliyun.com/document_detail/26481.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cockroachlabs.com/docs/stable/data-types.html">https://www.cockroachlabs.com/docs/stable/data-types.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://pingcap.com/docs-cn/sql/datatype/">https://pingcap.com/docs-cn/sql/datatype/</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/pingcap/docs-cn/blob/master/op-guide/docker-compose.md">https://github.com/pingcap/docs-cn/blob/master/op-guide/docker-compose.md</a></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>生产级 NewSQL 数据库</th>
+<th>年份</th>
+<th>并发控制</th>
+<th>隔离级别</th>
+<th>客户端</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cloud Spanner</td>
+<td>2017</td>
+<td>MVCC + SS2PL</td>
+<td>Linearizability</td>
+<td>ANSI 2011 SQL</td>
+</tr>
+<tr>
+<td>OceanBase 2.0</td>
+<td>2016</td>
+<td>MVCC + SS2PL</td>
+<td>RC</td>
+<td>Oracle &amp; MySQL wire protocol</td>
+</tr>
+<tr>
+<td>CockroachDB 2.1.5</td>
+<td>2017</td>
+<td>MVCC + TO</td>
+<td>SSI</td>
+<td>PostgreSQL wire protocol</td>
+</tr>
+<tr>
+<td>TiDB 2.1.4</td>
+<td>2017</td>
+<td>MVCC + SS2PL</td>
+<td>SI</td>
+<td>MySQL wire protocol</td>
+</tr>
+<tr>
+<td>FoundationDB 6.0.18</td>
+<td>2018</td>
+<td>MVCC + OCC</td>
+<td>SSI</td>
+<td></td>
+</tr>
+</tbody></table>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#NewSQL"><span class="toc-number">1.</span> <span class="toc-text">NewSQL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Bigtable-amp-NoSQL"><span class="toc-number">1.1.</span> <span class="toc-text">Bigtable &amp; NoSQL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E-NoSQL-%E8%BD%AC%E5%90%91-NewSQL"><span class="toc-number">1.2.</span> <span class="toc-text">从 NoSQL 转向 NewSQL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NewSQL-%E7%9A%84%E6%A0%B8%E5%BF%83%E7%89%B9%E6%80%A7"><span class="toc-number">1.3.</span> <span class="toc-text">NewSQL 的核心特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6"><span class="toc-number">1.4.</span> <span class="toc-text">事务并发控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.5.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

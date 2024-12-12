@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Nested virtualization | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Nested virtualization
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2021/09/20</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/Linux/">Linux</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+  <a href="/tags/#Operating%20system" class='tag'>Operating system</a>
+
+
+          
+        </div>
+        <h1 id="Nested-virtualization"><a href="#Nested-virtualization" class="headerlink" title="Nested virtualization"></a>Nested virtualization</h1><p>Nested virtualization allows you to run a virtual machine (VM) inside another VM while still using hardware acceleration from the host.</p>
+<p>naming conventions:</p>
+<ul>
+<li>L0 hypervisor, or Bare-metal host – this is the hypervisor that runs on the physical bare-metal server</li>
+<li>L1 hypervisor or Guest hypervisor – this is a hypervisor that runs as a virtual machine in the L0 hypervisor.</li>
+<li>L2 guests, or nested guests – these are virtual machines running in L1 hypervisor.</li>
+</ul>
+<h2 id="Hardware-virtualization-support"><a href="#Hardware-virtualization-support" class="headerlink" title="Hardware virtualization support"></a>Hardware virtualization support</h2><p>Hardware virtualization support or hardware-assisted virtualization is a set of processor extensions to the x86 architecture. These extensions address issues with the virtualization of some privileged instructions and the performance of virtualized system memory. Intel’s implementation is called VT-x and AMD’s implementation is called AMD-V. This feature was introduced in 2005 and 2006 and is available in most current CPUs. Some exceptions are lower-end Atom processor. However, this feature might be disabled in the BIOS.</p>
+<h2 id="Challenges-of-Nested-Virtualization"><a href="#Challenges-of-Nested-Virtualization" class="headerlink" title="Challenges of Nested Virtualization"></a>Challenges of Nested Virtualization</h2><ul>
+<li>Extra Overheads – Potentially lower performance<ul>
+<li>Higher VM Exit rates (Next slides)</li>
+<li>Software overhead of virtualizing “H&#x2F;W virtualization features”</li>
+</ul>
+</li>
+<li>Complexity of Root VMM Software<ul>
+<li>More surface areas for security attacks</li>
+<li>Sometimes exposes existing bugs with (Guest) VMMs</li>
+</ul>
+</li>
+<li>Requires more QA because of various combinations</li>
+</ul>
+<h2 id="Improving-Performance-of-Nested-Virtualization"><a href="#Improving-Performance-of-Nested-Virtualization" class="headerlink" title="Improving Performance of Nested Virtualization"></a>Improving Performance of Nested Virtualization</h2><ul>
+<li>Opportunity #1: Reduce Transition Latencies<ul>
+<li>Reduce unique overheads of virtualization. Intel is fanatically committed.</li>
+<li>Optimize software code</li>
+</ul>
+</li>
+<li>Opportunity #2: Reduce “Virtual” VM Exits Entirely<ul>
+<li>EPT (Implemented as Virtual EPT)</li>
+<li>APIC Virtualization<ul>
+<li>Eliminate or reduce VM exits with access to local APIC</li>
+<li>Guest VMMs can access local APICs more frequently to virtualize timers, I&#x2F;O devices</li>
+</ul>
+</li>
+<li>VT-d, SR-IOV<ul>
+<li>Reduce overhead of I&#x2F;O virtualization</li>
+<li>Guest VMMs can access I&#x2F;O devices more frequently</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Opportunity #3: Eliminate VM Exits on guest VMCS Accesses<ul>
+<li>VMCS Shadowing</li>
+</ul>
+</li>
+</ul>
+<h2 id="Enabling-nested-virtualization-in-KVM"><a href="#Enabling-nested-virtualization-in-KVM" class="headerlink" title="Enabling nested virtualization in KVM"></a>Enabling nested virtualization in KVM</h2><p>Nested virtualization is a KVM feature that enables hardware-assisted virtualization in the guest hypervisors. With it, the guest hypervisor can leverage virtualization extensions of the physical CPU without need to emulate them in software.</p>
+<h3 id="Checking-if-virtualization-is-supported"><a href="#Checking-if-virtualization-is-supported" class="headerlink" title="Checking if virtualization is supported"></a>Checking if virtualization is supported</h3><p>To check whether hardware virtualization support is available on the host processor, check the CPU has the <code>vmx</code> or <code>svm</code> flag with the command:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># egrep --color -i &quot;svm|vmx&quot; /proc/cpuinfo</span></span><br></pre></td></tr></table></figure>
+
+<p>If you see <code>vmx</code> (Intel-VT technology) or <code>svm</code> (AMD-V support) in the output, the KVM guest machine can work as a hypervisor and host VMs.</p>
+<h3 id="Checking-if-nested-virtualization-is-supported"><a href="#Checking-if-nested-virtualization-is-supported" class="headerlink" title="Checking if nested virtualization is supported"></a>Checking if nested virtualization is supported</h3><p>For <strong>Intel</strong> processors, check the <code>/sys/module/kvm_intel/parameters/nested</code> file. For <strong>AMD</strong> processors, check the <code>/sys/module/kvm_amd/parameters/nested</code> file. If you see <strong>1</strong> or <strong>Y</strong>, nested virtualization is supported; if you see <strong>0</strong> or <strong>N</strong>, nested virtualization is not supported.</p>
+<p>For example:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cat /sys/module/kvm_intel/parameters/nested</span></span><br><span class="line">Y</span><br></pre></td></tr></table></figure>
+
+<h3 id="Enabling-nested-virtualization-in-Linux"><a href="#Enabling-nested-virtualization-in-Linux" class="headerlink" title="Enabling nested virtualization in Linux"></a>Enabling nested virtualization in Linux</h3><h4 id="Enable-nested-virtualization-for-Intel-processors"><a href="#Enable-nested-virtualization-for-Intel-processors" class="headerlink" title="Enable nested virtualization for Intel processors"></a>Enable nested virtualization for Intel processors</h4><p>H&#x2F;W virtualization features:</p>
+<ul>
+<li>VT-x (CPU virtualization)<ul>
+<li>VXM instructions, VMCS (Virtual Machine Control Structure), EPT (Extended Page Table), etc.</li>
+</ul>
+</li>
+<li>VT-d (Direct I&#x2F;O)</li>
+<li>VT-c (Connectivity, especially SR-IOV of NIC)</li>
+</ul>
+<ol>
+<li>Shut down all running VMs and unload the <code>kvm_intel</code> module</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> modprobe -r kvm_intel</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>Activate the nesting feature</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> modprobe kvm_intel nested=1</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>Enable it permanently</li>
+</ol>
+<p>Nested virtualization is enabled until the host is rebooted. To enable it permanently, add the following line to the <code>/etc/modprobe.d/kvm.conf</code> file:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">options kvm_intel nested=1</span><br></pre></td></tr></table></figure>
+
+<h5 id="VMCS-shadowing"><a href="#VMCS-shadowing" class="headerlink" title="VMCS shadowing"></a>VMCS shadowing</h5><p>Virtual Machine Control Structure is a memory structure where the virtual CPU state is stored on VM exit and restored from on VM resume. This happens every time the guest operating system performs a privileged operation. This is done in hardware, but then the hypervisor is a virtual machine, This function has to be emulated and causes multiple VM exits to the host.</p>
+<p>With VMCS shadowing for every L2 VM, a VMCS is created in the host, that is shadowed in the L1 hypervisor. This way all VM exits are implemented in hardware reducing significantly the processing overhead.  VMCS shadowing is not strictly required for nested virtualization, but it gives huge performance improvement, especially on workloads involving many context switches.</p>
+<p>To be able to do this a hardware support in the CPU is required. This hardware feature was introduced in Haswell processors initially in 2013 and is available in most current server CPUs.</p>
+<p>To use it you need to enable it in kvm kernel module:</p>
+<p>In <code>/etc/modprobe.d/kvm-intel.conf</code> add:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">options kvm-intel enable_shadow_vmcs=1</span><br></pre></td></tr></table></figure>
+
+<h4 id="Enable-nested-virtualization-for-AMD-processors"><a href="#Enable-nested-virtualization-for-AMD-processors" class="headerlink" title="Enable nested virtualization for AMD processors"></a>Enable nested virtualization for AMD processors</h4><ol>
+<li>Shut down all running VMs and unload the <code>kvm_amd</code> module</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> modprobe -r kvm_amd</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>Activate the nesting feature</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> modprobe kvm_amd nested=1</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>Enable it permanently</li>
+</ol>
+<p>Nested virtualization is enabled until the host is rebooted. To enable it permanently, add the following line to the <code>/etc/modprobe.d/kvm.conf</code> file:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">options kvm_amd nested=1</span><br></pre></td></tr></table></figure>
+
+<h2 id="Enabling-nested-virtualization-in-Hyper-V"><a href="#Enabling-nested-virtualization-in-Hyper-V" class="headerlink" title="Enabling nested virtualization in Hyper-V"></a>Enabling nested virtualization in Hyper-V</h2><p><strong>Hyper-V</strong> is an optional component of <strong>Windows Server 2008</strong> and later. It is also available in x64 SKUs of Pro, Enterprise and Education editions of <strong>Windows 8</strong> and later.</p>
+<p><strong>Nested virtualization</strong> is a feature that allows you to run Hyper-V <strong>inside</strong> of a Hyper-V virtual machine (VM). This is helpful for running a Visual Studio phone emulator in a virtual machine, or testing configurations that ordinarily require several hosts.</p>
+<h3 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a>Prerequisites</h3><ul>
+<li>Windows 10 Enterprise, Pro, or Education</li>
+<li>64-bit Processor with Second Level Address Translation (SLAT).</li>
+<li>CPU support for VM Monitor Mode Extension (VT-c on Intel CPUs).</li>
+<li>Minimum of 4 GB memory.</li>
+</ul>
+<h4 id="Intel-processor-with-VT-x-and-EPT-technology"><a href="#Intel-processor-with-VT-x-and-EPT-technology" class="headerlink" title="Intel processor with VT-x and EPT technology"></a>Intel processor with VT-x and EPT technology</h4><ul>
+<li>The Hyper-V host must be Windows Server 2016&#x2F;Windows 10 or greater</li>
+<li>VM configuration version 8.0 or greater</li>
+</ul>
+<h4 id="AMD-EPYC-x2F-Ryzen-processor-or-later"><a href="#AMD-EPYC-x2F-Ryzen-processor-or-later" class="headerlink" title="AMD EPYC&#x2F;Ryzen processor or later"></a>AMD EPYC&#x2F;Ryzen processor or later</h4><ul>
+<li>The Hyper-V host must be Windows Server 2022&#x2F;Windows 11 or greater</li>
+<li>VM configuration version 10.0 or greater</li>
+</ul>
+<h3 id="Checking-if-Hyper-V-is-supported"><a href="#Checking-if-Hyper-V-is-supported" class="headerlink" title="Checking if Hyper-V is supported"></a>Checking if Hyper-V is supported</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C:\&gt;systeminfo</span><br><span class="line">...</span><br><span class="line">Hyper-V Requirements:      A hypervisor has been detected. Features required <span class="keyword">for</span> Hyper-V will not be displayed.</span><br></pre></td></tr></table></figure>
+
+<h3 id="Enable-Hyper-V-using-PowerShell"><a href="#Enable-Hyper-V-using-PowerShell" class="headerlink" title="Enable Hyper-V using PowerShell"></a>Enable Hyper-V using PowerShell</h3><p>Open a PowerShell console as Administrator, Run the following command:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PS C:\&gt; Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All</span><br></pre></td></tr></table></figure>
+
+<h3 id="Configure-Nested-Virtualization"><a href="#Configure-Nested-Virtualization" class="headerlink" title="Configure Nested Virtualization"></a>Configure Nested Virtualization</h3><ol>
+<li>Create a virtual machine. See the prerequisites above for the required OS and VM versions.</li>
+<li>While the virtual machine is in the OFF state, run the following command on the physical Hyper-V host. This enables nested virtualization for the virtual machine.</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-VMProcessor -VMName &lt;VMName&gt; -ExposeVirtualizationExtensions <span class="variable">$true</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>Start the virtual machine. Install Hyper-V within the virtual machine, just like you would for a physical server.</li>
+</ol>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Nested-virtualization"><span class="toc-number">1.</span> <span class="toc-text">Nested virtualization</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hardware-virtualization-support"><span class="toc-number">1.1.</span> <span class="toc-text">Hardware virtualization support</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Challenges-of-Nested-Virtualization"><span class="toc-number">1.2.</span> <span class="toc-text">Challenges of Nested Virtualization</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Improving-Performance-of-Nested-Virtualization"><span class="toc-number">1.3.</span> <span class="toc-text">Improving Performance of Nested Virtualization</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Enabling-nested-virtualization-in-KVM"><span class="toc-number">1.4.</span> <span class="toc-text">Enabling nested virtualization in KVM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Checking-if-virtualization-is-supported"><span class="toc-number">1.4.1.</span> <span class="toc-text">Checking if virtualization is supported</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Checking-if-nested-virtualization-is-supported"><span class="toc-number">1.4.2.</span> <span class="toc-text">Checking if nested virtualization is supported</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Enabling-nested-virtualization-in-Linux"><span class="toc-number">1.4.3.</span> <span class="toc-text">Enabling nested virtualization in Linux</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Enable-nested-virtualization-for-Intel-processors"><span class="toc-number">1.4.3.1.</span> <span class="toc-text">Enable nested virtualization for Intel processors</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#VMCS-shadowing"><span class="toc-number">1.4.3.1.1.</span> <span class="toc-text">VMCS shadowing</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Enable-nested-virtualization-for-AMD-processors"><span class="toc-number">1.4.3.2.</span> <span class="toc-text">Enable nested virtualization for AMD processors</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Enabling-nested-virtualization-in-Hyper-V"><span class="toc-number">1.5.</span> <span class="toc-text">Enabling nested virtualization in Hyper-V</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Prerequisites"><span class="toc-number">1.5.1.</span> <span class="toc-text">Prerequisites</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Intel-processor-with-VT-x-and-EPT-technology"><span class="toc-number">1.5.1.1.</span> <span class="toc-text">Intel processor with VT-x and EPT technology</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AMD-EPYC-x2F-Ryzen-processor-or-later"><span class="toc-number">1.5.1.2.</span> <span class="toc-text">AMD EPYC&#x2F;Ryzen processor or later</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Checking-if-Hyper-V-is-supported"><span class="toc-number">1.5.2.</span> <span class="toc-text">Checking if Hyper-V is supported</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Enable-Hyper-V-using-PowerShell"><span class="toc-number">1.5.3.</span> <span class="toc-text">Enable Hyper-V using PowerShell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Configure-Nested-Virtualization"><span class="toc-number">1.5.4.</span> <span class="toc-text">Configure Nested Virtualization</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

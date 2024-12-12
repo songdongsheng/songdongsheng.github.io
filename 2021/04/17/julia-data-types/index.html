@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Julia Data Types | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Julia Data Types
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2021/04/17</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/Julia/">Julia</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#Julia" class='tag'>Julia</a>
+
+
+          
+        </div>
+        <h1 id="Julia-Data-Types"><a href="#Julia-Data-Types" class="headerlink" title="Julia Data Types"></a>Julia Data Types</h1><h2 id="Integer-types"><a href="#Integer-types" class="headerlink" title="Integer types"></a>Integer types</h2><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Signed?</th>
+<th>Number of bits</th>
+<th>Range</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Int8</td>
+<td>✓</td>
+<td>8</td>
+<td>-2^7 ~ 2^7 - 1</td>
+</tr>
+<tr>
+<td>UInt8</td>
+<td></td>
+<td>8</td>
+<td>0 ~ 2^8 - 1</td>
+</tr>
+<tr>
+<td>Int16</td>
+<td>✓</td>
+<td>16</td>
+<td>-2^15 ~ 2^15 - 1</td>
+</tr>
+<tr>
+<td>UInt16</td>
+<td></td>
+<td>16</td>
+<td>0 ~ 2^16 - 1</td>
+</tr>
+<tr>
+<td>Int32</td>
+<td>✓</td>
+<td>32</td>
+<td>-2^31 ~ 2^31 - 1</td>
+</tr>
+<tr>
+<td>UInt32</td>
+<td></td>
+<td>32</td>
+<td>0 ~ 2^32 - 1</td>
+</tr>
+<tr>
+<td>Int64</td>
+<td>✓</td>
+<td>64</td>
+<td>-2^63 ~ 2^63 - 1</td>
+</tr>
+<tr>
+<td>UInt64</td>
+<td></td>
+<td>64</td>
+<td>0 ~ 2^64 - 1</td>
+</tr>
+<tr>
+<td>Int128</td>
+<td>✓</td>
+<td>128</td>
+<td>-2^127 ~ 2^127 - 1</td>
+</tr>
+<tr>
+<td>UInt128</td>
+<td></td>
+<td>128</td>
+<td>0 ~ 2^128 - 1</td>
+</tr>
+<tr>
+<td>Bool</td>
+<td>N&#x2F;A</td>
+<td>8</td>
+<td>false (0), true (1)</td>
+</tr>
+</tbody></table>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; typeof(<span class="number">3000000000</span>)</span><br><span class="line"><span class="built_in">Int64</span></span><br><span class="line"></span><br><span class="line">julia&gt; (typemin(<span class="built_in">Int32</span>), typemax(<span class="built_in">Int32</span>))</span><br><span class="line">(-<span class="number">2147483648</span>, <span class="number">2147483647</span>)</span><br><span class="line"></span><br><span class="line">julia&gt; <span class="keyword">for</span> T <span class="keyword">in</span> [<span class="built_in">Int8</span>, <span class="built_in">Int16</span>, <span class="built_in">Int32</span>, <span class="built_in">Int64</span>, <span class="built_in">Int128</span>, <span class="built_in">UInt8</span>, <span class="built_in">UInt16</span>, <span class="built_in">UInt32</span>, <span class="built_in">UInt64</span>, <span class="built_in">UInt128</span>]</span><br><span class="line">           println(<span class="string">&quot;<span class="subst">$(lpad(T, <span class="number">8</span>)</span>): [<span class="subst">$(typemin(T)</span>), <span class="subst">$(typemax(T)</span>)]&quot;</span>)</span><br><span class="line">       <span class="keyword">end</span></span><br><span class="line">    <span class="built_in">Int8</span>: [-<span class="number">128</span>, <span class="number">127</span>]</span><br><span class="line">   <span class="built_in">Int16</span>: [-<span class="number">32768</span>, <span class="number">32767</span>]</span><br><span class="line">   <span class="built_in">Int32</span>: [-<span class="number">2147483648</span>, <span class="number">2147483647</span>]</span><br><span class="line">   <span class="built_in">Int64</span>: [-<span class="number">9223372036854775808</span>, <span class="number">9223372036854775807</span>]</span><br><span class="line">  <span class="built_in">Int128</span>: [-<span class="number">170141183460469231731687303715884105728</span>, <span class="number">170141183460469231731687303715884105727</span>]</span><br><span class="line">   <span class="built_in">UInt8</span>: [<span class="number">0</span>, <span class="number">255</span>]</span><br><span class="line">  <span class="built_in">UInt16</span>: [<span class="number">0</span>, <span class="number">65535</span>]</span><br><span class="line">  <span class="built_in">UInt32</span>: [<span class="number">0</span>, <span class="number">4294967295</span>]</span><br><span class="line">  <span class="built_in">UInt64</span>: [<span class="number">0</span>, <span class="number">18446744073709551615</span>]</span><br><span class="line"> <span class="built_in">UInt128</span>: [<span class="number">0</span>, <span class="number">340282366920938463463374607431768211455</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="Floating-point-types"><a href="#Floating-point-types" class="headerlink" title="Floating-point types"></a>Floating-point types</h2><p>Floating point numbers follow IEEE 754 standard.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Precision</th>
+<th>Number of bits</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Float16</td>
+<td>half</td>
+<td>16</td>
+</tr>
+<tr>
+<td>Float32</td>
+<td>single</td>
+<td>32</td>
+</tr>
+<tr>
+<td>Float64</td>
+<td>double</td>
+<td>64</td>
+</tr>
+</tbody></table>
+<h2 id="Complex-number-type"><a href="#Complex-number-type" class="headerlink" title="Complex number type"></a>Complex number type</h2><p>The global constant im is bound to the complex number i, representing the principal square root of -1.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Alias</th>
+<th>Number of bits</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Complex{Float16}</td>
+<td>ComplexF16</td>
+<td>16</td>
+</tr>
+<tr>
+<td>Complex{Float32}</td>
+<td>ComplexF32</td>
+<td>32</td>
+</tr>
+<tr>
+<td>Complex{Float64}</td>
+<td>ComplexF64</td>
+<td>64</td>
+</tr>
+</tbody></table>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="number">1</span> + <span class="number">2</span><span class="literal">im</span></span><br><span class="line"><span class="number">1</span> + <span class="number">2</span><span class="literal">im</span></span><br><span class="line"></span><br><span class="line">julia&gt; (<span class="number">1</span> + <span class="number">2</span><span class="literal">im</span>)*(<span class="number">2</span> - <span class="number">3</span><span class="literal">im</span>)</span><br><span class="line"><span class="number">8</span> + <span class="number">1</span><span class="literal">im</span></span><br><span class="line"></span><br><span class="line">julia&gt; (<span class="number">1</span> + <span class="number">2</span><span class="literal">im</span>)/(<span class="number">1</span> - <span class="number">2</span><span class="literal">im</span>)</span><br><span class="line">-<span class="number">0.6</span> + <span class="number">0.8</span><span class="literal">im</span></span><br><span class="line"></span><br><span class="line">julia&gt; (-<span class="number">1</span> + <span class="number">2</span><span class="literal">im</span>)^(<span class="number">1</span> + <span class="number">1</span><span class="literal">im</span>)</span><br><span class="line">-<span class="number">0.27910381075826657</span> + <span class="number">0.08708053414102428</span><span class="literal">im</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Arbitrary-Precision-Arithmetic"><a href="#Arbitrary-Precision-Arithmetic" class="headerlink" title="Arbitrary Precision Arithmetic"></a>Arbitrary Precision Arithmetic</h2><p>The BigInt and BigFloat types are available in Julia for arbitrary precision integer and floating point numbers respectively.</p>
+<h3 id="BigInt"><a href="#BigInt" class="headerlink" title="BigInt"></a>BigInt</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="built_in">BigInt</span>(typemax(<span class="built_in">Int64</span>)) + <span class="number">1</span></span><br><span class="line"><span class="number">9223372036854775808</span></span><br><span class="line"></span><br><span class="line">julia&gt; <span class="string">big&quot;123456789012345678901234567890&quot;</span> + <span class="number">1</span></span><br><span class="line"><span class="number">123456789012345678901234567891</span></span><br><span class="line"></span><br><span class="line">julia&gt; parse(<span class="built_in">BigInt</span>, <span class="string">&quot;123456789012345678901234567890&quot;</span>) + <span class="number">1</span></span><br><span class="line"><span class="number">123456789012345678901234567891</span></span><br><span class="line"></span><br><span class="line">julia&gt; typeof(ans)</span><br><span class="line"><span class="built_in">BigInt</span></span><br><span class="line"></span><br><span class="line">julia&gt; string(<span class="string">big&quot;2&quot;</span>^<span class="number">200</span>, base=<span class="number">16</span>)</span><br><span class="line"><span class="string">&quot;100000000000000000000000000000000000000000000000000&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="BigFloat"><a href="#BigFloat" class="headerlink" title="BigFloat"></a>BigFloat</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="string">big&quot;1.23456789012345678901&quot;</span></span><br><span class="line"><span class="number">1.234567890123456789010000000000000000000000000000000000000000000000000000000004</span></span><br><span class="line"></span><br><span class="line">julia&gt; typeof(ans)</span><br><span class="line"><span class="built_in">BigFloat</span></span><br><span class="line"></span><br><span class="line">julia&gt; (<span class="string">big&quot;2&quot;</span>)^<span class="number">66</span>/<span class="string">big&quot;3&quot;</span></span><br><span class="line"><span class="number">2.459565876494606882133333333333333333333333333333333333333333333333333333333344e+19</span></span><br><span class="line"></span><br><span class="line">julia&gt; typeof(ans)</span><br><span class="line"><span class="built_in">BigFloat</span></span><br><span class="line"></span><br><span class="line">julia&gt; Base.MPFR.precision((<span class="string">big&quot;2&quot;</span>)^<span class="number">66</span>/<span class="string">big&quot;3&quot;</span>)</span><br><span class="line"><span class="number">256</span></span><br><span class="line"></span><br><span class="line">julia&gt; setprecision(<span class="number">16</span>) <span class="keyword">do</span></span><br><span class="line">           ans = (<span class="string">big&quot;2&quot;</span>)^<span class="number">66</span>/<span class="string">big&quot;3&quot;</span></span><br><span class="line">           println(<span class="string">&quot;<span class="subst">$(ans)</span>: <span class="subst">$(Base.MPFR.precision(ans)</span>)&quot;</span>)</span><br><span class="line">       <span class="keyword">end</span></span><br><span class="line"><span class="number">2.45958e+19</span>: <span class="number">16</span></span><br><span class="line"></span><br><span class="line">julia&gt; setprecision(<span class="number">512</span>) <span class="keyword">do</span></span><br><span class="line">           ans = (<span class="string">big&quot;2&quot;</span>)^<span class="number">66</span>/<span class="string">big&quot;3&quot;</span></span><br><span class="line">           println(<span class="string">&quot;<span class="subst">$(ans)</span>: <span class="subst">$(Base.MPFR.precision(ans)</span>)&quot;</span>)</span><br><span class="line">       <span class="keyword">end</span></span><br><span class="line"><span class="number">2.45956587649460688213333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333343e+19</span>: <span class="number">512</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Rational-Numbers"><a href="#Rational-Numbers" class="headerlink" title="Rational Numbers"></a>Rational Numbers</h3><p>Julia has a rational number type to represent exact ratios of integers. Rationals are constructed using the &#x2F;&#x2F; operator:</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="number">2</span>//<span class="number">3</span></span><br><span class="line"><span class="number">2</span>//<span class="number">3</span></span><br><span class="line"></span><br><span class="line">julia&gt; numerator(<span class="number">2</span>//<span class="number">3</span>)</span><br><span class="line"><span class="number">2</span></span><br><span class="line"></span><br><span class="line">julia&gt; denominator(<span class="number">2</span>//<span class="number">3</span>)</span><br><span class="line"><span class="number">3</span></span><br><span class="line"></span><br><span class="line">julia&gt; <span class="number">2</span>//<span class="number">3</span> == <span class="number">6</span>//<span class="number">9</span></span><br><span class="line"><span class="literal">true</span></span><br><span class="line"></span><br><span class="line">julia&gt; <span class="number">2</span>//<span class="number">3</span>^<span class="number">36</span></span><br><span class="line"><span class="number">2</span>//<span class="number">150094635296999121</span></span><br><span class="line"></span><br><span class="line">julia&gt; typeof(ans)</span><br><span class="line"><span class="built_in">Rational</span>&#123;<span class="built_in">Int64</span>&#125;</span><br><span class="line"></span><br><span class="line">julia&gt; <span class="string">big&quot;5&quot;</span>//<span class="number">3</span></span><br><span class="line"><span class="number">5</span>//<span class="number">3</span></span><br><span class="line"></span><br><span class="line">julia&gt; typeof(ans)</span><br><span class="line"><span class="built_in">Rational</span>&#123;<span class="built_in">BigInt</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Strings"><a href="#Strings" class="headerlink" title="Strings"></a>Strings</h2><p>Strings are finite sequences of characters. The built-in concrete type used for strings (and string literals) in Julia is String. This supports the full range of Unicode characters via the UTF-8 encoding.</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; c = <span class="string">&#x27;x&#x27;</span></span><br><span class="line"><span class="string">&#x27;x&#x27;</span>: ASCII/Unicode U+<span class="number">0078</span> (category Ll: Letter, lowercase)</span><br><span class="line"></span><br><span class="line">julia&gt; typeof(c)</span><br><span class="line"><span class="built_in">Char</span></span><br><span class="line"></span><br><span class="line">julia&gt; <span class="built_in">Char</span>(<span class="number">120</span>)</span><br><span class="line"><span class="string">&#x27;x&#x27;</span>: ASCII/Unicode U+<span class="number">0078</span> (category Ll: Letter, lowercase)</span><br><span class="line"></span><br><span class="line">julia&gt; <span class="built_in">Char</span>(<span class="number">0x110000</span>)</span><br><span class="line"><span class="string">&#x27;\U110000&#x27;</span>: Unicode U+<span class="number">110000</span> (category In: Invalid, too high)</span><br><span class="line"></span><br><span class="line">julia&gt; isvalid(<span class="built_in">Char</span>, <span class="number">0x110000</span>)</span><br><span class="line"><span class="literal">false</span></span><br><span class="line"></span><br><span class="line">julia&gt; isvalid(<span class="built_in">Char</span>, <span class="number">0x11000</span>)</span><br><span class="line"><span class="literal">true</span></span><br><span class="line"></span><br><span class="line">julia&gt; <span class="built_in">Char</span>(<span class="number">0x11000</span>)</span><br><span class="line">&#x27;𑀀 &#x27;: Unicode U+<span class="number">11000</span> (category Mc: Mark, spacing combining)</span><br><span class="line"></span><br><span class="line">julia&gt; <span class="string">&#x27;\u2200&#x27;</span></span><br><span class="line"><span class="string">&#x27;∀&#x27;</span>: Unicode U+<span class="number">2200</span> (category Sm: <span class="built_in">Symbol</span>, math)</span><br><span class="line"></span><br><span class="line">julia&gt; str = <span class="string">&quot;Hello, world.\n&quot;</span></span><br><span class="line"><span class="string">&quot;Hello, world.\n&quot;</span></span><br><span class="line"></span><br><span class="line">julia&gt; typeof(ans)</span><br><span class="line"><span class="built_in">String</span></span><br><span class="line"></span><br><span class="line">julia&gt; <span class="string">&quot;&quot;&quot;Contains &quot;quote&quot; characters&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">&quot;Contains \&quot;quote\&quot; characters&quot;</span></span><br><span class="line"></span><br><span class="line">julia&gt; typeof(ans)</span><br><span class="line"><span class="built_in">String</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Regular-Expressions"><a href="#Regular-Expressions" class="headerlink" title="Regular Expressions"></a>Regular Expressions</h3><p>Julia has Perl-compatible regular expressions (regexes), as provided by the PCRE library.</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; re = <span class="string">r&quot;^\s*(?:#|$)&quot;</span></span><br><span class="line"><span class="string">r&quot;^\s*(?:#|$)&quot;</span></span><br><span class="line"></span><br><span class="line">julia&gt; typeof(re)</span><br><span class="line"><span class="built_in">Regex</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Byte-Array-Literals"><a href="#Byte-Array-Literals" class="headerlink" title="Byte Array Literals"></a>Byte Array Literals</h3><p>Another useful non-standard string literal is the byte-array string literal: b”…”. This form lets you use string notation to express read only literal byte arrays – i.e. arrays of UInt8 values. The type of those objects is CodeUnits{UInt8, String}.</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="string">b&quot;DATA\xff\u2200&quot;</span></span><br><span class="line"><span class="number">8</span>-element Base.CodeUnits&#123;<span class="built_in">UInt8</span>, <span class="built_in">String</span>&#125;:</span><br><span class="line"> <span class="number">0x44</span></span><br><span class="line"> <span class="number">0x41</span></span><br><span class="line"> <span class="number">0x54</span></span><br><span class="line"> <span class="number">0x41</span></span><br><span class="line"> <span class="number">0xff</span></span><br><span class="line"> <span class="number">0xe2</span></span><br><span class="line"> <span class="number">0x88</span></span><br><span class="line"> <span class="number">0x80</span></span><br><span class="line"></span><br><span class="line">julia&gt; typeof(ans)</span><br><span class="line">Base.CodeUnits&#123;<span class="built_in">UInt8</span>, <span class="built_in">String</span>&#125;</span><br><span class="line"></span><br><span class="line">julia&gt; x = <span class="string">b&quot;123&quot;</span></span><br><span class="line"><span class="number">3</span>-element Base.CodeUnits&#123;<span class="built_in">UInt8</span>, <span class="built_in">String</span>&#125;:</span><br><span class="line"> <span class="number">0x31</span></span><br><span class="line"> <span class="number">0x32</span></span><br><span class="line"> <span class="number">0x33</span></span><br><span class="line"></span><br><span class="line">julia&gt; <span class="built_in">Vector</span>&#123;<span class="built_in">UInt8</span>&#125;(x)</span><br><span class="line"><span class="number">3</span>-element <span class="built_in">Vector</span>&#123;<span class="built_in">UInt8</span>&#125;:</span><br><span class="line"> <span class="number">0x31</span></span><br><span class="line"> <span class="number">0x32</span></span><br><span class="line"> <span class="number">0x33</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Version-Number-Literals"><a href="#Version-Number-Literals" class="headerlink" title="Version Number Literals"></a>Version Number Literals</h3><p>Version numbers can easily be expressed with non-standard string literals of the form v”…”.</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="string">v&quot;0.2&quot;</span> &lt;= <span class="literal">VERSION</span> &lt; <span class="string">v&quot;0.3-&quot;</span></span><br><span class="line">    <span class="comment"># do something specific to 0.2 release series</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Julia-Data-Types"><span class="toc-number">1.</span> <span class="toc-text">Julia Data Types</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Integer-types"><span class="toc-number">1.1.</span> <span class="toc-text">Integer types</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Floating-point-types"><span class="toc-number">1.2.</span> <span class="toc-text">Floating-point types</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Complex-number-type"><span class="toc-number">1.3.</span> <span class="toc-text">Complex number type</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Arbitrary-Precision-Arithmetic"><span class="toc-number">1.4.</span> <span class="toc-text">Arbitrary Precision Arithmetic</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#BigInt"><span class="toc-number">1.4.1.</span> <span class="toc-text">BigInt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BigFloat"><span class="toc-number">1.4.2.</span> <span class="toc-text">BigFloat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Rational-Numbers"><span class="toc-number">1.4.3.</span> <span class="toc-text">Rational Numbers</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Strings"><span class="toc-number">1.5.</span> <span class="toc-text">Strings</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Regular-Expressions"><span class="toc-number">1.5.1.</span> <span class="toc-text">Regular Expressions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Byte-Array-Literals"><span class="toc-number">1.5.2.</span> <span class="toc-text">Byte Array Literals</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Version-Number-Literals"><span class="toc-number">1.5.3.</span> <span class="toc-text">Version Number Literals</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

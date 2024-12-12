@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Linux Unified Key Setup | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Linux Unified Key Setup
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2021/09/21</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/Linux/">Linux</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+  <a href="/tags/#Operating%20system" class='tag'>Operating system</a>
+
+
+          
+        </div>
+        <h1 id="Linux-Unified-Key-Setup"><a href="#Linux-Unified-Key-Setup" class="headerlink" title="Linux Unified Key Setup"></a>Linux Unified Key Setup</h1><h2 id="Full-Disk-Encryption"><a href="#Full-Disk-Encryption" class="headerlink" title="Full Disk Encryption"></a>Full Disk Encryption</h2><ul>
+<li><strong>Transparent encryption on disk sector level</strong><ul>
+<li>Transparent for filesystem</li>
+<li>No user decision what to encrypt</li>
+<li>Encryption of hibernation and swap partitions</li>
+</ul>
+</li>
+<li><strong>Volume key</strong> – key used to encrypt data</li>
+<li><strong>Passphrase</strong> – unlocks encrypted disk</li>
+</ul>
+<h2 id="Linux-Full-Disk-Encryption"><a href="#Linux-Full-Disk-Encryption" class="headerlink" title="Linux Full Disk Encryption"></a>Linux Full Disk Encryption</h2><ul>
+<li><strong>dm-crypt</strong> (kernel module) + <strong>cryptsetup</strong> (control utility)</li>
+<li><strong>LUKS</strong> (Linux Unified Key Setup)<ul>
+<li>On-disk format to store encrypted volume key</li>
+<li>Implemented inside cryptsetup library</li>
+</ul>
+</li>
+</ul>
+<h2 id="LUKS-Common-Use-Cases"><a href="#LUKS-Common-Use-Cases" class="headerlink" title="LUKS Common Use Cases"></a>LUKS Common Use Cases</h2><ul>
+<li><strong>Local encrypted disk</strong><ul>
+<li>Encrypted notebook, portable drives, …</li>
+<li>Corporate notebooks – on-demand recovery</li>
+</ul>
+</li>
+<li><strong>Data center disks</strong><ul>
+<li>Different physical access policies in-place</li>
+<li>Data disks (also Gluster bricks, Ceph OSDs, …)</li>
+<li>Automatic unlocking?</li>
+</ul>
+</li>
+<li><strong>Mobile devices</strong><ul>
+<li>Specific environment, usually non-LUKS metadata</li>
+</ul>
+</li>
+</ul>
+<h2 id="LUKS-Threat-Example"><a href="#LUKS-Threat-Example" class="headerlink" title="LUKS Threat Example"></a>LUKS Threat Example</h2><ul>
+<li>Asset: Confidential data on-disk
+Threat: Stolen disk
+  &#x3D;&gt; Strong encryption with random key
+  &#x3D;&gt; Dictionary password attack resistance</li>
+<li>LUKS provides data confidentiality only</li>
+<li>No integrity protection</li>
+<li>Protection only of locked (powered-off) device</li>
+</ul>
+<h2 id="Key-Management"><a href="#Key-Management" class="headerlink" title="Key Management"></a>Key Management</h2><ul>
+<li>It’s all about weak passwords :-)</li>
+<li>Password-based key derivation functions<ul>
+<li>PBKDF2</li>
+<li>Argon2 (PHC winner)</li>
+</ul>
+</li>
+<li>No Trusted Platform Module (TPM) bindings</li>
+<li>No 2nd factors authentication.</li>
+<li>No secret sharing.</li>
+</ul>
+<h2 id="Disk-Encryption-“User-Survey”"><a href="#Disk-Encryption-“User-Survey”" class="headerlink" title="Disk Encryption “User Survey”"></a>Disk Encryption “User Survey”</h2><ul>
+<li>6% does not use encryption (despite company policy :-)</li>
+<li>96% believes that encryption increases security</li>
+<li>20% lost data on encrypted disk at least once<ul>
+<li>59% of them lost data forever</li>
+<li>18% of them suffered corruption of encrypted disk</li>
+</ul>
+</li>
+<li>62% have backups of encrypted data</li>
+<li>1% have problem with slowdown caused by encryption<ul>
+<li>75% did not notice, 19% negligible slowdown</li>
+</ul>
+</li>
+</ul>
+<h2 id="Device-Mapper’s-“crypt”-target"><a href="#Device-Mapper’s-“crypt”-target" class="headerlink" title="Device-Mapper’s “crypt” target"></a>Device-Mapper’s “crypt” target</h2><p><strong>dm-crypt</strong> is a transparent <strong>disk encryption</strong> subsystem in <strong>Linux kernel</strong> versions 2.6 and later and in <strong>DragonFly BSD</strong>. It is part of the <strong>device mapper</strong> (dm) infrastructure, and uses cryptographic routines from the kernel’s <strong>Crypto API</strong>.</p>
+<p>dm-crypt is implemented as a device mapper target and may be stacked on top of other device mapper transformations. It can thus encrypt <strong>whole disks</strong> (including <strong>removable media</strong>), <strong>partitions</strong>, <strong>software RAID volumes</strong>, <strong>logical volumes</strong>, as well as <strong>files</strong>. It appears as a block device, which can be used to back <strong>file systems</strong>, <strong>swap</strong> or as an <strong>LVM physical volume</strong>.</p>
+<h3 id="Configuring-File-Encryption"><a href="#Configuring-File-Encryption" class="headerlink" title="Configuring File Encryption"></a>Configuring File Encryption</h3><h4 id="Create-a-LUKS-Format-File"><a href="#Create-a-LUKS-Format-File" class="headerlink" title="Create a LUKS Format File"></a>Create a LUKS Format File</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> apt-get install -y cryptsetup-bin</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">truncate</span> --size 4G secret-block.raw</span><br><span class="line">$ <span class="built_in">du</span> -ms secret-block.raw</span><br><span class="line">0       secret-block.raw</span><br><span class="line"></span><br><span class="line">$ cryptsetup -y luksFormat --sector-size 4096 secret-block.raw</span><br><span class="line"></span><br><span class="line">WARNING!</span><br><span class="line">========</span><br><span class="line">This will overwrite data on secret-block.raw irrevocably.</span><br><span class="line"></span><br><span class="line">Are you sure? (Type <span class="string">&#x27;yes&#x27;</span> <span class="keyword">in</span> capital letters): YES</span><br><span class="line">Enter passphrase <span class="keyword">for</span> secret-block.raw:</span><br><span class="line">Verify passphrase:</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">du</span> -ms secret-block.raw</span><br><span class="line">16      secret-block.raw</span><br></pre></td></tr></table></figure>
+
+<h4 id="Open-LUKS-Format-File"><a href="#Open-LUKS-Format-File" class="headerlink" title="Open LUKS Format File"></a>Open LUKS Format File</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> cryptsetup luksOpen secret-block.raw secret-block</span><br><span class="line">Enter passphrase <span class="keyword">for</span> secret-block.raw:</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">sudo</span> cryptsetup status secret-block</span><br><span class="line">/dev/mapper/secret-block is active.</span><br><span class="line">  <span class="built_in">type</span>:    LUKS2</span><br><span class="line">  cipher:  aes-xts-plain64</span><br><span class="line">  keysize: 512 bits</span><br><span class="line">  key location: keyring</span><br><span class="line">  device:  /dev/loop0</span><br><span class="line">  loop:    secret-block.raw</span><br><span class="line">  sector size:  4096</span><br><span class="line">  offset:  32768 sectors</span><br><span class="line">  size:    8355840 sectors</span><br><span class="line">  mode:    <span class="built_in">read</span>/write</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">sudo</span> cryptsetup luksDump /dev/loop0</span><br><span class="line">LUKS header information</span><br><span class="line">Version:        2</span><br><span class="line">Epoch:          3</span><br><span class="line">Metadata area:  16384 [bytes]</span><br><span class="line">Keyslots area:  16744448 [bytes]</span><br><span class="line">UUID:           f5b87a43-f565-4078-a1f2-735d90c170d8</span><br><span class="line">Label:          (no label)</span><br><span class="line">Subsystem:      (no subsystem)</span><br><span class="line">Flags:          (no flags)</span><br><span class="line"></span><br><span class="line">Data segments:</span><br><span class="line">  0: crypt</span><br><span class="line">        offset: 16777216 [bytes]</span><br><span class="line">        length: (whole device)</span><br><span class="line">        cipher: aes-xts-plain64</span><br><span class="line">        sector: 4096 [bytes]</span><br><span class="line"></span><br><span class="line">Keyslots:</span><br><span class="line">  0: luks2</span><br><span class="line">        Key:        512 bits</span><br><span class="line">        Priority:   normal</span><br><span class="line">        Cipher:     aes-xts-plain64</span><br><span class="line">        Cipher key: 512 bits</span><br><span class="line">        PBKDF:      argon2id</span><br><span class="line">        Time cost:  5</span><br><span class="line">        Memory:     1048576</span><br><span class="line">        Threads:    4</span><br><span class="line">        Salt:       <span class="built_in">cd</span> 80 4c b7 06 c6 6c 21 e0 f6 1e a3 64 dc 2d 3e</span><br><span class="line">                    f3 5b e1 a3 be 38 95 20 34 d3 30 <span class="built_in">fc</span> 03 f6 04 0b</span><br><span class="line">        AF stripes: 4000</span><br><span class="line">        AF <span class="built_in">hash</span>:    sha256</span><br><span class="line">        Area offset:32768 [bytes]</span><br><span class="line">        Area length:258048 [bytes]</span><br><span class="line">        Digest ID:  0</span><br><span class="line">Tokens:</span><br><span class="line">Digests:</span><br><span class="line">  0: pbkdf2</span><br><span class="line">        Hash:       sha256</span><br><span class="line">        Iterations: 123419</span><br><span class="line">        Salt:       50 21 fd 06 c0 88 fa 3b 6a 34 08 a2 16 47 e6 b1</span><br><span class="line">                    25 53 85 c5 2e ec 65 ae 53 94 f3 56 af <span class="built_in">df</span> ae ef</span><br><span class="line">        Digest:     64 a7 08 b0 8b ac cc bf cb a6 dc 9a a4 4c 41 f0</span><br><span class="line">                    3e d5 da 70 e4 f8 95 36 99 83 70 b3 75 23 30 f2</span><br></pre></td></tr></table></figure>
+
+<h4 id="Protect-Against-Disclosure-of-Usage-Patterns"><a href="#Protect-Against-Disclosure-of-Usage-Patterns" class="headerlink" title="Protect Against Disclosure of Usage Patterns"></a>Protect Against Disclosure of Usage Patterns</h4><p>File block data with zeros, protect against disclosure of usage patterns.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> <span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero of=/dev/mapper/secret-block</span><br></pre></td></tr></table></figure>
+
+<h4 id="Create-a-Filesystem"><a href="#Create-a-Filesystem" class="headerlink" title="Create a Filesystem"></a>Create a Filesystem</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> mkfs.xfs /dev/mapper/secret-block</span><br><span class="line">meta-data=/dev/mapper/secret-block isize=512    agcount=4, agsize=261120 blks</span><br><span class="line">         =                       sectsz=4096  attr=2, projid32bit=1</span><br><span class="line">         =                       crc=1        finobt=1, sparse=1, rmapbt=0</span><br><span class="line">         =                       reflink=1    bigtime=0 inobtcount=0</span><br><span class="line">data     =                       bsize=4096   blocks=1044480, imaxpct=25</span><br><span class="line">         =                       sunit=0      swidth=0 blks</span><br><span class="line">naming   =version 2              bsize=4096   ascii-ci=0, ftype=1</span><br><span class="line"><span class="built_in">log</span>      =internal <span class="built_in">log</span>           bsize=4096   blocks=2560, version=2</span><br><span class="line">         =                       sectsz=4096  sunit=1 blks, lazy-count=1</span><br><span class="line">realtime =none                   extsz=4096   blocks=0, rtextents=0</span><br></pre></td></tr></table></figure>
+
+<h4 id="Mount-and-Use-Encrypted-Filesystem"><a href="#Mount-and-Use-Encrypted-Filesystem" class="headerlink" title="Mount and Use Encrypted Filesystem"></a>Mount and Use Encrypted Filesystem</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> xfs_info /dev/mapper/secret-block</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">sudo</span> mount /dev/mapper/secret-block secret-fs</span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">&quot;01234567890abcdefghijklmnopqrstuvwxyz&quot;</span> | <span class="built_in">sudo</span> <span class="built_in">tee</span> secret-fs/test.txt</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">sudo</span> umount secret-fs/</span><br><span class="line">$ <span class="built_in">sudo</span> cryptsetup luksClose /dev/mapper/secret-block</span><br><span class="line"></span><br><span class="line">$ grep <span class="string">&quot;01234567890abcdefghijklmnopqrstuvwxyz&quot;</span> secret-block.raw</span><br></pre></td></tr></table></figure>
+
+<h4 id="GnuPG-Encrypted-Key-File"><a href="#GnuPG-Encrypted-Key-File" class="headerlink" title="GnuPG Encrypted Key File"></a>GnuPG Encrypted Key File</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">dd</span> <span class="keyword">if</span>=/dev/urandom count=64 bs=1k \</span><br><span class="line">    | gpg --symmetric --cipher-algo AES256 --armor &gt; /path/to/secret-block-key.gpg</span><br><span class="line">$ gpg --decrypt /path/to/secret-block-key.gpg \</span><br><span class="line">    | cryptsetup luksFormat --sector-size 4096 secret-block.raw</span><br></pre></td></tr></table></figure>
+
+<h3 id="Daily-Usage-of-File-Encryption"><a href="#Daily-Usage-of-File-Encryption" class="headerlink" title="Daily Usage of File Encryption"></a>Daily Usage of File Encryption</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> cryptsetup luksOpen secret-block.raw secret-block</span><br><span class="line">Enter passphrase <span class="keyword">for</span> secret-block.raw:</span><br><span class="line"></span><br><span class="line"><span class="comment"># Only if you use GnuPG encrypted keyfile</span></span><br><span class="line">$ gpg --decrypt /path/to/secret-block-key.gpg \</span><br><span class="line">    | <span class="built_in">sudo</span> cryptsetup luksOpen secret-block.raw secret-block</span><br><span class="line">gpg: AES256.CFB encrypted data</span><br><span class="line">gpg: encrypted with 1 passphrase</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">sudo</span> mount /dev/mapper/secret-block secret-fs</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">&quot;01234567890abcdefghijklmnopqrstuvwxyz&quot;</span> | <span class="built_in">sudo</span> <span class="built_in">tee</span> secret-fs/test.txt</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">sudo</span> umount secret-fs/</span><br><span class="line">$ <span class="built_in">sudo</span> cryptsetup luksClose /dev/mapper/secret-block</span><br></pre></td></tr></table></figure>
+
+<h2 id="Securely-Integrating-with-QEMU"><a href="#Securely-Integrating-with-QEMU" class="headerlink" title="Securely Integrating with QEMU"></a>Securely Integrating with QEMU</h2><h3 id="Secrets"><a href="#Secrets" class="headerlink" title="Secrets"></a>Secrets</h3><ul>
+<li>secret” object type (v2.6.0)<ul>
+<li>raw or base64</li>
+<li>plain text or encrypted</li>
+<li>inline or file</li>
+</ul>
+</li>
+<li>RBD, iSCSI, CURL, LUKS, x509 cert<ul>
+<li>One global master secret via file</li>
+<li>Per object secrets inline &amp; encrypted</li>
+</ul>
+</li>
+</ul>
+<h3 id="Secrets-Creation"><a href="#Secrets-Creation" class="headerlink" title="Secrets: Creation"></a>Secrets: Creation</h3><ul>
+<li>Password inline as clear text (insecure)
+-object secret,id&#x3D;sec0,data&#x3D;letmein</li>
+<li>Password from a clear text file (secure)
+-object secret,id&#x3D;sec0,file&#x3D;passwd.txt</li>
+<li>Password from a base64 clear text file (secure)
+-object secret,id&#x3D;sec0,file&#x3D;passwd.b64,format&#x3D;base64</li>
+<li>Password inline as aes256 cipher text (secure)
+-object secret,id&#x3D;sec0,file&#x3D;master.aes <br>-object secret,id&#x3D;sec1,data&#x3D;CIPHERTEXT,keyid&#x3D;sec0,iv&#x3D;NNNNNNNNNNNNNNN</li>
+</ul>
+<h3 id="Secrets-Usage"><a href="#Secrets-Usage" class="headerlink" title="Secrets: Usage"></a>Secrets: Usage</h3><ul>
+<li>Disks with “password-secret” property</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-drive driver=rbd,\</span><br><span class="line">    filename=rbd:pool/image:<span class="built_in">id</span>=myname:\</span><br><span class="line">    auth_supported=cephx,password-secret=sec0</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>TLS cert with “passwordid” property</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-object tls-creds-x509,<span class="built_in">dir</span>=/etc/tls/qemu,\</span><br><span class="line">    <span class="built_in">id</span>=tls0,endpoint=server,paswordid=sec0</span><br></pre></td></tr></table></figure>
+
+<h3 id="QEMU-with-Plain-LUKS-File"><a href="#QEMU-with-Plain-LUKS-File" class="headerlink" title="QEMU with Plain LUKS File"></a>QEMU with Plain LUKS File</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ qemu-img create -f luks --object secret,<span class="built_in">id</span>=sec0,data=demo-password -o key-secret=sec0 demo.luks 64G</span><br><span class="line">Formatting <span class="string">&#x27;demo.luks&#x27;</span>, <span class="built_in">fmt</span>=luks size=68719476736 key-secret=sec0</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">ls</span> -<span class="built_in">ln</span> demo.luks</span><br><span class="line">-rw-r--r-- 1 1000 1000 68721545216 2021-09-21 21:19 demo.luks</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">stat</span> demo.luks</span><br><span class="line">  File: demo.luks</span><br><span class="line">  Size: 68721545216     Blocks: 2048       IO Block: 4096   regular file</span><br><span class="line">Device: fe01h/65025d    Inode: 403937219   Links: 1</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> modprobe nbd max_part=16 nbds_max=16</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">sudo</span> qemu-nbd --connect=/dev/nbd0 --object secret,<span class="built_in">id</span>=sec0,data=demo-password --image-opts driver=luks,key-secret=sec0,file.driver=file,file.filename=demo.luks</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">sudo</span> fdisk /dev/nbd0 -l</span><br><span class="line">$ <span class="built_in">sudo</span> mkfs.ext4 /dev/nbd0p1</span><br><span class="line">$ <span class="built_in">du</span> -ms demo.luks</span><br><span class="line">323     demo.luks</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">sudo</span> mount /dev/nbd0p1 nbd</span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">&quot;01234567890abcdefghijklmnopqrstuvwxyz&quot;</span> | <span class="built_in">sudo</span> <span class="built_in">tee</span> nbd/test.txt</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">sudo</span> umount nbd/</span><br><span class="line">$ <span class="built_in">sudo</span> qemu-nbd --disconnect /dev/nbd0</span><br><span class="line">/dev/nbd0 disconnected</span><br><span class="line"></span><br><span class="line">$ grep <span class="string">&quot;01234567890abcdefghijklmnopqrstuvwxyz&quot;</span> demo.luks</span><br></pre></td></tr></table></figure>
+
+<h3 id="QEMU-with-QCOW2-Have-LUKS-Payload"><a href="#QEMU-with-QCOW2-Have-LUKS-Payload" class="headerlink" title="QEMU with QCOW2 Have LUKS Payload"></a>QEMU with QCOW2 Have LUKS Payload</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ qemu-img create -f qcow2 -o encrypt.format=luks,encrypt.key-secret=sec_luks --object secret,data=demo-password,<span class="built_in">id</span>=sec_luks demo.qcow2 64G</span><br><span class="line"></span><br><span class="line">Formatting <span class="string">&#x27;demo.qcow2&#x27;</span>, <span class="built_in">fmt</span>=qcow2 encrypt.format=luks encrypt.key-secret=sec_luks cluster_size=65536 extended_l2=off compression_type=zlib size=68719476736 lazy_refcounts=off refcount_bits=16</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">ls</span> -<span class="built_in">ln</span> demo.qcow2</span><br><span class="line">-rw-r--r-- 1 1000 1000 2359296 2021-09-21 21:47 demo.qcow2</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">du</span> -ks demo.qcow2</span><br><span class="line">3328    demo.qcow2</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">stat</span> demo.qcow2</span><br><span class="line">  File: demo.qcow2</span><br><span class="line">  Size: 2359296         Blocks: 6656       IO Block: 4096   regular file</span><br><span class="line">Device: fe01h/65025d    Inode: 403937216   Links: 1</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> modprobe nbd max_part=16 nbds_max=16</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">sudo</span> qemu-nbd --connect=/dev/nbd0 --object secret,<span class="built_in">id</span>=sec0,data=demo-password --image-opts driver=qcow2,encrypt.key-secret=sec0,file.driver=file,file.filename=demo.qcow2</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">sudo</span> fdisk /dev/nbd0 -l</span><br><span class="line">$ <span class="built_in">sudo</span> mkfs.ext4 /dev/nbd0p1</span><br><span class="line">$ <span class="built_in">du</span> -ms demo.qcow2</span><br><span class="line">283     demo.qcow2</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">sudo</span> mount /dev/nbd0p1 nbd</span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">&quot;01234567890abcdefghijklmnopqrstuvwxyz&quot;</span> | <span class="built_in">sudo</span> <span class="built_in">tee</span> nbd/test.txt</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">sudo</span> umount nbd/</span><br><span class="line">$ <span class="built_in">sudo</span> qemu-nbd --disconnect /dev/nbd0</span><br><span class="line">/dev/nbd0 disconnected</span><br><span class="line"></span><br><span class="line">$ grep <span class="string">&quot;01234567890abcdefghijklmnopqrstuvwxyz&quot;</span> demo.qcow2</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux-Unified-Key-Setup"><span class="toc-number">1.</span> <span class="toc-text">Linux Unified Key Setup</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Full-Disk-Encryption"><span class="toc-number">1.1.</span> <span class="toc-text">Full Disk Encryption</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-Full-Disk-Encryption"><span class="toc-number">1.2.</span> <span class="toc-text">Linux Full Disk Encryption</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LUKS-Common-Use-Cases"><span class="toc-number">1.3.</span> <span class="toc-text">LUKS Common Use Cases</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LUKS-Threat-Example"><span class="toc-number">1.4.</span> <span class="toc-text">LUKS Threat Example</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Key-Management"><span class="toc-number">1.5.</span> <span class="toc-text">Key Management</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Disk-Encryption-%E2%80%9CUser-Survey%E2%80%9D"><span class="toc-number">1.6.</span> <span class="toc-text">Disk Encryption “User Survey”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Device-Mapper%E2%80%99s-%E2%80%9Ccrypt%E2%80%9D-target"><span class="toc-number">1.7.</span> <span class="toc-text">Device-Mapper’s “crypt” target</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Configuring-File-Encryption"><span class="toc-number">1.7.1.</span> <span class="toc-text">Configuring File Encryption</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Create-a-LUKS-Format-File"><span class="toc-number">1.7.1.1.</span> <span class="toc-text">Create a LUKS Format File</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Open-LUKS-Format-File"><span class="toc-number">1.7.1.2.</span> <span class="toc-text">Open LUKS Format File</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Protect-Against-Disclosure-of-Usage-Patterns"><span class="toc-number">1.7.1.3.</span> <span class="toc-text">Protect Against Disclosure of Usage Patterns</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Create-a-Filesystem"><span class="toc-number">1.7.1.4.</span> <span class="toc-text">Create a Filesystem</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Mount-and-Use-Encrypted-Filesystem"><span class="toc-number">1.7.1.5.</span> <span class="toc-text">Mount and Use Encrypted Filesystem</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GnuPG-Encrypted-Key-File"><span class="toc-number">1.7.1.6.</span> <span class="toc-text">GnuPG Encrypted Key File</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Daily-Usage-of-File-Encryption"><span class="toc-number">1.7.2.</span> <span class="toc-text">Daily Usage of File Encryption</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Securely-Integrating-with-QEMU"><span class="toc-number">1.8.</span> <span class="toc-text">Securely Integrating with QEMU</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Secrets"><span class="toc-number">1.8.1.</span> <span class="toc-text">Secrets</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Secrets-Creation"><span class="toc-number">1.8.2.</span> <span class="toc-text">Secrets: Creation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Secrets-Usage"><span class="toc-number">1.8.3.</span> <span class="toc-text">Secrets: Usage</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#QEMU-with-Plain-LUKS-File"><span class="toc-number">1.8.4.</span> <span class="toc-text">QEMU with Plain LUKS File</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#QEMU-with-QCOW2-Have-LUKS-Payload"><span class="toc-number">1.8.5.</span> <span class="toc-text">QEMU with QCOW2 Have LUKS Payload</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

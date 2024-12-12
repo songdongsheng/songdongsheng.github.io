@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>CMCC IPv6 | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          CMCC IPv6
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2019/02/16</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/IP/">IP</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#IP" class='tag'>IP</a>
+
+  <a href="/tags/#IPv6" class='tag'>IPv6</a>
+
+
+          
+        </div>
+        <h1 id="CMCC-IPv6"><a href="#CMCC-IPv6" class="headerlink" title="CMCC IPv6"></a>CMCC IPv6</h1><p>广州移动已经支持 IPv6，但是需要自己配置。此外，你使用的无线路由器也需要支持 IPv6 (广州移动光猫内置的 WiFi 虽然测速只有 30M，但是支持 IPv6)，或者退而求其次，支持路由模式。</p>
+<p>现在无线路由器已经是阻断 IPv6 进入家庭的最后一个拦路虎。常见的家用路由器大多数不支持 IPv6，国内厂家只有华为和小米支持 IPv6，像腾达、TP-Link 和水星都不支持 IPv6。当然，等你看到本文时，情况可能有所改变，详见厂家的说明书。</p>
+<p>现在有 2 种 IPv6 的配置方案：</p>
+<ol>
+<li>PPP 模式，即路由模式。配置光猫的 INTERNET 连接模式为 PPP，协议为 IPv4&#x2F;v6，再配置 LAN 侧地址，启用 DHCP 服务。外置路由器的 WAN 接到光猫的 LAN 侧，使用路由模式接入公网。</li>
+<li>Bridge 模式，即桥接模式。配置光猫的 INTERNET 连接模式为 Bridge，协议为 IPv4&#x2F;v6。外置路由器的 WAN 接到光猫的 LAN 侧，使用 PPPoE 拨号模式接入公网。</li>
+</ol>
+<p>第一种方案简便易行，即使你的无线路由器不支持 IPv6，也可以同时接入 IPv4 和 IPv6 网络。但是你的无线路由器的访问控制等高级功能就基本废弃了。</p>
+<p>第二种方案需要采购支持 IPv6 的中高端无线路由器，但是它的网络延迟小，是对网络延迟敏感的高端用户的必然选择，例如重度游戏玩家，高频交易用户等。</p>
+<h2 id="配置光猫"><a href="#配置光猫" class="headerlink" title="配置光猫"></a>配置光猫</h2><p>登录光猫管理界面，打开“网络-&gt;宽带配置”页面，在链接名称的下拉框中，选择类似“6_INTERNET_R_VIF_41”的项目，截图保存后删除。</p>
+<p>然后在链接名称的下拉框中，选择“新建WAN连接”，IP协议版本选择“IPv4&#x2F;v6”，根据你的实际情况选择“PPP”或者“Bridge”模式，VLAN 模式和 VLAN ID 根据截图保存的信息填写。在“PPP”模式中，MTU 填写 1492，用户名和密码根据安装的业务单填写，全局地址获取方式选择“AutoConfigured(SLAAC)”，网关获取方式选择“自适应”，DNS 获取方式和前缀获取方式填写“DHCPv6”。</p>
+<p><img src="/2019/02/16/cmcc-ipv6/settings-ppp.jpg" alt="PPP 模式，即路由模式">
+<img src="/2019/02/16/cmcc-ipv6/settings-bridge.jpg" alt="Bridge 模式，即桥接模式"></p>
+<h2 id="IPv6-状态"><a href="#IPv6-状态" class="headerlink" title="IPv6 状态"></a>IPv6 状态</h2><p>登录光猫管理界面，打开“状态-&gt;网络侧信息-&gt;IPv6连接信息”页面，可以看到当前的 IPv6 连接信息。一般光猫地址是 “&#x2F;64”，前缀是 “&#x2F;60”，与国外的 “&#x2F;56”，乃至 “&#x2F;48” 相比，可见我国 IPv6 地址的紧缺。</p>
+<p><img src="/2019/02/16/cmcc-ipv6/status-ipv6.jpg" alt="IPv6 状态"></p>
+<h2 id="配置路由器"><a href="#配置路由器" class="headerlink" title="配置路由器"></a>配置路由器</h2><ol>
+<li>如果你的无线路由器支持 IPv6，那么根据配置向导的指示，填写用户名和密码，其它使用默认值即可。</li>
+<li>如果你的无线路由器不支持 IPv6，但是支持路由模式，就忍痛把它当普通路由器使用，忘记那些高级功能吧。</li>
+<li>如果你的无线路由器既不支持 IPv6 又不支持路由模式，那么就把它扔了吧:-)，或者启用光猫内置的无线路由器，体验一下最高 30M 网速的 IPv6 网络。</li>
+</ol>
+<h2 id="漫游-IPv6"><a href="#漫游-IPv6" class="headerlink" title="漫游 IPv6"></a>漫游 IPv6</h2><p>广州移动的 IPv6 网络延迟还是比 IPv4 大得多，亟需改进。从路由跟踪结果来看，IPv6 比 IPv4 少了 4 跳，但是路由不同，延迟大了近 90 ms，还有很大的优化空间。</p>
+<h3 id="RTT-of-IPv4"><a href="#RTT-of-IPv4" class="headerlink" title="RTT of IPv4"></a>RTT of IPv4</h3><pre><code>C:\&gt;ping -4 ipv6.com
+
+正在 Ping ipv6.com [192.185.167.252] 具有 32 字节的数据:
+来自 192.185.167.252 的回复: 字节=32 时间=248ms TTL=42
+来自 192.185.167.252 的回复: 字节=32 时间=294ms TTL=43
+来自 192.185.167.252 的回复: 字节=32 时间=245ms TTL=43
+来自 192.185.167.252 的回复: 字节=32 时间=246ms TTL=41
+
+192.185.167.252 的 Ping 统计信息:
+    数据包: 已发送 = 4，已接收 = 4，丢失 = 0 (0% 丢失)，
+往返行程的估计时间(以毫秒为单位):
+    最短 = 245ms，最长 = 294ms，平均 = 258ms
+</code></pre>
+<h3 id="RTT-of-IPv6"><a href="#RTT-of-IPv6" class="headerlink" title="RTT of IPv6"></a>RTT of IPv6</h3><pre><code>C:\&gt;ping -6 ipv6.com
+
+正在 Ping ipv6.com [2604:7c00:18:e::2] 具有 32 字节的数据:
+来自 2604:7c00:18:e::2 的回复: 时间=333ms
+来自 2604:7c00:18:e::2 的回复: 时间=329ms
+来自 2604:7c00:18:e::2 的回复: 时间=330ms
+来自 2604:7c00:18:e::2 的回复: 时间=330ms
+
+2604:7c00:18:e::2 的 Ping 统计信息:
+    数据包: 已发送 = 4，已接收 = 4，丢失 = 0 (0% 丢失)，
+往返行程的估计时间(以毫秒为单位):
+    最短 = 329ms，最长 = 333ms，平均 = 330ms
+</code></pre>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CMCC-IPv6"><span class="toc-number">1.</span> <span class="toc-text">CMCC IPv6</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%85%89%E7%8C%AB"><span class="toc-number">1.1.</span> <span class="toc-text">配置光猫</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IPv6-%E7%8A%B6%E6%80%81"><span class="toc-number">1.2.</span> <span class="toc-text">IPv6 状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E8%B7%AF%E7%94%B1%E5%99%A8"><span class="toc-number">1.3.</span> <span class="toc-text">配置路由器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%AB%E6%B8%B8-IPv6"><span class="toc-number">1.4.</span> <span class="toc-text">漫游 IPv6</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RTT-of-IPv4"><span class="toc-number">1.4.1.</span> <span class="toc-text">RTT of IPv4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RTT-of-IPv6"><span class="toc-number">1.4.2.</span> <span class="toc-text">RTT of IPv6</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

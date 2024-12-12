@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>VXLAN on Bare Metal | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          VXLAN on Bare Metal
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2019/03/30</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/IP/">IP</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#IP" class='tag'>IP</a>
+
+
+          
+        </div>
+        <h1 id="VXLAN-on-Bare-Metal"><a href="#VXLAN-on-Bare-Metal" class="headerlink" title="VXLAN on Bare Metal"></a>VXLAN on Bare Metal</h1><h2 id="Host-way-and-sun"><a href="#Host-way-and-sun" class="headerlink" title="Host way and sun"></a>Host way and sun</h2><pre><code>127.0.0.1                       localhost
+23.239.7.231                    way.songdongsheng.info          way
+172.104.155.135                 sun.songdongsheng.info          sun
+
+::1                             localhost
+2600:3c01::f03c:91ff:fed5:e79a  way.songdongsheng.info          way
+2a01:7e01::f03c:91ff:fe60:3c56  sun.songdongsheng.info          sun
+</code></pre>
+<h2 id="Enable-IP-Forwarding"><a href="#Enable-IP-Forwarding" class="headerlink" title="Enable IP Forwarding"></a>Enable IP Forwarding</h2><pre><code>net.ipv4.ip_forward = 1
+</code></pre>
+<h2 id="Open-UDP-x2F-4789-port"><a href="#Open-UDP-x2F-4789-port" class="headerlink" title="Open UDP&#x2F;4789 port"></a>Open UDP&#x2F;4789 port</h2><p>Since VXLAN uses UDP packet to forward encapsulated the L2 frames, UDP&#x2F;4789 port must be opened.</p>
+<pre><code>iptables -t filter -I INPUT -p udp -m udp --dport 4789 -j ACCEPT
+</code></pre>
+<h2 id="Increase-maximum-number-of-IGMP-memberships"><a href="#Increase-maximum-number-of-IGMP-memberships" class="headerlink" title="Increase maximum number of IGMP memberships"></a>Increase maximum number of IGMP memberships</h2><pre><code># cat /proc/sys/net/ipv4/igmp_max_memberships
+20
+
+echo 256 &gt;/proc/sys/net/ipv4/igmp_max_memberships
+</code></pre>
+<h2 id="VXLAN-and-route-on-way"><a href="#VXLAN-and-route-on-way" class="headerlink" title="VXLAN and route on way"></a>VXLAN and route on way</h2><pre><code>ip link add vxlan.1 type vxlan id 1 remote 172.104.155.135 dev eth0 dstport 4789
+
+ip link add vxlan.1 type vxlan id 1 dstport 4789
+bridge fdb append 00:00:00:00:00:00 dev vxlan.1 dst 172.104.155.135
+bridge fdb append 00:00:00:00:00:00 dev vxlan.1 dst 23.239.7.231
+
+ip address add 192.168.101.1 dev vxlan.1
+ip link set up vxlan.1 mtu 1450
+route add -net 192.168.0.0/16 gw 192.168.101.1
+
+bridge fdb show dev vxlan.1
+</code></pre>
+<h2 id="VXLAN-and-route-on-sun"><a href="#VXLAN-and-route-on-sun" class="headerlink" title="VXLAN and route on sun"></a>VXLAN and route on sun</h2><pre><code>ip link add vxlan.1 type vxlan id 1 remote 23.239.7.231 dev eth0 dstport 4789
+
+ip link add vxlan.1 type vxlan id 1 dstport 4789
+bridge fdb append 00:00:00:00:00:00 dev vxlan.1 dst 172.104.155.135
+bridge fdb append 00:00:00:00:00:00 dev vxlan.1 dst 23.239.7.231
+
+ip address add 192.168.102.1 dev vxlan.1
+ip link set up vxlan.1 mtu 1450
+route add -net 192.168.0.0/16 gw 192.168.102.1
+
+bridge fdb show dev vxlan.1
+</code></pre>
+<h2 id="MTU-of-VXLAN"><a href="#MTU-of-VXLAN" class="headerlink" title="MTU of VXLAN"></a>MTU of VXLAN</h2><table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>操作&#x2F;封包</th>
+<th>协议</th>
+<th>长度</th>
+<th>MTU</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>ping -s 1422</td>
+<td>ICMP</td>
+<td>1430 &#x3D; 1422 + 8 (ICMP header)</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>L3</td>
+<td>IP</td>
+<td>1450 &#x3D; 1430 + 20 (IP header)</td>
+<td>VxLAN Interface 的 MTU</td>
+</tr>
+<tr>
+<td>3</td>
+<td>L2</td>
+<td>Ethernet</td>
+<td>1464 &#x3D; 1450 + 14 (Ethernet header)</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>VxLAN</td>
+<td>UDP</td>
+<td>1480 &#x3D; 1464 + 8 (VxLAN header) + 8 (UDP header)</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>L3</td>
+<td>IP</td>
+<td>1500 &#x3D; 1480 + 20 (IP header)</td>
+<td>物理网卡的(IP)MTU，它不包括 Ethernet header 的长度</td>
+</tr>
+<tr>
+<td>6</td>
+<td>L2</td>
+<td>Ethernet</td>
+<td>1514 &#x3D; 1500 + 14 (Ethernet header)</td>
+<td>最大可传输帧大小</td>
+</tr>
+</tbody></table>
+<p>因此，VxLAN 的 overhead 是 1514 - 1464 &#x3D; 50 byte。</p>
+<h2 id="VXLAN-verify"><a href="#VXLAN-verify" class="headerlink" title="VXLAN verify"></a>VXLAN verify</h2><pre><code>ethtool vxlan.1
+ethtool -i vxlan.1
+ethtool -k vxlan.1
+
+bridge fdb show vxlan.1
+ip -d link show vxlan.1
+ip monitor neigh dev vxlan.1
+
+ethtool -i docker0
+</code></pre>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#VXLAN-on-Bare-Metal"><span class="toc-number">1.</span> <span class="toc-text">VXLAN on Bare Metal</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Host-way-and-sun"><span class="toc-number">1.1.</span> <span class="toc-text">Host way and sun</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Enable-IP-Forwarding"><span class="toc-number">1.2.</span> <span class="toc-text">Enable IP Forwarding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Open-UDP-x2F-4789-port"><span class="toc-number">1.3.</span> <span class="toc-text">Open UDP&#x2F;4789 port</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Increase-maximum-number-of-IGMP-memberships"><span class="toc-number">1.4.</span> <span class="toc-text">Increase maximum number of IGMP memberships</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VXLAN-and-route-on-way"><span class="toc-number">1.5.</span> <span class="toc-text">VXLAN and route on way</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VXLAN-and-route-on-sun"><span class="toc-number">1.6.</span> <span class="toc-text">VXLAN and route on sun</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MTU-of-VXLAN"><span class="toc-number">1.7.</span> <span class="toc-text">MTU of VXLAN</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VXLAN-verify"><span class="toc-number">1.8.</span> <span class="toc-text">VXLAN verify</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>nghttpx http proxy | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          nghttpx http proxy
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2019/01/12</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/HTTP/">HTTP</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#HTTP" class='tag'>HTTP</a>
+
+
+          
+        </div>
+        <h1 id="nghttpx-http-proxy"><a href="#nghttpx-http-proxy" class="headerlink" title="nghttpx http proxy"></a>nghttpx http proxy</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://nghttp2.org/documentation/nghttpx-howto.html">https://nghttp2.org/documentation/nghttpx-howto.html</a></li>
+</ul>
+<h2 id="TLS-encryption"><a href="#TLS-encryption" class="headerlink" title="TLS encryption"></a>TLS encryption</h2><ol>
+<li><p>The frontend connections are encrypted with SSL&#x2F;TLS by default.</p>
+<pre><code> frontend=*,443
+ frontend=*,80;no-tls
+</code></pre>
+</li>
+<li><p>The TLS encryption is now disabled on backend connection in all modes by default.</p>
+<pre><code> backend=127.0.0.1,8080;tls
+</code></pre>
+</li>
+</ol>
+<h2 id="HTTP-protocol"><a href="#HTTP-protocol" class="headerlink" title="HTTP protocol"></a>HTTP protocol</h2><ol>
+<li>The default backend protocol is HTTP&#x2F;1.1</li>
+<li>HTTP&#x2F;2 and HTTP&#x2F;1 are available on the frontend, and an HTTP&#x2F;1 connection can be upgraded to HTTP&#x2F;2 using HTTP Upgrade. Starting HTTP&#x2F;2 connection by sending HTTP&#x2F;2 connection preface is also supported.</li>
+</ol>
+<h2 id="Session-affinity"><a href="#Session-affinity" class="headerlink" title="Session affinity"></a>Session affinity</h2><p>Two kinds of session affinity are available: client IP, and HTTP Cookie.</p>
+<p>To enable client IP based affinity, specify <strong>affinity&#x3D;ip</strong> parameter in <strong>–backend</strong> option.</p>
+<pre><code>backend=127.0.0.1,3000;;affinity=ip
+</code></pre>
+<p>To enable HTTP Cookie based affinity, specify <strong>affinity&#x3D;cookie</strong> parameter, and specify a name of cookie in <strong>affinity-cookie-name</strong> parameter. Optionally, a Path attribute can be specified in <strong>affinity-cookie-path</strong> parameter:</p>
+<pre><code>backend=127.0.0.1,3000;;affinity=cookie;affinity-cookie-name=nghttpxlb;affinity-cookie-path=/
+</code></pre>
+<h2 id="HTTP-proxy"><a href="#HTTP-proxy" class="headerlink" title="HTTP proxy"></a>HTTP proxy</h2><h3 id="proxy-patterns"><a href="#proxy-patterns" class="headerlink" title="proxy patterns"></a>proxy patterns</h3><p>nghttpx can route request to different backend according to request host and path.</p>
+<pre><code># they are used as load balancing
+backend=192.168.0.10,8080
+backend=192.168.0.11,8008
+
+backend=docserv,3000;doc.example.com/
+backend=::1,8080;/bar/
+backend=::1,8080;/sample*
+backend=192.168.0.10,8080;example.com/foo
+
+# they are used as load balancing
+backend=serv1,3000;example.com/myservice
+backend=serv2,3000;example.com/myservice
+
+backend=serv1,3000;/;proto=h2
+backend=serv1,3000;/ws/;proto=http/1.1
+
+backend=serv1,8443;/;proto=h2;tls
+backend=serv2,8080;/ws/;proto=http/1.1
+</code></pre>
+<h3 id="catch-all-pattern"><a href="#catch-all-pattern" class="headerlink" title="catch all pattern"></a>catch all pattern</h3><p>One important thing you have to remember is that we have to specify default routing pattern for so called “catch all” pattern. To write “catch all” pattern, just specify backend server address, without pattern.</p>
+<p>Usually, host is the value of Host header field. In HTTP&#x2F;2, the value of :authority pseudo header field is used.</p>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#nghttpx-http-proxy"><span class="toc-number">1.</span> <span class="toc-text">nghttpx http proxy</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#TLS-encryption"><span class="toc-number">1.1.</span> <span class="toc-text">TLS encryption</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-protocol"><span class="toc-number">1.2.</span> <span class="toc-text">HTTP protocol</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Session-affinity"><span class="toc-number">1.3.</span> <span class="toc-text">Session affinity</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-proxy"><span class="toc-number">1.4.</span> <span class="toc-text">HTTP proxy</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#proxy-patterns"><span class="toc-number">1.4.1.</span> <span class="toc-text">proxy patterns</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#catch-all-pattern"><span class="toc-number">1.4.2.</span> <span class="toc-text">catch all pattern</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

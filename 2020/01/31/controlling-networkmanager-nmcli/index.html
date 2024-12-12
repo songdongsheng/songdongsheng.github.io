@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Controlling NetworkManager - nmcli | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Controlling NetworkManager - nmcli
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/01/31</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/Linux/">Linux</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tag"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+
+          
+        </div>
+        <h1 id="Controlling-NetworkManager"><a href="#Controlling-NetworkManager" class="headerlink" title="Controlling NetworkManager"></a>Controlling NetworkManager</h1><h2 id="nmcli-connection-show"><a href="#nmcli-connection-show" class="headerlink" title="nmcli connection show"></a>nmcli connection show</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ nmcli connection show</span><br><span class="line">NAME                UUID                                  TYPE      DEVICE</span><br><span class="line">DONGSHENG-CMMC      58dba110-b6e9-4793-98cf-6f893f22de28  wifi      wlx6c5ab5a4f8a7</span><br></pre></td></tr></table></figure>
+
+<h2 id="nmcli-device-show"><a href="#nmcli-device-show" class="headerlink" title="nmcli device show"></a>nmcli device show</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">$ nmcli device show wlx6c5ab5a4f8a7</span><br><span class="line">GENERAL.DEVICE:                         wlx6c5ab5a4f8a7</span><br><span class="line">GENERAL.TYPE:                           wifi</span><br><span class="line">GENERAL.HWADDR:                         6C:5A:B5:A4:F8:A7</span><br><span class="line">GENERAL.MTU:                            1500</span><br><span class="line">GENERAL.STATE:                          100 (connected)</span><br><span class="line">GENERAL.CONNECTION:                     DONGSHENG-CMMC</span><br><span class="line">GENERAL.CON-PATH:                       /org/freedesktop/NetworkManager/ActiveConnection/1</span><br><span class="line">IP4.ADDRESS[1]:                         192.168.1.11/24</span><br><span class="line">IP4.GATEWAY:                            192.168.1.1</span><br><span class="line">IP4.ROUTE[1]:                           dst = 192.168.1.0/24, nh = 0.0.0.0, mt = 600</span><br><span class="line">IP4.ROUTE[2]:                           dst = 0.0.0.0/0, nh = 192.168.1.1, mt = 600</span><br><span class="line">IP4.DNS[1]:                             192.168.1.1</span><br><span class="line">IP4.DNS[2]:                             114.114.114.114</span><br><span class="line">IP4.DNS[3]:                             8.8.8.8</span><br><span class="line">IP4.DNS[4]:                             8.8.4.4</span><br><span class="line">IP6.ADDRESS[1]:                         2409:8a55:8b8:4560:1755:efdd:ae0e:b950/64</span><br><span class="line">IP6.ADDRESS[2]:                         fe80::223f:a26d:9121:859d/64</span><br><span class="line">IP6.GATEWAY:                            fe80::1</span><br><span class="line">IP6.ROUTE[1]:                           dst = fe80::/64, nh = ::, mt = 600</span><br><span class="line">IP6.ROUTE[2]:                           dst = 2409:8a55:8b8:4560::/64, nh = ::, mt = 600</span><br><span class="line">IP6.ROUTE[3]:                           dst = ::/0, nh = fe80::1, mt = 600</span><br><span class="line">IP6.ROUTE[4]:                           dst = ff00::/8, nh = ::, mt = 256, table=255</span><br><span class="line">IP6.DNS[1]:                             fe80::1</span><br></pre></td></tr></table></figure>
+
+<h2 id="nmcli-connection-modify"><a href="#nmcli-connection-modify" class="headerlink" title="nmcli connection modify"></a>nmcli connection modify</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">nmcli connection | <span class="built_in">tail</span> -n+2 | grep --color <span class="string">&#x27;[0-9a-z]\&#123;8\&#125;-.\&#123;28\&#125;&#x27;</span> -o | \</span><br><span class="line"><span class="keyword">while</span> <span class="built_in">read</span> UUID; <span class="keyword">do</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="variable">$UUID</span>;</span><br><span class="line">    nmcli connection show <span class="variable">$UUID</span> | grep -i dns;</span><br><span class="line">    nmcli connection modify <span class="variable">$UUID</span> ipv4.ignore-auto-dns <span class="built_in">yes</span></span><br><span class="line">    nmcli connection modify <span class="variable">$UUID</span> ipv6.ignore-auto-dns <span class="built_in">yes</span></span><br><span class="line">    <span class="built_in">echo</span> -e <span class="string">&#x27;\n\n&#x27;</span>;</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># nmcli connection modify 58dba110-b6e9-4793-98cf-6f893f22de28 ipv4.dns &quot;192.168.1.1,114.114.114.114,8.8.8.8,8.8.4.4&quot;</span></span><br><span class="line"></span><br><span class="line">$ nmcli connection show 58dba110-b6e9-4793-98cf-6f893f22de28 | grep <span class="string">&quot;dns&quot;</span></span><br><span class="line">connection.mdns:                        -1 (default)</span><br><span class="line">ipv4.dns:                               192.168.1.1,114.114.114.114,8.8.8.8,8.8.4.4</span><br><span class="line">ipv4.dns-search:                        --</span><br><span class="line">ipv4.dns-options:                       <span class="string">&quot;&quot;</span></span><br><span class="line">ipv4.dns-priority:                      0</span><br><span class="line">ipv4.ignore-auto-dns:                   <span class="built_in">yes</span></span><br><span class="line">ipv6.dns:                               --</span><br><span class="line">ipv6.dns-search:                        --</span><br><span class="line">ipv6.dns-options:                       <span class="string">&quot;&quot;</span></span><br><span class="line">ipv6.dns-priority:                      0</span><br><span class="line">ipv6.ignore-auto-dns:                   no</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Controlling-NetworkManager"><span class="toc-number">1.</span> <span class="toc-text">Controlling NetworkManager</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#nmcli-connection-show"><span class="toc-number">1.1.</span> <span class="toc-text">nmcli connection show</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nmcli-device-show"><span class="toc-number">1.2.</span> <span class="toc-text">nmcli device show</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nmcli-connection-modify"><span class="toc-number">1.3.</span> <span class="toc-text">nmcli connection modify</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

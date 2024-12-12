@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Vultr API Quickstart | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Vultr API Quickstart
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/03/15</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/API/">API</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Cloud" class='tag'>Cloud</a>
+
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#REST" class='tag'>REST</a>
+
+
+          
+        </div>
+        <h1 id="Vultr-API-Quickstart"><a href="#Vultr-API-Quickstart" class="headerlink" title="Vultr API Quickstart"></a>Vultr API Quickstart</h1><h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><ul>
+<li><p>API Endpoint: <a target="_blank" rel="noopener" href="https://api.vultr.com/">https://api.vultr.com/</a></p>
+</li>
+<li><p>Available in <a target="_blank" rel="noopener" href="https://my.vultr.com/settings/#settingsapi">Members Area</a></p>
+</li>
+<li><p>Authentication: For any API request that requires authentication, you would need to send the ‘API-Key: YOURKEY’ HTTP header. See the cURL examples below for more information on how to do this.</p>
+</li>
+<li><p>Time and Date: All time and date fields returned by this API are displayed in UTC.</p>
+</li>
+<li><p>HTTP Response Codes:</p>
+<table>
+<thead>
+<tr>
+<th>HTTP Response Code</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>200</td>
+<td>Function successfully executed.</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Invalid API location. Check the URL that you are using.</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Invalid or missing API key. Check that your API key is present and matches your assigned key.</td>
+</tr>
+<tr>
+<td>405</td>
+<td>Invalid HTTP method. Check that the method (POST</td>
+</tr>
+<tr>
+<td>412</td>
+<td>Request failed. Check the response body for a more detailed description.</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal server error. Try again at a later time.</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Rate limit hit. API requests are limited to an average of 2&#x2F;s. Try your request again later.</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h2 id="Retrieve-a-list-of-all-active-regions"><a href="#Retrieve-a-list-of-all-active-regions" class="headerlink" title="Retrieve a list of all active regions"></a>Retrieve a list of all active regions</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">curl -sSL https://api.vultr.com/v1/regions/list | jq .</span></span><br><span class="line">&#123;</span><br><span class="line">  &quot;5&quot;: &#123;</span><br><span class="line">    &quot;DCID&quot;: &quot;5&quot;,</span><br><span class="line">    &quot;name&quot;: &quot;Los Angeles&quot;,</span><br><span class="line">    &quot;country&quot;: &quot;US&quot;,</span><br><span class="line">    &quot;continent&quot;: &quot;North America&quot;,</span><br><span class="line">    &quot;state&quot;: &quot;CA&quot;,</span><br><span class="line">    &quot;ddos_protection&quot;: true,</span><br><span class="line">    &quot;block_storage&quot;: false,</span><br><span class="line">    &quot;regioncode&quot;: &quot;LAX&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;6&quot;: &#123;</span><br><span class="line">    &quot;DCID&quot;: &quot;6&quot;,</span><br><span class="line">    &quot;name&quot;: &quot;Atlanta&quot;,</span><br><span class="line">    &quot;country&quot;: &quot;US&quot;,</span><br><span class="line">    &quot;continent&quot;: &quot;North America&quot;,</span><br><span class="line">    &quot;state&quot;: &quot;GA&quot;,</span><br><span class="line">    &quot;ddos_protection&quot;: false,</span><br><span class="line">    &quot;block_storage&quot;: false,</span><br><span class="line">    &quot;regioncode&quot;: &quot;ATL&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;19&quot;: &#123;</span><br><span class="line">    &quot;DCID&quot;: &quot;19&quot;,</span><br><span class="line">    &quot;name&quot;: &quot;Sydney&quot;,</span><br><span class="line">    &quot;country&quot;: &quot;AU&quot;,</span><br><span class="line">    &quot;continent&quot;: &quot;Australia&quot;,</span><br><span class="line">    &quot;state&quot;: &quot;&quot;,</span><br><span class="line">    &quot;ddos_protection&quot;: false,</span><br><span class="line">    &quot;block_storage&quot;: false,</span><br><span class="line">    &quot;regioncode&quot;: &quot;SYD&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Retrieve-a-list-of-all-active-plans"><a href="#Retrieve-a-list-of-all-active-plans" class="headerlink" title="Retrieve a list of all active plans"></a>Retrieve a list of all active plans</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">curl -sSL https://api.vultr.com/v1/plans/list_vc2 | jq .</span></span><br><span class="line">&#123;</span><br><span class="line">  &quot;201&quot;: &#123;</span><br><span class="line">    &quot;VPSPLANID&quot;: &quot;201&quot;,</span><br><span class="line">    &quot;name&quot;: &quot;1024 MB RAM,25 GB SSD,1.00 TB BW&quot;,</span><br><span class="line">    &quot;vcpu_count&quot;: &quot;1&quot;,</span><br><span class="line">    &quot;ram&quot;: &quot;1024&quot;,</span><br><span class="line">    &quot;disk&quot;: &quot;25&quot;,</span><br><span class="line">    &quot;bandwidth&quot;: &quot;1.00&quot;,</span><br><span class="line">    &quot;bandwidth_gb&quot;: &quot;1024&quot;,</span><br><span class="line">    &quot;price_per_month&quot;: &quot;5.00&quot;,</span><br><span class="line">    &quot;plan_type&quot;: &quot;SSD&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;208&quot;: &#123;</span><br><span class="line">    &quot;VPSPLANID&quot;: &quot;208&quot;,</span><br><span class="line">    &quot;name&quot;: &quot;98304 MB RAM,1600 GB SSD,15.00 TB BW&quot;,</span><br><span class="line">    &quot;vcpu_count&quot;: &quot;24&quot;,</span><br><span class="line">    &quot;ram&quot;: &quot;98304&quot;,</span><br><span class="line">    &quot;disk&quot;: &quot;1600&quot;,</span><br><span class="line">    &quot;bandwidth&quot;: &quot;15.00&quot;,</span><br><span class="line">    &quot;bandwidth_gb&quot;: &quot;15360&quot;,</span><br><span class="line">    &quot;price_per_month&quot;: &quot;640.00&quot;,</span><br><span class="line">    &quot;plan_type&quot;: &quot;SSD&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">curl -sSL https://api.vultr.com/v1/plans/list_vc2z | jq .</span></span><br><span class="line">&#123;</span><br><span class="line">  &quot;400&quot;: &#123;</span><br><span class="line">    &quot;VPSPLANID&quot;: &quot;400&quot;,</span><br><span class="line">    &quot;name&quot;: &quot;1024 MB RAM,32 GB SSD,1.00 TB BW&quot;,</span><br><span class="line">    &quot;vcpu_count&quot;: &quot;1&quot;,</span><br><span class="line">    &quot;ram&quot;: &quot;1024&quot;,</span><br><span class="line">    &quot;disk&quot;: &quot;32&quot;,</span><br><span class="line">    &quot;bandwidth&quot;: &quot;1.00&quot;,</span><br><span class="line">    &quot;bandwidth_gb&quot;: &quot;1024&quot;,</span><br><span class="line">    &quot;price_per_month&quot;: &quot;6.00&quot;,</span><br><span class="line">    &quot;plan_type&quot;: &quot;HIGHFREQUENCY&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;406&quot;: &#123;</span><br><span class="line">    &quot;VPSPLANID&quot;: &quot;406&quot;,</span><br><span class="line">    &quot;name&quot;: &quot;49152 MB RAM,768 GB SSD,8.00 TB BW&quot;,</span><br><span class="line">    &quot;vcpu_count&quot;: &quot;12&quot;,</span><br><span class="line">    &quot;ram&quot;: &quot;49152&quot;,</span><br><span class="line">    &quot;disk&quot;: &quot;768&quot;,</span><br><span class="line">    &quot;bandwidth&quot;: &quot;8.00&quot;,</span><br><span class="line">    &quot;bandwidth_gb&quot;: &quot;8192&quot;,</span><br><span class="line">    &quot;price_per_month&quot;: &quot;256.00&quot;,</span><br><span class="line">    &quot;plan_type&quot;: &quot;HIGHFREQUENCY&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">curl -sSL <span class="string">&quot;https://api.vultr.com/v1/plans/list?type=vc2z&quot;</span> | jq .</span></span><br><span class="line">&#123;</span><br><span class="line">  &quot;400&quot;: &#123;</span><br><span class="line">    &quot;VPSPLANID&quot;: &quot;400&quot;,</span><br><span class="line">    &quot;name&quot;: &quot;1024 MB RAM,32 GB SSD,1.00 TB BW&quot;,</span><br><span class="line">    &quot;vcpu_count&quot;: &quot;1&quot;,</span><br><span class="line">    &quot;ram&quot;: &quot;1024&quot;,</span><br><span class="line">    &quot;disk&quot;: &quot;32&quot;,</span><br><span class="line">    &quot;bandwidth&quot;: &quot;1.00&quot;,</span><br><span class="line">    &quot;bandwidth_gb&quot;: &quot;1024&quot;,</span><br><span class="line">    &quot;price_per_month&quot;: &quot;6.00&quot;,</span><br><span class="line">    &quot;plan_type&quot;: &quot;HIGHFREQUENCY&quot;,</span><br><span class="line">    &quot;available_locations&quot;: [1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 19, 22, 24, 25, 39, 40]</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;406&quot;: &#123;</span><br><span class="line">    &quot;VPSPLANID&quot;: &quot;406&quot;,</span><br><span class="line">    &quot;name&quot;: &quot;49152 MB RAM,768 GB SSD,8.00 TB BW&quot;,</span><br><span class="line">    &quot;vcpu_count&quot;: &quot;12&quot;,</span><br><span class="line">    &quot;ram&quot;: &quot;49152&quot;,</span><br><span class="line">    &quot;disk&quot;: &quot;768&quot;,</span><br><span class="line">    &quot;bandwidth&quot;: &quot;8.00&quot;,</span><br><span class="line">    &quot;bandwidth_gb&quot;: &quot;8192&quot;,</span><br><span class="line">    &quot;price_per_month&quot;: &quot;256.00&quot;,</span><br><span class="line">    &quot;plan_type&quot;: &quot;HIGHFREQUENCY&quot;,</span><br><span class="line">    &quot;available_locations&quot;: []</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Retrieve-a-list-of-the-VPSPLANIDs-currently-available-in-this-location"><a href="#Retrieve-a-list-of-the-VPSPLANIDs-currently-available-in-this-location" class="headerlink" title="Retrieve a list of the VPSPLANIDs currently available in this location"></a>Retrieve a list of the VPSPLANIDs currently available in this location</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">curl -sSL <span class="string">&quot;https://api.vultr.com/v1/regions/availability?DCID=1&quot;</span> | jq .</span></span><br><span class="line">[201, 202, 203, 204, 205, 206, 115, 116, 117, 400, 401, 402, 403, 404, 405, 29, 93, 94, 95, 96, 97, 98, 100]</span><br></pre></td></tr></table></figure>
+
+<h2 id="Retrieve-a-list-of-available-operating-systems"><a href="#Retrieve-a-list-of-available-operating-systems" class="headerlink" title="Retrieve a list of available operating systems"></a>Retrieve a list of available operating systems</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">curl -sSL https://api.vultr.com/v1/os/list | jq .</span></span><br><span class="line">&#123;</span><br><span class="line">  &quot;270&quot;: &#123;</span><br><span class="line">    &quot;OSID&quot;: 270,</span><br><span class="line">    &quot;name&quot;: &quot;Ubuntu 18.04 x64&quot;,</span><br><span class="line">    &quot;arch&quot;: &quot;x64&quot;,</span><br><span class="line">    &quot;family&quot;: &quot;ubuntu&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;327&quot;: &#123;</span><br><span class="line">    &quot;OSID&quot;: 327,</span><br><span class="line">    &quot;name&quot;: &quot;FreeBSD 12 x64&quot;,</span><br><span class="line">    &quot;arch&quot;: &quot;x64&quot;,</span><br><span class="line">    &quot;family&quot;: &quot;freebsd&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;352&quot;: &#123;</span><br><span class="line">    &quot;OSID&quot;: 352,</span><br><span class="line">    &quot;name&quot;: &quot;Debian 10 x64 (buster)&quot;,</span><br><span class="line">    &quot;arch&quot;: &quot;x64&quot;,</span><br><span class="line">    &quot;family&quot;: &quot;debian&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;362&quot;: &#123;</span><br><span class="line">    &quot;OSID&quot;: 362,</span><br><span class="line">    &quot;name&quot;: &quot;CentOS 8 x64&quot;,</span><br><span class="line">    &quot;arch&quot;: &quot;x64&quot;,</span><br><span class="line">    &quot;family&quot;: &quot;centos&quot;,</span><br><span class="line">    &quot;windows&quot;: false</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;366&quot;: &#123;</span><br><span class="line">    &quot;OSID&quot;: 366,</span><br><span class="line">    &quot;name&quot;: &quot;OpenBSD 6.6 x64&quot;,</span><br><span class="line">    &quot;arch&quot;: &quot;x64&quot;,</span><br><span class="line">    &quot;family&quot;: &quot;openbsd&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Create-a-new-virtual-machine"><a href="#Create-a-new-virtual-machine" class="headerlink" title="Create a new virtual machine"></a>Create a new virtual machine</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">curl -sSL -H <span class="string">&quot;API-Key: <span class="variable">$&#123;VULTR_API_KEY&#125;</span>&quot;</span> https://api.vultr.com/v1/server/create --data <span class="string">&#x27;DCID=1&#x27;</span> --data <span class="string">&#x27;VPSPLANID=400&#x27;</span> --data <span class="string">&#x27;OSID=352&#x27;</span></span></span><br><span class="line">&#123;</span><br><span class="line">  &quot;SUBID&quot;: &quot;1312965&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="List-all-active-or-pending-virtual-machines"><a href="#List-all-active-or-pending-virtual-machines" class="headerlink" title="List all active or pending virtual machines"></a>List all active or pending virtual machines</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">curl -sSL -H <span class="string">&quot;API-Key: <span class="variable">$&#123;VULTR_API_KEY&#125;</span>&quot;</span> https://api.vultr.com/v1/server/list | jq .</span></span><br><span class="line">&#123;</span><br><span class="line">  &quot;576965&quot;: &#123;</span><br><span class="line">    &quot;SUBID&quot;: &quot;576965&quot;,</span><br><span class="line">    &quot;os&quot;: &quot;Debian 10 x64 (buster)&quot;,</span><br><span class="line">    &quot;ram&quot;: &quot;1024 MB&quot;,</span><br><span class="line">    &quot;disk&quot;: &quot;Virtual 32 GB&quot;,</span><br><span class="line">    &quot;main_ip&quot;: &quot;123.123.123.123&quot;,</span><br><span class="line">    &quot;vcpu_count&quot;: &quot;1&quot;,</span><br><span class="line">    &quot;location&quot;: &quot;Los Angeles&quot;,</span><br><span class="line">    &quot;DCID&quot;: &quot;5&quot;,</span><br><span class="line">    &quot;default_password&quot;: &quot;o6%$#6xf!ekUD&quot;,</span><br><span class="line">    &quot;date_created&quot;: &quot;2013-12-19 14:45:41&quot;,</span><br><span class="line">    &quot;pending_charges&quot;: &quot;0.18&quot;,</span><br><span class="line">    &quot;status&quot;: &quot;active&quot;,</span><br><span class="line">    &quot;cost_per_month&quot;: &quot;6.00&quot;,</span><br><span class="line">    &quot;current_bandwidth_gb&quot;: 6.58,</span><br><span class="line">    &quot;allowed_bandwidth_gb&quot;: &quot;1000&quot;,</span><br><span class="line">    &quot;netmask_v4&quot;: &quot;255.255.255.248&quot;,</span><br><span class="line">    &quot;gateway_v4&quot;: &quot;123.123.123.1&quot;,</span><br><span class="line">    &quot;power_status&quot;: &quot;running&quot;,</span><br><span class="line">    &quot;server_state&quot;: &quot;ok&quot;,</span><br><span class="line">    &quot;VPSPLANID&quot;: &quot;400&quot;,</span><br><span class="line">    &quot;v6_main_ip&quot;: &quot;2001:DB8:1000::100&quot;,</span><br><span class="line">    &quot;v6_network_size&quot;: &quot;64&quot;,</span><br><span class="line">    &quot;v6_network&quot;: &quot;2001:DB8:1000::&quot;,</span><br><span class="line">    &quot;v6_networks&quot;: [</span><br><span class="line">      &#123;</span><br><span class="line">        &quot;v6_network&quot;: &quot;2001:DB8:1000::&quot;,</span><br><span class="line">        &quot;v6_main_ip&quot;: &quot;2001:DB8:1000::100&quot;,</span><br><span class="line">        &quot;v6_network_size&quot;: &quot;64&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    &quot;label&quot;: &quot;vultr-lax-ca-us-02&quot;,</span><br><span class="line">    &quot;internal_ip&quot;: &quot;10.99.0.10&quot;,</span><br><span class="line">    &quot;kvm_url&quot;: &quot;https://my.vultr.com/subs/vps/novnc/api.php?data=djJ8dngxTmFh-tT8qW56h&quot;,</span><br><span class="line">    &quot;auto_backups&quot;: &quot;no&quot;,</span><br><span class="line">    &quot;tag&quot;: &quot;mytag&quot;,</span><br><span class="line">    &quot;OSID&quot;: &quot;352&quot;,</span><br><span class="line">    &quot;APPID&quot;: &quot;0&quot;,</span><br><span class="line">    &quot;FIREWALLGROUPID&quot;: &quot;0&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Destroy-delete-a-virtual-machine"><a href="#Destroy-delete-a-virtual-machine" class="headerlink" title="Destroy (delete) a virtual machine"></a>Destroy (delete) a virtual machine</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">curl -sSL -i -H <span class="string">&quot;API-Key: <span class="variable">$&#123;VULTR_API_KEY&#125;</span>&quot;</span> https://api.vultr.com/v1/server/destroy --data <span class="string">&#x27;SUBID=1312965&#x27;</span></span></span><br><span class="line"></span><br><span class="line">HTTP/2 412</span><br><span class="line">content-type: text/html; charset=UTF-8</span><br><span class="line"></span><br><span class="line">Invalid server.  Check SUBID value and ensure your API key matches the server&#x27;s account</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Vultr-API-Quickstart"><span class="toc-number">1.</span> <span class="toc-text">Vultr API Quickstart</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Overview"><span class="toc-number">1.1.</span> <span class="toc-text">Overview</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Retrieve-a-list-of-all-active-regions"><span class="toc-number">1.2.</span> <span class="toc-text">Retrieve a list of all active regions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Retrieve-a-list-of-all-active-plans"><span class="toc-number">1.3.</span> <span class="toc-text">Retrieve a list of all active plans</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Retrieve-a-list-of-the-VPSPLANIDs-currently-available-in-this-location"><span class="toc-number">1.4.</span> <span class="toc-text">Retrieve a list of the VPSPLANIDs currently available in this location</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Retrieve-a-list-of-available-operating-systems"><span class="toc-number">1.5.</span> <span class="toc-text">Retrieve a list of available operating systems</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Create-a-new-virtual-machine"><span class="toc-number">1.6.</span> <span class="toc-text">Create a new virtual machine</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#List-all-active-or-pending-virtual-machines"><span class="toc-number">1.7.</span> <span class="toc-text">List all active or pending virtual machines</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Destroy-delete-a-virtual-machine"><span class="toc-number">1.8.</span> <span class="toc-text">Destroy (delete) a virtual machine</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

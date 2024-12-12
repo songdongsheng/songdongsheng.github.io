@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>CentOS 8 Stream | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          CentOS 8 Stream
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/02/08</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/Linux/">Linux</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tag"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+
+          
+        </div>
+        <h2 id="Using-AppStream"><a href="#Using-AppStream" class="headerlink" title="Using AppStream"></a>Using AppStream</h2><pre><code>dnf module install nodejs:12/s2i
+
+module – They are set of packages
+nodejs – One of the module
+:12 – One of the Stream = Version
+/s2i – One of the profile.
+</code></pre>
+<h2 id="Listing-all-available-modules-in-AppStream"><a href="#Listing-all-available-modules-in-AppStream" class="headerlink" title="Listing all available modules in AppStream"></a>Listing all available modules in AppStream</h2><pre><code>dnf module list
+</code></pre>
+<h2 id="Gathering-module-Information"><a href="#Gathering-module-Information" class="headerlink" title="Gathering module Information"></a>Gathering module Information</h2><pre><code>dnf module info rust-toolset
+dnf module info nodejs
+dnf module info --profile nodejs
+dnf module info --profile nodejs:10
+dnf module info --profile nodejs:12
+</code></pre>
+<h2 id="Selecting-a-stream-before-installation-of-packages"><a href="#Selecting-a-stream-before-installation-of-packages" class="headerlink" title="Selecting a stream before installation of packages"></a>Selecting a stream before installation of packages</h2><pre><code>dnf module enable nodejs
+dnf module enable python36
+dnf module disable nodejs
+</code></pre>
+<h2 id="Installing-a-module-stream"><a href="#Installing-a-module-stream" class="headerlink" title="Installing a module stream"></a>Installing a module stream</h2><pre><code>dnf install @nodejs:12/s2i
+dnf module install nodejs:12/s2i
+dnf module remove nodejs:12/s2i
+</code></pre>
+<h2 id="Installing-a-non-default-stream-of-an-application"><a href="#Installing-a-non-default-stream-of-an-application" class="headerlink" title="Installing a non-default stream of an application"></a>Installing a non-default stream of an application</h2><pre><code>dnf module list postgresql
+dnf install @postgresql:12/server
+</code></pre>
+<h2 id="Switching-to-a-later-stream"><a href="#Switching-to-a-later-stream" class="headerlink" title="Switching to a later stream"></a>Switching to a later stream</h2><pre><code>dnf distro-sync
+dnf upgrade
+dnf module reset module-name
+dnf module enable module-name:new-stream
+</code></pre>
+<h2 id="CentOS-8-stream-repository"><a href="#CentOS-8-stream-repository" class="headerlink" title="CentOS 8 stream repository"></a>CentOS 8 stream repository</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://mirrors.163.com/centos/8/BaseOS/x86_64/os/Packages/">https://mirrors.163.com/centos/8/BaseOS/x86_64/os/Packages/</a></li>
+<li><a target="_blank" rel="noopener" href="https://mirrors.163.com/centos/8/AppStream/x86_64/os/Packages/">https://mirrors.163.com/centos/8/AppStream/x86_64/os/Packages/</a></li>
+<li><a target="_blank" rel="noopener" href="https://mirrors.163.com/centos/8/PowerTools/x86_64/os/Packages/">https://mirrors.163.com/centos/8/PowerTools/x86_64/os/Packages/</a></li>
+<li><a target="_blank" rel="noopener" href="https://mirrors.163.com/centos/8/extras/x86_64/os/Packages/">https://mirrors.163.com/centos/8/extras/x86_64/os/Packages/</a></li>
+<li><a target="_blank" rel="noopener" href="https://download.fedoraproject.org/pub/epel/$releasever/Everything/$basearch">https://download.fedoraproject.org/pub/epel/$releasever/Everything/$basearch</a></li>
+</ul>
+<h3 id="x2F-etc-x2F-yum-repos-d"><a href="#x2F-etc-x2F-yum-repos-d" class="headerlink" title="&#x2F;etc&#x2F;yum.repos.d"></a>&#x2F;etc&#x2F;yum.repos.d</h3><pre><code># dnf clean all
+# dnf makecache
+
+# dnf distro-sync
+# dnf upgrade
+# rpm -qa | grep ^centos             
+centos-release-8.1-1.1911.0.8.el8.x86_64
+centos-gpg-keys-8.1-1.1911.0.8.el8.noarch
+centos-repos-8.1-1.1911.0.8.el8.x86_64
+
+# vi /etc/yum.repos.d/CentOS-Base.repo
+[Base]
+name=CentOS-$releasever - Base
+baseurl=http://mirrors.aliyun.com/centos/8/BaseOS/$basearch/os/
+#baseurl=http://mirrors.163.com/centos/8/BaseOS/$basearch/os/
+#baseurl=http://mirror.centos.org/centos/8/BaseOS/$basearch/os/
+gpgcheck=1
+enabled=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
+
+# vi /etc/yum.repos.d/CentOS-AppStream.repo
+[AppStream]
+name=CentOS-$releasever - AppStream
+baseurl=http://mirrors.aliyun.com/centos/8/AppStream/$basearch/os/
+#baseurl=http://mirrors.163.com/centos/8/AppStream/$basearch/os/
+#baseurl=https://mirror.centos.org/centos/8/AppStream/$basearch/os/
+gpgcheck=1
+enabled=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
+
+# vi /etc/yum.repos.d/CentOS-PowerTools.repo
+[PowerTools]
+name=CentOS-$releasever - PowerTools
+baseurl=http://mirrors.aliyun.com/centos/8/PowerTools/$basearch/os/
+#baseurl=http://mirrors.163.com/centos/8/PowerTools/$basearch/os/
+#baseurl=http://mirror.centos.org/centos/8/PowerTools/$basearch/os/
+gpgcheck=1
+enabled=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
+
+# vi /etc/yum.repos.d/CentOS-Extras.repo
+[Extra]
+name=CentOS-$releasever - Extra
+baseurl=http://mirrors.aliyun.com/centos/8/extras/$basearch/os/
+#baseurl=http://mirrors.163.com/centos/8/extras/$basearch/os/
+#baseurl=http://mirror.centos.org/centos/8/extras/$basearch/os/
+gpgcheck=1
+enabled=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
+
+# vi /etc/yum.repos.d/CentOS-Epel.repo
+[EPEL]
+name=CentOS-$releasever - EPEL
+baseurl=http://mirrors.aliyun.com/epel/$releasever/Everything/
+#baseurl=http://download.fedoraproject.org/pub/epel/$releasever/Everything/$basearch
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-8
+</code></pre>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Using-AppStream"><span class="toc-number">1.</span> <span class="toc-text">Using AppStream</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Listing-all-available-modules-in-AppStream"><span class="toc-number">2.</span> <span class="toc-text">Listing all available modules in AppStream</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gathering-module-Information"><span class="toc-number">3.</span> <span class="toc-text">Gathering module Information</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Selecting-a-stream-before-installation-of-packages"><span class="toc-number">4.</span> <span class="toc-text">Selecting a stream before installation of packages</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Installing-a-module-stream"><span class="toc-number">5.</span> <span class="toc-text">Installing a module stream</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Installing-a-non-default-stream-of-an-application"><span class="toc-number">6.</span> <span class="toc-text">Installing a non-default stream of an application</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Switching-to-a-later-stream"><span class="toc-number">7.</span> <span class="toc-text">Switching to a later stream</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CentOS-8-stream-repository"><span class="toc-number">8.</span> <span class="toc-text">CentOS 8 stream repository</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#x2F-etc-x2F-yum-repos-d"><span class="toc-number">8.1.</span> <span class="toc-text">&#x2F;etc&#x2F;yum.repos.d</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

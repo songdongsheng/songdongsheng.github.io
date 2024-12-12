@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Cross compiling Rust and Running with QEMU or Wine | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Cross compiling Rust and Running with QEMU or Wine
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2021/03/20</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/Rust/">Rust</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#Rust" class='tag'>Rust</a>
+
+
+          
+        </div>
+        <h1 id="Cross-compiling-Rust-and-Running-with-QEMU-or-Wine"><a href="#Cross-compiling-Rust-and-Running-with-QEMU-or-Wine" class="headerlink" title="Cross compiling Rust and Running with QEMU or Wine"></a>Cross compiling Rust and Running with QEMU or Wine</h1><h2 id="Setup-Linux"><a href="#Setup-Linux" class="headerlink" title="Setup Linux"></a>Setup Linux</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update &amp;&amp; \</span><br><span class="line">sudo apt-get dist-upgrade -y &amp;&amp; \</span><br><span class="line">sudo apt-get install -y --no-install-recommends \</span><br><span class="line">    binutils-aarch64-linux-gnu \</span><br><span class="line">    binutils-arm-linux-gnueabihf \</span><br><span class="line">    binutils-mips64-linux-gnuabi64 \</span><br><span class="line">    binutils-riscv64-linux-gnu \</span><br><span class="line">    binutils-s390x-linux-gnu \</span><br><span class="line">    binutils-x86-64-linux-gnu \</span><br><span class="line">    lld-11 \</span><br><span class="line">    musl-tools \</span><br><span class="line">    qemu-user-static \</span><br><span class="line">    wine64</span><br></pre></td></tr></table></figure>
+
+<h2 id="Setup-Rust"><a href="#Setup-Rust" class="headerlink" title="Setup Rust"></a>Setup Rust</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">curl --proto &#x27;=https&#x27; --tlsv1.2 -sSf https://sh.rustup.rs | sh</span><br><span class="line"></span><br><span class="line">rustup self update</span><br><span class="line"></span><br><span class="line">rustup update</span><br><span class="line"></span><br><span class="line">rustup target add \</span><br><span class="line">    aarch64-unknown-linux-musl \</span><br><span class="line">    arm-unknown-linux-musleabihf \</span><br><span class="line">    armv7-unknown-linux-musleabihf \</span><br><span class="line">    mips64-unknown-linux-muslabi64 \</span><br><span class="line">    riscv64gc-unknown-linux-gnu \</span><br><span class="line">    s390x-unknown-linux-gnu \</span><br><span class="line">    wasm32-wasi \</span><br><span class="line">    x86_64-pc-windows-msvc \</span><br><span class="line">    x86_64-unknown-linux-musl</span><br></pre></td></tr></table></figure>
+
+<h2 id="Setup-WebAssembly-interpreter"><a href="#Setup-WebAssembly-interpreter" class="headerlink" title="Setup WebAssembly interpreter"></a>Setup WebAssembly interpreter</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/bytecodealliance/wasmtime/releases/latest">Bytecode Alliance Wasmtime</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/wasmerio/wasmer/releases/latest">Wasmer</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/wasm3/wasm3/releases/latest">Wasm3</a></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">curl -sSL https://github.com/wasmerio/wasmer/releases/download/1.0.2/wasmer-linux-amd64.tar.gz \</span><br><span class="line">    | sudo tar -xvz --strip-components=1 -C /usr/bin --wildcards */wasmer</span><br><span class="line"></span><br><span class="line">sudo curl -sSL -o /usr/bin/wasm3 https://github.com/wasm3/wasm3/releases/download/v0.4.9/wasm3-cosmopolitan.com</span><br><span class="line">sudo chmod +x /usr/bin/wasm3</span><br><span class="line"></span><br><span class="line">curl -sSL https://github.com/bytecodealliance/wasmtime/releases/download/v0.25.0/wasmtime-v0.25.0-x86_64-linux.tar.xz \</span><br><span class="line">    | sudo tar -xvJ --strip-components=1 -C /usr/bin --wildcards */wasmtime</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">wasmer --version</span></span><br><span class="line">wasmer-headless 1.0.2</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">wasm3 --version</span></span><br><span class="line">Wasm3 v0.4.9 on x86_64</span><br><span class="line">Build: Mar 12 2021 00:17:49, GCC 9.3.0</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">wasmtime --version</span></span><br><span class="line">wasmtime 0.25.0</span><br></pre></td></tr></table></figure>
+
+<h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> &lt;&lt; <span class="string">EOF &gt; hello-world.rs</span></span><br><span class="line"><span class="string">fn main() &#123;</span></span><br><span class="line"><span class="string">    println!(&quot;Hello, world!&quot;);</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Linux-arm64"><a href="#Linux-arm64" class="headerlink" title="Linux arm64"></a>Linux arm64</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">rustc -C opt-level=3 -C link-arg=<span class="string">&quot;-s&quot;</span> \</span></span><br><span class="line"><span class="language-bash">    --target=aarch64-unknown-linux-musl -C linker=aarch64-linux-gnu-ld -o hello-world-linux-aarch64 \</span></span><br><span class="line"><span class="language-bash">    hello-world.rs</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">du</span> -ks hello-world-linux-aarch64</span></span><br><span class="line">316     hello-world-linux-aarch64</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">file hello-world-linux-aarch64</span></span><br><span class="line">hello-world-linux-aarch64: ELF 64-bit LSB executable, ARM aarch64, version 1 (SYSV), statically linked, stripped</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">qemu-aarch64-static hello-world-linux-aarch64</span></span><br><span class="line">Hello, world!</span><br></pre></td></tr></table></figure>
+
+<h2 id="Linux-armhf"><a href="#Linux-armhf" class="headerlink" title="Linux armhf"></a>Linux armhf</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">rustc -C opt-level=3 -C link-arg=<span class="string">&quot;-s&quot;</span> \</span></span><br><span class="line"><span class="language-bash">    --target=arm-unknown-linux-musleabihf -C linker=arm-linux-gnueabihf-ld -o hello-world-linux-armhf \</span></span><br><span class="line"><span class="language-bash">    hello-world.rs</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">du</span> -ks hello-world-linux-armhf</span></span><br><span class="line">304     hello-world-linux-armhf</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">file hello-world-linux-armhf</span></span><br><span class="line">hello-world-linux-armhf: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), statically linked, stripped</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">qemu-arm-static hello-world-linux-armhf</span></span><br><span class="line">Hello, world!</span><br></pre></td></tr></table></figure>
+
+<h2 id="Linux-armv7"><a href="#Linux-armv7" class="headerlink" title="Linux armv7"></a>Linux armv7</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">rustc -C opt-level=3 -C link-arg=<span class="string">&quot;-s&quot;</span> \</span></span><br><span class="line"><span class="language-bash">    --target=armv7-unknown-linux-musleabihf -C linker=arm-linux-gnueabihf-ld -o hello-world-linux-armv7 \</span></span><br><span class="line"><span class="language-bash">    hello-world.rs</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">du</span> -ks hello-world-linux-armv7</span></span><br><span class="line">276     hello-world-linux-armv7</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">file hello-world-linux-armv7</span></span><br><span class="line">hello-world-linux-armv7: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), statically linked, stripped</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">qemu-arm-static hello-world-linux-armv7</span></span><br><span class="line">Hello, world!</span><br></pre></td></tr></table></figure>
+
+<h2 id="Linux-mips64"><a href="#Linux-mips64" class="headerlink" title="Linux mips64"></a>Linux mips64</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">rustc -C opt-level=3 -C link-arg=<span class="string">&quot;-s&quot;</span> \</span></span><br><span class="line"><span class="language-bash">    --target=mips64-unknown-linux-muslabi64 -C linker=mips64-linux-gnuabi64-ld -o hello-world-linux-mips64 \</span></span><br><span class="line"><span class="language-bash">    hello-world.rs</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">du</span> -ks hello-world-linux-mips64</span></span><br><span class="line">444     hello-world-linux-mips64</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">file hello-world-linux-mips64</span></span><br><span class="line">hello-world-linux-mips64: ELF 64-bit MSB executable, MIPS, MIPS64 rel2 version 1 (SYSV), statically linked, stripped</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">qemu-mips64-static hello-world-linux-mips64</span></span><br><span class="line">Hello, world!</span><br></pre></td></tr></table></figure>
+
+<h2 id="Linux-riscv64"><a href="#Linux-riscv64" class="headerlink" title="Linux riscv64"></a>Linux riscv64</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">rustc -C opt-level=3 -C link-arg=<span class="string">&quot;-s&quot;</span> \</span></span><br><span class="line"><span class="language-bash">    --target=riscv64gc-unknown-linux-gnu -C linker=riscv64-linux-gnu-gcc -o hello-world-linux-riscv64 \</span></span><br><span class="line"><span class="language-bash">    hello-world.rs</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">du</span> -ks hello-world-linux-riscv64</span></span><br><span class="line">248     hello-world-linux-riscv64</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">file hello-world-linux-riscv64</span></span><br><span class="line">hello-world-linux-riscv64: ELF 64-bit LSB pie executable, UCB RISC-V, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-riscv64-lp64d.so.1, BuildID[sha1]=09f924445a178acccd328d89104760203b98dd43, for GNU/Linux 4.15.0, stripped</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">QEMU_LD_PREFIX=/usr/riscv64-linux-gnu/ qemu-riscv64-static ./hello-world-linux-riscv64</span></span><br><span class="line">Hello, world!</span><br></pre></td></tr></table></figure>
+
+<h2 id="Linux-s390x"><a href="#Linux-s390x" class="headerlink" title="Linux s390x"></a>Linux s390x</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">rustc -C opt-level=3 -C link-arg=<span class="string">&quot;-s&quot;</span> \</span></span><br><span class="line"><span class="language-bash">    --target=s390x-unknown-linux-gnu -C linker=s390x-linux-gnu-gcc -o hello-world-linux-s390x \</span></span><br><span class="line"><span class="language-bash">    hello-world.rs</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">du</span> -ks hello-world-linux-s390x</span></span><br><span class="line">380     hello-world-linux-s390x</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">file hello-world-linux-s390x</span></span><br><span class="line">hello-world-linux-s390x: ELF 64-bit MSB pie executable, IBM S/390, version 1 (SYSV), dynamically linked, interpreter /lib/ld64.so.1, BuildID[sha1]=313640a3ef84a9f17cba436152349c02c849a1b2, for GNU/Linux 3.2.0, stripped</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">QEMU_LD_PREFIX=/usr/s390x-linux-gnu/ qemu-s390x-static ./hello-world-linux-s390x</span></span><br><span class="line">Hello, world!</span><br></pre></td></tr></table></figure>
+
+<h2 id="Linux-x86-64"><a href="#Linux-x86-64" class="headerlink" title="Linux x86_64"></a>Linux x86_64</h2><h3 id="General"><a href="#General" class="headerlink" title="General"></a>General</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">rustc -C opt-level=3 -C link-arg=<span class="string">&quot;-s&quot;</span>  \</span></span><br><span class="line"><span class="language-bash">    --target=x86_64-unknown-linux-musl -C linker=<span class="string">&quot;x86_64-linux-gnu-ld&quot;</span> -o hello-world-linux-amd64 \</span></span><br><span class="line"><span class="language-bash">    hello-world.rs</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">du</span> -ks hello-world-linux-amd64</span></span><br><span class="line">380     hello-world-linux-amd64</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">file hello-world-linux-amd64</span></span><br><span class="line">hello-world-linux-amd64: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, stripped</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">qemu-x86_64-static hello-world-linux-amd64</span></span><br><span class="line">Hello, world!</span><br></pre></td></tr></table></figure>
+
+<h3 id="ASLR"><a href="#ASLR" class="headerlink" title="ASLR"></a>ASLR</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/rust-lang/rust/issues/70693">RFE: x86_64-unknown-linux-musl static-pie target for ASLR</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/rust-lang/rust/pull/70740">Enabling static-pie for musl</a></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cat</span> &lt;&lt; <span class="string">EOF &gt; aslr.rs</span></span></span><br><span class="line">fn main() &#123;</span><br><span class="line">    println!(&quot;main = &#123;:#x&#125;&quot;, &amp;main as *const _ as usize);</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="string">rustc -C opt-level=3 -C link-arg=&quot;-s&quot; \</span></span></span><br><span class="line"><span class="string"><span class="language-bash">    --target=x86_64-unknown-linux-musl -C linker=&quot;x86_64-linux-gnu-ld&quot; -o aslr-linux-amd64 \</span></span></span><br><span class="line"><span class="string"><span class="language-bash">    aslr.rs</span></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="string">file aslr-linux-amd64</span></span></span><br><span class="line">aslr-linux-amd64: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, stripped</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="string">du -ks aslr-linux-amd64</span></span></span><br><span class="line">380     aslr-linux-amd64</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="string">./aslr-linux-amd64</span></span></span><br><span class="line">main = 0x7ff5cb823008</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="string">./aslr-linux-amd64</span></span></span><br><span class="line">main = 0x7fd5aa251008</span><br></pre></td></tr></table></figure>
+
+<h2 id="WebAssembly-System-Interface"><a href="#WebAssembly-System-Interface" class="headerlink" title="WebAssembly System Interface"></a>WebAssembly System Interface</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">rustc -C opt-level=3 -C link-arg=<span class="string">&quot;-s&quot;</span> --target=wasm32-wasi -o hello-world-wasm32-wasi hello-world.rs</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">du</span> -ks hello-world-wasm32-wasi</span></span><br><span class="line">76      hello-world-wasm32-wasi</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">file hello-world-wasm32-wasi</span></span><br><span class="line">hello-world-wasm32-wasi: WebAssembly (wasm) binary module version 0x1 (MVP)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">wasmer run hello-world-wasm32-wasi</span></span><br><span class="line">Hello, world!</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">wasm3 hello-world-wasm32-wasi</span></span><br><span class="line">Hello, world!</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">wasmtime run hello-world-wasm32-wasi</span></span><br><span class="line">Hello, world!</span><br></pre></td></tr></table></figure>
+
+<h2 id="Windows-x86-64"><a href="#Windows-x86-64" class="headerlink" title="Windows x86_64"></a>Windows x86_64</h2><h3 id="Use-DLL-C-runtime-library"><a href="#Use-DLL-C-runtime-library" class="headerlink" title="Use DLL C runtime library"></a>Use DLL C runtime library</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">rustc -C opt-level=3 -C link-arg=<span class="string">&quot;-s&quot;</span> \</span></span><br><span class="line"><span class="language-bash">    --target=x86_64-pc-windows-msvc -C linker=lld-link-11 -o hello-world-windows-x86_64.exe \</span></span><br><span class="line"><span class="language-bash">    hello-world.rs</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">du</span> -ks hello-world-windows-x86_64.exe</span></span><br><span class="line">144     hello-world-windows-x86_64.exe</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">file hello-world-windows-x86_64.exe</span></span><br><span class="line">hello-world-windows-x86_64.exe: PE32+ executable (console) x86-64, for MS Windows</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">wine64 hello-world-windows-x86_64.exe</span></span><br><span class="line">Hello, world!</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">/usr/bin/x86_64-w64-mingw32-objdump -x hello-world-windows-x86_64.exe | grep -E <span class="string">&#x27;^\s*DLL Name&#x27;</span></span></span><br><span class="line">        DLL Name: KERNEL32.dll</span><br><span class="line">        DLL Name: VCRUNTIME140.dll</span><br><span class="line">        DLL Name: api-ms-win-crt-runtime-l1-1-0.dll</span><br><span class="line">        DLL Name: api-ms-win-crt-stdio-l1-1-0.dll</span><br><span class="line">        DLL Name: api-ms-win-crt-math-l1-1-0.dll</span><br><span class="line">        DLL Name: api-ms-win-crt-locale-l1-1-0.dll</span><br><span class="line">        DLL Name: api-ms-win-crt-heap-l1-1-0.dll</span><br></pre></td></tr></table></figure>
+
+<h3 id="Use-static-C-runtime-library"><a href="#Use-static-C-runtime-library" class="headerlink" title="Use static C runtime library"></a>Use static C runtime library</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">rustc -C opt-level=3 -C link-arg=<span class="string">&quot;-s&quot;</span> -C <span class="string">&quot;target-feature=+crt-static&quot;</span> \</span></span><br><span class="line"><span class="language-bash">    --target=x86_64-pc-windows-msvc -C linker=lld-link-11 -o hello-world-windows-x86_64.exe \</span></span><br><span class="line"><span class="language-bash">    hello-world.rs</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">du</span> -ks hello-world-windows-x86_64.exe</span></span><br><span class="line">236     hello-world-windows-x86_64.exe</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">file hello-world-windows-x86_64.exe</span></span><br><span class="line">hello-world-windows-x86_64.exe: PE32+ executable (console) x86-64, for MS Windows</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">wine64 hello-world-windows-x86_64.exe</span></span><br><span class="line">Hello, world!</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">/usr/bin/x86_64-w64-mingw32-objdump -x hello-world-windows-x86_64.exe | grep -E <span class="string">&#x27;^\s*DLL Name&#x27;</span></span></span><br><span class="line">        DLL Name: KERNEL32.dll</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Cross-compiling-Rust-and-Running-with-QEMU-or-Wine"><span class="toc-number">1.</span> <span class="toc-text">Cross compiling Rust and Running with QEMU or Wine</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Setup-Linux"><span class="toc-number">1.1.</span> <span class="toc-text">Setup Linux</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Setup-Rust"><span class="toc-number">1.2.</span> <span class="toc-text">Setup Rust</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Setup-WebAssembly-interpreter"><span class="toc-number">1.3.</span> <span class="toc-text">Setup WebAssembly interpreter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hello-World"><span class="toc-number">1.4.</span> <span class="toc-text">Hello World</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-arm64"><span class="toc-number">1.5.</span> <span class="toc-text">Linux arm64</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-armhf"><span class="toc-number">1.6.</span> <span class="toc-text">Linux armhf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-armv7"><span class="toc-number">1.7.</span> <span class="toc-text">Linux armv7</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-mips64"><span class="toc-number">1.8.</span> <span class="toc-text">Linux mips64</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-riscv64"><span class="toc-number">1.9.</span> <span class="toc-text">Linux riscv64</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-s390x"><span class="toc-number">1.10.</span> <span class="toc-text">Linux s390x</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-x86-64"><span class="toc-number">1.11.</span> <span class="toc-text">Linux x86_64</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#General"><span class="toc-number">1.11.1.</span> <span class="toc-text">General</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ASLR"><span class="toc-number">1.11.2.</span> <span class="toc-text">ASLR</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WebAssembly-System-Interface"><span class="toc-number">1.12.</span> <span class="toc-text">WebAssembly System Interface</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows-x86-64"><span class="toc-number">1.13.</span> <span class="toc-text">Windows x86_64</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Use-DLL-C-runtime-library"><span class="toc-number">1.13.1.</span> <span class="toc-text">Use DLL C runtime library</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Use-static-C-runtime-library"><span class="toc-number">1.13.2.</span> <span class="toc-text">Use static C runtime library</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>SSH Proxy and Forwarding | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          SSH Proxy and Forwarding
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/05/03</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/Linux/">Linux</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+  <a href="/tags/#Operating%20system" class='tag'>Operating system</a>
+
+
+          
+        </div>
+        <h1 id="SSH-Proxy-and-Forwarding"><a href="#SSH-Proxy-and-Forwarding" class="headerlink" title="SSH Proxy and Forwarding"></a>SSH Proxy and Forwarding</h1><p>SSH not only can be used as a SOCKS5 proxy to access the remote network, but also be used to do port forwarding from local to the given remote side, or vice versa.</p>
+<h2 id="SOCKS5-proxy-to-access-the-remote-network"><a href="#SOCKS5-proxy-to-access-the-remote-network" class="headerlink" title="SOCKS5 proxy to access the remote network"></a>SOCKS5 proxy to access the remote network</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">while true; do</span><br><span class="line">    date</span><br><span class="line">    ssh -C -N -T -D 4080 user@example.com</span><br><span class="line">    echo</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<h2 id="SOCKS5-proxy-to-access-the-local-network"><a href="#SOCKS5-proxy-to-access-the-local-network" class="headerlink" title="SOCKS5 proxy to access the local network"></a>SOCKS5 proxy to access the local network</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">while true; do</span><br><span class="line">    date</span><br><span class="line">    ssh -C -N -T -R 4080 user@example.com</span><br><span class="line">    echo</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<h2 id="Forward-local-traffic-to-the-remote-side"><a href="#Forward-local-traffic-to-the-remote-side" class="headerlink" title="Forward local traffic to the remote side"></a>Forward local traffic to the remote side</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">while true; do</span><br><span class="line">    date</span><br><span class="line">    ssh -C -N -T -L 127.0.0.1:4080:192.168.121.121:80 user@example.com</span><br><span class="line">    echo</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<h2 id="Forward-remote-traffic-to-the-local-side"><a href="#Forward-remote-traffic-to-the-local-side" class="headerlink" title="Forward remote traffic to the local side"></a>Forward remote traffic to the local side</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">while true; do</span><br><span class="line">    date</span><br><span class="line">    ssh -C -N -T -R 127.0.0.1:4080:10.20.30.40:80 user@example.com</span><br><span class="line">    echo</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<h2 id="Cookbook"><a href="#Cookbook" class="headerlink" title="Cookbook"></a>Cookbook</h2><h3 id="options"><a href="#options" class="headerlink" title="options"></a>options</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">-4      Forces ssh to use IPv4 addresses only.</span><br><span class="line">-6      Forces ssh to use IPv6 addresses only.</span><br><span class="line"></span><br><span class="line">-C      Requests compression of all data (including stdin, stdout, stderr, and data for forwarded X11, TCP and</span><br><span class="line">        UNIX-domain connections).  The compression algorithm is the same used by gzip(1).  Compression is desirable on</span><br><span class="line">        modem lines and other slow connections, but will only slow down things on fast networks.  The default value can</span><br><span class="line">        be set on a host-by-host basis in the configuration files; see the Compression option.</span><br><span class="line"></span><br><span class="line">-N      Do not execute a remote command.  This is useful for just forwarding ports.</span><br><span class="line"></span><br><span class="line">-L [bind_address:]port:host:hostport</span><br><span class="line">-L [bind_address:]port:remote_socket</span><br><span class="line">-L local_socket:host:hostport</span><br><span class="line">-L local_socket:remote_socket</span><br><span class="line">        Specifies that connections to the given TCP port or Unix socket on the local (client) host are to be forwarded</span><br><span class="line">        to the given host and port, or Unix socket, on the remote side.  This works by allocating a socket to listen to</span><br><span class="line">        either a TCP port on the local side, optionally bound to the specified bind_address, or to a Unix socket.  When‐</span><br><span class="line">        ever a connection is made to the local port or socket, the connection is forwarded over the secure channel, and</span><br><span class="line">        a connection is made to either host port hostport, or the Unix socket remote_socket, from the remote machine.</span><br><span class="line"></span><br><span class="line">        Port forwardings can also be specified in the configuration file.  Only the superuser can forward privileged</span><br><span class="line">        ports.  IPv6 addresses can be specified by enclosing the address in square brackets.</span><br><span class="line"></span><br><span class="line">        By default, the local port is bound in accordance with the GatewayPorts setting.  However, an explicit</span><br><span class="line">        bind_address may be used to bind the connection to a specific address.  The bind_address of “localhost” indi‐</span><br><span class="line">        cates that the listening port be bound for local use only, while an empty address or ‘*’ indicates that the port</span><br><span class="line">        should be available from all interfaces.</span><br><span class="line"></span><br><span class="line">-R [bind_address:]port:host:hostport</span><br><span class="line">-R [bind_address:]port:local_socket</span><br><span class="line">-R remote_socket:host:hostport</span><br><span class="line">-R remote_socket:local_socket</span><br><span class="line">-R [bind_address:]port</span><br><span class="line">        Specifies that connections to the given TCP port or Unix socket on the remote (server) host are to be forwarded</span><br><span class="line">        to the local side.</span><br><span class="line"></span><br><span class="line">        This works by allocating a socket to listen to either a TCP port or to a Unix socket on the remote side.  When‐</span><br><span class="line">        ever a connection is made to this port or Unix socket, the connection is forwarded over the secure channel, and</span><br><span class="line">        a connection is made from the local machine to either an explicit destination specified by host port hostport,</span><br><span class="line">        or local_socket, or, if no explicit destination was specified, ssh will act as a SOCKS 4/5 proxy and forward</span><br><span class="line">        connections to the destinations requested by the remote SOCKS client.</span><br><span class="line"></span><br><span class="line">        Port forwardings can also be specified in the configuration file.  Privileged ports can be forwarded only when</span><br><span class="line">        logging in as root on the remote machine.  IPv6 addresses can be specified by enclosing the address in square</span><br><span class="line">        brackets.</span><br><span class="line"></span><br><span class="line">        By default, TCP listening sockets on the server will be bound to the loopback interface only.  This may be over‐</span><br><span class="line">        ridden by specifying a bind_address.  An empty bind_address, or the address ‘*’, indicates that the remote</span><br><span class="line">        socket should listen on all interfaces.  Specifying a remote bind_address will only succeed if the server&#x27;s</span><br><span class="line">        GatewayPorts option is enabled (see sshd_config(5)).</span><br><span class="line"></span><br><span class="line">        If the port argument is ‘0’, the listen port will be dynamically allocated on the server and reported to the</span><br><span class="line">        client at run time.  When used together with -O forward the allocated port will be printed to the standard out‐</span><br><span class="line">        put.</span><br><span class="line"></span><br><span class="line">-X      Enables X11 forwarding.  This can also be specified on a per-host basis in a configuration file.</span><br><span class="line"></span><br><span class="line">        X11 forwarding should be enabled with caution.  Users with the ability to bypass file permissions on the remote</span><br><span class="line">        host (for the user&#x27;s X authorization database) can access the local X11 display through the forwarded connec‐</span><br><span class="line">        tion.  An attacker may then be able to perform activities such as keystroke monitoring.</span><br><span class="line"></span><br><span class="line">        For this reason, X11 forwarding is subjected to X11 SECURITY extension restrictions by default.  Please refer to</span><br><span class="line">        the ssh -Y option and the ForwardX11Trusted directive in ssh_config(5) for more information.</span><br><span class="line"></span><br><span class="line">        (Debian-specific: X11 forwarding is not subjected to X11 SECURITY extension restrictions by default, because too</span><br><span class="line">        many programs currently crash in this mode.  Set the ForwardX11Trusted option to “no” to restore the upstream</span><br><span class="line">        behaviour.  This may change in future depending on client-side improvements.)</span><br><span class="line"></span><br><span class="line">-f      Requests ssh to go to background just before command execution.  This is useful if ssh is going to ask for pass‐</span><br><span class="line">        words or passphrases, but the user wants it in the background.  This implies -n.  The recommended way to start</span><br><span class="line">        X11 programs at a remote site is with something like ssh -f host xterm.</span><br><span class="line"></span><br><span class="line">        If the ExitOnForwardFailure configuration option is set to “yes”, then a client started with -f will wait for</span><br><span class="line">        all remote port forwards to be successfully established before placing itself in the background.</span><br><span class="line"></span><br><span class="line">-n      Redirects stdin from /dev/null (actually, prevents reading from stdin).  This must be used when ssh is run in</span><br><span class="line">        the background.  A common trick is to use this to run X11 programs on a remote machine.  For example, ssh -n</span><br><span class="line">        shadows.cs.hut.fi emacs &amp; will start an emacs on shadows.cs.hut.fi, and the X11 connection will be automatically</span><br><span class="line">        forwarded over an encrypted channel.  The ssh program will be put in the background.  (This does not work if ssh</span><br><span class="line">        needs to ask for a password or passphrase; see also the -f option.)</span><br></pre></td></tr></table></figure>
+
+<h3 id="IPv4"><a href="#IPv4" class="headerlink" title="IPv4"></a>IPv4</h3><p>Running a local SOCKS5 proxy on TCP port 4080, and forward connection is made from the remote machine on the TCP port 4022, to the local host TCP port 22.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">while true; do</span><br><span class="line">    date</span><br><span class="line">    ssh -C -N -T -4 -D 4080 -R 127.0.0.1:4022:127.0.0.1:22 user@example.com</span><br><span class="line">    echo</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<h3 id="IPv6"><a href="#IPv6" class="headerlink" title="IPv6"></a>IPv6</h3><p>Running a local SOCKS5 proxy on TCP port 6080, and forward connection is made from the remote machine on the TCP port 6022, to the local host TCP port 22.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">while true; do</span><br><span class="line">    date</span><br><span class="line">    ssh -C -N -T -6 -D 6080 -R [::1]:6022:[::1]:22 user@example.com</span><br><span class="line">    echo</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SSH-Proxy-and-Forwarding"><span class="toc-number">1.</span> <span class="toc-text">SSH Proxy and Forwarding</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#SOCKS5-proxy-to-access-the-remote-network"><span class="toc-number">1.1.</span> <span class="toc-text">SOCKS5 proxy to access the remote network</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SOCKS5-proxy-to-access-the-local-network"><span class="toc-number">1.2.</span> <span class="toc-text">SOCKS5 proxy to access the local network</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Forward-local-traffic-to-the-remote-side"><span class="toc-number">1.3.</span> <span class="toc-text">Forward local traffic to the remote side</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Forward-remote-traffic-to-the-local-side"><span class="toc-number">1.4.</span> <span class="toc-text">Forward remote traffic to the local side</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cookbook"><span class="toc-number">1.5.</span> <span class="toc-text">Cookbook</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#options"><span class="toc-number">1.5.1.</span> <span class="toc-text">options</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IPv4"><span class="toc-number">1.5.2.</span> <span class="toc-text">IPv4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IPv6"><span class="toc-number">1.5.3.</span> <span class="toc-text">IPv6</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Windows Server 2022 generally available | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Windows Server 2022 generally available
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2021/09/04</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/Windows/">Windows</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Windows" class='tag'>Windows</a>
+
+  <a href="/tags/#Operating%20system" class='tag'>Operating system</a>
+
+
+          
+        </div>
+        <h1 id="Windows-Server-2022-generally-available"><a href="#Windows-Server-2022-generally-available" class="headerlink" title="Windows Server 2022 generally available"></a>Windows Server 2022 generally available</h1><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Windows Server 2022 now generally available — Microsoft rolled out Windows Server 2022 earlier this week in an unusually understated fashion, delivers innovation in security, hybrid, and containers.</p>
+<p>According to the <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/lifecycle/products/windows-server-2022">Windows Server 2022 life cycle support page</a>, Windows Server 2022 reached general availability on Aug 18, 2021.</p>
+<h2 id="Windows-Server-2022-Lifecycle"><a href="#Windows-Server-2022-Lifecycle" class="headerlink" title="Windows Server 2022 Lifecycle"></a>Windows Server 2022 Lifecycle</h2><p>Windows Server 2022 follows the Fixed Lifecycle Policy. Windows Server LTSCs Get 10 Years of Support, i.e. “5 years of mainstream support and 5 years of extended support”.</p>
+<p>This applies to the following editions: Datacenter, Datacenter: Azure Edition, Standard</p>
+<table>
+<thead>
+<tr>
+<th>Start Date</th>
+<th>Mainstream End Date</th>
+<th>Extended End Date</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Aug 18, 2021</td>
+<td>Oct 13, 2026</td>
+<td>Oct 14, 2031</td>
+</tr>
+</tbody></table>
+<h2 id="Windows-Server-2022-Features"><a href="#Windows-Server-2022-Features" class="headerlink" title="Windows Server 2022 Features"></a>Windows Server 2022 Features</h2><h3 id="HTTPS-and-TLS-1-3-Enabled-by-Default"><a href="#HTTPS-and-TLS-1-3-Enabled-by-Default" class="headerlink" title="HTTPS and TLS 1.3 Enabled by Default"></a>HTTPS and TLS 1.3 Enabled by Default</h3><p>Windows Server 2022 use the latest security protocols, including HTTPS and TLS 1.3 by default. The server have TLS 1.0 and TLS 1.1 turned off by default.</p>
+<h3 id="Encrypted-DNS-queries-with-DoH"><a href="#Encrypted-DNS-queries-with-DoH" class="headerlink" title="Encrypted DNS queries with DoH"></a>Encrypted DNS queries with DoH</h3><p>DNS Client in Windows Server 2022 now supports DNS-over-HTTPS (DoH) which encrypts DNS queries using the HTTPS protocol. This helps keep your traffic as private as possible by preventing eavesdropping and your DNS data being manipulated. Learn more about <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows-server/networking/dns/doh-client-support">configuring the DNS client to use DoH</a>.</p>
+<h3 id="SMB-AES-256-Encryption"><a href="#SMB-AES-256-Encryption" class="headerlink" title="SMB AES-256 Encryption"></a>SMB AES-256 Encryption</h3><p>Windows Server now supports AES-256-GCM and AES-256-CCM cryptographic suites for SMB encryption and signing. Windows will automatically negotiate this more advanced cipher method when connecting to another computer that also supports it, and it can also be mandated through Group Policy. Windows Server still supports AES-128 for down-level compatibility.</p>
+<h3 id="SMB-Direct-and-RDMA-Encryption"><a href="#SMB-Direct-and-RDMA-Encryption" class="headerlink" title="SMB Direct and RDMA Encryption"></a>SMB Direct and RDMA Encryption</h3><p>SMB Direct and RDMA supply high bandwidth, low latency networking fabric for workloads like Storage Spaces Direct, Storage Replica, Hyper-V, Scale-out File Server, and SQL Server.</p>
+<blockquote>
+<p>In the past, if you were doing SMB direct and using SMB as a fabric, we did not let you encrypt. If you wanted to use encryption we’d let you turn it on and then we would turn off RDMA. Your performance would be really really terrible. Now, you’re going to have the best of both worlds.</p>
+</blockquote>
+<h3 id="Server-Message-Block-over-QUIC"><a href="#Server-Message-Block-over-QUIC" class="headerlink" title="Server Message Block over QUIC"></a>Server Message Block over QUIC</h3><p>SMB over QUIC updates the SMB 3.1.1 protocol in Windows Server 2022, it relies on the User Datagram Protocol (UDP) and the Transport Layer Security (TLS) 1.3 protocols. Mobile and telecommuter users no longer need a VPN to access their file servers over SMB when on Windows. More information can be found at the <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows-server/storage/file-server/smb-over-quic">SMB over QUIC documentation</a>.</p>
+<h3 id="SMB-Compression"><a href="#SMB-Compression" class="headerlink" title="SMB Compression"></a>SMB Compression</h3><p>Windows Server 2022 has an SMB compression capability that can optionally compress files to speed up file transfers.</p>
+<p>Per demonstrated how SMB compression handled a 20GB file during a <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/robocopy">robocopy</a> operation, it took almost three minutes to compress the 20GB file during the robocopy operation without SMB compression. With SMB compression turned on, the compression time was reduced to about 30 seconds. These compression benefits extend to end users accessing a file share through Windows Explorer, as well.</p>
+<h3 id="UDP-performance-improvements"><a href="#UDP-performance-improvements" class="headerlink" title="UDP performance improvements"></a>UDP performance improvements</h3><p>UDP is becoming a very popular protocol carrying more and more network traffic. The increasing popularity of RTP and custom (UDP) streaming and gaming protocols The QUIC protocol, built on top of UDP, brings the performance of UDP to a level on par with TCP. Significantly, Windows Server 2022 includes UDP Segmentation Offload (USO). USO moves most of the work required to send UDP packets from the CPU to the network adapter’s specialized hardware. Complimenting USO is UDP Receive Side Coalescing (UDP RSC), which coalesces packets and reduces CPU usage for UDP processing. In addition, we have also made hundreds of improvements to the UDP data path both transmit and receive. Windows Server 2022 and Windows 11 both have this new capability.</p>
+<h3 id="TCP-performance-improvements"><a href="#TCP-performance-improvements" class="headerlink" title="TCP performance improvements"></a>TCP performance improvements</h3><p>Windows Server 2022 uses TCP <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/draft-ietf-tcpm-hystartplusplus-03">HyStart++</a> to reduce packet loss during connection start-up (especially in high-speed networks) and <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc8985">RACK-TLP Loss Detection Algorithm</a> to reduce Retransmit TimeOuts (RTO). These features are enabled in the transport stack by default and provide a smoother network data flow with better performance at high speeds. Windows Server 2022 and Windows 11 both have this new capability.</p>
+<h3 id="Application-platform"><a href="#Application-platform" class="headerlink" title="Application platform"></a>Application platform</h3><p>There are several platform improvements for Windows Containers, including application compatibility and the Windows Container experience with Kubernetes. A major improvement includes reducing the Windows Container image size by up to 40%, which leads to a 30% faster startup time and better performance.</p>
+<p>You can now also run applications that depend on Azure Active Directory with group Managed Services Accounts (gMSA) <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/virtualization/windowscontainers/manage-containers/manage-serviceaccounts">without domain joining the container host</a>, and Windows Containers now support Microsoft Distributed Transaction Control (MSDTC) and Microsoft Message Queuing (MSMQ).</p>
+<p>There are several other enhancements that simplify the Windows Container experience with Kubernetes. These enhancements include support for host-process containers for node configuration, IPv6, and consistent network policy implementation with Calico.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>Windows Server 2022 has some notable new features. On the security side, it has Secured Core boot protection, TLS 1.3 protocol use by default and Domain Name System over HTTPS encryption. Communications will be better protected from viewing with Server Message Block (SMB) over QUIC capability. The server also will have SMB compression for speedier file access.</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://cloudblogs.microsoft.com/windowsserver/2021/09/01/windows-server-2022-now-generally-available-delivers-innovation-in-security-hybrid-and-containers/">Windows Server 2022 now generally available</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/lifecycle/products/windows-server-2022">Windows Server 2022 life cycle support page</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows-server/storage/file-server/smb-over-quic">SMB over QUIC</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows-server/storage/file-server/smb-compression">SMB compression</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows-server/networking/dns/doh-client-support">Configuring the DNS client to use DoH</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/virtualization/windowscontainers/manage-containers/manage-serviceaccounts">Create gMSAs for Windows containers</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/robocopy">robocopy</a></li>
+</ul>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Windows-Server-2022-generally-available"><span class="toc-number">1.</span> <span class="toc-text">Windows Server 2022 generally available</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-number">1.1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows-Server-2022-Lifecycle"><span class="toc-number">1.2.</span> <span class="toc-text">Windows Server 2022 Lifecycle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows-Server-2022-Features"><span class="toc-number">1.3.</span> <span class="toc-text">Windows Server 2022 Features</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTPS-and-TLS-1-3-Enabled-by-Default"><span class="toc-number">1.3.1.</span> <span class="toc-text">HTTPS and TLS 1.3 Enabled by Default</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Encrypted-DNS-queries-with-DoH"><span class="toc-number">1.3.2.</span> <span class="toc-text">Encrypted DNS queries with DoH</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SMB-AES-256-Encryption"><span class="toc-number">1.3.3.</span> <span class="toc-text">SMB AES-256 Encryption</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SMB-Direct-and-RDMA-Encryption"><span class="toc-number">1.3.4.</span> <span class="toc-text">SMB Direct and RDMA Encryption</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Server-Message-Block-over-QUIC"><span class="toc-number">1.3.5.</span> <span class="toc-text">Server Message Block over QUIC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SMB-Compression"><span class="toc-number">1.3.6.</span> <span class="toc-text">SMB Compression</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UDP-performance-improvements"><span class="toc-number">1.3.7.</span> <span class="toc-text">UDP performance improvements</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-performance-improvements"><span class="toc-number">1.3.8.</span> <span class="toc-text">TCP performance improvements</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Application-platform"><span class="toc-number">1.3.9.</span> <span class="toc-text">Application platform</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion"><span class="toc-number">1.4.</span> <span class="toc-text">Conclusion</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">1.5.</span> <span class="toc-text">Reference</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

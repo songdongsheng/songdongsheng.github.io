@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>.NET on Linux | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          .NET on Linux
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2021/04/05</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>/ <a class="article-category-link" href="/categories/Programming/NET/">.NET</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+  <a href="/tags/#.NET" class='tag'>.NET</a>
+
+
+          
+        </div>
+        <h1 id="NET-on-Linux"><a href="#NET-on-Linux" class="headerlink" title=".NET on Linux"></a>.NET on Linux</h1><h2 id="Supported-Versions"><a href="#Supported-Versions" class="headerlink" title="Supported Versions"></a>Supported Versions</h2><table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Status</th>
+<th>Latest release</th>
+<th>General available</th>
+<th>End of support</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>.NET 5.0</td>
+<td>Current</td>
+<td>5.0.5</td>
+<td>2020-11-10</td>
+<td>&amp;nbsp;</td>
+</tr>
+<tr>
+<td>.NET Core 3.1</td>
+<td>LTS</td>
+<td>3.1.13</td>
+<td>2019-12-03</td>
+<td>2022-12-03</td>
+</tr>
+<tr>
+<td>.NET Core 2.1</td>
+<td>LTS</td>
+<td>2.1.26</td>
+<td>2018-05-30</td>
+<td>2021-08-21</td>
+</tr>
+</tbody></table>
+<h2 id="Supported-Linux"><a href="#Supported-Linux" class="headerlink" title="Supported Linux"></a>Supported Linux</h2><ul>
+<li>Alpine 3.11, 3.12</li>
+<li>Debian 9, 10</li>
+<li>Fedora 32, 33</li>
+<li>RHEL 7, 8</li>
+<li>SLES 12, 15</li>
+<li>Ubuntu 18.04, 20.04</li>
+</ul>
+<h2 id="Download-NET"><a href="#Download-NET" class="headerlink" title="Download .NET"></a>Download .NET</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://dotnet.microsoft.com/download">https://dotnet.microsoft.com/download</a></li>
+<li><a target="_blank" rel="noopener" href="https://dotnet.microsoft.com/download/dotnet">https://dotnet.microsoft.com/download/dotnet</a></li>
+<li><a target="_blank" rel="noopener" href="https://dotnet.microsoft.com/download/dotnet-framework">https://dotnet.microsoft.com/download/dotnet-framework</a></li>
+</ul>
+<h2 id="NET-in-Docker"><a href="#NET-in-Docker" class="headerlink" title=".NET in Docker"></a>.NET in Docker</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker pull mcr.microsoft.com/dotnet/sdk:5.0</span><br><span class="line">docker pull mcr.microsoft.com/dotnet/sdk:3.1</span><br><span class="line">docker pull mcr.microsoft.com/dotnet/sdk:2.1</span><br><span class="line">docker pull mcr.microsoft.com/dotnet/framework/sdk:4.8</span><br></pre></td></tr></table></figure>
+
+<h2 id="Install-NET-on-Linux"><a href="#Install-NET-on-Linux" class="headerlink" title="Install .NET on Linux"></a>Install .NET on Linux</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/dotnet/core/additional-tools/uninstall-tool">https://docs.microsoft.com/en-us/dotnet/core/additional-tools/uninstall-tool</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/dotnet/core/install/linux">https://docs.microsoft.com/en-us/dotnet/core/install/linux</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/dotnet/core/install/linux-alpine">https://docs.microsoft.com/en-us/dotnet/core/install/linux-alpine</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/dotnet/core/install/linux-debian">https://docs.microsoft.com/en-us/dotnet/core/install/linux-debian</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/dotnet/core/install/linux-fedora">https://docs.microsoft.com/en-us/dotnet/core/install/linux-fedora</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/dotnet/core/install/linux-rhel">https://docs.microsoft.com/en-us/dotnet/core/install/linux-rhel</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/dotnet/core/install/linux-sles">https://docs.microsoft.com/en-us/dotnet/core/install/linux-sles</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/dotnet/core/install/linux-ubuntu">https://docs.microsoft.com/en-us/dotnet/core/install/linux-ubuntu</a></li>
+</ul>
+<h2 id="Hello-World-in-10-minutes"><a href="#Hello-World-in-10-minutes" class="headerlink" title="Hello World in 10 minutes"></a>Hello World in 10 minutes</h2><h3 id="Check-everything-installed-correctly"><a href="#Check-everything-installed-correctly" class="headerlink" title="Check everything installed correctly"></a>Check everything installed correctly</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">dotnet  --info</span></span><br><span class="line">.NET SDK (reflecting any global.json):</span><br><span class="line"> Version:   5.0.202</span><br><span class="line"> Commit:    db7cc87d51</span><br><span class="line"></span><br><span class="line">Runtime Environment:</span><br><span class="line"> OS Name:     ubuntu</span><br><span class="line"> OS Version:  20.04</span><br><span class="line"> OS Platform: Linux</span><br><span class="line"> RID:         ubuntu.20.04-x64</span><br><span class="line"> Base Path:   /opt/dotnet-sdk-5/sdk/5.0.202/</span><br><span class="line"></span><br><span class="line">Host (useful for support):</span><br><span class="line">  Version: 5.0.5</span><br><span class="line">  Commit:  2f740adc14</span><br><span class="line"></span><br><span class="line">.NET SDKs installed:</span><br><span class="line">  3.1.407 [/opt/dotnet-sdk-5/sdk]</span><br><span class="line">  5.0.202 [/opt/dotnet-sdk-5/sdk]</span><br><span class="line"></span><br><span class="line">.NET runtimes installed:</span><br><span class="line">  Microsoft.AspNetCore.App 3.1.13 [/opt/dotnet-sdk-5/shared/Microsoft.AspNetCore.App]</span><br><span class="line">  Microsoft.AspNetCore.App 5.0.5 [/opt/dotnet-sdk-5/shared/Microsoft.AspNetCore.App]</span><br><span class="line">  Microsoft.NETCore.App 3.1.13 [/opt/dotnet-sdk-5/shared/Microsoft.NETCore.App]</span><br><span class="line">  Microsoft.NETCore.App 5.0.5 [/opt/dotnet-sdk-5/shared/Microsoft.NETCore.App]</span><br><span class="line"></span><br><span class="line">To install additional .NET runtimes or SDKs:</span><br><span class="line">  https://aka.ms/dotnet-download</span><br></pre></td></tr></table></figure>
+
+<h3 id="Create-your-app"><a href="#Create-your-app" class="headerlink" title="Create your app"></a>Create your app</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">dotnet new console -o myApp</span></span><br><span class="line"></span><br><span class="line">Welcome to .NET 5.0!</span><br><span class="line">---------------------</span><br><span class="line">SDK Version: 5.0.202</span><br><span class="line"></span><br><span class="line">Telemetry</span><br><span class="line">---------</span><br><span class="line">The .NET tools collect usage data in order to help us improve your experience. It is collected by Microsoft and shared w</span><br><span class="line">ith the community. You can opt-out of telemetry by setting the DOTNET_CLI_TELEMETRY_OPTOUT environment variable to &#x27;1&#x27; o</span><br><span class="line">r &#x27;true&#x27; using your favorite shell.</span><br><span class="line"></span><br><span class="line">Read more about .NET CLI Tools telemetry: https://aka.ms/dotnet-cli-telemetry</span><br><span class="line"></span><br><span class="line">----------------</span><br><span class="line">Installed an ASP.NET Core HTTPS development certificate.</span><br><span class="line">To trust the certificate run &#x27;dotnet dev-certs https --trust&#x27; (Windows and macOS only).</span><br><span class="line">Learn about HTTPS: https://aka.ms/dotnet-https</span><br><span class="line">----------------</span><br><span class="line">Write your first app: https://aka.ms/dotnet-hello-world</span><br><span class="line">Find out what&#x27;s new: https://aka.ms/dotnet-whats-new</span><br><span class="line">Explore documentation: https://aka.ms/dotnet-docs</span><br><span class="line">Report issues and find source on GitHub: https://github.com/dotnet/core</span><br><span class="line">Use &#x27;dotnet --help&#x27; to see available commands or visit: https://aka.ms/dotnet-cli</span><br><span class="line">--------------------------------------------------------------------------------------</span><br><span class="line">Getting ready...</span><br><span class="line">The template &quot;Console Application&quot; was created successfully.</span><br><span class="line"></span><br><span class="line">Processing post-creation actions...</span><br><span class="line">Running &#x27;dotnet restore&#x27; on myApp/myApp.csproj...</span><br><span class="line">  Determining projects to restore...</span><br><span class="line">  Restored /tmp/x/myApp/myApp.csproj (in 75 ms).</span><br><span class="line">Restore succeeded.</span><br></pre></td></tr></table></figure>
+
+<h3 id="Run-your-app"><a href="#Run-your-app" class="headerlink" title="Run your app"></a>Run your app</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">find myApp/ -<span class="built_in">type</span> f</span></span><br><span class="line">myApp/Program.cs</span><br><span class="line">myApp/myApp.csproj</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">dotnet run</span></span><br><span class="line">Hello World!</span><br></pre></td></tr></table></figure>
+
+<h3 id="Build-your-app"><a href="#Build-your-app" class="headerlink" title="Build your app"></a>Build your app</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">dotnet build -c Release</span></span><br><span class="line">Microsoft (R) Build Engine version 16.9.0+57a23d249 for .NET</span><br><span class="line">Copyright (C) Microsoft Corporation. All rights reserved.</span><br><span class="line"></span><br><span class="line">  Determining projects to restore...</span><br><span class="line">  Restored /tmp/x/myApp/myApp.csproj (in 78 ms).</span><br><span class="line">  myApp -&gt; /tmp/x/myApp/bin/Release/net5.0/myApp.dll</span><br><span class="line"></span><br><span class="line">Build succeeded.</span><br><span class="line">    0 Warning(s)</span><br><span class="line">    0 Error(s)</span><br><span class="line"></span><br><span class="line">Time Elapsed 00:00:01.34</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">find /tmp/x/myApp/bin/Release/ -<span class="built_in">type</span> f</span></span><br><span class="line">/tmp/x/myApp/bin/Release/net5.0/myApp.deps.json</span><br><span class="line">/tmp/x/myApp/bin/Release/net5.0/myApp.runtimeconfig.json</span><br><span class="line">/tmp/x/myApp/bin/Release/net5.0/myApp.pdb</span><br><span class="line">/tmp/x/myApp/bin/Release/net5.0/myApp.dll</span><br><span class="line">/tmp/x/myApp/bin/Release/net5.0/myApp</span><br><span class="line">/tmp/x/myApp/bin/Release/net5.0/ref/myApp.dll</span><br><span class="line">/tmp/x/myApp/bin/Release/net5.0/myApp.runtimeconfig.dev.json</span><br></pre></td></tr></table></figure>
+
+<h3 id="Publish-your-app"><a href="#Publish-your-app" class="headerlink" title="Publish your app"></a>Publish your app</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">dotnet publish -c Release</span></span><br><span class="line">Microsoft (R) Build Engine version 16.9.0+57a23d249 for .NET</span><br><span class="line">Copyright (C) Microsoft Corporation. All rights reserved.</span><br><span class="line"></span><br><span class="line">  Determining projects to restore...</span><br><span class="line">  All projects are up-to-date for restore.</span><br><span class="line">  myApp -&gt; /tmp/x/myApp/bin/Release/net5.0/myApp.dll</span><br><span class="line">  myApp -&gt; /tmp/x/myApp/bin/Release/net5.0/publish/</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">find bin/Release/net5.0/publish/ -<span class="built_in">type</span> f</span></span><br><span class="line">bin/Release/net5.0/publish/myApp.deps.json</span><br><span class="line">bin/Release/net5.0/publish/myApp.runtimeconfig.json</span><br><span class="line">bin/Release/net5.0/publish/myApp.pdb</span><br><span class="line">bin/Release/net5.0/publish/myApp.dll</span><br><span class="line">bin/Release/net5.0/publish/myApp</span><br></pre></td></tr></table></figure>
+
+<h3 id="Publish-the-NET-runtime-with-your-app"><a href="#Publish-the-NET-runtime-with-your-app" class="headerlink" title="Publish the .NET runtime with your app"></a>Publish the .NET runtime with your app</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">dotnet publish -c Release --runtime linux-x64</span></span><br><span class="line">Microsoft (R) Build Engine version 16.9.0+57a23d249 for .NET</span><br><span class="line">Copyright (C) Microsoft Corporation. All rights reserved.</span><br><span class="line"></span><br><span class="line">  Determining projects to restore...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  Restored /tmp/x/myApp/myApp.csproj (in 1.43 min).</span><br><span class="line">  myApp -&gt; /tmp/x/myApp/bin/Release/net5.0/linux-x64/myApp.dll</span><br><span class="line">  myApp -&gt; /tmp/x/myApp/bin/Release/net5.0/linux-x64/publish/</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">/tmp/x/myApp/bin/Release/net5.0/linux-x64/myApp</span></span><br><span class="line">Hello World!</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">du</span> -ks /tmp/x/myApp/bin/Release/net5.0/linux-x64</span></span><br><span class="line">147756  /tmp/x/myApp/bin/Release/net5.0/linux-x64</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">find /tmp/x/myApp/bin/Release/net5.0/linux-x64 -<span class="built_in">type</span> f | <span class="built_in">wc</span> -l</span></span><br><span class="line">374</span><br></pre></td></tr></table></figure>
+
+<h3 id="Publish-Single-File-with-your-app"><a href="#Publish-Single-File-with-your-app" class="headerlink" title="Publish Single File with your app"></a>Publish Single File with your app</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">dotnet publish -c Release --runtime linux-x64 -p:PublishSingleFile=<span class="literal">true</span></span></span><br><span class="line">Microsoft (R) Build Engine version 16.9.0+57a23d249 for .NET</span><br><span class="line">Copyright (C) Microsoft Corporation. All rights reserved.</span><br><span class="line"></span><br><span class="line">  Determining projects to restore...</span><br><span class="line">  All projects are up-to-date for restore.</span><br><span class="line">  myApp -&gt; /tmp/x/myApp/bin/Release/net5.0/linux-x64/myApp.dll</span><br><span class="line">  myApp -&gt; /tmp/x/myApp/bin/Release/net5.0/linux-x64/publish/</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">/tmp/x/myApp/bin/Release/net5.0/linux-x64/myApp</span></span><br><span class="line">Hello World!</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">du</span> -ks /tmp/x/myApp/bin/Release/net5.0/linux-x64</span></span><br><span class="line">145140  /tmp/x/myApp/bin/Release/net5.0/linux-x64</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">find /tmp/x/myApp/bin/Release/net5.0/linux-x64 -<span class="built_in">type</span> f | <span class="built_in">wc</span> -l</span></span><br><span class="line">190</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#NET-on-Linux"><span class="toc-number">1.</span> <span class="toc-text">.NET on Linux</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Supported-Versions"><span class="toc-number">1.1.</span> <span class="toc-text">Supported Versions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Supported-Linux"><span class="toc-number">1.2.</span> <span class="toc-text">Supported Linux</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Download-NET"><span class="toc-number">1.3.</span> <span class="toc-text">Download .NET</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NET-in-Docker"><span class="toc-number">1.4.</span> <span class="toc-text">.NET in Docker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Install-NET-on-Linux"><span class="toc-number">1.5.</span> <span class="toc-text">Install .NET on Linux</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hello-World-in-10-minutes"><span class="toc-number">1.6.</span> <span class="toc-text">Hello World in 10 minutes</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Check-everything-installed-correctly"><span class="toc-number">1.6.1.</span> <span class="toc-text">Check everything installed correctly</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-your-app"><span class="toc-number">1.6.2.</span> <span class="toc-text">Create your app</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-your-app"><span class="toc-number">1.6.3.</span> <span class="toc-text">Run your app</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Build-your-app"><span class="toc-number">1.6.4.</span> <span class="toc-text">Build your app</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Publish-your-app"><span class="toc-number">1.6.5.</span> <span class="toc-text">Publish your app</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Publish-the-NET-runtime-with-your-app"><span class="toc-number">1.6.6.</span> <span class="toc-text">Publish the .NET runtime with your app</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Publish-Single-File-with-your-app"><span class="toc-number">1.6.7.</span> <span class="toc-text">Publish Single File with your app</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

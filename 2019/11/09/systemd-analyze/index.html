@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Systemd analyze | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Systemd analyze
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2019/11/09</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/Linux/">Linux</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tag"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+
+          
+        </div>
+        <h1 id="Systemd-analyze"><a href="#Systemd-analyze" class="headerlink" title="Systemd analyze"></a>Systemd analyze</h1><p><a target="_blank" rel="noopener" href="https://www.freedesktop.org/software/systemd/man/systemd-analyze.html">systemd-analyze</a> may be used to determine system boot-up performance statistics and retrieve other state and tracing information from the system and service manager, and to verify the correctness of unit files. It is also used to access special functions useful for advanced system manager debugging.</p>
+<h2 id="Sample-SSD"><a href="#Sample-SSD" class="headerlink" title="Sample - SSD"></a>Sample - SSD</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line">$ systemd-analyze blame</span><br><span class="line">          6.939s NetworkManager-wait-online.service</span><br><span class="line">          6.360s plymouth-quit-wait.service</span><br><span class="line">          5.626s rabbitmq-server.service</span><br><span class="line">          4.604s docker.service</span><br><span class="line">          3.851s mysql.service</span><br><span class="line">          3.682s postgresql@11-main.service</span><br><span class="line">          1.250s keyboard-setup.service</span><br><span class="line">          1.189s motd-news.service</span><br><span class="line">          1.038s networking.service</span><br><span class="line">           996ms apparmor.service</span><br><span class="line">           972ms plymouth-start.service</span><br><span class="line">           921ms networkd-dispatcher.service</span><br><span class="line">           898ms ebtables.service</span><br><span class="line">           886ms plymouth-read-write.service</span><br><span class="line">           883ms systemd-backlight@backlight:intel_backlight.service</span><br><span class="line">           821ms udisks2.service</span><br><span class="line">           787ms ModemManager.service</span><br><span class="line">           769ms grub-common.service</span><br><span class="line">           761ms accounts-daemon.service</span><br><span class="line">           728ms dev-sda3.device</span><br><span class="line">           629ms NetworkManager.service</span><br><span class="line">           605ms systemd-logind.service</span><br><span class="line">           595ms alsa-restore.service</span><br><span class="line">           566ms systemd-resolved.service</span><br><span class="line">           489ms sysstat.service</span><br><span class="line">           488ms pppd-dns.service</span><br><span class="line">           479ms gpu-manager.service</span><br><span class="line">           474ms dnscrypt-proxy.service</span><br><span class="line">           396ms postfix@-.service</span><br><span class="line">           314ms systemd-rfkill.service</span><br><span class="line">           294ms rsyslog.service</span><br><span class="line">           289ms libvirtd.service</span><br><span class="line">           283ms chrony.service</span><br><span class="line">           276ms nfs-server.service</span><br><span class="line">           266ms nfs-mountd.service</span><br><span class="line">           226ms user@121.service</span><br><span class="line">           219ms systemd-journal-flush.service</span><br><span class="line">           217ms wpa_supplicant.service</span><br><span class="line">           192ms run-rpc_pipefs.mount</span><br><span class="line">           165ms swapfile.swap</span><br><span class="line">           165ms ssh.service</span><br><span class="line">           164ms lvm2-monitor.service</span><br><span class="line">           159ms systemd-tmpfiles-setup-dev.service</span><br><span class="line">           155ms proc-fs-nfsd.mount</span><br><span class="line">           148ms polkit.service</span><br><span class="line">           145ms packagekit.service</span><br><span class="line">           142ms systemd-udev-trigger.service</span><br><span class="line">           142ms systemd-journald.service</span><br><span class="line">           141ms gdm.service</span><br><span class="line">           133ms rpcbind.service</span><br><span class="line">           130ms systemd-modules-load.service</span><br><span class="line">           126ms containerd.service</span><br><span class="line">           124ms qemu-kvm.service</span><br><span class="line">           123ms dns-clean.service</span><br><span class="line">           114ms upower.service</span><br><span class="line">           111ms apport.service</span><br><span class="line">           104ms systemd-sysctl.service</span><br><span class="line">            98ms setvtrgb.service</span><br><span class="line">            88ms dev-mqueue.mount</span><br><span class="line">            87ms systemd-random-seed.service</span><br><span class="line">            82ms libvirt-guests.service</span><br><span class="line">            79ms kmod-static-nodes.service</span><br><span class="line">            77ms speech-dispatcher.service</span><br><span class="line">            77ms c.mount</span><br><span class="line">            77ms openvpn.service</span><br><span class="line">            72ms console-setup.service</span><br><span class="line">            67ms systemd-tmpfiles-setup.service</span><br><span class="line">            57ms nfs-idmapd.service</span><br><span class="line">            51ms systemd-udevd.service</span><br><span class="line">            51ms nginx.service</span><br><span class="line">            49ms user@1000.service</span><br><span class="line">            37ms nfs-blkmap.service</span><br><span class="line">            34ms systemd-networkd.service</span><br><span class="line">            33ms systemd-remount-fs.service</span><br><span class="line">            27ms blk-availability.service</span><br><span class="line">            25ms systemd-update-utmp.service</span><br><span class="line">            24ms systemd-user-sessions.service</span><br><span class="line">            22ms colord.service</span><br><span class="line">            21ms systemd-networkd-wait-online.service</span><br><span class="line">            20ms nfs-config.service</span><br><span class="line">            19ms systemd-tmpfiles-clean.service</span><br><span class="line">            16ms dev-hugepages.mount</span><br><span class="line">            15ms systemd-update-utmp-runlevel.service</span><br><span class="line">            15ms repmgrd.service</span><br><span class="line">            11ms sys-kernel-debug.mount</span><br><span class="line">            11ms ureadahead-stop.service</span><br><span class="line">             9ms sys-fs-fuse-connections.mount</span><br><span class="line">             7ms systemd-backlight@leds:dell::kbd_backlight.service</span><br><span class="line">             3ms sys-kernel-config.mount</span><br><span class="line">             3ms postfix.service</span><br><span class="line">             2ms postgresql.service</span><br><span class="line">             1ms docker.socket</span><br></pre></td></tr></table></figure>
+
+<h2 id="Sample-HDD"><a href="#Sample-HDD" class="headerlink" title="Sample - HDD"></a>Sample - HDD</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">$ systemd-analyze blame</span><br><span class="line">         28.145s docker.service</span><br><span class="line">         22.532s systemd-networkd-wait-online.service</span><br><span class="line">         14.102s udisks2.service</span><br><span class="line">         12.167s NetworkManager-wait-online.service</span><br><span class="line">          8.956s systemd-journal-flush.service</span><br><span class="line">          6.451s dev-mapper-os\x2droot.device</span><br><span class="line">          5.882s libvirtd.service</span><br><span class="line">          3.481s ModemManager.service</span><br><span class="line">          3.314s boot.mount</span><br><span class="line">          3.224s NetworkManager.service</span><br><span class="line">          3.006s accounts-daemon.service</span><br><span class="line">          2.438s lvm2-pvscan@8:19.service</span><br><span class="line">          2.337s avahi-daemon.service</span><br><span class="line">          2.203s sysstat.service</span><br><span class="line">          2.201s pppd-dns.service</span><br><span class="line">          2.198s rsyslog.service</span><br><span class="line">          2.026s wpa_supplicant.service</span><br><span class="line">          2.023s systemd-logind.service</span><br><span class="line">          2.023s switcheroo-control.service</span><br><span class="line">          2.022s alsa-restore.service</span><br><span class="line">          1.758s apparmor.service</span><br><span class="line">          1.534s systemd-networkd.service</span><br><span class="line">          1.371s systemd-tmpfiles-setup.service</span><br><span class="line">          1.312s binfmt-support.service</span><br><span class="line">          1.168s systemd-udevd.service</span><br><span class="line">          1.011s systemd-fsck@dev-disk-by\x2duuid-6FDA\x2d0B26.service</span><br><span class="line">           904ms boot-efi.mount</span><br><span class="line">           900ms nfs-mountd.service</span><br><span class="line">           800ms proc-fs-nfsd.mount</span><br><span class="line">           771ms ssh.service</span><br><span class="line">           681ms lvm2-monitor.service</span><br><span class="line">           647ms nfs-server.service</span><br><span class="line">           628ms gdm.service</span><br><span class="line">           535ms systemd-remount-fs.service</span><br><span class="line">           499ms polkit.service</span><br><span class="line">           477ms run-rpc_pipefs.mount</span><br><span class="line">           473ms dev-mapper-os\x2dswap.swap</span><br><span class="line">           426ms networking.service</span><br><span class="line">           393ms keyboard-setup.service</span><br><span class="line">           376ms systemd-udev-trigger.service</span><br><span class="line">           374ms systemd-journald.service</span><br><span class="line">           369ms nfs-idmapd.service</span><br><span class="line">           325ms systemd-sysusers.service</span><br><span class="line">           323ms colord.service</span><br><span class="line">           304ms systemd-modules-load.service</span><br><span class="line">           302ms libvirt-guests.service</span><br><span class="line">           293ms systemd-tmpfiles-setup-dev.service</span><br><span class="line">           268ms systemd-user-sessions.service</span><br><span class="line">           252ms upower.service</span><br><span class="line">           234ms openvpn.service</span><br><span class="line">           233ms containerd.service</span><br><span class="line">           206ms systemd-sysctl.service</span><br><span class="line">           204ms console-setup.service</span><br><span class="line">           202ms systemd-timesyncd.service</span><br><span class="line">           183ms systemd-rfkill.service</span><br><span class="line">           142ms systemd-random-seed.service</span><br><span class="line">           138ms kmod-static-nodes.service</span><br><span class="line">           130ms nfs-config.service</span><br><span class="line">           117ms systemd-tmpfiles-clean.service</span><br><span class="line">           110ms user@1000.service</span><br><span class="line">           102ms ifupdown-pre.service</span><br><span class="line">            96ms dev-mqueue.mount</span><br><span class="line">            89ms blk-availability.service</span><br><span class="line">            89ms sys-kernel-debug.mount</span><br><span class="line">            89ms dev-hugepages.mount</span><br><span class="line">            87ms systemd-update-utmp.service</span><br><span class="line">            48ms nfs-blkmap.service</span><br><span class="line">            23ms proc-sys-fs-binfmt_misc.mount</span><br><span class="line">             9ms user-runtime-dir@1000.service</span><br><span class="line">             7ms docker.socket</span><br><span class="line">             7ms systemd-update-utmp-runlevel.service</span><br><span class="line">             3ms sys-fs-fuse-connections.mount</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Systemd-analyze"><span class="toc-number">1.</span> <span class="toc-text">Systemd analyze</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Sample-SSD"><span class="toc-number">1.1.</span> <span class="toc-text">Sample - SSD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sample-HDD"><span class="toc-number">1.2.</span> <span class="toc-text">Sample - HDD</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

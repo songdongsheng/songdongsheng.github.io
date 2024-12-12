@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Kubernetes API Reference | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Kubernetes API Reference
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2019/01/01</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Cloud/">Cloud</a>/ <a class="article-category-link" href="/categories/Cloud/Kubernetes/">Kubernetes</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Cloud" class='tag'>Cloud</a>
+
+  <a href="/tags/#Kubernetes" class='tag'>Kubernetes</a>
+
+
+          
+        </div>
+        <h1 id="Kubernetes-API-Reference"><a href="#Kubernetes-API-Reference" class="headerlink" title="Kubernetes API Reference"></a>Kubernetes API Reference</h1><p>You can use the Kubernetes API to read and write Kubernetes resource objects via a Kubernetes API endpoint.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.12/">https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.12/</a></li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/setup/independent/install-kubeadm/">https://kubernetes.io/docs/setup/independent/install-kubeadm/</a></li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/">https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/</a></li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/setup/independent/ha-topology/">https://kubernetes.io/docs/setup/independent/ha-topology/</a></li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/setup/independent/high-availability/">https://kubernetes.io/docs/setup/independent/high-availability/</a></li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/reference/kubectl/cheatsheet/">https://kubernetes.io/docs/reference/kubectl/cheatsheet/</a></li>
+</ul>
+<h2 id="API-overview"><a href="#API-overview" class="headerlink" title="API overview"></a>API overview</h2><h3 id="Resource-Categories"><a href="#Resource-Categories" class="headerlink" title="Resource Categories"></a>Resource Categories</h3><p>This is a high-level overview of the basic types of resources provide by the Kubernetes API and their primary functions.</p>
+<ul>
+<li><strong>Workloads</strong> are objects you use to manage and run your containers on the cluster.</li>
+<li><strong>Discovery &amp; LB</strong> resources are objects you use to “stitch” your workloads together into an externally accessible, load-balanced Service.</li>
+<li><strong>Config &amp; Storage</strong> resources are objects you use to inject initialization data into your applications, and to persist data that is external to your container.</li>
+<li><strong>Cluster</strong> resources objects define how the cluster itself is configured; these are typically used only by cluster operators.</li>
+<li><strong>Metadata</strong> resources are objects you use to configure the behavior of other resources within the cluster, such as HorizontalPodAutoscaler for scaling workloads.</li>
+</ul>
+<h3 id="Resource-Objects"><a href="#Resource-Objects" class="headerlink" title="Resource Objects"></a>Resource Objects</h3><p>Resource objects typically have 3 components:</p>
+<ul>
+<li><strong>Resource ObjectMeta</strong>: This is metadata about the resource, such as its name, type, api version, annotations, and labels. This contains fields that maybe updated both by the end user and the system (e.g. annotations).</li>
+<li><strong>ResourceSpec</strong>: This is defined by the user and describes the desired state of system. Fill this in when creating or updating an object.</li>
+<li><strong>ResourceStatus</strong>: This is filled in by the server and reports the current state of the system. In most cases, users don’t need to change this.</li>
+</ul>
+<h3 id="Resource-Operations"><a href="#Resource-Operations" class="headerlink" title="Resource Operations"></a>Resource Operations</h3><p>Most resources provide the following Operations:</p>
+<ul>
+<li><p>Create
+  Create operations will create the resource in the storage backend. After a resource is create the system will apply the desired state.</p>
+</li>
+<li><p>Update
+  Updates come in 2 forms: <strong>Replace</strong> and <strong>Patch</strong>:</p>
+<ul>
+<li><strong>Replace</strong>: Replacing a resource object will update the resource by replacing the existing spec with the provided one.</li>
+<li><strong>Patch</strong>: Patch will apply a change to a specific field. How the change is merged is defined per field. Lists may either be replaced or merged. Merging lists will not preserve ordering.</li>
+</ul>
+</li>
+<li><p>Read
+  <strong>Reads</strong> come in 3 forms: <strong>Get</strong>, <strong>List</strong> and <strong>Watch</strong>:</p>
+<ul>
+<li><strong>Get</strong>: Get will retrieve a specific resource object by name.</li>
+<li><strong>List</strong>: List will retrieve all resource objects of a specific type within a namespace, and the results can be restricted to resources matching a selector query.
+<strong>List All Namespaces</strong>: Like List but retrieves resources across all namespaces.</li>
+<li><strong>Watch</strong>: Watch will stream results for an object(s) as it is updated. Similar to a callback, watch is used to respond to resource changes.</li>
+</ul>
+</li>
+<li><p>Delete
+  <strong>Delete</strong> will delete a resource. Depending on the specific resource, child objects may or may not be garbage collected by the server. See notes on specific resource objects for details.</p>
+</li>
+<li><p>Additional Operations
+  Resources may define additional operations specific to that resource type.</p>
+<ul>
+<li><strong>Rollback</strong>: Rollback a PodTemplate to a previous version. Only available for some resource types.</li>
+<li><strong>Read &#x2F; Write Scale</strong>: Read or Update the number of replicas for the given resource. Only available for some resource types.</li>
+<li><strong>Read &#x2F; Write Status</strong>: Read or Update the Status for a resource object. The Status can only changed through these update operations.</li>
+</ul>
+</li>
+</ul>
+<h2 id="Workloads-APIs"><a href="#Workloads-APIs" class="headerlink" title="Workloads APIs"></a>Workloads APIs</h2><ul>
+<li>Container v1 core</li>
+<li>CronJob v1beta1 batch</li>
+<li>DaemonSet v1 apps</li>
+<li>Deployment v1 apps</li>
+<li>Job v1 batch</li>
+<li>Pod v1 core</li>
+<li>ReplicaSet v1 apps</li>
+<li>ReplicationController v1 core</li>
+<li>StatefulSet v1 apps</li>
+</ul>
+<h2 id="Service-APIs"><a href="#Service-APIs" class="headerlink" title="Service APIs"></a>Service APIs</h2><ul>
+<li>Endpoints v1 core</li>
+<li>Ingress v1beta1 extensions</li>
+<li>Service v1 core</li>
+</ul>
+<h2 id="Config-and-Storage-APIs"><a href="#Config-and-Storage-APIs" class="headerlink" title="Config and Storage APIs"></a>Config and Storage APIs</h2><ul>
+<li>ConfigMap v1 core</li>
+<li>Secret v1 core</li>
+<li>PersistentVolumeClaim v1 core</li>
+<li>StorageClass v1 storage.k8s.io</li>
+<li>Volume v1 core</li>
+<li>VolumeAttachment v1beta1 storage.k8s.io</li>
+</ul>
+<h2 id="Metadata-APIs"><a href="#Metadata-APIs" class="headerlink" title="Metadata APIs"></a>Metadata APIs</h2><ul>
+<li>Event v1 core</li>
+<li>LimitRange v1 core</li>
+<li>PodTemplate v1 core</li>
+<li>HorizontalPodAutoscaler v1 autoscaling</li>
+<li>…</li>
+</ul>
+<h2 id="Cluster-APIs"><a href="#Cluster-APIs" class="headerlink" title="Cluster APIs"></a>Cluster APIs</h2><ul>
+<li>Binding v1 core</li>
+<li>ClusterRole v1 rbac.authorization.k8s.io</li>
+<li>ClusterRoleBinding v1 rbac.authorization.k8s.io</li>
+<li>Namespace v1 core</li>
+<li>Node v1 core</li>
+<li>PersistentVolume v1 core</li>
+<li>ResourceQuota v1 core</li>
+<li>Role v1 rbac.authorization.k8s.io</li>
+<li>RoleBinding v1 rbac.authorization.k8s.io</li>
+<li>ServiceAccount v1 core</li>
+<li>…</li>
+</ul>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Kubernetes-API-Reference"><span class="toc-number">1.</span> <span class="toc-text">Kubernetes API Reference</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#API-overview"><span class="toc-number">1.1.</span> <span class="toc-text">API overview</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Resource-Categories"><span class="toc-number">1.1.1.</span> <span class="toc-text">Resource Categories</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Resource-Objects"><span class="toc-number">1.1.2.</span> <span class="toc-text">Resource Objects</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Resource-Operations"><span class="toc-number">1.1.3.</span> <span class="toc-text">Resource Operations</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Workloads-APIs"><span class="toc-number">1.2.</span> <span class="toc-text">Workloads APIs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Service-APIs"><span class="toc-number">1.3.</span> <span class="toc-text">Service APIs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Config-and-Storage-APIs"><span class="toc-number">1.4.</span> <span class="toc-text">Config and Storage APIs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Metadata-APIs"><span class="toc-number">1.5.</span> <span class="toc-text">Metadata APIs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cluster-APIs"><span class="toc-number">1.6.</span> <span class="toc-text">Cluster APIs</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

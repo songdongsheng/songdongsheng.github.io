@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>SOLID Principles | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          SOLID Principles
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2021/03/27</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Architecture/">Architecture</a>/ <a class="article-category-link" href="/categories/Architecture/Principle/">Principle</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Architecture" class='tag'>Architecture</a>
+
+  <a href="/tags/#Principle" class='tag'>Principle</a>
+
+
+          
+        </div>
+        <h1 id="SOLID-Principles"><a href="#SOLID-Principles" class="headerlink" title="SOLID Principles"></a>SOLID Principles</h1><h2 id="In-a-nutshell"><a href="#In-a-nutshell" class="headerlink" title="In a nutshell"></a>In a nutshell</h2><p>SOLID Principles makes your code more extendable, logical, and easier to read. When the developer builds software following a bad design, the code can become inflexible and more brittle. Small changes in the software can result in bugs. For these reasons, we should follow SOLID Principles.</p>
+<p><img src="/2021/03/27/solid-principles/solid-principles.png" alt="SOLID Principles"></p>
+<h2 id="What-is-S-O-L-I-D"><a href="#What-is-S-O-L-I-D" class="headerlink" title="What is S.O.L.I.D"></a>What is S.O.L.I.D</h2><p><strong>SOLID</strong> is an acronym that represents five principles very important when we develop with the OOP paradigm, in addition, it is essential knowledge that every developer must know.</p>
+<p>Understanding and applying these principles will <strong>allow you to write better quality code</strong> and therefore be a better developer.</p>
+<p>These 5 principles were introduced by Robert C. Martin (Uncle Bob), in his <a target="_blank" rel="noopener" href="https://web.archive.org/web/20150906155800/http://www.objectmentor.com/resources/articles/Principles_and_Patterns.pdf">Design Principles and Design Patterns book</a>. The actual SOLID acronym was, however, identified later by Michael Feathers.</p>
+<h2 id="Why-S-O-L-I-D-Principles"><a href="#Why-S-O-L-I-D-Principles" class="headerlink" title="Why S.O.L.I.D Principles"></a>Why S.O.L.I.D Principles</h2><p>These principles, when combined together, make it easy for a programmer to develop software that is easy to <strong>maintain and extend</strong>. They also make it easy for developers to <strong>avoid code smells, easily refactor code</strong>, and are also a part of agile or adaptive software development.</p>
+<p>Let’s break down the letters of SOLID and see the details of each of these.</p>
+<h2 id="Advantages-of-SOLID-Principles"><a href="#Advantages-of-SOLID-Principles" class="headerlink" title="Advantages of SOLID Principles"></a>Advantages of SOLID Principles</h2><ul>
+<li>Principled way of managing dependencies especially in a large application.</li>
+<li>Loose coupling (degree of interdependence between software modules)</li>
+<li>More cohesion (the degree to which the elements of a module belong together)</li>
+<li>Code is more reusable, robust, flexible, testable, and maintainable</li>
+</ul>
+<h2 id="Single-Responsibility-Principle-SRP"><a href="#Single-Responsibility-Principle-SRP" class="headerlink" title="Single Responsibility Principle (SRP)"></a>Single Responsibility Principle (SRP)</h2><blockquote>
+<p>A class should have one and only one reason to change, meaning that a class should have only one job.</p>
+</blockquote>
+<ul>
+<li><p><strong>Simple Definition</strong>: Do not burden one class with too many responsibilities.</p>
+</li>
+<li><p><strong>Advantages</strong>: Increase cohesion, low coupling, reduced complexity.</p>
+</li>
+</ul>
+<h2 id="Open-Closed-Principle-OCP"><a href="#Open-Closed-Principle-OCP" class="headerlink" title="Open-Closed Principle (OCP)"></a>Open-Closed Principle (OCP)</h2><blockquote>
+<p>Objects or entities should be open for extension but closed for modification.</p>
+</blockquote>
+<ul>
+<li><p><strong>Simple Definition</strong>: You should be able to extend a class’s behavior, without modifying it.</p>
+</li>
+<li><p><strong>Other definition</strong>: Ideally, once a class is done, it’s done.</p>
+</li>
+<li><p><strong>Advantages</strong>: Increased cohesion, extensible code, less chance of introducing bugs in the existing application.</p>
+</li>
+</ul>
+<h2 id="Liskov-Substitution-Principle-LSP"><a href="#Liskov-Substitution-Principle-LSP" class="headerlink" title="Liskov Substitution Principle (LSP)"></a>Liskov Substitution Principle (LSP)</h2><blockquote>
+<p>Objects in a program should be replaceable with instances of their subtypes without altering the correctness of that program.</p>
+</blockquote>
+<ul>
+<li><p><strong>Simple Definition</strong>: Objects of the derived class must behave in a manner consistent with the promises made in the base class’ contract.</p>
+</li>
+<li><p><strong>Other definition</strong>: All derived classes should be exact sub-types of the base class not kind of sub-types.</p>
+</li>
+<li><p>**Advantages&amp;&amp;: Code re-usability, reduced coupling, and less chance of introducing bugs in the existing application.</p>
+</li>
+</ul>
+<h2 id="Interface-Segregation-Principle-ISP"><a href="#Interface-Segregation-Principle-ISP" class="headerlink" title="Interface Segregation Principle (ISP)"></a>Interface Segregation Principle (ISP)</h2><blockquote>
+<p>many client-specific interfaces are better than one general-purpose interface.</p>
+</blockquote>
+<ul>
+<li><p><strong>Simple Definition</strong>: Clients should not be forced to implement interfaces they do not use.</p>
+</li>
+<li><p><strong>Other definition</strong>: Break down a large class into smaller manageable interfaces</p>
+</li>
+<li><p><strong>Advantages</strong>: Increased cohesion, more extensible, and robust.</p>
+</li>
+</ul>
+<h2 id="Dependency-Inversion-Principle-DIP"><a href="#Dependency-Inversion-Principle-DIP" class="headerlink" title="Dependency Inversion Principle (DIP)"></a>Dependency Inversion Principle (DIP)</h2><blockquote>
+<p>High-level modules should not depend on low-level modules. Both should depend on abstractions.</p>
+<p>Abstractions should not depend on details. Details should depend on abstractions.</p>
+</blockquote>
+<ul>
+<li><p><strong>Simple Definition</strong>: Entities must depend on abstractions, not on concretions.”</p>
+</li>
+<li><p><strong>Other definition</strong>: Anytime I new up a class it’s time to look at DIP</p>
+</li>
+<li><p><strong>Advantages</strong>: Loose coupling.</p>
+</li>
+</ul>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SOLID-Principles"><span class="toc-number">1.</span> <span class="toc-text">SOLID Principles</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#In-a-nutshell"><span class="toc-number">1.1.</span> <span class="toc-text">In a nutshell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-S-O-L-I-D"><span class="toc-number">1.2.</span> <span class="toc-text">What is S.O.L.I.D</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-S-O-L-I-D-Principles"><span class="toc-number">1.3.</span> <span class="toc-text">Why S.O.L.I.D Principles</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Advantages-of-SOLID-Principles"><span class="toc-number">1.4.</span> <span class="toc-text">Advantages of SOLID Principles</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Single-Responsibility-Principle-SRP"><span class="toc-number">1.5.</span> <span class="toc-text">Single Responsibility Principle (SRP)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Open-Closed-Principle-OCP"><span class="toc-number">1.6.</span> <span class="toc-text">Open-Closed Principle (OCP)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Liskov-Substitution-Principle-LSP"><span class="toc-number">1.7.</span> <span class="toc-text">Liskov Substitution Principle (LSP)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Interface-Segregation-Principle-ISP"><span class="toc-number">1.8.</span> <span class="toc-text">Interface Segregation Principle (ISP)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dependency-Inversion-Principle-DIP"><span class="toc-number">1.9.</span> <span class="toc-text">Dependency Inversion Principle (DIP)</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

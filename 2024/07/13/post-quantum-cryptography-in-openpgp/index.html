@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Post-Quantum Cryptography in OpenPGP | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Post-Quantum Cryptography in OpenPGP
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2024/07/13</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Utility/">Utility</a>/ <a class="article-category-link" href="/categories/Utility/Security/">Security</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Windows" class='tag'>Windows</a>
+
+  <a href="/tags/#Security" class='tag'>Security</a>
+
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+
+          
+        </div>
+        <h1 id="Post-Quantum-Cryptography-in-OpenPGP"><a href="#Post-Quantum-Cryptography-in-OpenPGP" class="headerlink" title="Post-Quantum Cryptography in OpenPGP"></a>Post-Quantum Cryptography in OpenPGP</h1><p>The newly released GnuPG 2.5.0 begins to experimentally support the post-quantum public key algorithm extension of the OpenPGP protocol. The post-quantum public key algorithm extension of the OpenPGP protocol provides the basis for long-term secure OpenPGP signatures and ciphertexts. It defines composite public key encryption based on <code>ML-KEM</code> and composite public key signatures based on <code>ML-DSA</code> (both of which are used in conjunction with elliptic curve cryptography), as well as <code>SLH-DSA</code> as an independent public key signature scheme. GnuPG currently only supports composite public key encryption based on <code>ML-KEM</code>, and support for digital signatures is under development.</p>
+<p>GnuPG 2.5.0 supports PGC encryption algorithms <code>ky768_cv25519</code> and <code>ky1024_cv448</code> based on <code>X25519</code> and <code>X448</code>, and PQC encryption algorithms <code>ky768_bp256</code>, <code>ky1024_bp384</code> and <code>ky1024_bp512</code> based on <code>brainpoolP256r1</code>, <code>brainpoolP384r1</code> and <code>brainpoolP512r1</code>. Since <code>Brainpool</code> is not efficient, widely used, and has no security advantages, this article only tests PGC encryption algorithms <code>ky768_cv25519</code> and <code>ky1024_cv448</code> based on <code>X25519</code> and <code>X448</code>.</p>
+<h2 id="What-You-Need"><a href="#What-You-Need" class="headerlink" title="What You Need"></a>What You Need</h2><ul>
+<li>GnuPG 2.5.0 of later</li>
+</ul>
+<h2 id="ML-KEM-768-X25519"><a href="#ML-KEM-768-X25519" class="headerlink" title="ML-KEM-768 + X25519"></a>ML-KEM-768 + X25519</h2><h3 id="Generate-Key"><a href="#Generate-Key" class="headerlink" title="Generate Key"></a>Generate Key</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">gpg --quick-gen-key --batch --passphrase=<span class="string">&#x27;&#x27;</span> <span class="string">&quot;X25519 User &lt;x25519@example.com&gt;&quot;</span> Ed25519 cert 1y</span><br><span class="line"></span><br><span class="line">gpg --quick-add-key --batch --passphrase=<span class="string">&#x27;&#x27;</span> --pinentry-mode loopback DDE2BD47E5196CED794FDF17D9FFA236037FC097 ed25519 sign,auth 1y</span><br><span class="line">gpg --quick-add-key --batch --passphrase=<span class="string">&#x27;&#x27;</span> --pinentry-mode loopback DDE2BD47E5196CED794FDF17D9FFA236037FC097 cv25519 encrypt 1y</span><br><span class="line"></span><br><span class="line"><span class="comment"># ML-KEM-768 + X25519</span></span><br><span class="line">gpg --quick-add-key --batch --passphrase=<span class="string">&#x27;&#x27;</span> --pinentry-mode loopback DDE2BD47E5196CED794FDF17D9FFA236037FC097 ky768_cv25519 encrypt 1y</span><br></pre></td></tr></table></figure>
+
+<h3 id="List-Key"><a href="#List-Key" class="headerlink" title="List Key"></a>List Key</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ gpg -K DDE2BD47E5196CED794FDF17D9FFA236037FC097</span><br><span class="line">sec   ed25519/D9FFA236037FC097 2024-07-13 [C] [expires: 2024-07-13]</span><br><span class="line">      Key fingerprint = DDE2 BD47 E519 6CED 794F  DF17 D9FF A236 037F C097</span><br><span class="line">uid                 [ultimate] X25519 User &lt;x25519@example.com&gt;</span><br><span class="line">ssb   ed25519/A2E4D93F5E67CDE2 2024-07-13 [SA] [expires: 2024-07-13]</span><br><span class="line">      Key fingerprint = 7660 3CDA E782 AEE7 C42A  EF74 A2E4 D93F 5E67 CDE2</span><br><span class="line">ssb   cv25519/1D07C17D30191210 2024-07-13 [E] [expires: 2024-07-13]</span><br><span class="line">      Key fingerprint = F3AE 317F F319 12E7 E84B  9AC9 1D07 C17D 3019 1210</span><br><span class="line">ssb   ky768_cv25519/5C8EC98545A74E6C 2024-07-13 [E] [expires: 2024-07-13]</span><br><span class="line">      Key fingerprint = 5C8EC 98545 A74E6 C442A 76F3F 553F9 D39F0 FDF9A 2B7CD 8CA05</span><br></pre></td></tr></table></figure>
+
+<h3 id="Specify-PGC-key-for-encryption"><a href="#Specify-PGC-key-for-encryption" class="headerlink" title="Specify PGC key for encryption"></a>Specify PGC key for encryption</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="string">&quot;Hello, PGC!&quot;</span> &gt; secret.txt</span><br><span class="line">$ gpg --encrypt --<span class="built_in">yes</span> -r 5C8EC98545A74E6C! secret.txt</span><br><span class="line">$ gpg --decrypt --passphrase=<span class="string">&#x27;&#x27;</span> --pinentry-mode loopback secret.txt.gpg</span><br><span class="line">gpg: encrypted with ky768_cv25519 key, ID 5C8EC98545A74E6C, created 2024-07-13</span><br><span class="line">      <span class="string">&quot;X25519 User &lt;x25519@example.com&gt;&quot;</span></span><br><span class="line">Hello, PGC!</span><br><span class="line">$ <span class="built_in">stat</span> --<span class="built_in">printf</span>=<span class="string">&quot;%s\t%n\n&quot;</span> secret.txt*</span><br><span class="line">12      secret.txt</span><br><span class="line">1274    secret.txt.gpg</span><br></pre></td></tr></table></figure>
+
+<h3 id="Specify-X25519-key-for-encryption"><a href="#Specify-X25519-key-for-encryption" class="headerlink" title="Specify X25519 key for encryption"></a>Specify X25519 key for encryption</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="string">&quot;Hello, PGC!&quot;</span> &gt; secret.txt</span><br><span class="line">$ gpg --encrypt --<span class="built_in">yes</span> -r 1D07C17D30191210! secret.txt</span><br><span class="line">$ gpg --decrypt --passphrase=<span class="string">&#x27;&#x27;</span> --pinentry-mode loopback secret.txt.gpg</span><br><span class="line">gpg: encrypted with cv25519 key, ID 1D07C17D30191210, created 2024-07-13</span><br><span class="line">      <span class="string">&quot;X25519 User &lt;x25519@example.com&gt;&quot;</span></span><br><span class="line">Hello, PGC!</span><br><span class="line">$ <span class="built_in">stat</span> --<span class="built_in">printf</span>=<span class="string">&quot;%s\t%n\n&quot;</span> secret.txt*</span><br><span class="line">12      secret.txt</span><br><span class="line">189     secret.txt.gpg</span><br></pre></td></tr></table></figure>
+
+<h3 id="Automatically-select-encryption-key"><a href="#Automatically-select-encryption-key" class="headerlink" title="Automatically select encryption key"></a>Automatically select encryption key</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="string">&quot;Hello, PGC!&quot;</span> &gt; secret.txt</span><br><span class="line">$ gpg --encrypt --<span class="built_in">yes</span> -r D9FFA236037FC097 secret.txt</span><br><span class="line">$ gpg --decrypt --passphrase=<span class="string">&#x27;&#x27;</span> --pinentry-mode loopback secret.txt.gpg</span><br><span class="line">gpg: encrypted with ky768_cv25519 key, ID 5C8EC98545A74E6C, created 2024-07-13</span><br><span class="line">      <span class="string">&quot;X25519 User &lt;x25519@example.com&gt;&quot;</span></span><br><span class="line">Hello, PGC!</span><br><span class="line">$ <span class="built_in">stat</span> --<span class="built_in">printf</span>=<span class="string">&quot;%s\t%n\n&quot;</span> secret.txt*</span><br><span class="line">12      secret.txt</span><br><span class="line">1274    secret.txt.gpg</span><br></pre></td></tr></table></figure>
+
+<h3 id="Delete-Key"><a href="#Delete-Key" class="headerlink" title="Delete Key"></a>Delete Key</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpg --delete-key --batch --<span class="built_in">yes</span> DDE2BD47E5196CED794FDF17D9FFA236037FC097</span><br></pre></td></tr></table></figure>
+
+<h2 id="ML-KEM-1024-X448"><a href="#ML-KEM-1024-X448" class="headerlink" title="ML-KEM-1024 + X448"></a>ML-KEM-1024 + X448</h2><h3 id="Generate-Key-1"><a href="#Generate-Key-1" class="headerlink" title="Generate Key"></a>Generate Key</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">gpg --quick-gen-key --batch --passphrase=<span class="string">&#x27;&#x27;</span> <span class="string">&quot;X448 User &lt;x448@example.com&gt;&quot;</span> Ed448 cert 1y</span><br><span class="line"></span><br><span class="line">gpg --quick-add-key --batch --passphrase=<span class="string">&#x27;&#x27;</span> --pinentry-mode loopback 194E2C38F0C4354C4172DC586E3455C57BA2F61AB06EFC243A5D386ED86242B7 ed448 sign,auth 1y</span><br><span class="line">gpg --quick-add-key --batch --passphrase=<span class="string">&#x27;&#x27;</span> --pinentry-mode loopback 194E2C38F0C4354C4172DC586E3455C57BA2F61AB06EFC243A5D386ED86242B7 cv448 encrypt 1y</span><br><span class="line"></span><br><span class="line"><span class="comment"># ML-KEM-1024 + X448</span></span><br><span class="line">gpg --quick-add-key --batch --passphrase=<span class="string">&#x27;&#x27;</span> --pinentry-mode loopback 194E2C38F0C4354C4172DC586E3455C57BA2F61AB06EFC243A5D386ED86242B7 ky1024_cv448 encrypt 1y</span><br></pre></td></tr></table></figure>
+
+<h3 id="List-Key-1"><a href="#List-Key-1" class="headerlink" title="List Key"></a>List Key</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ gpg -K 194E2C38F0C4354C4172DC586E3455C57BA2F61AB06EFC243A5D386ED86242B7</span><br><span class="line">sec   ed448/194E2C38F0C4354C 2024-07-13 [C] [expires: 2024-07-13]</span><br><span class="line">      Key fingerprint = 194E2 C38F0 C4354 C4172 DC586 E3455 C57BA 2F61A B06EF C243A</span><br><span class="line">uid                 [ultimate] X448 User &lt;x448@example.com&gt;</span><br><span class="line">ssb   ed448/96EA0B90619ACFCD 2024-07-13 [SA] [expires: 2024-07-13]</span><br><span class="line">      Key fingerprint = 96EA0 B9061 9ACFC D5709 BC773 F6300 D1B38 457BC 19792 C4763</span><br><span class="line">ssb   cv448/36FC63E177ECC404 2024-07-13 [E] [expires: 2024-07-13]</span><br><span class="line">      Key fingerprint = 36FC6 3E177 ECC40 4030B C0004 D91F7 4E1F7 E5590 CEC6A A096F</span><br><span class="line">ssb   ky1024_cv448/373E994D9B9AC9AE 2024-07-13 [E] [expires: 2024-07-13]</span><br><span class="line">      Key fingerprint = 373E9 94D9B 9AC9A EC476 3FA66 89794 AA808 894BE 4FDF4 020EE</span><br></pre></td></tr></table></figure>
+
+<h3 id="Specify-PGC-key-for-encryption-1"><a href="#Specify-PGC-key-for-encryption-1" class="headerlink" title="Specify PGC key for encryption"></a>Specify PGC key for encryption</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="string">&quot;Hello, PGC!&quot;</span> &gt; secret.txt</span><br><span class="line">$ gpg --encrypt --<span class="built_in">yes</span> -r 373E994D9B9AC9AE! secret.txt</span><br><span class="line">$ gpg --decrypt --passphrase=<span class="string">&#x27;&#x27;</span> --pinentry-mode loopback secret.txt.gpg</span><br><span class="line">gpg: encrypted with ky1024_cv448 key, ID 373E994D9B9AC9AE, created 2024-07-13</span><br><span class="line">      <span class="string">&quot;X448 User &lt;x448@example.com&gt;&quot;</span></span><br><span class="line">Hello, PGC!</span><br><span class="line">$ <span class="built_in">stat</span> --<span class="built_in">printf</span>=<span class="string">&quot;%s\t%n\n&quot;</span> secret.txt*</span><br><span class="line">12      secret.txt</span><br><span class="line">1778    secret.txt.gpg</span><br></pre></td></tr></table></figure>
+
+<h3 id="Specify-X448-key-for-encryption"><a href="#Specify-X448-key-for-encryption" class="headerlink" title="Specify X448 key for encryption"></a>Specify X448 key for encryption</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="string">&quot;Hello, PGC!&quot;</span> &gt; secret.txt</span><br><span class="line">$ gpg --encrypt --<span class="built_in">yes</span> -r 36FC63E177ECC404! secret.txt</span><br><span class="line">$ gpg --decrypt --passphrase=<span class="string">&#x27;&#x27;</span> --pinentry-mode loopback secret.txt.gpg</span><br><span class="line">gpg: encrypted with cv448 key, ID 36FC63E177ECC404, created 2024-07-13</span><br><span class="line">      <span class="string">&quot;X448 User &lt;x448@example.com&gt;&quot;</span></span><br><span class="line">Hello, PGC!</span><br><span class="line">$ <span class="built_in">stat</span> --<span class="built_in">printf</span>=<span class="string">&quot;%s\t%n\n&quot;</span> secret.txt*</span><br><span class="line">12      secret.txt</span><br><span class="line">212     secret.txt.gpg</span><br></pre></td></tr></table></figure>
+
+<h3 id="Automatically-select-encryption-key-1"><a href="#Automatically-select-encryption-key-1" class="headerlink" title="Automatically select encryption key"></a>Automatically select encryption key</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="string">&quot;Hello, PGC!&quot;</span> &gt; secret.txt</span><br><span class="line">$ gpg --encrypt --<span class="built_in">yes</span> -r 194E2C38F0C4354C secret.txt</span><br><span class="line">$ gpg --decrypt --passphrase=<span class="string">&#x27;&#x27;</span> --pinentry-mode loopback secret.txt.gpg</span><br><span class="line">gpg: encrypted with ky1024_cv448 key, ID 373E994D9B9AC9AE, created 2024-07-13</span><br><span class="line">      <span class="string">&quot;X448 User &lt;x448@example.com&gt;&quot;</span></span><br><span class="line">Hello, PGC!</span><br><span class="line">$ <span class="built_in">stat</span> --<span class="built_in">printf</span>=<span class="string">&quot;%s\t%n\n&quot;</span> secret.txt*</span><br><span class="line">12      secret.txt</span><br><span class="line">1778    secret.txt.gpg</span><br></pre></td></tr></table></figure>
+
+<h3 id="Delete-Key-1"><a href="#Delete-Key-1" class="headerlink" title="Delete Key"></a>Delete Key</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpg --delete-key --batch --<span class="built_in">yes</span> 194E2C38F0C4354C4172DC586E3455C57BA2F61AB06EFC243A5D386ED86242B7</span><br></pre></td></tr></table></figure>
+
+<h2 id="ML-DSA-65-Ed25519"><a href="#ML-DSA-65-Ed25519" class="headerlink" title="ML-DSA-65 + Ed25519"></a>ML-DSA-65 + Ed25519</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Not working yet</span></span><br><span class="line">gpg --quick-add-key --batch --passphrase=<span class="string">&#x27;&#x27;</span> --pinentry-mode loopback DDE2BD47E5196CED794FDF17D9FFA236037FC097 dil3_ed25519 sign 1y</span><br></pre></td></tr></table></figure>
+
+<h2 id="ML-DSA-87-Ed448"><a href="#ML-DSA-87-Ed448" class="headerlink" title="ML-DSA-87 + Ed448"></a>ML-DSA-87 + Ed448</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Not working yet</span></span><br><span class="line">gpg --quick-add-key --batch --passphrase=<span class="string">&#x27;&#x27;</span> --pinentry-mode loopback 194E2C38F0C4354C4172DC586E3455C57BA2F61AB06EFC243A5D386ED86242B7 dil5_ed448 sign 1y</span><br></pre></td></tr></table></figure>
+
+<h2 id="Wrapping-Up"><a href="#Wrapping-Up" class="headerlink" title="Wrapping Up"></a>Wrapping Up</h2><p>OpenPGP currently does not fully support the PGC algorithm. It only supports encryption algorithms and lacks digital signature algorithms. It only supports generating PGC keys in the <code>quick-gen-key</code> and <code>quick-add-key</code> interfaces, but does not support generating PGC keys in the interactive interface.</p>
+<p>The current state of OpenPGP’s PGC implementation is quite exciting, considering that the algorithm is still in the draft stage. Let’s look forward to the PGC algorithm being fully supported in OpenPGP, making our future more secure.</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/gpg/gnupg/blob/master/tests/openpgp/samplekeys/README">https://github.com/gpg/gnupg/blob/master/tests/openpgp/samplekeys/README</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/gpg/gnupg/blob/master/common/openpgpdefs.h">https://github.com/gpg/gnupg/blob/master/common/openpgpdefs.h</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ietf.org/archive/id/draft-wussler-openpgp-pqc-04.html">https://www.ietf.org/archive/id/draft-wussler-openpgp-pqc-04.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://csrc.nist.gov/pubs/fips/203/ipd">https://csrc.nist.gov/pubs/fips/203/ipd</a></li>
+<li><a target="_blank" rel="noopener" href="https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.203.ipd.pdf">https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.203.ipd.pdf</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/nccgroup/fips203">https://github.com/nccgroup/fips203</a></li>
+<li><a target="_blank" rel="noopener" href="https://dev.gnupg.org/source/gnupg/browse/master/NEWS">https://dev.gnupg.org/source/gnupg/browse/master/NEWS</a></li>
+<li><a target="_blank" rel="noopener" href="https://dev.gnupg.org/T6815">https://dev.gnupg.org/T6815</a></li>
+<li><a target="_blank" rel="noopener" href="https://dev.gnupg.org/T7189">https://dev.gnupg.org/T7189</a></li>
+<li><a target="_blank" rel="noopener" href="https://lists.gnupg.org/pipermail/gnupg-announce/2024q3/000484.html">https://lists.gnupg.org/pipermail/gnupg-announce/2024q3/000484.html</a></li>
+</ul>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Post-Quantum-Cryptography-in-OpenPGP"><span class="toc-number">1.</span> <span class="toc-text">Post-Quantum Cryptography in OpenPGP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-You-Need"><span class="toc-number">1.1.</span> <span class="toc-text">What You Need</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ML-KEM-768-X25519"><span class="toc-number">1.2.</span> <span class="toc-text">ML-KEM-768 + X25519</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-Key"><span class="toc-number">1.2.1.</span> <span class="toc-text">Generate Key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#List-Key"><span class="toc-number">1.2.2.</span> <span class="toc-text">List Key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Specify-PGC-key-for-encryption"><span class="toc-number">1.2.3.</span> <span class="toc-text">Specify PGC key for encryption</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Specify-X25519-key-for-encryption"><span class="toc-number">1.2.4.</span> <span class="toc-text">Specify X25519 key for encryption</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Automatically-select-encryption-key"><span class="toc-number">1.2.5.</span> <span class="toc-text">Automatically select encryption key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Delete-Key"><span class="toc-number">1.2.6.</span> <span class="toc-text">Delete Key</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ML-KEM-1024-X448"><span class="toc-number">1.3.</span> <span class="toc-text">ML-KEM-1024 + X448</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-Key-1"><span class="toc-number">1.3.1.</span> <span class="toc-text">Generate Key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#List-Key-1"><span class="toc-number">1.3.2.</span> <span class="toc-text">List Key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Specify-PGC-key-for-encryption-1"><span class="toc-number">1.3.3.</span> <span class="toc-text">Specify PGC key for encryption</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Specify-X448-key-for-encryption"><span class="toc-number">1.3.4.</span> <span class="toc-text">Specify X448 key for encryption</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Automatically-select-encryption-key-1"><span class="toc-number">1.3.5.</span> <span class="toc-text">Automatically select encryption key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Delete-Key-1"><span class="toc-number">1.3.6.</span> <span class="toc-text">Delete Key</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ML-DSA-65-Ed25519"><span class="toc-number">1.4.</span> <span class="toc-text">ML-DSA-65 + Ed25519</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ML-DSA-87-Ed448"><span class="toc-number">1.5.</span> <span class="toc-text">ML-DSA-87 + Ed448</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Wrapping-Up"><span class="toc-number">1.6.</span> <span class="toc-text">Wrapping Up</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">1.7.</span> <span class="toc-text">Reference</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>RISC-V program development using QEMU | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          RISC-V program development using QEMU
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2018/12/31</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Processor/">Processor</a>/ <a class="article-category-link" href="/categories/Processor/RISC-V/">RISC-V</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#RISC-V" class='tag'>RISC-V</a>
+
+  <a href="/tags/#QEMU" class='tag'>QEMU</a>
+
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+
+          
+        </div>
+        <h1 id="RISC-V"><a href="#RISC-V" class="headerlink" title="RISC-V"></a>RISC-V</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/RISC-V">https://en.wikipedia.org/wiki/RISC-V</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/riscv/riscv-software-list">https://github.com/riscv/riscv-software-list</a></li>
+<li><a target="_blank" rel="noopener" href="https://riscv.org/specifications/">https://riscv.org/specifications/</a></li>
+</ul>
+<h2 id="In-a-nutshell"><a href="#In-a-nutshell" class="headerlink" title="In a nutshell"></a>In a nutshell</h2><p>RISC-V (pronounced “risk-five”) is an open source instruction set architecture (ISA) based on
+established reduced instruction set computing (RISC) principles.</p>
+<p>The project began in 2010 at the University of California, Berkeley, but many contributors are
+volunteers not affiliated with the university.</p>
+<p>In contrast to most ISAs, RISC-V is freely available for all types of use, permitting anyone
+to design, manufacture and sell RISC-V chips and software. While not the first open ISA, it
+is significant because it is designed to be useful in modern computerized devices such as
+warehouse-scale cloud computers, high-end mobile phones and the smallest embedded systems.
+Such uses demand that the designers consider both performance and power efficiency. The
+instruction set also has a substantial body of supporting software, which fixes the usual
+weakness of new instruction sets.</p>
+<p><img src="/2018/12/31/risc-v-program-development-using-qemu/RISC-V_ISA_modularity.png" alt="RISC-V ISA modularity"></p>
+<h2 id="Hardware-baseline-and-ABI-choice"><a href="#Hardware-baseline-and-ABI-choice" class="headerlink" title="Hardware baseline and ABI choice"></a>Hardware baseline and ABI choice</h2><p>There are different versions of the instruction set for 32, 64 and 128 bits; operating as little-endian by default.</p>
+<ul>
+<li>RV32I, most is microcontroller unit (MCU) class RV32IMC</li>
+<li>RV32E, for embedded systems</li>
+<li>RV64I, most Linux distro use RV64GC as the hardware baseline and the lp64d ABI (little-endian, the default ABI for RV64G systems).</li>
+<li>RV128I, simply not realistic at this time.</li>
+</ul>
+<p>The base set of RISC-V is the Base Integer Instruction Set “RV32&#x2F;64&#x2F;128I” or “RV32E” (a reduced version of RV32I that supports only 16 registers designed for embedded systems).</p>
+<p>A computer with the instruction sets “IMAFD”, is said to be “general-purpose”, summarized as “G”, so it an “RV64IMAFDC” can also be described as an “RV64GC”. Together with the “privileged” instruction set extension an “RVGC” defines all instructions needed to conveniently support a Unix-style operating system.</p>
+<table>
+<thead>
+<tr>
+<th>Extension</th>
+<th>Description</th>
+<th>Version</th>
+<th>Frozen?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>M</td>
+<td>Standard Extension for Integer Multiplication and Division</td>
+<td>2.0</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>A</td>
+<td>Standard Extension for Atomic Instructions</td>
+<td>2.0</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>F</td>
+<td>Standard Extension for Single-Precision Floating-Point</td>
+<td>2.0</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Standard Extension for Double-Precision Floating-Point</td>
+<td>2.0</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Q</td>
+<td>Standard Extension for Quad-Precision Floating-Point</td>
+<td>2.0</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Standard Extension for Compressed Instructions</td>
+<td>2.0</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>L</td>
+<td>Standard Extension for Decimal Floating-Point</td>
+<td>0.0</td>
+<td>No</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Standard Extension for Bit Manipulation</td>
+<td>0.0</td>
+<td>No</td>
+</tr>
+<tr>
+<td>J</td>
+<td>Standard Extension for Dynamically Translated Languages</td>
+<td>0.0</td>
+<td>No</td>
+</tr>
+<tr>
+<td>T</td>
+<td>Standard Extension for Transactional Memory</td>
+<td>0.0</td>
+<td>No</td>
+</tr>
+<tr>
+<td>P</td>
+<td>Standard Extension for Packed-SIMD Instructions</td>
+<td>0.1</td>
+<td>No</td>
+</tr>
+<tr>
+<td>V</td>
+<td>Standard Extension for Vector Operations</td>
+<td>0.2</td>
+<td>No</td>
+</tr>
+<tr>
+<td>N</td>
+<td>Standard Extension for User-Level Interrupts</td>
+<td>1.1</td>
+<td>No</td>
+</tr>
+</tbody></table>
+<h2 id="Qemu-setup"><a href="#Qemu-setup" class="headerlink" title="Qemu setup"></a>Qemu setup</h2><h3 id="install-packages"><a href="#install-packages" class="headerlink" title="install packages"></a>install packages</h3><pre><code>sudo apt install qemu-system-misc qemu-user-static binfmt-support u-boot-qemu opensbi libc6-riscv64-cross gcc-riscv64-linux-gnu
+
+sudo ln -s /usr/riscv64-linux-gnu/lib/ld-linux-riscv64-lp64d.so.1 /lib
+
+sudo sh -c &quot;cat &gt;/etc/ld.so.conf.d/riscv64-linux-gnu.conf &lt;&lt; EOF
+/usr/riscv64-linux-gnu/lib/
+EOF
+&quot;
+
+LD_LIBRARY_PATH=/usr/riscv64-linux-gnu/lib qemu-riscv64-static a.out
+
+/usr/bin/qemu-system-riscv64
+/usr/lib/riscv64-linux-gnu/opensbi/qemu/virt/fw_dynamic.elf
+/usr/lib/riscv64-linux-gnu/opensbi/qemu/virt/fw_jump.elf
+/usr/lib/u-boot/qemu-riscv64_smode/u-boot.bin
+</code></pre>
+<h3 id="register-riscv64-interpreter"><a href="#register-riscv64-interpreter" class="headerlink" title="register riscv64 interpreter"></a>register riscv64 interpreter</h3><pre><code>sudo update-binfmts --import &lt;&lt; EOF
+package qemu-user-static
+interpreter /usr/bin/qemu-riscv64-static
+type magic
+offset 0
+magic \x7f\x45\x4c\x46\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\xf3\x00
+mask  \xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff
+EOF
+</code></pre>
+<h2 id="Setting-up-a-riscv64-virtual-machine"><a href="#Setting-up-a-riscv64-virtual-machine" class="headerlink" title="Setting up a riscv64 virtual machine"></a>Setting up a riscv64 virtual machine</h2><h3 id="debootstrap-of-riscv64"><a href="#debootstrap-of-riscv64" class="headerlink" title="debootstrap of riscv64"></a>debootstrap of riscv64</h3><pre><code>sudo apt-get install debootstrap qemu-user-static binfmt-support debian-ports-archive-keyring
+sudo debootstrap --arch=riscv64 --keyring /usr/share/keyrings/debian-ports-archive-keyring.gpg \
+    --include=curl,jq,wget,locales,debian-ports-archive-keyring --merged-usr --foreign \
+    unstable /tmp/riscv64-chroot http://deb.debian.org/debian-ports
+
+sudo chroot /tmp/riscv64-chroot
+
+cat &gt; /debootstrap/mirror &lt;&lt; EOF
+http://deb.debian.org/debian-ports
+EOF
+
+/debootstrap/debootstrap --second-stage
+
+localedef -c -i en_US -f UTF-8 en_US.UTF-8
+localedef -c -i zh_CN -f UTF-8 zh_CN.UTF-8
+localedef --list-archive
+
+passwd
+
+ln -sf /dev/null /etc/systemd/system/serial-getty@hvc0.service
+
+cat &gt; /etc/resolv.conf &lt;&lt; EOF
+nameserver 1.1.1.1
+nameserver 8.8.8.8
+EOF
+
+cat &gt; /etc/apt/apt.conf.d/zz-10-install &lt;&lt; EOF
+APT::Install-Recommends &quot;0&quot;;
+APT::Install-Suggests &quot;0&quot;;
+
+Acquire::http &#123; Proxy &quot;http://proxy.example.com:8080&quot;; &#125;;
+EOF
+
+cat &gt; /etc/apt/sources.list &lt;&lt; EOF
+deb http://ftp.ports.debian.org/debian-ports unstable main
+# deb http://ftp.ports.debian.org/debian-ports unreleased main
+# deb http://ftp.ports.debian.org/debian-ports experimental main
+EOF
+
+apt-get update
+apt-get install --no-install-recommends linux-image-riscv64 u-boot-menu openntpd ntpdate
+sed -i &#39;s/^DAEMON_OPTS=&quot;/DAEMON_OPTS=&quot;-s /&#39; /etc/default/openntpd
+
+cat &gt;&gt; /etc/default/u-boot &lt;&lt;EOF
+U_BOOT_PARAMETERS=&quot;rw noquiet root=/dev/vda1&quot;
+EOF
+
+u-boot-update
+
+cat &gt;&gt; /etc/network/interfaces &lt;&lt;EOF
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet dhcp
+EOF
+</code></pre>
+<h3 id="Create-rootfs-img"><a href="#Create-rootfs-img" class="headerlink" title="Create rootfs.img"></a>Create rootfs.img</h3><pre><code>truncate -s 4G rootfs.img
+losetup --find rootfs.img
+losetup -a
+
+fdisk /dev/loop0
+partprobe -s /dev/loop0
+mkswap /dev/loop0p2
+mkfs.ext4 /dev/loop0p1
+
+mount /dev/loop0p1 riscv64-root/
+cp -aP riscv64-chroot/* riscv64-root/
+
+losetup --detach /dev/loop0
+</code></pre>
+<h3 id="Run-qemu-system-riscv64"><a href="#Run-qemu-system-riscv64" class="headerlink" title="Run qemu-system-riscv64"></a>Run qemu-system-riscv64</h3><pre><code># qemu-system-riscv64 -nographic -machine virt -m 1.9G \
+    -kernel /usr/lib/riscv64-linux-gnu/opensbi/qemu/virt/fw_jump.elf \
+    -device loader,file=/usr/lib/u-boot/qemu-riscv64_smode/u-boot.bin,addr=0x80200000 \
+    -object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-device,rng=rng0 \
+    -append &quot;console=ttyS0 rw root=/dev/vda1&quot; \
+    -device virtio-blk-device,drive=hd0 -drive file=rootfs.img,format=raw,id=hd0 \
+    -device virtio-net-device,netdev=usernet -netdev user,id=usernet,hostfwd=tcp::22222-:22
+
+# qemu-system-riscv64 -nographic -machine virt -m 1.9G \
+    -kernel /usr/lib/riscv64-linux-gnu/opensbi/qemu/virt/fw_jump.elf \
+    -object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-device,rng=rng0 \
+    -append &quot;root=/dev/vda1 ro console=ttyS0&quot; \
+    -device virtio-blk-device,drive=hd0 -drive file=rootfs.img,format=raw,id=hd0 \
+    -device virtio-net-device,netdev=net0 -netdev type=tap,id=net0,ifname=tap0,script=no,downscript=no
+
+    ip link add br0 type bridge
+    ip tuntap add dev tap0 mode tap user $(whoami)
+    ip link set dev tap0 master br0
+  # ip addr flush dev eth0
+  # ip link set dev eth0 master br0
+    ip link set dev br0 up
+    ip link set dev tap0 up
+
+  # ip address delete $PREFIX dev eth0
+  # ip address add $PREFIX dev br0
+  # ip route add default via $ROUTE dev br0
+
+qemu-system-riscv64: plic: invalid register write: 000001fc
+
+Platform Name          : QEMU Virt Machine
+Platform HART Features : RV64ACDFIMSU
+Platform Max HARTs     : 8
+Current Hart           : 0
+Firmware Base          : 0x80000000
+Firmware Size          : 112 KB
+Runtime SBI Version    : 0.1
+
+PMP0: 0x0000000080000000-0x000000008001ffff (A)
+PMP1: 0x0000000000000000-0xffffffffffffffff (A,R,W,X)
+
+CPU:   rv64imafdcsu
+Model: riscv-virtio,qemu
+DRAM:  1.9 GiB
+
+date -s -d&#39;2018-05-07T21:28:57&#39;
+date -u [MMDDhhmm[[CC]YY][.ss]]
+date -u 123109322018
+</code></pre>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RISC-V"><span class="toc-number">1.</span> <span class="toc-text">RISC-V</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#In-a-nutshell"><span class="toc-number">1.1.</span> <span class="toc-text">In a nutshell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hardware-baseline-and-ABI-choice"><span class="toc-number">1.2.</span> <span class="toc-text">Hardware baseline and ABI choice</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Qemu-setup"><span class="toc-number">1.3.</span> <span class="toc-text">Qemu setup</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#install-packages"><span class="toc-number">1.3.1.</span> <span class="toc-text">install packages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#register-riscv64-interpreter"><span class="toc-number">1.3.2.</span> <span class="toc-text">register riscv64 interpreter</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Setting-up-a-riscv64-virtual-machine"><span class="toc-number">1.4.</span> <span class="toc-text">Setting up a riscv64 virtual machine</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#debootstrap-of-riscv64"><span class="toc-number">1.4.1.</span> <span class="toc-text">debootstrap of riscv64</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-rootfs-img"><span class="toc-number">1.4.2.</span> <span class="toc-text">Create rootfs.img</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-qemu-system-riscv64"><span class="toc-number">1.4.3.</span> <span class="toc-text">Run qemu-system-riscv64</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

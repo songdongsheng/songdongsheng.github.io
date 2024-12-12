@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>Running a Container With a Non Root User | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          Running a Container With a Non Root User
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/02/27</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Cloud/">Cloud</a>/ <a class="article-category-link" href="/categories/Cloud/Container/">Container</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Cloud" class='tag'>Cloud</a>
+
+  <a href="/tags/#Container" class='tag'>Container</a>
+
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+
+          
+        </div>
+        <h1 id="Running-a-Container-With-a-Non-Root-User"><a href="#Running-a-Container-With-a-Non-Root-User" class="headerlink" title="Running a Container With a Non Root User"></a>Running a Container With a Non Root User</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/builder/">https://docs.docker.com/engine/reference/builder/</a></li>
+</ul>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>设计良好的系统遵循最小特权原则。即应用程序仅应有权访问其执行其所需功能所需的资源。这在设计安全系统时至关重要。无论是恶意的还是由于错误的程序，一个进程在运行时都可能产生意想不到的后果。保护自己免受任何意外访问的最佳方法之一是仅授予运行某个进程所需的最小特权。</p>
+<p>多数容器化流程是应用程序服务，因此不需要以 root 身份运行，也不应假定它们是 root。而是应该在 Dockerfile 中创建一个具有已知 UID 和 GID 的用户，然后以该用户身份运行您的进程。因为限制了对资源的访问，从而镜像更易于安全运行。</p>
+<h2 id="Recommendation"><a href="#Recommendation" class="headerlink" title="Recommendation"></a>Recommendation</h2><ul>
+<li>使用 root 执行特权操作<ol>
+<li>(可选) Multi-Stage Builds</li>
+<li>FROM 指令，指定基础镜像</li>
+<li>COPY 指令，复制应用程序的文件</li>
+<li>RUN 指令，创建应用程序需要的目录或文件</li>
+<li>RUN 指令，(可选)安装所需的软件包</li>
+<li>RUN 指令，(可选)使用系统工具处理配置文件等</li>
+<li>RUN 指令，创建系统用户组和系统用户 (<strong>-r</strong>)，切记要显式创建用户组，SUSE 的默认组和其它系统不一样</li>
+<li>RUN 指令，为新建的系统用户赋予目录和文件权限，修改属主时记得使用递归选项 <strong>-R</strong>。</li>
+</ol>
+</li>
+<li>使用新建用户运行应用程序服务<ol>
+<li>USER 指令</li>
+<li>ENTRYPOINT 和 CMD 指令</li>
+</ol>
+</li>
+</ul>
+<h3 id="以-root-身份运行的镜像"><a href="#以-root-身份运行的镜像" class="headerlink" title="以 root 身份运行的镜像"></a>以 root 身份运行的镜像</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> openjdk:<span class="number">8</span>u242</span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> cassandra-table-cleanup.jar /var/lib/cassandra-table-cleanup/lib/</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">mkdir</span> -p /var/lib/cassandra-table-cleanup/log</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /var/lib/cassandra-table-cleanup/log/</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;/usr/bin/java&quot;</span>, <span class="string">&quot;-jar&quot;</span>, <span class="string">&quot;/var/lib/cassandra-table-cleanup/lib/cassandra-table-cleanup.jar&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="以-monte-身份运行的镜像"><a href="#以-monte-身份运行的镜像" class="headerlink" title="以 monte 身份运行的镜像"></a>以 monte 身份运行的镜像</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> openjdk:<span class="number">8</span>u242</span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> cassandra-table-cleanup.jar /var/lib/cassandra-table-cleanup/lib/</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">mkdir</span> -p /var/lib/cassandra-table-cleanup/log/ &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    groupadd -r monte &amp;&amp; useradd -r -g monte monte &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    <span class="built_in">chown</span> -R monte:monte /var/lib/cassandra-table-cleanup</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /var/lib/cassandra-table-cleanup/log/</span></span><br><span class="line"><span class="keyword">USER</span> monte</span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;/usr/bin/java&quot;</span>, <span class="string">&quot;-jar&quot;</span>, <span class="string">&quot;/var/lib/cassandra-table-cleanup/lib/cassandra-table-cleanup.jar&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Tricks"><a href="#Tricks" class="headerlink" title="Tricks"></a>Tricks</h2><h3 id="用户组和用户"><a href="#用户组和用户" class="headerlink" title="用户组和用户"></a>用户组和用户</h3><ol>
+<li>useradd 不指定 <strong>-r</strong>，创建用户时可能会进入交互模式，提示输入密码，所以 groupadd 和 useradd 一定要指定 <strong>-r</strong>，创建系统组和系统用户。</li>
+<li>创建用户时，一定要明确创建用户组 (<strong>-g</strong>)，因为不同系统的默认组不一样！</li>
+<li>如果需要使用持久化卷，必须显式指明 gid 和 uid，因为不同系统为新用户分配的默认 gid 和 uid 都不一样！</li>
+</ol>
+<h4 id="Debian-x2F-Ubuntu"><a href="#Debian-x2F-Ubuntu" class="headerlink" title="Debian&#x2F;Ubuntu"></a>Debian&#x2F;Ubuntu</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@debian-10:/# useradd -r user-01</span><br><span class="line">root@debian-10:/# <span class="built_in">id</span> user-01</span><br><span class="line">uid=999(user-01) gid=999(user-01) <span class="built_in">groups</span>=999(user-01)</span><br></pre></td></tr></table></figure>
+
+<h4 id="RHEL-x2F-CentOS"><a href="#RHEL-x2F-CentOS" class="headerlink" title="RHEL&#x2F;CentOS"></a>RHEL&#x2F;CentOS</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@rhel-8 /]# useradd -r user-02</span><br><span class="line">[root@rhel-8 /]# <span class="built_in">id</span> user-02</span><br><span class="line">uid=998(user-02) gid=996(user-02) <span class="built_in">groups</span>=996(user-02)</span><br></pre></td></tr></table></figure>
+
+<h4 id="SUSE"><a href="#SUSE" class="headerlink" title="SUSE"></a>SUSE</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">suse-15:/ <span class="comment"># useradd -r user-03</span></span><br><span class="line">suse-15:/ <span class="comment"># id user-03</span></span><br><span class="line">uid=499(user-03) gid=100(<span class="built_in">users</span>) <span class="built_in">groups</span>=100(<span class="built_in">users</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="Alpine"><a href="#Alpine" class="headerlink" title="Alpine"></a>Alpine</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/ <span class="comment"># adduser -S user-04</span></span><br><span class="line">/ <span class="comment"># id user-04</span></span><br><span class="line">uid=100(user-04) gid=65533(nogroup) <span class="built_in">groups</span>=65533(nogroup),65533(nogroup)</span><br></pre></td></tr></table></figure>
+
+<h3 id="目录与文件的权限"><a href="#目录与文件的权限" class="headerlink" title="目录与文件的权限"></a>目录与文件的权限</h3><h4 id="COPY-and-WORKDIR"><a href="#COPY-and-WORKDIR" class="headerlink" title="COPY and WORKDIR"></a>COPY and WORKDIR</h4><p>使用 COPY 复制的文件和目录属主，以及 WORKDIR 创建的目录属主，与其与 USER 的<strong>相对位置无关</strong>，始终是 <strong>root</strong> !
+重申一次，WORKDIR 一定要事先创建，并且修改属主，不然其属主是 root !
+因此下面的例子看起来没错，实际不能正常写文件到当前目录：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> openjdk:<span class="number">8</span>u242</span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> useradd -r monte</span></span><br><span class="line"><span class="keyword">USER</span> monte</span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> cassandra-table-cleanup.jar /var/lib/cassandra-table-cleanup/lib/</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /var/lib/cassandra-table-cleanup/log/</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;/usr/bin/java&quot;</span>, <span class="string">&quot;-jar&quot;</span>, <span class="string">&quot;/var/lib/cassandra-table-cleanup/lib/cassandra-table-cleanup.jar&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="chown"><a href="#chown" class="headerlink" title="chown"></a>chown</h4><ol>
+<li>chown 不指定 group 时，不会修改 group 为 user 对应的 group !</li>
+<li>chown 不使用递归选项 <strong>-R</strong> 时，子目录及其中的文件属主不会被改变。</li>
+</ol>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> openjdk:<span class="number">8</span>u242</span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> cassandra-table-cleanup.jar /var/lib/cassandra-table-cleanup/lib/</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">mkdir</span> -p /var/lib/cassandra-table-cleanup/log/ &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    groupadd -r monte &amp;&amp; useradd -r -g monte monte &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    <span class="built_in">chown</span> -R monte:monte /var/lib/cassandra-table-cleanup</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /var/lib/cassandra-table-cleanup/log/</span></span><br><span class="line"><span class="keyword">USER</span> monte</span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;/usr/bin/java&quot;</span>, <span class="string">&quot;-jar&quot;</span>, <span class="string">&quot;/var/lib/cassandra-table-cleanup/lib/cassandra-table-cleanup.jar&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Running-a-Container-With-a-Non-Root-User"><span class="toc-number">1.</span> <span class="toc-text">Running a Container With a Non Root User</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-number">1.1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Recommendation"><span class="toc-number">1.2.</span> <span class="toc-text">Recommendation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A5-root-%E8%BA%AB%E4%BB%BD%E8%BF%90%E8%A1%8C%E7%9A%84%E9%95%9C%E5%83%8F"><span class="toc-number">1.2.1.</span> <span class="toc-text">以 root 身份运行的镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A5-monte-%E8%BA%AB%E4%BB%BD%E8%BF%90%E8%A1%8C%E7%9A%84%E9%95%9C%E5%83%8F"><span class="toc-number">1.2.2.</span> <span class="toc-text">以 monte 身份运行的镜像</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tricks"><span class="toc-number">1.3.</span> <span class="toc-text">Tricks</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E7%BB%84%E5%92%8C%E7%94%A8%E6%88%B7"><span class="toc-number">1.3.1.</span> <span class="toc-text">用户组和用户</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Debian-x2F-Ubuntu"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">Debian&#x2F;Ubuntu</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RHEL-x2F-CentOS"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">RHEL&#x2F;CentOS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SUSE"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">SUSE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Alpine"><span class="toc-number">1.3.1.4.</span> <span class="toc-text">Alpine</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E4%B8%8E%E6%96%87%E4%BB%B6%E7%9A%84%E6%9D%83%E9%99%90"><span class="toc-number">1.3.2.</span> <span class="toc-text">目录与文件的权限</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#COPY-and-WORKDIR"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">COPY and WORKDIR</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#chown"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">chown</span></a></li></ol></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

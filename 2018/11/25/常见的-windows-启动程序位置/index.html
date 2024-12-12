@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>常见的 Windows 启动程序位置 | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          常见的 Windows 启动程序位置
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2018/11/25</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>/ <a class="article-category-link" href="/categories/Operating-system/Windows/">Windows</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Programming" class='tag'>Programming</a>
+
+  <a href="/tags/#Windows" class='tag'>Windows</a>
+
+
+          
+        </div>
+        <h1 id="常见的-Windows-启动程序位置"><a href="#常见的-Windows-启动程序位置" class="headerlink" title="常见的 Windows 启动程序位置"></a>常见的 Windows 启动程序位置</h1><h2 id="Windows-启动程序位置"><a href="#Windows-启动程序位置" class="headerlink" title="Windows 启动程序位置"></a>Windows 启动程序位置</h2><h3 id="注册表"><a href="#注册表" class="headerlink" title="注册表"></a>注册表</h3><pre><code>HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run
+</code></pre>
+<h3 id="硬盘位置"><a href="#硬盘位置" class="headerlink" title="硬盘位置"></a>硬盘位置</h3><p>在开始菜单的运行输入框中，输入 “shell:startup” 或者 “shell:common startup”，也可以打开以下对应的位置：</p>
+<pre><code>%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\
+%ProgramData%\Microsoft\Windows\Start Menu\Programs\Startup\
+</code></pre>
+<h2 id="禁用、删除或者增加启动程序"><a href="#禁用、删除或者增加启动程序" class="headerlink" title="禁用、删除或者增加启动程序"></a>禁用、删除或者增加启动程序</h2><h3 id="禁用或启用启动程序"><a href="#禁用或启用启动程序" class="headerlink" title="禁用或启用启动程序"></a>禁用或启用启动程序</h3><p>打开任务管理器，点击“启动”页面，找到启动项目，点击右键，选择“禁用”或“启用”。</p>
+<h3 id="删除启动程序"><a href="#删除启动程序" class="headerlink" title="删除启动程序"></a>删除启动程序</h3><ul>
+<li>尽量不要删除项目，强烈建议通过任务管理器来禁用它。</li>
+<li>要删除启动项目，你只需在找到的位置删除即可。</li>
+<li>备份后再删除，并且使用重启系统来验证。</li>
+</ul>
+<h3 id="增加启动程序"><a href="#增加启动程序" class="headerlink" title="增加启动程序"></a>增加启动程序</h3><p>要增加启动项目，不建议修改注册表，请在硬盘位置增加快捷方式即可。</p>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84-Windows-%E5%90%AF%E5%8A%A8%E7%A8%8B%E5%BA%8F%E4%BD%8D%E7%BD%AE"><span class="toc-number">1.</span> <span class="toc-text">常见的 Windows 启动程序位置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows-%E5%90%AF%E5%8A%A8%E7%A8%8B%E5%BA%8F%E4%BD%8D%E7%BD%AE"><span class="toc-number">1.1.</span> <span class="toc-text">Windows 启动程序位置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E8%A1%A8"><span class="toc-number">1.1.1.</span> <span class="toc-text">注册表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A1%AC%E7%9B%98%E4%BD%8D%E7%BD%AE"><span class="toc-number">1.1.2.</span> <span class="toc-text">硬盘位置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A6%81%E7%94%A8%E3%80%81%E5%88%A0%E9%99%A4%E6%88%96%E8%80%85%E5%A2%9E%E5%8A%A0%E5%90%AF%E5%8A%A8%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.2.</span> <span class="toc-text">禁用、删除或者增加启动程序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A6%81%E7%94%A8%E6%88%96%E5%90%AF%E7%94%A8%E5%90%AF%E5%8A%A8%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.2.1.</span> <span class="toc-text">禁用或启用启动程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E5%90%AF%E5%8A%A8%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.2.2.</span> <span class="toc-text">删除启动程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A2%9E%E5%8A%A0%E5%90%AF%E5%8A%A8%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.2.3.</span> <span class="toc-text">增加启动程序</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>

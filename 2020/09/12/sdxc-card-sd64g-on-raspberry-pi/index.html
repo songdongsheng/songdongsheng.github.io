@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang=zh>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="">
+  
+    
+  <title>SDXC card SD64G on Raspberry Pi | 上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</title>
+  <meta name="description" content="">
+  
+<link rel="stylesheet" href="/style.css">
+
+  
+<link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class='logo' href="/">
+      <span>上下未形，何由考之？冥昭瞢暗，誰能極之？馮翼惟象，何以識之？</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id='post'>
+  <div class="content">
+    <article>
+      <section class="content markdown-body">
+        <h1>
+          SDXC card SD64G on Raspberry Pi
+        </h1>
+        <div class='post-meta'>
+          <i class="fa fa-calendar"
+            aria-hidden="true"></i> <time>
+            2020/09/12</time>
+          
+          | <i class="fa fa-folder-open-o"
+            aria-hidden="true"></i>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Operating-system/">Operating system</a>
+  </div>
+
+
+
+          
+          
+          |
+          
+          <i class="fa fa-tags"
+            aria-hidden="true"></i>
+          
+          
+  <a href="/tags/#Linux" class='tag'>Linux</a>
+
+  <a href="/tags/#Operating%20system" class='tag'>Operating system</a>
+
+
+          
+        </div>
+        <h1 id="SDXC-card-SD64G-on-Raspberry-Pi"><a href="#SDXC-card-SD64G-on-Raspberry-Pi" class="headerlink" title="SDXC card SD64G on Raspberry Pi"></a>SDXC card SD64G on Raspberry Pi</h1><h2 id="dmesg-mmc"><a href="#dmesg-mmc" class="headerlink" title="dmesg - mmc"></a>dmesg - mmc</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">dmesg  | grep mmc</span></span><br><span class="line">[    1.681001] sdhost-bcm2835 20202000.mmc: could not get clk, deferring probe</span><br><span class="line">[    2.583924] mmc0: sdhost-bcm2835 loaded - DMA enabled (&gt;1)</span><br><span class="line">[    2.675452] mmc0: host does not support reading read-only switch, assuming write-enable</span><br><span class="line">[    2.691849] mmc0: new high speed SDXC card at address 5048</span><br><span class="line">[    2.701678] mmcblk0: mmc0:5048 SD64G 58.0 GiB</span><br><span class="line">[    2.712564]  mmcblk0: p1 p2</span><br><span class="line">[    2.737917] EXT4-fs (mmcblk0p2): INFO: recovery required on readonly filesystem</span><br><span class="line">[    2.748359] EXT4-fs (mmcblk0p2): write access will be enabled during recovery</span><br><span class="line">[    2.888278] EXT4-fs (mmcblk0p2): recovery complete</span><br><span class="line">[    2.898848] EXT4-fs (mmcblk0p2): mounted filesystem with ordered data mode. Opts: (null)</span><br><span class="line">[   12.148874] EXT4-fs (mmcblk0p2): re-mounted. Opts: (null)</span><br></pre></td></tr></table></figure>
+
+<h2 id="lsblk"><a href="#lsblk" class="headerlink" title="lsblk"></a>lsblk</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">lsblk</span></span><br><span class="line">NAME        MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT</span><br><span class="line">mmcblk0     179:0    0   58G  0 disk</span><br><span class="line">├─mmcblk0p1 179:1    0  256M  0 part /boot</span><br><span class="line">└─mmcblk0p2 179:2    0 57.8G  0 part /</span><br></pre></td></tr></table></figure>
+
+<h2 id="fdisk"><a href="#fdisk" class="headerlink" title="fdisk"></a>fdisk</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">sudo</span> fdisk -l /dev/mmcblk0</span></span><br><span class="line">Disk /dev/mmcblk0: 58 GiB, 62264442880 bytes, 121610240 sectors</span><br><span class="line">Units: sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 512 bytes</span><br><span class="line">I/O size (minimum/optimal): 512 bytes / 512 bytes</span><br><span class="line">Disklabel type: dos</span><br><span class="line">Disk identifier: 0x8babfcf3</span><br><span class="line"></span><br><span class="line">Device         Boot  Start       End   Sectors  Size Id Type</span><br><span class="line">/dev/mmcblk0p1        8192    532479    524288  256M  c W95 FAT32 (LBA)</span><br><span class="line">/dev/mmcblk0p2      532480 121610239 121077760 57.8G 83 Linux</span><br></pre></td></tr></table></figure>
+
+<h2 id="parted"><a href="#parted" class="headerlink" title="parted"></a>parted</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">pi@raspberrypi:~ $ sudo parted -l /dev/mmcblk0</span><br><span class="line">Model: SD SD64G (sd/mmc)</span><br><span class="line">Disk /dev/mmcblk0: 62.3GB</span><br><span class="line">Sector size (logical/physical): 512B/512B</span><br><span class="line">Partition Table: msdos</span><br><span class="line">Disk Flags:</span><br><span class="line"></span><br><span class="line">Number  Start   End     Size    Type     File system  Flags</span><br><span class="line"> 1      4194kB  273MB   268MB   primary  fat32        lba</span><br><span class="line"> 2      273MB   62.3GB  62.0GB  primary  ext4</span><br></pre></td></tr></table></figure>
+
+      </section>
+    </article>
+    
+    
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+      <h1>
+        catalog
+      </h1>
+      <div class="content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SDXC-card-SD64G-on-Raspberry-Pi"><span class="toc-number">1.</span> <span class="toc-text">SDXC card SD64G on Raspberry Pi</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#dmesg-mmc"><span class="toc-number">1.1.</span> <span class="toc-text">dmesg - mmc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lsblk"><span class="toc-number">1.2.</span> <span class="toc-text">lsblk</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fdisk"><span class="toc-number">1.3.</span> <span class="toc-text">fdisk</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#parted"><span class="toc-number">1.4.</span> <span class="toc-text">parted</span></a></li></ol></li></ol>
+      </div>
+    </div>
+    
+  </aside>
+</main>
+
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy;
+      2024 | Powered by <a href="https://hexo.io"
+        target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath"
+        target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/lib/ScrollMagic.min.js"></script>
+
+
+<script src="/lib/lodash.min.js"></script>
+
+<script>
+  document.body.addEventListener('touchstart', function () { });
+
+  // 文章图片预览
+  $("article img").each(function () {
+    var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+    $(this).wrapAll(strA);
+  });
+
+  // 目录联动
+  let tocLinkList = $('.toc-link')
+
+  let controller = new ScrollMagic.Controller({
+    globalSceneOptions: {
+      triggerHook: 0.01
+    }
+  })
+
+  tocLinkList.each(function (index, elem) {
+    let href = $(this).attr("href");
+    let nextHref = tocLinkList.eq(index + 1).attr("href");
+    let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+    new ScrollMagic.Scene({ triggerElement: href })
+      .duration(height)
+      .setClassToggle(".toc [href='" + href + "']", 'active')
+      .addTo(controller)
+  })
+
+  window.addEventListener('load', function () {
+    // 目录联动 图片加载完成后从新计算
+    tocLinkList.each(function (index, elem) {
+      let href = $(this).attr("href");
+      let nextHref = tocLinkList.eq(index + 1).attr("href");
+      let height = href && nextHref ? $(nextHref).offset().top - $(href).offset().top : 0
+
+      new ScrollMagic.Scene({ triggerElement: href })
+        .duration(height)
+        .setClassToggle(".toc [href='" + href + "']", 'active')
+        .addTo(controller)
+    })
+  })
+</script>
+
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+
+</body>
+</html>
