@@ -61,26 +61,29 @@ AnolisOS 23.1           | 2024-05       | 2.38          | 12.3              | 6.
 openEuler 24.03         | 2024-06       | 2.38          | 12.3              | 6.6
 SLE 15 SP6              | 2024-06       | 2.38          | 13.3              | 6.4
 Ubuntu 24.04            | 2024-04       | 2.39          | 14.0              | 6.8
-Fedora 40               | 2024-04       | 2.39          | 14.1              | 6.9
 [CentOS Stream 10](https://mirror.stream.centos.org/10-stream/BaseOS/x86_64/os/Packages/) | 2024-12       | 2.39          | 14.2              | 6.12
-Ubuntu 24.10            | 2024-10       | 2.40          | 14.2              | 6.11
-Debian 13               | ***2025-06*** | [2.40 ?](https://tracker.debian.org/pkg/glibc) | [14.2 ?](https://packages.debian.org/trixie/libgcc-s1) | [6.12 ?](https://tracker.debian.org/pkg/linux)
+Debian 13               | ***2025-06*** | [2.41 ?](https://tracker.debian.org/pkg/glibc) | [14.2 ?](https://packages.debian.org/trixie/libgcc-s1) | [6.12 ?](https://tracker.debian.org/pkg/linux)
+Fedora 42               | 2025-04       | 2.41          | 15.0              | 6.14
+Ubuntu 25.04            | 2025-04       | 2.41          | 15.0              | 6.14
 RHEL 10                 | ***2025-08*** | [2.40 ?](https://composes.stream.centos.org/stream-10/production/latest-CentOS-Stream/compose/BaseOS/x86_64/os/Packages/) | [14.2 ?](https://composes.stream.centos.org/stream-10/production/latest-CentOS-Stream/compose/BaseOS/x86_64/os/Packages/) | [6.12 ?](https://composes.stream.centos.org/stream-10/production/latest-CentOS-Stream/compose/BaseOS/x86_64/os/Packages/)
-[**openSUSE Tumbleweed**](https://download.opensuse.org/tumbleweed/repo/oss/x86_64/) | ***Rolling*** | 2.40 ? | 14.2 ? | 6.11 ?
+[**openSUSE Tumbleweed**](https://download.opensuse.org/tumbleweed/repo/oss/x86_64/) | ***Rolling*** | 2.41 ? | 15.0 ? | 6.14 ?
 Alpine 3.18             | [2023-05](https://alpinelinux.org/releases/) | musl [1.2.4](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.18-stable/main/musl/APKBUILD) | [libgcc 12.2](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.18-stable/main/gcc/APKBUILD) | [6.1](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.18-stable/main/linux-lts/APKBUILD)
 Alpine 3.19             | [2023-12](https://alpinelinux.org/releases/) | musl [1.2.4](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.19-stable/main/musl/APKBUILD) | [libgcc 13.2](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.19-stable/main/gcc/APKBUILD) | [6.6](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.19-stable/main/linux-lts/APKBUILD)
 Alpine 3.20             | [2024-05](https://alpinelinux.org/releases/) | musl [1.2.5](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.20-stable/main/musl/APKBUILD) | [libgcc 13.2](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.20-stable/main/gcc/APKBUILD) | [6.6](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.20-stable/main/linux-lts/APKBUILD)
 Alpine 3.21             | [2024-12](https://alpinelinux.org/releases/) | musl [1.2.5](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.21-stable/main/musl/APKBUILD) | [libgcc 14.2](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.21-stable/main/gcc/APKBUILD) | [6.12](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.21-stable/main/linux-lts/APKBUILD)
 Alpine edge             | [2025-05](https://alpinelinux.org/releases/) | musl [1.2.5](https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/musl/APKBUILD) | [libgcc 14.2](https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/gcc/APKBUILD) | [6.12](https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/linux-lts/APKBUILD)
 
-## libgcc versions
+## libgcc & libstdc++ versions
 
-The following GCC versions add new functions to **libgcc** ([`libgcc/libgcc-std.ver.in`](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/libgcc-std.ver.in;hb=HEAD) and [`libgcc/config/i386/libgcc-glibc.ver`](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/config/i386/libgcc-glibc.ver;hb=HEAD))：
+- [The GNU C/C++ Library ABI Policy and Guidelines](https://gcc.gnu.org/onlinedocs/libstdc++/manual/abi.html)
 
-+ **GCC 14.0.0**
-+ **GCC 13.0.0**
-+ **GCC 12.0.0**
-+ **GCC 7.0.0**
+The following GCC versions add new functions to **libgcc** ([`libgcc/libgcc-std.ver.in`](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/libgcc-std.ver.in;hb=HEAD) and [`libgcc/config/i386/libgcc-glibc.ver`](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/config/i386/libgcc-glibc.ver;hb=HEAD)) & **libstdc++** ([`libstdc++-v3/config/abi/pre/gnu.ver`](https://github.com/gcc-mirror/gcc/blob/master/libstdc++-v3/config/abi/pre/gnu.ver)):
+
++ **GCC 15.1.0** (Only `libstdc++.so` has been changed)
++ **GCC 14.1.0**
++ **GCC 13.1.0**
++ **GCC 12.1.0**
++ **GCC 7.1.0**
 + **GCC 4.8.0**
 + ... (Too old to need to list anymore)
 

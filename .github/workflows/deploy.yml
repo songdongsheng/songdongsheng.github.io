@@ -1,3 +1,4 @@
+# https://hexo.io/docs/github-pages
 # https://docs.github.com/en/actions/security-guides/automatic-token-authentication
 # https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows
 # https://docs.github.com/en/actions/security-guides/encrypted-secrets
@@ -17,52 +18,41 @@ on:
   push:
     branches:
       - hexo
+  schedule:
+    # itHub Actions run in UTC time
+    - cron: "45 3 * * *"
 
 jobs:
-  deploy:
-    runs-on: ubuntu-20.04
+  build:
+    runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v3
-
-      - name: setup node
-        uses: actions/setup-node@v3
+        uses: actions/checkout@v4
         with:
-          node-version: 14
-
-      - name: apt-get
-        run: |
-          # dpkg -l
-          sudo apt-get update
-          # 21 minutes !
-          # sudo apt-get dist-upgrade -y
-          # sudo DEBIAN_FRONTEND=noninteractive ACCEPT_EULA=Y apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" --allow-downgrades --allow-remove-essential --allow-change-held-packages dist-upgrade
-          sudo apt-get install -y --no-install-recommends ca-certificates curl git g++ xz-utils libsass-dev
-
-      - name: hexo deploy
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-          MY_TOKEN: ${{ secrets.MY_TOKEN }}
-          # https://github.com/settings/tokens
-          GITHUB_DEPLOY_KEY: ${{ secrets.GITHUB_DEPLOY_KEY }}
-        run: |
-          printenv | sort
-
-          mkdir -p ~/.ssh/
-          echo "$GITHUB_DEPLOY_KEY" > ~/.ssh/id_rsa
-          chmod 700 ~/.ssh/
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-
-          git config --global user.email "songdongsheng@live.cn"
-          git config --global user.name "宋冬生"
-
-          git submodule sync --recursive
-          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
-          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive
-
-          npm version
-          npm install --unsafe-perm --global hexo@6.2.0
-          npm install --unsafe-perm
-
-          hexo deploy || true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          submodules: recursive
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install Dependencies
+        run: npm install
+      - name: Build
+        run: npm run build
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+  deploy:
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
