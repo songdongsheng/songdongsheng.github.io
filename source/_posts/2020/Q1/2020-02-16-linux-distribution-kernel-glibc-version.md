@@ -55,7 +55,7 @@ RHEL 9                  | 2022-05       | 2.34          | 11.4 -> 11.5      | 5.
 Amazon Linux 2023       | 2023-03       | 2.34          | 11.4              | 6.1
 CBL-Mariner 2.0         | 2022-05       | 2.35          | 11.2              | 5.15
 Ubuntu 22.04            | 2022-04       | 2.35          | 12.3              | 5.15
-Debian 12               | 2023-06       | [2.36](https://tracker.debian.org/pkg/glibc) | [12.2](https://packages.debian.org/bookworm/libgcc-s1) | [6.1](https://tracker.debian.org/pkg/linux)
+[Debian 12](https://wiki.debian.org/DebianBookworm) | [2023-06](https://www.debian.org/releases/) | [2.36](https://tracker.debian.org/pkg/glibc) | [12.2](https://packages.debian.org/bookworm/libgcc-s1) | [6.1](https://tracker.debian.org/pkg/linux)
 AnolisOS 23.2           | 2025-01       | 2.38          | 12.3              | 6.6
 **OpenCloudOS 9.4**     | 2025-05       | **2.38**      | 12.3              | 6.6
 openEuler 24.03         | 2024-06       | 2.38          | 12.3              | 6.6
@@ -63,16 +63,17 @@ SLE 15 SP6              | 2024-06       | 2.38          | 13.3              | [6
 SLE 15 SP7              | 2025-06       | 2.38          | 14.2              | [6.4](https://www.suse.com/lifecycle/#suse-linux-enterprise-server-15)
 Ubuntu 24.04            | 2024-04       | 2.39          | 14.0              | 6.8
 RHEL 10                 | 2025-05       | 2.39          | 14.2              | 6.12
-[CentOS Stream 10](https://mirror.stream.centos.org/10-stream/BaseOS/x86_64/os/Packages/) | 2025-05       | 2.39          | 14.2              | 6.12
-[SLE 16](https://www.suse.com/lifecycle/#product-suse-linux-enterprise-server) | 2025-10 | [2.40 ?](https://download.opensuse.org/distribution/leap/16.0/repo/oss/aarch64/) | [15.1 ?](https://download.opensuse.org/distribution/leap/16.0/repo/oss/x86_64/) | [6.12 ?](https://www.suse.com/support/kb/doc/?id=000019587)
-Debian 13               | ***2025-06*** | [2.41 ?](https://tracker.debian.org/pkg/glibc) | [14.2 ?](https://packages.debian.org/trixie/libgcc-s1) | [6.12 ?](https://tracker.debian.org/pkg/linux)
+[***CentOS Stream 10***](https://mirror.stream.centos.org/10-stream/BaseOS/x86_64/os/Packages/) | ***2025-08?*** | ***2.39*** | ***14.3*** | ***6.12***
+[***SLE 16***](https://www.suse.com/lifecycle/#product-suse-linux-enterprise-server) | ***2025-10?*** | [***2.40***](https://download.opensuse.org/distribution/leap/16.0/repo/oss/aarch64/) | [***15.1***](https://download.opensuse.org/distribution/leap/16.0/repo/oss/x86_64/) | [***6.12***](https://www.suse.com/support/kb/doc/?id=000019587)
+[Debian 13](https://wiki.debian.org/DebianTrixie) | ***2025-08?*** | [2.41](https://packages.debian.org/trixie/libc6) | [14.2](https://packages.debian.org/trixie/libgcc-s1) | [6.12](https://packages.debian.org/trixie/linux-libc-dev)
 Fedora 42               | 2025-04       | 2.41          | 15.0              | 6.14
-Ubuntu 25.04            | 2025-04       | 2.41          | 15.0              | 6.14
-[**openSUSE Tumbleweed**](https://download.opensuse.org/tumbleweed/repo/oss/x86_64/) | ***Rolling*** | 2.41 ? | 15.1 ? | 6.15 ?
+[***Ubuntu 25.10***](https://wiki.ubuntu.com/QuestingQuokka) | [***2025-10?***](https://wiki.ubuntu.com/Releases) | [***2.41?***](https://packages.ubuntu.com/questing/libc6) | [***15.1?***](https://packages.ubuntu.com/questing/libgcc-s1) | [***6.15?***](https://packages.ubuntu.com/questing/linux-libc-dev)
+[***Debian 14***](https://wiki.debian.org/DebianForky) | [***2027-08?***](https://www.debian.org/releases/) | [***2.46?***](https://tracker.debian.org/pkg/glibc) | [***16.2?***](https://tracker.debian.org/pkg/libstdc++6) | [***7.6?***](https://tracker.debian.org/pkg/linux)
+[**openSUSE Tumbleweed**](https://download.opensuse.org/tumbleweed/repo/oss/x86_64/) | ***Rolling*** | ***2.41?*** | ***15.1?*** | ***6.15?***
 Alpine 3.20             | [2024-05](https://alpinelinux.org/releases/) | musl [1.2.5](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.20-stable/main/musl/APKBUILD) | [libgcc 13.2](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.20-stable/main/gcc/APKBUILD) | [6.6](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.20-stable/main/linux-lts/APKBUILD)
 Alpine 3.21             | [2024-12](https://alpinelinux.org/releases/) | musl [1.2.5](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.21-stable/main/musl/APKBUILD) | [libgcc 14.2](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.21-stable/main/gcc/APKBUILD) | [6.12](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.21-stable/main/linux-lts/APKBUILD)
 Alpine 3.22             | [2025-05](https://alpinelinux.org/releases/) | musl [1.2.5](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.22-stable/main/musl/APKBUILD) | [libgcc 14.2](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.22-stable/main/gcc/APKBUILD) | [6.12](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.22-stable/main/linux-lts/APKBUILD)
-Alpine edge             | [***2025-11***](https://alpinelinux.org/releases/) | musl [1.2.5](https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/musl/APKBUILD) | [libgcc 14.3](https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/gcc/APKBUILD) | [6.12](https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/linux-lts/APKBUILD)
+Alpine edge             | [***2025-12?***](https://alpinelinux.org/releases/) | musl [1.2.5?](https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/musl/APKBUILD) | [libgcc 15.1?](https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/gcc/APKBUILD) | [6.12?](https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/linux-lts/APKBUILD)
 
 
 ## libgcc & libstdc++ versions
