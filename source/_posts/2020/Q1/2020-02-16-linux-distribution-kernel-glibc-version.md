@@ -31,45 +31,41 @@ Debian 6                | 2011-02       | 2.11.3        | 4.4.5             | 2.
 RHEL 6                  | 2010-11       | 2.12          | 4.4.7             | 2.6.32
 Debian 7                | 2013-05       | 2.13          | 4.7.2             | 3.2
 Ubuntu 12.04            | 2012-04       | 2.15          | 4.6.3             | 3.2
-**RHEL 7**              | 2014-06       | **2.17**      | 4.8.5             | 3.10
-**AnolisOS 7.9**        | 2022-02       | **2.17**      | 4.8.5             | 3.10 -> 4.19
+[**<font color="#C73A3A">RHEL 7</font>**](https://access.redhat.com/support/policy/updates/errata/#Life_Cycle_Dates) | 2014-06 | **2.17** | **4.8.5** | 3.10
+[**<font color="#C73A3A">AnolisOS 7</font>**](https://openanolis.cn/anolisos/7) | [2022-02](https://docs.openanolis.cn/document/detail/ojobfl8g) | **2.17** | **4.8.5** | 4.19
 Ubuntu 14.04            | 2014-04       | 2.19          | 4.9.3             | 3.13
-SLE 12                  | 2014-10       | 2.19 -> 2.22  | 4.8.3 -> 13.2     | [3.12 -> 4.12](https://www.suse.com/lifecycle/)
 Debian 8                | 2015-04       | 2.19          | 4.9.2             | 3.16
+[**<font color="#C73A3A">SLES 12 SP5</font>**](https://www.suse.com/lifecycle/) | 2019-12 | 2.22 | 13.3      | 4.12
 Ubuntu 16.04            | 2016-04       | 2.23          | 5.4.0             | 4.4
 Debian 9                | 2017-06       | 2.24          | 6.3               | 4.9
 Amazon Linux 2 LTS      | 2018-06       | 2.26          | 7.3               | 4.14
-SLE 15                  | 2018-07       | 2.26          | 7.3               | [4.12](https://www.suse.com/lifecycle/)
 Ubuntu 18.04            | 2018-04       | 2.27          | 8.4               | 4.15
-**RHEL 8**              | 2019-05       | **2.28**      | 8.5               | 4.18
-**AnolisOS 8.10**       | 2025-04       | **2.28**      | 8.5               | 4.18 -> 5.10
-OpenCloudOS 8.10        | 2024-10       | 2.28          | 8.5               | 5.4
+[**<font color="#E67E22">RHEL 8</font>**](https://access.redhat.com/support/policy/updates/errata/#Life_Cycle_Dates) | 2019-05 | **2.28** | **8.5** | 4.18
 Debian 10               | 2019-07       | 2.28          | 8.3               | 4.19
 openEuler 20.03         | 2020-03       | 2.28          | 7.3               | 4.19
+[OpenCloudOS 8.10](https://docs.opencloudos.org/en/release/oc_intro/) | 2024-10 | **[2.28](https://mirrors.opencloudos.tech/opencloudos/8/BaseOS/x86_64/os/Packages/)** | 8.5 | 5.4
+[**<font color="#2F77B3">AnolisOS 8.10</font>**](https://openanolis.cn/anolisos/8) | [2025-04](https://docs.openanolis.cn/document/detail/ojobfl8g) | **[2.28](http://mirrors.openanolis.cn/anolis/8/BaseOS/x86_64/os/Packages/)** | **8.5** | 5.10
 Ubuntu 20.04            | 2020-04       | 2.31          | 10.5              | 5.4
-SLE 15 SP3              | 2021-06       | 2.31          | 10.2              | [5.3](https://www.suse.com/support/kb/doc/?id=000019587#SLE15SP3)
-**Debian 11**           | 2021-08       | **2.31**      | 10.2              | 5.10
-SLE 15 SP4              | 2022-06       | 2.31          | 11.2              | [5.14](https://www.suse.com/lifecycle/#suse-linux-enterprise-server-15)
+Debian 11               | 2021-08       | 2.31          | 10.2              | 5.10
 openEuler 22.03         | 2022-03       | 2.34          | 10.3              | 5.10
-RHEL 9                  | 2022-05       | 2.34          | 11.4 -> 11.5      | 5.14
+[**<font color="#2F77B3">RHEL 9</font>**](https://access.redhat.com/support/policy/updates/errata/#Life_Cycle_Dates) | 2022-05 | 2.34 | 11.5 | 5.14
 Amazon Linux 2023       | 2023-03       | 2.34          | 11.4              | 6.1
 CBL-Mariner 2.0         | 2022-05       | 2.35          | 11.2              | 5.15
 Ubuntu 22.04            | 2022-04       | 2.35          | 12.3              | 5.15
 [Debian 12](https://wiki.debian.org/DebianBookworm) | [2023-06](https://www.debian.org/releases/) | [2.36](https://tracker.debian.org/pkg/glibc) | [12.2](https://packages.debian.org/bookworm/libgcc-s1) | [6.1](https://tracker.debian.org/pkg/linux)
-AnolisOS 23.2           | 2025-01       | 2.38          | 12.3              | 6.6
-**OpenCloudOS 9.4**     | 2025-05       | **2.38**      | 12.3              | 6.6
+**[<font color="#2E9E5B">OpenCloudOS 9.4</font>](https://docs.opencloudos.org/en/release/oc_intro/)**     | 2025-05       | **[2.38](https://mirrors.opencloudos.tech/opencloudos/9/BaseOS/x86_64/os/Packages/)** | **12.3** | 6.6
+[AnolisOS 23.3](https://openanolis.cn/anolisos/23) | [2025-06](https://docs.openanolis.cn/document/detail/ojobfl8g) | [2.38](http://mirrors.openanolis.cn/anolis/23/updates/x86_64/os/Packages/) | 12.3 | 6.6
 openEuler 24.03         | 2024-06       | 2.38          | 12.3              | 6.6
-SLE 15 SP6              | 2024-06       | 2.38          | 13.3              | [6.4](https://www.suse.com/support/kb/doc/?id=000019587#SLE15SP6)
-SLE 15 SP7              | 2025-06       | 2.38          | 14.2              | [6.4](https://www.suse.com/lifecycle/#suse-linux-enterprise-server-15)
+[**<font color="#2E9E5B">SLES 15 SP7</font>**](https://www.suse.com/lifecycle/) | 2025-06 | 2.38 | 14.3      | [6.4](https://www.suse.com/support/kb/doc/?id=000019587#SLE15SP7)
 Ubuntu 24.04            | 2024-04       | 2.39          | 14.0              | 6.8
-RHEL 10                 | 2025-05       | 2.39          | 14.2              | 6.12
-[***CentOS Stream 10***](https://mirror.stream.centos.org/10-stream/BaseOS/x86_64/os/Packages/) | _2025-09_ | 2.39 | ***14.3?*** | 6.12
-[***SLE 16***](https://www.suse.com/lifecycle/#product-suse-linux-enterprise-server) | ***2025-10?*** | [***2.40?***](https://download.opensuse.org/distribution/leap/16.0/repo/oss/aarch64/) | [***15.1?***](https://download.opensuse.org/distribution/leap/16.0/repo/oss/x86_64/) | [***6.12?***](https://www.suse.com/support/kb/doc/?id=000019587)
+[**<font color="#2E9E5B">RHEL 10</font>**](https://access.redhat.com/support/policy/updates/errata/#Life_Cycle_Dates) | 2025-05 | 2.39 | 14.2 | 6.12
+[***<font color="#7A52CC">CentOS Stream 10</font>***](https://mirror.stream.centos.org/10-stream/BaseOS/x86_64/os/Packages/) | ***Rolling*** | 2.39 | ***14.3?*** | 6.12
+[***<font color="#7A52CC">SLES 16</font>***](https://www.suse.com/lifecycle/#product-suse-linux-enterprise-server) | ***2025-10?*** | [***2.40?***](https://download.opensuse.org/distribution/leap/16.0/repo/oss/aarch64/) | [***15.1?***](https://download.opensuse.org/distribution/leap/16.0/repo/oss/x86_64/) | [***6.12?***](https://www.suse.com/support/kb/doc/?id=000019587)
 [Debian 13](https://wiki.debian.org/DebianTrixie) | 2025-08 | [2.41](https://packages.debian.org/trixie/libc6) | [14.2](https://packages.debian.org/trixie/libgcc-s1) | [6.12](https://packages.debian.org/trixie/linux-libc-dev)
 Fedora 42               | 2025-04       | 2.41          | 15.0              | 6.14
 [***Ubuntu 25.10***](https://wiki.ubuntu.com/QuestingQuokka) | [***2025-10***](https://wiki.ubuntu.com/Releases) | [***2.42***](https://packages.ubuntu.com/questing/libc6) | [***15.2***](https://packages.ubuntu.com/questing/libgcc-s1) | [***6.17***](https://packages.ubuntu.com/questing/linux-libc-dev)
-[***Debian 14***](https://wiki.debian.org/DebianForky) | [***2027-08?***](https://www.debian.org/releases/) | [***2.46?***](https://tracker.debian.org/pkg/glibc) | [***16.2?***](https://tracker.debian.org/pkg/libstdc++6) | [***7.6?***](https://tracker.debian.org/pkg/linux)
-[**openSUSE Tumbleweed**](https://download.opensuse.org/tumbleweed/repo/oss/x86_64/) | ***Rolling*** | ***2.42?*** | ***15.1?*** | ***6.16?***
+[***<font color="#7A52CC">Debian 14</font>***](https://wiki.debian.org/DebianForky) | [***2027-08?***](https://www.debian.org/releases/) | [***2.46?***](https://tracker.debian.org/pkg/glibc) | [***16.2?***](https://tracker.debian.org/pkg/libstdc++6) | [***7.6?***](https://tracker.debian.org/pkg/linux)
+[**<font color="#7A52CC">openSUSE Tumbleweed</font>**](https://download.opensuse.org/tumbleweed/repo/oss/x86_64/) | ***Rolling*** | ***2.42?*** | ***15.1?*** | ***6.16?***
 Alpine 3.21             | [2024-12](https://alpinelinux.org/releases/) | musl [1.2.5](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.21-stable/main/musl/APKBUILD) | [libgcc 14.2](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.21-stable/main/gcc/APKBUILD) | [6.12](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.21-stable/main/linux-lts/APKBUILD)
 Alpine 3.22             | [2025-05](https://alpinelinux.org/releases/) | musl [1.2.5](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.22-stable/main/musl/APKBUILD) | [libgcc 14.2](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.22-stable/main/gcc/APKBUILD) | [6.12](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.22-stable/main/linux-lts/APKBUILD)
 Alpine edge             | [***2025-12?***](https://alpinelinux.org/releases/) | musl [1.2.5?](https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/musl/APKBUILD) | [libgcc 15.2?](https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/gcc/APKBUILD) | [6.12?](https://gitlab.alpinelinux.org/alpine/aports/-/blob/master/main/linux-lts/APKBUILD)
@@ -81,9 +77,9 @@ Alpine edge             | [***2025-12?***](https://alpinelinux.org/releases/) | 
 
 The following GCC versions add new functions to **libgcc** ([`libgcc/libgcc-std.ver.in`](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/libgcc-std.ver.in;hb=HEAD) and [`libgcc/config/i386/libgcc-glibc.ver`](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/config/i386/libgcc-glibc.ver;hb=HEAD)) & **libstdc++** ([`libstdc++-v3/config/abi/pre/gnu.ver`](https://github.com/gcc-mirror/gcc/blob/master/libstdc++-v3/config/abi/pre/gnu.ver)):
 
-+ **GCC 16.1.0** (Only `libstdc++.so` has been changed)
-+ **GCC 15.1.0** (Only `libstdc++.so` has been changed)
-+ **GCC 14.1.0**
++ **GCC 16.1.0** (Only `libstdc++.so.6` has the symbol version `GLIBCXX_3.4.35` added)
++ **GCC 15.1.0** (Only `libstdc++.so.6` has the symbol version `GLIBCXX_3.4.34` added)
++ **GCC 14.1.0** (Both `libgcc_s.so.1` and `libstdc++.so.6` have symbol versions added)
 + **GCC 13.1.0**
 + **GCC 12.1.0**
 + **GCC 7.1.0**
