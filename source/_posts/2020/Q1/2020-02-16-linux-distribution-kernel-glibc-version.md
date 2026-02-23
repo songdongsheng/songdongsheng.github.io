@@ -58,16 +58,16 @@ CBL-Mariner 2.0         | 2022-05       | 2.35          | 11.2              | 5.
 openEuler 24.03         | 2024-06       | 2.38          | 12.3              | 6.6
 [**<font color="#2F77B3">SLES 15 SP7</font>**](https://www.suse.com/lifecycle/) | 2025-06 | 2.38 | 14.3      | [6.4](https://www.suse.com/support/kb/doc/?id=000019587#SLE15SP7)
 **<font color="#2E9E5B">Ubuntu 24.04</font>** | [2024-04](https://ubuntu.com/about/release-cycle) | 2.39          | 14.0              | 6.8
-[**<font color="#2E9E5B">RHEL 10</font>**](https://access.redhat.com/support/policy/updates/errata/#Life_Cycle_Dates) | 2025-05 | 2.39 | 14.2 | 6.12
-[***<font color="#7A52CC">CentOS Stream 10</font>***](https://mirror.stream.centos.org/10-stream/BaseOS/x86_64/os/Packages/) | ***Rolling*** | 2.39 | ***14.3?*** | 6.12
+[**<font color="#2E9E5B">RHEL 10</font>**](https://access.redhat.com/support/policy/updates/errata/#Life_Cycle_Dates) | 2025-05 | 2.39 | 14.3 | 6.12
+[***<font color="#7A52CC">CentOS Stream 10</font>***](https://mirror.stream.centos.org/10-stream/BaseOS/x86_64/os/Packages/) | ***Rolling*** | 2.39 | 14.3 | 6.12
 [**<font color="#2E9E5B">SLES 16.0</font>**](https://www.suse.com/lifecycle/#product-suse-linux-enterprise-server) | **2025-11** | [**2.40**](https://download.opensuse.org/distribution/leap/16.0/repo/oss/aarch64/) | [**15.1**](https://download.opensuse.org/distribution/leap/16.0/repo/oss/x86_64/) | [**6.12**](https://www.suse.com/support/kb/doc/?id=000019587)
 [**<font color="#2E9E5B">Debian 13</font>**](https://wiki.debian.org/DebianTrixie) | 2025-08 | [2.41](https://packages.debian.org/trixie/libc6) | [14.2](https://packages.debian.org/trixie/libgcc-s1) | [6.12](https://packages.debian.org/trixie/linux-libc-dev)
 [<font color="#2F77B3">Fedora 42</font>](https://docs.fedoraproject.org/en-US/releases/f42/) | 2025-04       | 2.41          | 15.0              | 6.14
-[Ubuntu 25.10](https://wiki.ubuntu.com/QuestingQuokka) | [***2025-10***](https://wiki.ubuntu.com/Releases) | [***2.42***](https://packages.ubuntu.com/questing/libc6) | [***15.2***](https://packages.ubuntu.com/questing/libgcc-s1) | [***6.17***](https://packages.ubuntu.com/questing/linux-libc-dev)
+[Ubuntu 25.10](https://documentation.ubuntu.com/project/release-team/list-of-releases/) | [***2025-10***](https://discourse.ubuntu.com/t/questing-quokka-release-notes/59220) | [***2.42***](https://packages.ubuntu.com/questing/libc6) | [***15.2***](https://packages.ubuntu.com/questing/libgcc-s1) | [***6.17***](https://packages.ubuntu.com/questing/linux-libc-dev)
 [**<font color="#2E9E5B">Fedora 43</font>**](https://fedoraproject.org/misc) | 2025-10       | 2.42          | 15.2              | 6.17
-[***<font color="#7A52CC">Ubuntu 26.04</font>***](https://documentation.ubuntu.com/project/release-team/list-of-releases/) | [***2026-04?***](https://discourse.ubuntu.com/t/resolute-raccoon-release-schedule/47198) | [***2.42?***](https://packages.ubuntu.com/resolute/libc6) | [***15.2?***](https://packages.ubuntu.com/resolute/libstdc++6) | [***6.18?***](https://packages.ubuntu.com/resolute/linux-libc-dev)
+[***<font color="#7A52CC">Ubuntu 26.04</font>***](https://documentation.ubuntu.com/project/release-team/list-of-releases/) | [***2026-04?***](https://discourse.ubuntu.com/t/resolute-raccoon-release-notes/59221) | [***2.42?***](https://packages.ubuntu.com/resolute/libc6) | [***16.0***](https://packages.ubuntu.com/resolute/libstdc++6) | [***6.19?***](https://packages.ubuntu.com/resolute/linux-libc-dev)
 [***<font color="#7A52CC">Debian 14</font>***](https://wiki.debian.org/DebianForky) | [***2027-08?***](https://www.debian.org/releases/) | [***2.46?***](https://tracker.debian.org/pkg/glibc) | [***16.2?***](https://tracker.debian.org/pkg/libstdc++6) | [***7.6?***](https://tracker.debian.org/pkg/linux)
-[**<font color="#7A52CC">openSUSE Tumbleweed</font>**](https://download.opensuse.org/tumbleweed/repo/oss/x86_64/) | ***Rolling*** | ***2.42?*** | ***15.2?*** | ***6.17?***
+[**<font color="#7A52CC">openSUSE Tumbleweed</font>**](https://download.opensuse.org/tumbleweed/repo/oss/x86_64/) | ***Rolling*** | ***2.42?*** | ***15.2?*** | ***6.19?***
 <font color="#E67E22">Alpine 3.21</font> | [2024-12](https://alpinelinux.org/releases/) | [musl 1.2.5](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.21-stable/main/musl/APKBUILD) | [libgcc 14.2](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.21-stable/main/gcc/APKBUILD) | [6.12](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.21-stable/main/linux-lts/APKBUILD)
 **<font color="#2F77B3">Alpine 3.22</font>** | [2025-05](https://alpinelinux.org/releases/) | [**musl 1.2.5**](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.22-stable/main/musl/APKBUILD) | [**libgcc 14.2**](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.22-stable/main/gcc/APKBUILD) | [**6.12**](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.22-stable/main/linux-lts/APKBUILD)
 **<font color="#2E9E5B">Alpine 3.23</font>** | [2025-12](https://alpinelinux.org/releases/) | [**musl 1.2.5**](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.23-stable/main/musl/APKBUILD) | [**libgcc 15.2**](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.23-stable/main/gcc/APKBUILD) | [**6.18**](https://gitlab.alpinelinux.org/alpine/aports/-/blob/3.23-stable/main/linux-lts/APKBUILD)
@@ -80,13 +80,15 @@ openEuler 24.03         | 2024-06       | 2.38          | 12.3              | 6.
 
 The following GCC versions add new functions to **libgcc** ([`libgcc/libgcc-std.ver.in`](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/libgcc-std.ver.in;hb=HEAD) and [`libgcc/config/i386/libgcc-glibc.ver`](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/config/i386/libgcc-glibc.ver;hb=HEAD)) & **libstdc++** ([`libstdc++-v3/config/abi/pre/gnu.ver`](https://github.com/gcc-mirror/gcc/blob/master/libstdc++-v3/config/abi/pre/gnu.ver)):
 
-+ **GCC 16.1.0** (Only `libstdc++.so.6` has the symbol version `GLIBCXX_3.4.35` added)
-+ **GCC 15.1.0** (Only `libstdc++.so.6` has the symbol version `GLIBCXX_3.4.34` added)
-+ **GCC 14.1.0** (Both `libgcc_s.so.1` and `libstdc++.so.6` have symbol versions added)
-+ **GCC 13.1.0**
-+ **GCC 12.1.0**
-+ **GCC 7.1.0**
-+ **GCC 4.8.0**
++ **GCC 16.1.0**: `libstdc++.so.6.0.35` added `CXXABI_1.3.17` and `GLIBCXX_3.4.35`
++ **GCC 15.1.0**: `libstdc++.so.6.0.34` added `CXXABI_1.3.15` (`CXXABI_1.3.16` for **RISC-V** only) and `GLIBCXX_3.4.34`
++ **GCC 14.1.0** (**RHEL 10**): `libgcc_s.so.1` added `GCC_14.0.0`, `libstdc++.so.6.0.33` added `CXXABI_1.3.15` and `GLIBCXX_3.4.33`
++ **GCC 13.2.0**: `libgcc_s.so.1` added `GCC_13.0.0`, `libstdc++.so.6.0.32` added `CXXABI_1.3.14` and `GLIBCXX_3.4.32`
++ **GCC 12.1.0**: `libgcc_s.so.1` added `GCC_12.0.0`, `libstdc++.so.6.0.30` added `CXXABI_1.3.13` and `GLIBCXX_3.4.30`
++ **GCC 11.1.0** (**RHEL 9**): `libstdc++.so.6.0.29` added added `CXXABI_1.3.13` and `GLIBCXX_3.4.29`
++ **GCC 8.1.0** (**RHEL 8**): `libstdc++.so.6.0.25` added `GLIBCXX_3.4.25` only
++ **GCC 7.2.0**: `libgcc_s.so.1` added `GCC_7.0.0`, `libstdc++.so.6.0.24` added `CXXABI_1.3.11` and `GLIBCXX_3.4.24`
++ **GCC 4.8.3** (**RHEL 7**): `libgcc_s.so.1` added `GCC_4.8.0`, `libstdc++.so.6.0.19` added `CXXABI_1.3.7` and `GLIBCXX_3.4.19`
 + ... (Too old to need to list anymore)
 
 ## docker images

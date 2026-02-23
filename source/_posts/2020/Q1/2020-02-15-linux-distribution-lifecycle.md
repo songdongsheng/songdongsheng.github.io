@@ -61,8 +61,8 @@ categories: [Operating system, Linux]
 ## Alibaba Cloud Linux
 - https://help.aliyun.com/zh/alinux/product-overview/alibaba-cloud-linux-overview
 - https://www.alibabacloud.com/help/en/ecs/user-guide/solution-for-alibaba-cloud-linux-2-entering-the-els-phase
-- Alibaba Cloud Linux 4   [2025-07-28, 2038-05-31]
-- Alibaba Cloud Linux 3   [2021-04-15, 2031-03-31]
+- Alibaba Cloud Linux 4   [2025-07-28, 2038-06-30]
+- Alibaba Cloud Linux 3   [2021-04-15, 2031-04-30]
 - Alibaba Cloud Linux 2   [2019-03-27, 2024-03-31, 2026-03-31]
 
 ## OpenCloud OS
@@ -79,7 +79,9 @@ categories: [Operating system, Linux]
 - Anolis OS  7 [2021-11-16, 2028-06-30]
 
 ## openEuler Linux
+- https://atomgit.com/openeuler/release-management/issues/1110
 - https://www.openeuler.org/zh/other/lifecycle/
-- openEuler 24.03 LTS, [2024-03, 2028-03, 2030-03]
-- openEuler 22.03 LTS, [2022-03, 2026-03, 2028-03]
-- openEuler 20.03 LTS, [2020-01, 2024-03, 2026-03]
+- https://www.openeuler.org/en/other/lifecycle/
+- openEuler 24.03 LTS, [2024-05, 2028-12, 2030-??]
+- openEuler 22.03 LTS, [2022-03, 2026-06, 2028-??]
+- openEuler 20.03 LTS, [2020-03, 2025-11, 2026-??]
